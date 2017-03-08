@@ -7,7 +7,7 @@ if settings.IS_PUBLIC:
     urlpatterns = [
         #url(r'^api/', include('api.urls')),
         #url(r'^rest/', include('REST.urls')),
-        url(r'^$', views.hem_landing_page),
+        url(r'^$', views.hms_landing_page),
         #url(r'^$', views.qed_splash_page_intranet),
         # url(r'^admin/', include(admin.site.urls)),
     ]
@@ -15,7 +15,7 @@ else:
     urlpatterns = [
         #url(r'^api/', include('api.urls')),
         #url(r'^rest/', include('REST.urls')),
-        url(r'^$', views.hem_landing_page),
+        url(r'^$', views.hms_landing_page),
         #url(r'^$', views.qed_splash_page_intranet),
         # url(r'^admin/', include(admin.site.urls)),
     ]

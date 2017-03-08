@@ -7,7 +7,7 @@ import os
 from django.conf import settings
 
 
-def hem_landing_page(request):
+def hms_landing_page(request):
     """ Returns the html of the landing page for qed. """
     html = render_to_string('01epa_drupal_header.html', {})
     html += render_to_string('02epa_drupal_header_bluestripe.html', {})
