@@ -1,0 +1,45 @@
+<p style="color:red"><i>
+This web site is under development.  It is available for the purposes of receiving feedback and quality assurance from personnel in the EPA.
+</i></p>
+
+
+<p>
+Hydrologic Micro Services, HMS, project/service description will go here. Additional details will be added to the below list of services provided by HMS.
+</p>
+<h2>Structure of HMS web app</h2>
+<h3>Components</h3>
+<ul>
+<li><h4>Hydrology</h4></li>
+<ul>
+<li>Base Flow</li>
+<li>Evapotranspiration</li>
+<li>Precipitation</li>
+<li>Surface Runoff</li>
+<li>Soil Moisture</li>
+<li>Temperature</li>
+</ul>
+</ul>
+<ul>
+<li><h4>Water Quality</h4></li>
+<ul>
+<li>Chemistry</li>
+<li>Eutrophication</li>
+<li>Mercury</li>
+<li>Microbes</li>
+<li>Nutrients</li>
+<li>pH levels</li>
+<li>Sediment</li>
+<li>Temperature</li>
+</ul>
+</ul>
+<h3>Utilities</h3>
+<ul>
+<li><h4>tools will be listed here</h4></li>
+</ul>
+<h3>Work Flow</h3>
+<ul>
+<li><h4>Precipitation Compare</h4></li>
+<li><h4>Surface Runoff Compare</h4></li>
+</ul>
+
+
