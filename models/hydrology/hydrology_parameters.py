@@ -4,13 +4,13 @@ Precipitation parameters.
 
 from django import forms
 
-SOURCE_OPTIONS = ['NLDAS','GLDAS','DAYMET']
+SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'))
 
-class PrecipInput(forms.Form):
+class PrecipitationFormInput(forms.Form):
     source = forms.ChoiceField(
         label='Source',
         choices=SOURCE_OPTIONS,
-        intial='NLDAS',
+        #intial='NLDAS',
     )
     start_date = forms.DateField(
         label='Start Date',
@@ -20,11 +20,16 @@ class PrecipInput(forms.Form):
     )
     latitude = forms.DecimalField(
         label='Latitude',
-        intial=33.925575
+        #intial=33.925575
     )
     longitude = forms.DecimalField(
         label='Longitude',
-        intial=-83.356893
+        #intial=-83.356893
     )
+    local_time = forms.ChoiceField(
+        label='Local Time',
+        choices=(('true','yes'),('false', 'no'))
+    )
+
 
 

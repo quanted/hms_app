@@ -1,8 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from views import description, landing
-from models.hydrology import views as hydroViews
+from views import description, landing, hydrology_submodels
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -17,9 +16,10 @@ else:
         #url(r'^api/', include('api.urls')),
         #url(r'^rest/', include('REST.urls')),
         url(r'^$', landing.hms_landing_page),
-        url(r'^(?P<model>.*?)/$', description.description_page),
-        url(r'^(?P<model>.*?)/description/?$', description.description_page),
-        url(r'^(?P<model>.*?)/precipitation/?$', hydroViews.hydrology_precipitation_page),
+        url(r'^(?P<model>\w+)/$', description.description_page),
+        #url(r'^(?P<model>.*?)/description/?$', description.description_page),
+        url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
+
 
         #url(r'^$', views.qed_splash_page_intranet),
         # url(r'^admin/', include(admin.site.urls)),

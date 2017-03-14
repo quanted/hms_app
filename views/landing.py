@@ -30,7 +30,7 @@ def hms_landing_page(request):
         })
     # Left side links
     html += render_to_string('07ubertext_end_drupal.html', {})
-    html += links_left.ordered_list(model='hms')
+    html += links_left.ordered_list(model='hms', submodel=None)
 
     html += render_to_string('09epa_drupal_splashscripts.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})

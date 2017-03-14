@@ -2,7 +2,7 @@ from django.template.loader import render_to_string
 from collections import OrderedDict
 
 # links for 03ubertext_links_left:
-def ordered_list(model=None, page=None):
+def ordered_list(model, submodel, page=None):
     link_dict = OrderedDict([
         ('Components', OrderedDict([
             ('Hydrology', 'hydrology'),
@@ -10,7 +10,7 @@ def ordered_list(model=None, page=None):
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc'),
         ])),
-        ('Work Flow', OrderedDict([
+        ('Work Flows', OrderedDict([
             ('Precipitation Compare', 'precip_compare'),
             ('Runoff Compare', 'runoff_compare'),])),
     ])
@@ -19,6 +19,7 @@ def ordered_list(model=None, page=None):
                             {
                                 'LINK_DICT': link_dict,
                                 'MODEL': model,
+                                'SUBMODEL': submodel,
                                 'PAGE': page
                             })
 

@@ -1,5 +1,5 @@
 """
-
+Generic HMS description functions
 """
 
 from django.template.loader import render_to_string
@@ -22,16 +22,16 @@ def get_model_description(model):
     return description
 
 def description_page(request, model, header='none'):
-    print(model)
+    print("description url:" + model)
     model = model.lstrip('/')
     header = get_model_header(model)
     description = get_model_description(model)
-    html = get_page_html(header, description)
+    html = get_page_html(model, header, description)
     response = HttpResponse()
     response.write(html)
     return response
 
-def get_page_html(header, description):
+def get_page_html(model, header, description):
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS"
@@ -46,7 +46,7 @@ def get_page_html(header, description):
             'TEXT_PARAGRAPH': description
         })
     html += render_to_string('07ubertext_end_drupal.html', {})
-    html += links_left.ordered_list(model='hms')
+    html += links_left.ordered_list(model, submodel=None)
 
     html += render_to_string('09epa_drupal_splashscripts.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
