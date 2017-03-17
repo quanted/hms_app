@@ -35,9 +35,9 @@ def get_submodel_description(submodel):
     elif (submodel == "precipitation"):
         return hydro.precipitation_description
     elif (submodel == "soil_moisture"):
-        return hydro.soil_moisture_description
-    elif (submodel == "surface_runoff"):
-        return hydro.surface_runoff_description
+        return hydro.soilmoisture_description
+    elif (submodel == "surfacerunoff"):
+        return hydro.surfacerunoff_description
     elif (submodel == "temperature"):
         return hydro.temperature_description
     else:
@@ -60,7 +60,7 @@ def build_submodel_page(request, model, submodel, header):
 
     #input form
     #condition to be removed once the other functions have been added to hydrology_parameters
-    if (submodel == 'precipitation'):
+    if (submodel != "" ):
         input_module = get_model_input_module(model, submodel)
         input_page_func = getattr(input_module, model + '_input_page')
         html += input_page_func(request, model, submodel, header)
