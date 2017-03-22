@@ -11,7 +11,7 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
     html += render_to_string('04hms_input_start_drupal.html', {
         'MODEL': model,
         'SUBMODEL': submodel,
-        'TITLE': header
+        'TITLE': header,
     })
     submodel_form = get_submodel_form_input(submodel, form_data)
     html += render_to_string('04uberinput_form.html', {
@@ -30,7 +30,7 @@ def get_submodel_form_input(submodel, form_data):
     elif( submodel == 'precipitation' ):
         return hydrology_parameters.PrecipitationFormInput(form_data)
     elif( submodel == 'soilmoisture' ):
-        return hydrology_parameters.SoilMoistureFormInput(form_data)
+        return hydrology_parameters.SoilmoistureFormInput(form_data)
     elif( submodel == 'surfacerunoff' ):
         return hydrology_parameters.SurfacerunoffFormInput(form_data)
     elif( submodel == 'temperature' ):

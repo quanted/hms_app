@@ -19,10 +19,11 @@ else:
         url(r'^(?P<model>\w+)/$', description.description_page),
         #url(r'^(?P<model>.*?)/description/?$', description.description_page),
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
+        #url(r'^hydrology/(?P<submodel>\w+)/error/$', hydrology_submodels.submodel_page_error),
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
 
         #url(r'^$', views.qed_splash_page_intranet),
-        # url(r'^admin/', include(admin.site.urls)),
+        #url(r'^admin/', include(admin.site.urls)),
     ]
 
 # 404 Error view (file not found)

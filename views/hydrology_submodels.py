@@ -10,11 +10,14 @@ import links_left
 import hms_app.models.hydrology.views as hydro
 
 
+submodel_list = ['baseflow', 'evapotranspiration',
+                 'precipitation', 'soil_moisture',
+                 'surfacerunoff', 'temperature']
 
 def submodel_page(request, submodel, header='none'):
     urlpath = request.path.split('/')
-    model = urlpath[len(urlpath) - 3]
-    submodel = urlpath[len(urlpath) - 2]
+    model = 'hydrology'
+    submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
     html = build_submodel_page(request, model, submodel, header)
     response = HttpResponse()
@@ -41,30 +44,25 @@ def get_submodel_description(submodel):
     elif (submodel == "temperature"):
         return hydro.temperature_description
     else:
-        return ""
+        return hydro.unknown_description
 
 
 def build_submodel_page(request, model, submodel, header):
-    description = get_submodel_description(submodel)
-    html = render_to_string('01epa_drupal_header.html',{
+
+    html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
-
-    #html += render_to_string('06ubertext_start_index_drupal.html', {
-    #    'TITLE': header,
-    #    'TEXT_PARAGRAPH': description
-    #})
-
     #input form
-    #condition to be removed once the other functions have been added to hydrology_parameters
-    if (submodel != "" ):
-        input_module = get_model_input_module(model, submodel)
+    if submodel in submodel_list:
+        input_module = get_model_input_module(model)
         input_page_func = getattr(input_module, model + '_input_page')
         html += input_page_func(request, model, submodel, header)
     else:
+        description = get_submodel_description(submodel)
+        print(description)
         html += render_to_string('06ubertext_start_index_drupal.html', {
             'TITLE': header,
             'TEXT_PARAGRAPH': description
@@ -75,11 +73,10 @@ def build_submodel_page(request, model, submodel, header):
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
-
     return html
 
 
-def get_model_input_module(model, submodel):
+def get_model_input_module(model):
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module

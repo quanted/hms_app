@@ -6,6 +6,8 @@ header = 'HMS: Hydrology'
 
 description = '<p>Hydrology landing page under development.</p>'
 
+unknown_description = '<p>There is nothing for you here!</p>'
+
 baseflow_description = "<p>Base flow module under development.</p>"
 evapotranspiration_description = "<p>Evapotranspiration module under development.</p>"
 precipitation_description = "<p>Precipitation module under development.</p>"
