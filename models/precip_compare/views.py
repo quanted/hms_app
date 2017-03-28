@@ -5,4 +5,4 @@ from django.template.loader import render_to_string
 
 header = 'HMS: Precipitation Comparison'
 
-description = '<p>Precipitation Comparison landing page under development.</p>'
+description = '<p>Precipitation Comparison page description under development.</p>'

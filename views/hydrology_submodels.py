@@ -11,7 +11,7 @@ import hms_app.models.hydrology.views as hydro
 
 
 submodel_list = ['baseflow', 'evapotranspiration',
-                 'precipitation', 'soil_moisture',
+                 'precipitation', 'soilmoisture',
                  'surfacerunoff', 'temperature']
 
 def submodel_page(request, submodel, header='none'):
@@ -37,7 +37,7 @@ def get_submodel_description(submodel):
         return hydro.evapotranspiration_description
     elif (submodel == "precipitation"):
         return hydro.precipitation_description
-    elif (submodel == "soil_moisture"):
+    elif (submodel == "soilmoisture"):
         return hydro.soilmoisture_description
     elif (submodel == "surfacerunoff"):
         return hydro.surfacerunoff_description
@@ -55,20 +55,17 @@ def build_submodel_page(request, model, submodel, header):
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
-    #input form
-    if submodel in submodel_list:
-        input_module = get_model_input_module(model)
-        input_page_func = getattr(input_module, model + '_input_page')
-        html += input_page_func(request, model, submodel, header)
-    else:
-        description = get_submodel_description(submodel)
-        print(description)
-        html += render_to_string('06ubertext_start_index_drupal.html', {
-            'TITLE': header,
-            'TEXT_PARAGRAPH': description
-        })
-        html += render_to_string('07ubertext_end_drupal.html', {})
 
+    description = get_submodel_description(submodel)
+    html += render_to_string('06ubertext_start_index_drupal.html', {
+        'TITLE': header,
+        'TEXT_PARAGRAPH': description
+    })
+    html += render_to_string('07ubertext_end_drupal.html', {})
+
+    input_module = get_model_input_module(model)
+    input_page_func = getattr(input_module, model + '_input_page')
+    html += input_page_func(request, model, submodel, header)
     html += links_left.ordered_list(model, submodel)
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})

@@ -11,7 +11,7 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
     html += render_to_string('04hms_input_start_drupal.html', {
         'MODEL': model,
         'SUBMODEL': submodel,
-        'TITLE': header,
+        #'TITLE': header,
     })
     submodel_form = get_submodel_form_input(submodel, form_data)
     html += render_to_string('04uberinput_form.html', {

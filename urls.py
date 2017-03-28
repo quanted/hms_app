@@ -1,7 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from views import description, landing, hydrology_submodels, output
+from views import description, landing, hydrology_submodels, output, precip_compare_setup
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -16,12 +16,13 @@ else:
         #url(r'^api/', include('api.urls')),
         #url(r'^rest/', include('REST.urls')),
         url(r'^$', landing.hms_landing_page),
+        url(r'^precip_compare/$', precip_compare_setup.input_page),
+        url(r'^precip_compare/output/?$', output.precip_compare_output_page),
         url(r'^(?P<model>\w+)/$', description.description_page),
         #url(r'^(?P<model>.*?)/description/?$', description.description_page),
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
         #url(r'^hydrology/(?P<submodel>\w+)/error/$', hydrology_submodels.submodel_page_error),
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
-
         #url(r'^$', views.qed_splash_page_intranet),
         #url(r'^admin/', include(admin.site.urls)),
     ]

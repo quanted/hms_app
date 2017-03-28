@@ -3,6 +3,7 @@ Generic HMS description functions
 """
 
 from django.template.loader import render_to_string
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.conf import settings
 import importlib
