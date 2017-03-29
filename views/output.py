@@ -26,7 +26,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
         parameters = set_parameters(form.cleaned_data)
         parameters['dataset'] = submodel
         data = get_data(parameters)
-        # data = get_sample_data(parameters)          # gets sample test data
+        #data = get_sample_data(parameters)          # gets sample test data
         html = create_output_page(model, submodel, data)
     else:
         print("INPUT ERROR: Please provided required inputs.")
@@ -46,6 +46,7 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
         parameters = set_parameters(form.cleaned_data)
         parameters['source'] = 'compare'            # Required to select the comparision method on the HMS backend
         data = get_precip_compare_data(parameters)
+        #data = get_precip_compare_sample_data(parameters)
         html = create_output_page(model, "", data)
     else:
         print("INPUT ERROR: Invalid inputs found.")
@@ -65,16 +66,24 @@ def set_parameters(orderedDict):
 
 # Makes call to HMS server for data retrieval
 def get_data(parameters):
+    sample = False                              # Set to save data as sample
     url = 'http://localhost:50052/api/WSHMS/'   #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
     result = requests.post(url, data=parameters, timeout=360)
+    if sample == True:
+        with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
+            json.dumps(result.content, jsonfile)
     data = json.loads(result.content)
     return data
 
 
 # Makes call to HMS server for precip comparision data
 def get_precip_compare_data(parameters):
+    sample = False                                         # Set to save data as sample
     url = 'http://localhost:50052/api/WSPrecipitation/'     #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
     result = requests.post(url, data=parameters, timeout=1000)
+    if sample == True:
+        with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
+            json.dump(result.content, jsonfile)
     data = json.loads(result.content)
     return data
 
@@ -84,14 +93,17 @@ def get_sample_data(parameters):
     with open('hms_app/models/hydrology/sample_data.json', 'r') as jsonfile:
         return json.load(jsonfile)
 
+    # Returns sample data from file
+def get_precip_compare_sample_data(parameters):
+    with open('hms_app/models/precip_compare/sample_data.json', 'r') as jsonfile:
+        return json.load(jsonfile)
+
 
 # Creates html for output page
 def create_output_page(model, submodel, data):
 
-    # json_data = json_to_array(data['data'])        #OBSOLETE
-    json_data = data
+    json_data = json.dumps(data)
     # Unique hms output html necessary due to additional js requirements on page.
-    print(model)
 
     html = render_to_string('01hms_output_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
@@ -102,22 +114,28 @@ def create_output_page(model, submodel, data):
     # Generates html for metadata and data tables.
     if model == "precip_compare":
         html += render_to_string('04hms_output_table.html', {
+            'ALLDATA': json_data,
             'MODEL': model,
-            'TITLE': "HMS " + submodel.title() + " Data",
-            'METADATA': json_data["metadata"],
-            'DATA': json_data["data"],
-            'COLUMN1': json_data["metadata"]["column_1"],
-            'COLUMN2': json_data["metadata"]["column_2"],
-            'COLUMN3': json_data["metadata"]["column_3"],
-            'COLUMN4': json_data["metadata"]["column_4"],
-            'COLUMN5': json_data["metadata"]["column_5"]
+            'SUBMODEL': model,
+            'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
+            'METADATA': data["metadata"],
+            'DATA': data["data"],
+            'COLUMN1': data["metadata"]["column_1"],
+            'COLUMN2': data["metadata"]["column_2"],
+            'COLUMN3': data["metadata"]["column_3"],
+            'COLUMN4': data["metadata"]["column_4"],
+            'COLUMN5': data["metadata"]["column_5"]
         })
     else:
+        print 'model: ' + model
+        print 'submodel: ' + submodel
         html += render_to_string('04hms_output_table.html', {
             'MODEL': model,
-            'TITLE': "HMS " + submodel.title() + " Data",
-            'METADATA': json_data["metadata"],
-            'DATA': json_data["data"],
+            'SUBMODEL': submodel,
+            'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
+            'ALLDATA': json_data,
+            'METADATA': data["metadata"],
+            'DATA': data["data"],
             'COLUMN1': 'Date/Time',
             'COLUMN2': 'Data'
         })
