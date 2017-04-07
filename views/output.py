@@ -67,7 +67,8 @@ def set_parameters(orderedDict):
 # Makes call to HMS server for data retrieval
 def get_data(parameters):
     sample = False                              # Set to save data as sample
-    url = 'http://localhost:50052/api/WSHMS/'   #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
+    url = 'http://134.67.114.8/HMSWS/api/WSHMS/'   #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
+    # url = 'http://localhost:50052/api/WSHMS/'
     result = requests.post(url, data=parameters, timeout=360)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
@@ -79,6 +80,7 @@ def get_data(parameters):
 # Makes call to HMS server for precip comparision data
 def get_precip_compare_data(parameters):
     sample = False                                         # Set to save data as sample
+    #url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'
     url = 'http://localhost:50052/api/WSPrecipitation/'     #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
     result = requests.post(url, data=parameters, timeout=1000)
     if sample == True:
