@@ -5,7 +5,7 @@ from collections import OrderedDict
 def ordered_list(model, submodel, page=None):
     link_dict = OrderedDict([
         ('Components', OrderedDict([
-            ('hydrology', 'hydrology'),
+            ('Hydrology', 'hydrology'),
             ('Water Quality', 'water_quality'),])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc'),
