@@ -28,14 +28,14 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST)
-    if( form.is_valid() ):
+    if(form.is_valid()):
         parameters = set_parameters(form.cleaned_data)
         parameters['dataset'] = submodel
         data = get_data(parameters)
         #data = get_sample_data(parameters)          # gets sample test data
         html = create_output_page(model, submodel, data)
     else:
-        print("INPUT ERROR: Please provided required inputs.")
+        print("INPUT FORM ERROR: Please provide required inputs.")
         return redirect('/hms/' + model + '/' + submodel)
     response = HttpResponse()
     response.write(html)
@@ -48,14 +48,14 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'PrecipitationCompareFormInput')
     form = input_form(request.POST)
-    if( form.is_valid() ):
+    if(form.is_valid()):
         parameters = set_parameters(form.cleaned_data)
         parameters['source'] = 'compare'                        # Required to select the comparision method on the HMS backend
         data = get_precip_compare_data(parameters)
         #data = get_precip_compare_sample_data(parameters)
         html = create_output_page(model, "", data)
     else:
-        print("INPUT ERROR: Invalid inputs found.")
+        print("INPUT FORM ERROR: Invalid inputs found.")
         return redirect('/hms/precip_compare/')
     response = HttpResponse()
     response.write(html)
@@ -72,10 +72,11 @@ def set_parameters(orderedDict):
 
 # Makes call to HMS server for data retrieval
 def get_data(parameters):
-    sample = False                                      # Set to save data as sample
-    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'      # server 8 HMS
-    # url = 'http://localhost:50052/api/WSHMS'          # local VS HMS
-    # url = 'http://localhost:7777/rest/hms/'            # local flask
+    sample = False                                          # Set to save data as sample
+    # url = 'http://134.67.114.8'                             # server 8 HMS
+    # url = 'http://172.20.10.18'
+    # url = 'http://localhost:50052/api/WSHMS'              # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/'               # local flask
     url = os.environ.get('HMS_BACKEND_SERVER')
     result = requests.post(str(url) + "/HMSWS/api/WSHMS/", data=parameters, timeout=1000)
     if sample == True:
@@ -90,7 +91,8 @@ def get_data(parameters):
 # Makes call to HMS server for precip comparision data
 def get_precip_compare_data(parameters):
     sample = False                                              # Set to save data as sample
-    # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'    # server 8 HMS
+    # url = 'http://134.67.114.8'                                 # server 8 HMS
+    # url = 'http://172.20.10.18'
     # url = 'http://localhost:50052/api/WSPrecipitation/'       # local VS HMS
     # url = 'http://localhost:7777/rest/hms/Precipitation/'     # local flask
     url = os.environ.get('HMS_BACKEND_SERVER')
