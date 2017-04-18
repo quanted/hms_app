@@ -77,8 +77,7 @@ def get_data(parameters):
     # url = 'http://localhost:50052/api/WSHMS'          # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'            # local flask
     url = os.environ.get('HMS_BACKEND_SERVER')
-    url += '/HMSWS/api/WSHMS/'
-    result = requests.post(url, data=parameters, timeout=1000)
+    result = requests.post(str(url) + "/HMSWS/api/WSHMS/", data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
             json.dumps(result.content, jsonfile)
@@ -95,8 +94,7 @@ def get_precip_compare_data(parameters):
     # url = 'http://localhost:50052/api/WSPrecipitation/'       # local VS HMS
     # url = 'http://localhost:7777/rest/hms/Precipitation/'     # local flask
     url = os.environ.get('HMS_BACKEND_SERVER')
-    url += '/HMSWS/api/WSPrecipitation/'
-    result = requests.post(url, data=parameters, timeout=1000)
+    result = requests.post(str(url) + "/HMSWS/api/WSPrecipitation/", data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
             json.dump(result.content, jsonfile)
