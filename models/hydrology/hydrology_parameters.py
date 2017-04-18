@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 PRECIP_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'))
 STANDARD_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'))
 
+
 # the names of the fields for the form must match those of for the HMS input parameters
 class BaseflowFormInput(forms.Form):
     source = forms.ChoiceField(

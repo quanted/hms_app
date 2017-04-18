@@ -4,11 +4,17 @@ HMS hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
-import importlib, requests, json, time
+from django.core.urlresolvers import reverse
+import importlib, requests, json
 import links_left
 import os
+
+ERROR_OUTPUT = '{"dataset": null, "source": null, ' \
+               '"metadata": {"errorMsg":"Error retrieving data. Unable to return data from server."},' \
+               '"data": null}'
+
 
 
 # Default hydrology output page function, constructs complete output page
@@ -44,7 +50,7 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     form = input_form(request.POST)
     if( form.is_valid() ):
         parameters = set_parameters(form.cleaned_data)
-        parameters['source'] = 'compare'            # Required to select the comparision method on the HMS backend
+        parameters['source'] = 'compare'                        # Required to select the comparision method on the HMS backend
         data = get_precip_compare_data(parameters)
         #data = get_precip_compare_sample_data(parameters)
         html = create_output_page(model, "", data)
@@ -66,27 +72,38 @@ def set_parameters(orderedDict):
 
 # Makes call to HMS server for data retrieval
 def get_data(parameters):
-    sample = False                              # Set to save data as sample
-    url = 'http://134.67.114.8/HMSWS/api/WSHMS/'   #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
-    # url = 'http://localhost:50052/api/WSHMS/'
-    result = requests.post(url, data=parameters, timeout=360)
+    sample = False                                      # Set to save data as sample
+    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'      # server 8 HMS
+    # url = 'http://localhost:50052/api/WSHMS'          # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/'            # local flask
+    url = os.environ.get('HMS_BACKEND_SERVER')
+    url += '/HMSWS/api/WSHMS/'
+    result = requests.post(url, data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
             json.dumps(result.content, jsonfile)
     data = json.loads(result.content)
+    if "Message" in data:
+        data = json.loads(ERROR_OUTPUT)
     return data
 
 
 # Makes call to HMS server for precip comparision data
 def get_precip_compare_data(parameters):
-    sample = False                                         # Set to save data as sample
-    #url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'
-    url = 'http://localhost:50052/api/WSPrecipitation/'     #TODO: LOCAL HOST PORT WOULD NEED TO BE CHANGED BASED UPON LOCAL SERVER SETUP
+    sample = False                                              # Set to save data as sample
+    # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'    # server 8 HMS
+    # url = 'http://localhost:50052/api/WSPrecipitation/'       # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/Precipitation/'     # local flask
+    url = os.environ.get('HMS_BACKEND_SERVER')
+    url += '/HMSWS/api/WSPrecipitation/'
     result = requests.post(url, data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
             json.dump(result.content, jsonfile)
     data = json.loads(result.content)
+    if "Message" in data:
+        print("error getting precip compare data")
+        data = json.loads(ERROR_OUTPUT)
     return data
 
 
@@ -115,22 +132,32 @@ def create_output_page(model, submodel, data):
     html += render_to_string('03epa_drupal_section_title.html', {})
     # Generates html for metadata and data tables.
     if model == "precip_compare":
-        html += render_to_string('04hms_output_table.html', {
-            'ALLDATA': json_data,
-            'MODEL': model,
-            'SUBMODEL': model,
-            'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
-            'METADATA': data["metadata"],
-            'DATA': data["data"],
-            'COLUMN1': data["metadata"]["column_1"],
-            'COLUMN2': data["metadata"]["column_2"],
-            'COLUMN3': data["metadata"]["column_3"],
-            'COLUMN4': data["metadata"]["column_4"],
-            'COLUMN5': data["metadata"]["column_5"]
-        })
+        try:
+            html += render_to_string('04hms_output_table.html', {
+              'ALLDATA': json_data,
+                'MODEL': model,
+                'SUBMODEL': model,
+                'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
+                'METADATA': data["metadata"],
+                'DATA': data["data"],
+                'COLUMN1': data["metadata"]["column_1"],
+                'COLUMN2': data["metadata"]["column_2"],
+                'COLUMN3': data["metadata"]["column_3"],
+                'COLUMN4': data["metadata"]["column_4"],
+                'COLUMN5': data["metadata"]["column_5"]
+            })
+        except:
+            html += render_to_string('04hms_output_table.html', {
+                'MODEL': model,
+                'SUBMODEL': submodel,
+                'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
+                'ALLDATA': json_data,
+                'METADATA': data["metadata"],
+                'DATA': data["data"],
+                'COLUMN1': 'Date/Time',
+                'COLUMN2': 'Data'
+            })
     else:
-        print 'model: ' + model
-        print 'submodel: ' + submodel
         html += render_to_string('04hms_output_table.html', {
             'MODEL': model,
             'SUBMODEL': submodel,

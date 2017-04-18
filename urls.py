@@ -1,7 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from views import description, landing, hydrology_submodels, output, precip_compare_setup
+from views import description, landing, hydrology_submodels, output, precip_compare_setup, hms_rest_api, watershed_map
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -23,8 +23,16 @@ else:
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
         #url(r'^hydrology/(?P<submodel>\w+)/error/$', hydrology_submodels.submodel_page_error),
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
+        url(r'^watershed$', watershed_map.hms_map_page)
+
         #url(r'^$', views.qed_splash_page_intranet),
         #url(r'^admin/', include(admin.site.urls)),
+
+        # rest urls
+        #url(r'^rest$', hms_rest_api.pass_to_hms, name='hms_post_rest'),
+        #url(r'^rest/(?P<submodel>w+)$', hms_rest_api.pass_post_to_hms, name='hms_submodel_post_rest'),
+        #url(r'rest/(?P<submodel>w+)/(<parameters>)', hms_rest_api.pass_get_to_hms, name='hms_submodel_get_rest'),
+        #url(r'^rest/precip_compare$', hms_rest_api.pass_precip_compare_to_hms, name='hms_precip_compare_rest')
     ]
 
 # 404 Error view (file not found)
