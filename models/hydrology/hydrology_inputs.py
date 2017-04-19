@@ -4,7 +4,8 @@ Hydrology input form
 
 from django.template.loader import render_to_string
 
-#TODO: update 04hms_input_jqery.html to dynamically change layer options for source changes.
+# TODO: update 04hms_input_jqery.html to dynamically change layer options for source changes.
+
 
 def hydrology_input_page(request, model='', submodel='', header='', form_data=None):
     html = render_to_string('04hms_input_jquery.html', {})
@@ -23,17 +24,17 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
 
 def get_submodel_form_input(submodel, form_data):
     import hydrology_parameters
-    if( submodel == 'baseflow' ):
-        return hydrology_parameters.BaseflowFormInput(form_data)
-    elif( submodel == 'evapotranspiration' ):
+    if(submodel == 'subsurfaceflow'):
+        return hydrology_parameters.SubsurfaceflowFormInput(form_data)
+    elif(submodel == 'evapotranspiration'):
         return hydrology_parameters.EvapotranspirationFormInput(form_data)
-    elif( submodel == 'precipitation' ):
+    elif(submodel == 'precipitation'):
         return hydrology_parameters.PrecipitationFormInput(form_data)
-    elif( submodel == 'soilmoisture' ):
+    elif(submodel == 'soilmoisture'):
         return hydrology_parameters.SoilmoistureFormInput(form_data)
-    elif( submodel == 'surfacerunoff' ):
+    elif(submodel == 'surfacerunoff'):
         return hydrology_parameters.SurfacerunoffFormInput(form_data)
-    elif( submodel == 'temperature' ):
+    elif(submodel == 'temperature'):
         return hydrology_parameters.TemperatureFormInput(form_data)
     else:
-        return
+        return ''

@@ -20,7 +20,7 @@ def hms_map_page(request):
     html += render_to_string('03epa_drupal_section_title.html', {})
 
     html += render_to_string('04ubertext_start_index_drupal.html', {
-        'TITLE': 'Waterhsed Delineation',
+        'TITLE': 'Watershed Delineation',
         'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04ubertext_end_drupal.html', {})
@@ -28,7 +28,7 @@ def hms_map_page(request):
 
     # Left side links
     # html += render_to_string('07ubertext_end_drupal.html', {})
-    html += links_left.ordered_list(model='hms', submodel='watershed')
+    html += links_left.ordered_list(model='watershed', submodel='')
 
     html += render_to_string('09epa_drupal_splashscripts.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})

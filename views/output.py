@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 import importlib, requests, json
 import links_left
 import os
+import hms_app.views.hydrology_submodels as hydro
 
 ERROR_OUTPUT = '{"dataset": null, "source": null, ' \
                '"metadata": {"errorMsg":"Error retrieving data. Unable to return data from server."},' \
@@ -36,7 +37,10 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
         html = create_output_page(model, submodel, data)
     else:
         print("INPUT FORM ERROR: Please provide required inputs.")
-        return redirect('/hms/' + model + '/' + submodel)
+        errors = form.errors
+        # page = hydro.submodel_page(request='', submodel=submodel, header=header, errors=form.errors)
+        #return page
+        return redirect('/hms/' + model + '/' + submodel + '/')
     response = HttpResponse()
     response.write(html)
     return response

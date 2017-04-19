@@ -10,7 +10,7 @@ import links_left
 import hms_app.models.hydrology.views as hydro
 
 
-submodel_list = ['baseflow', 'evapotranspiration',
+submodel_list = ['subsurfaceflow', 'evapotranspiration',
                  'precipitation', 'soilmoisture',
                  'surfacerunoff', 'temperature']
 
@@ -31,8 +31,8 @@ def get_submodel_header(submodel):
 
 
 def get_submodel_description(submodel):
-    if (submodel == "baseflow"):
-        return hydro.baseflow_description
+    if (submodel == "subsurfaceflow"):
+        return hydro.subsurfaceflow_description
     elif (submodel == "evapotranspiration"):
         return hydro.evapotranspiration_description
     elif (submodel == "precipitation"):

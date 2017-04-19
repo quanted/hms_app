@@ -10,7 +10,7 @@ description = "<p>The hydrological cycle is the largest movement of any substanc
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
-baseflow_description = "<p>Baseflow is the portion of streamflow that comes from subsurface groundwater effluent.</p>" \
+subsurfaceflow_description = "<p>Baseflow is the portion of streamflow that comes from subsurface groundwater effluent.</p>" \
                         "<p>NLDAS baseflow: is the subsurface runoff</p>"
 
 evapotranspiration_description = "<p>Evapotranspiration is the combination of water loss through a phase change by evaporation and transpiration. This process is the second largest component in the hydrological cycle and includes vaporization from water surfaces, land surfaces, and plant surfaces.  Controlled by temperature, solar radiation, humidity, wind, and vegetation.</p>"

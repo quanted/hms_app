@@ -12,25 +12,30 @@ STANDARD_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'))
 
 
 # the names of the fields for the form must match those of for the HMS input parameters
-class BaseflowFormInput(forms.Form):
+class SubsurfaceflowFormInput(forms.Form):
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
-        label='Start Date'
+        label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
-        label='End Date'
+        label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
-        initial=33.925575
+        initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
-        initial=-83.356893
+        initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -76,20 +81,25 @@ class EvapotranspirationFormInput(forms.Form):
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -102,20 +112,25 @@ class PrecipitationFormInput(forms.Form):
         label='Source',
         choices=PRECIP_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -128,20 +143,25 @@ class SoilmoistureFormInput(forms.Form):
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -160,20 +180,25 @@ class SurfacerunoffFormInput(forms.Form):
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -186,20 +211,25 @@ class TemperatureFormInput(forms.Form):
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
