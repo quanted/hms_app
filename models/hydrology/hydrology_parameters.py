@@ -1,95 +1,87 @@
 """
-Precipitation parameters.
+HMS Hydrology Submodule Input form parameters
+
+form setup has not been merged to allow for ease of changes for specific submodules as needed.
 """
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+
 from django import forms
-from datetime import datetime, timedelta
 
-
+# Sources for Precipitation
 PRECIP_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'))
+
+# Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'))
 
+# Allowed Date formats for django form
+DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y','%m/%d/%Y', '%m/%d/%y', '%b %d %Y', '%b %d, %Y',
+                      '%d %b %Y', '%d %b, %Y', '%B %d %Y', '%B %d, %Y', '%d %B %Y', '%d %B, %Y' )
 
-# the names of the fields for the form must match those of for the HMS input parameters
-class BaseflowFormInput(forms.Form):
+
+class SubsurfaceflowFormInput(forms.Form):
+    """
+    Input form fields for subsurface flow data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
-        label='Start Date'
+        label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
-        label='End Date'
+        label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
-        initial=33.925575
+        initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
-        initial=-83.356893
+        initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
         choices=(('false', 'no'), ('true', 'yes'))
     )
 
-    # def clean(self):
-    #     cleaned_data = self.cleaned_data
-    #     startDate = cleaned_data.get("startDate")
-    #     endDate = cleaned_data.get("endDate")
-    #     source = cleaned_data.get("source")
-    #     latitude = cleaned_data.get("latitude")
-    #     longitude = cleaned_data.get("longitude")
-    #
-    #     print'source: ', source
-    #     if type(startDate) is not datetime.date:
-    #         print 'startDate: ', startDate
-    #         raise forms.ValidationError("Start date must be a valid date")
-    #     if type(endDate) is not datetime.date:
-    #         print 'endDate: ', endDate
-    #         raise forms.ValidationError("End date must be a valid date")
-    #     if startDate > endDate:
-    #         raise forms.ValidationError("Start date must be before end date.")
-    #     if source == "NLDAS":
-    #         nldas_start = datetime.today() - timedelta(days=5)
-    #         #print(type(endDate))
-    #         #print(endDate)
-    #         if endDate > nldas_start:
-    #             raise forms.ValidationError("End date must be before %s", nldas_start)
-    #     elif source == "GLDAS":
-    #         gldas_start = datetime.today() - timedelta(days=65)
-    #         if endDate > gldas_start:
-    #             raise forms.ValidationError("End date must be before %s", gldas_start)
-    #     if latitude > 90 or latitude < -90:
-    #         raise forms.ValidationError("Invalid latitude value, must be less than 90 and greater than -90.")
-    #     if longitude > 180 or longitude < -180:
-    #         raise forms.ValidationError("Invalid longitude value, must be less than 180 and greater than -90")
-    #     return cleaned_data
-
 
 class EvapotranspirationFormInput(forms.Form):
+    """
+    Input form fields for evapotranspiration data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -98,24 +90,34 @@ class EvapotranspirationFormInput(forms.Form):
 
 
 class PrecipitationFormInput(forms.Form):
+    """
+    Input form fields for precipitation data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=PRECIP_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -124,24 +126,34 @@ class PrecipitationFormInput(forms.Form):
 
 
 class SoilmoistureFormInput(forms.Form):
+    """
+    Input form fields for soil moisture data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -156,24 +168,34 @@ class SoilmoistureFormInput(forms.Form):
 
 
 class SurfacerunoffFormInput(forms.Form):
+    """
+    Input form fields for surface runoff data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',
@@ -182,24 +204,34 @@ class SurfacerunoffFormInput(forms.Form):
 
 
 class TemperatureFormInput(forms.Form):
+    """
+    Input form fields for temperature data.
+    """
     source = forms.ChoiceField(
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
         initial='NLDAS',
+        required=True
     )
     startDate = forms.DateField(
         label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     endDate = forms.DateField(
         label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        required=True
     )
     latitude = forms.DecimalField(
         label='Latitude',
         initial=33.925575,
+        required=True
     )
     longitude = forms.DecimalField(
         label='Longitude',
         initial=-83.356893,
+        required=True
     )
     localTime = forms.ChoiceField(
         label='Local Time',

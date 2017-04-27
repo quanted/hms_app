@@ -1,8 +1,19 @@
+"""
+HMS links left funtion
+"""
+
 from django.template.loader import render_to_string
 from collections import OrderedDict
 
-# links for 03ubertext_links_left:
+
 def ordered_list(model, submodel, page=None):
+    """
+    Constructs the links left menu for the hms pages.
+    :param model: current model
+    :param submodel: current submodel
+    :param page: set to none
+    :return: string containing html
+    """
     link_dict = OrderedDict([
         ('Components', OrderedDict([
             ('Watershed Delineation', 'watershed'),

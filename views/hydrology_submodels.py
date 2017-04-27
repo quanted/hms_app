@@ -1,5 +1,5 @@
 """
-Hydrology submodel page functions
+HMS Hydrology Submodel page functions
 """
 
 from django.template.loader import render_to_string
@@ -10,11 +10,19 @@ import links_left
 import hms_app.models.hydrology.views as hydro
 
 
-submodel_list = ['baseflow', 'evapotranspiration',
+submodel_list = ['subsurfaceflow', 'evapotranspiration',
                  'precipitation', 'soilmoisture',
                  'surfacerunoff', 'temperature']
 
+
 def submodel_page(request, submodel, header='none'):
+    """
+    Base function that constructs the HttpResponse page.
+    :param request: Request object
+    :param submodel: 
+    :param header: Default set to none
+    :return: HttpResponse object.
+    """
     urlpath = request.path.split('/')
     model = 'hydrology'
     submodel = urlpath[urlpath.index(model) + 1]
@@ -26,13 +34,23 @@ def submodel_page(request, submodel, header='none'):
 
 
 def get_submodel_header(submodel):
+    """
+    Gets the submodel page header.
+    :param submodel: Current submodel
+    :return: header as a string
+    """
     submodelTitle = submodel.replace('_', ' ').title()
     return hydro.header + " - " + submodelTitle
 
 
 def get_submodel_description(submodel):
-    if (submodel == "baseflow"):
-        return hydro.baseflow_description
+    """
+    Gets the submodel description.
+    :param submodel: Current submodel
+    :return: submodel description as a string
+    """
+    if (submodel == "subsurfaceflow"):
+        return hydro.subsurfaceflow_description
     elif (submodel == "evapotranspiration"):
         return hydro.evapotranspiration_description
     elif (submodel == "precipitation"):
@@ -48,7 +66,14 @@ def get_submodel_description(submodel):
 
 
 def build_submodel_page(request, model, submodel, header):
-
+    """
+    Builds the html for the submodel page.
+    :param request: default request object
+    :param model: current model
+    :param submodel: current submodel
+    :param header: default header
+    :return: returns string formatted as html
+    """
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
@@ -74,6 +99,11 @@ def build_submodel_page(request, model, submodel, header):
 
 
 def get_model_input_module(model):
+    """
+    Gets the object of the model containing the submodule input functions.
+    :param model: current model
+    :return: object of the model containing the inputs
+    """
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module

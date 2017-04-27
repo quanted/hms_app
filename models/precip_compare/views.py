@@ -1,7 +1,7 @@
 """
-Precipitation Comparison module views
+HMS Precipitation Comparison module views
 """
-from django.template.loader import render_to_string
+
 
 header = 'HMS: Precipitation Comparison'
 

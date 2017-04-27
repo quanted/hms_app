@@ -1,5 +1,5 @@
 """
-Precipitation Comparision page functions
+HMS Precipitation Comparision page functions
 """
 
 from django.template.loader import render_to_string
@@ -11,6 +11,12 @@ import links_left
 
 
 def input_page(request, header='none'):
+    """
+    Constructs complete input page for precip compare
+    :param request: current request object
+    :param header: current header set to none
+    :return: HttpResponse object
+    """
     header = get_page_header()
     html = build_page(request, "precip_compare", header)
     response = HttpResponse()
@@ -19,10 +25,21 @@ def input_page(request, header='none'):
 
 
 def get_page_header():
+    """
+    Gets the precipitation compare page header.
+    :return: precip compare header
+    """
     return precip_compare_view.header
 
 
 def build_page(request, model, header):
+    """
+    Constructs html for precip compare page
+    :param request: current request object
+    :param model: current model
+    :param header: current header
+    :return: string formatted as html
+    """
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
@@ -47,6 +64,11 @@ def build_page(request, model, header):
 
 
 def get_model_input_module(model):
+    """
+    Gets the model input module for the input form.
+    :param model: current model
+    :return: input form object
+    """
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module

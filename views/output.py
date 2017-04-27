@@ -1,42 +1,46 @@
 '''
-HMS hydrology output page functions
+HMS Hydrology output page functions
 '''
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 import importlib, requests, json
 import links_left
 import os
 
+# Generic ERROR json data string
 ERROR_OUTPUT = '{"dataset": null, "source": null, ' \
                '"metadata": {"errorMsg":"Error retrieving data. Unable to return data from server."},' \
                '"data": null}'
 
 
-
-# Default hydrology output page function, constructs complete output page
 @require_POST
 def hydrology_output_page(request, model='hydrology', submodel='', header=''):
-    model_views_location = 'hms_app.models.' + model + '.views'
-    # viewmodule = importlib.import_module(model_views_location)
-    # header = viewmodule.header
+    """
+    Default hydrology output page function, constructs complete output page
+    :param request: Request object
+    :param model: set to 'hydrology'
+    :param submodel: string of the specific submodel that made the call to the output page
+    :param header: default header
+    :return: HttpResponse object
+    """
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
-    # model_input_location = 'hms_app.models.' + model + '.' + model + '_input'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST)
     if(form.is_valid()):
-        parameters = set_parameters(form.cleaned_data)
+        parameters = form.cleaned_data
         parameters['dataset'] = submodel
         data = get_data(parameters)
-        #data = get_sample_data(parameters)          # gets sample test data
+        # data = get_sample_data(parameters)                        # gets sample test data
         html = create_output_page(model, submodel, data)
     else:
+        # TODO: Add descriptive error handling of form validation. Currently reloads input page.
         print("INPUT FORM ERROR: Please provide required inputs.")
-        return redirect('/hms/' + model + '/' + submodel)
+        # errors = form.errors
+        return redirect('/hms/' + model + '/' + submodel + '/')
     response = HttpResponse()
     response.write(html)
     return response
@@ -44,17 +48,25 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
 
 @require_POST
 def precip_compare_output_page(request, model='precip_compare', header=''):
+    """
+    Precipitation compare output page function.
+    :param request: Request object
+    :param model: set to 'precip_compare'
+    :param header: default header
+    :return: HttpResponse object
+    """
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'PrecipitationCompareFormInput')
     form = input_form(request.POST)
     if(form.is_valid()):
-        parameters = set_parameters(form.cleaned_data)
-        parameters['source'] = 'compare'                        # Required to select the comparision method on the HMS backend
+        parameters = form.cleaned_data
+        parameters['source'] = 'compare'
         data = get_precip_compare_data(parameters)
         #data = get_precip_compare_sample_data(parameters)
         html = create_output_page(model, "", data)
     else:
+        # TODO: Add descriptive error handling of form validation. Currently reloads input page.
         print("INPUT FORM ERROR: Invalid inputs found.")
         return redirect('/hms/precip_compare/')
     response = HttpResponse()
@@ -62,23 +74,19 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     return response
 
 
-# Collects parameters from the input form
-def set_parameters(orderedDict):
-    params = {}
-    for name in orderedDict:
-        params[name] = str(orderedDict[name])
-    return params
-
-
-# Makes call to HMS server for data retrieval
 def get_data(parameters):
-    sample = False                                          # Set to save data as sample
-    # url = 'http://134.67.114.8'                             # server 8 HMS
-    # url = 'http://172.20.10.18'
-    # url = 'http://localhost:50052/api/WSHMS'              # local VS HMS
-    # url = 'http://localhost:7777/rest/hms/'               # local flask
-    url = os.environ.get('HMS_BACKEND_SERVER')
-    result = requests.post(str(url) + "/HMSWS/api/WSHMS/", data=parameters, timeout=1000)
+    """
+    Performs the POST call to the HMS backend server for data retrieval.
+    :param parameters: Dictionary containing the parameters.
+    :return: object constructed from json.loads()
+    """
+    sample = False                                                              # True will save the current request as a sample.
+    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
+    # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
+    url = 'http://localhost:50052/api/WSHMS'                                  # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/'                                   # local flask
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
             json.dumps(result.content, jsonfile)
@@ -88,15 +96,19 @@ def get_data(parameters):
     return data
 
 
-# Makes call to HMS server for precip comparision data
 def get_precip_compare_data(parameters):
-    sample = False                                              # Set to save data as sample
-    # url = 'http://134.67.114.8'                                 # server 8 HMS
-    # url = 'http://172.20.10.18'
-    # url = 'http://localhost:50052/api/WSPrecipitation/'       # local VS HMS
-    # url = 'http://localhost:7777/rest/hms/Precipitation/'     # local flask
-    url = os.environ.get('HMS_BACKEND_SERVER')
-    result = requests.post(str(url) + "/HMSWS/api/WSPrecipitation/", data=parameters, timeout=1000)
+    """
+    Performs the POST call to the HMS backend server for retrieving precip comparision data.
+    :param parameters: Dictionary containing the parameters.
+    :return: object constructed from json.loads()
+    """
+    sample = False                                                                      # True will save the current request as a sample.
+    # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
+    # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
+    url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/Precipitation/'                             # local flask
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
+    result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
             json.dump(result.content, jsonfile)
@@ -107,30 +119,44 @@ def get_precip_compare_data(parameters):
     return data
 
 
-# Returns sample data from file
 def get_sample_data(parameters):
+    """
+    Gets locally stored sample data for testing.
+    :param parameters: Not used.
+    :return: object constructed from json.load()
+    """
     with open('hms_app/models/hydrology/sample_data.json', 'r') as jsonfile:
         return json.load(jsonfile)
 
     # Returns sample data from file
 def get_precip_compare_sample_data(parameters):
+    """
+    Gets locally stored sample data for testing.
+    :param parameters: Not used.
+    :return: object constructed from json.load()
+    """
     with open('hms_app/models/precip_compare/sample_data.json', 'r') as jsonfile:
         return json.load(jsonfile)
 
 
-# Creates html for output page
 def create_output_page(model, submodel, data):
-
+    """
+    Generates the html for the output page.
+    :param model: model of the data
+    :param submodel: submodel of the data
+    :param data: json object of the data
+    :return: string structured as html.
+    """
     json_data = json.dumps(data)
-    # Unique hms output html necessary due to additional js requirements on page.
-
     html = render_to_string('01hms_output_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
+
     # Generates html for metadata and data tables.
+    # TODO: Dyanmically create the table based upon the details of the results.
     if model == "precip_compare":
         try:
             html += render_to_string('04hms_output_table.html', {
