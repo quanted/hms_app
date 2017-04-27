@@ -83,9 +83,9 @@ def get_data(parameters):
     sample = False                                                              # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
-    url = 'http://localhost:50052/api/WSHMS'                                  # local VS HMS
+    # url = 'http://localhost:50052/api/WSHMS'                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                   # local flask
-    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
     result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
@@ -105,9 +105,9 @@ def get_precip_compare_data(parameters):
     sample = False                                                                      # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-    url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
+    # url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
     # url = 'http://localhost:7777/rest/hms/Precipitation/'                             # local flask
-    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
     result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
