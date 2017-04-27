@@ -1,5 +1,5 @@
 """
-Hydrology module content
+HMS Hydrology module content
 """
 
 header = 'HMS: Hydrology'

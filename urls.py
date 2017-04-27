@@ -1,7 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from views import description, landing, hydrology_submodels, output, precip_compare_setup, hms_rest_api, watershed_map
+from views import description, landing, hydrology_submodels, output, precip_compare_setup, watershed_map
 
 if settings.IS_PUBLIC:
     urlpatterns = [
