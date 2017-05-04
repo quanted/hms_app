@@ -14,7 +14,7 @@ Hydrologic Micro Services, HMS, project/service description will go here. Additi
 <li>Evapotranspiration</li>
 <li>Precipitation</li>
 <li>Surface Runoff</li>
-<li>Subsurface Flow/li>
+<li>Subsurface Flow</li>
 <li>Soil Moisture</li>
 <li>Temperature</li>
 </ul>
