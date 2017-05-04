@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 import importlib, requests, json
 import links_left
-import os
+import os, collections
 
 # Generic ERROR json data string
 ERROR_OUTPUT = '{"dataset": null, "source": null, ' \
@@ -33,6 +33,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     if(form.is_valid()):
         parameters = form.cleaned_data
         parameters['dataset'] = submodel
+        parameters = spatial_parameter_check(parameters)
         data = get_data(parameters)
         # data = get_sample_data(parameters)                        # gets sample test data
         html = create_output_page(model, submodel, data)
@@ -64,7 +65,7 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
         parameters['source'] = 'compare'
         data = get_precip_compare_data(parameters)
         #data = get_precip_compare_sample_data(parameters)
-        html = create_output_page(model, "", data)
+        html = create_output_page(model, model, data)
     else:
         # TODO: Add descriptive error handling of form validation. Currently reloads input page.
         print("INPUT FORM ERROR: Invalid inputs found.")
@@ -83,9 +84,9 @@ def get_data(parameters):
     sample = False                                                              # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSHMS'                                  # local VS HMS
+    url = 'http://localhost:50052/api/WSHMS'                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                   # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
     result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/hydrology/sample_data.json', 'w') as jsonfile:
@@ -105,9 +106,9 @@ def get_precip_compare_data(parameters):
     sample = False                                                                      # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
+    url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
     # url = 'http://localhost:7777/rest/hms/Precipitation/'                             # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
     result = requests.post(str(url), data=parameters, timeout=1000)
     if sample == True:
         with open('hms_app/models/precip_compare/sample_data.json', 'w') as jsonfile:
@@ -147,7 +148,7 @@ def create_output_page(model, submodel, data):
     :param data: json object of the data
     :return: string structured as html.
     """
-    json_data = json.dumps(data)
+    # json_data = json.dumps(data)
     html = render_to_string('01hms_output_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
@@ -156,44 +157,77 @@ def create_output_page(model, submodel, data):
     html += render_to_string('03epa_drupal_section_title.html', {})
 
     # Generates html for metadata and data tables.
-    # TODO: Dyanmically create the table based upon the details of the results.
-    if model == "precip_compare":
-        try:
-            html += render_to_string('04hms_output_table.html', {
-              'ALLDATA': json_data,
-                'MODEL': model,
-                'SUBMODEL': model,
-                'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
-                'METADATA': data["metadata"],
-                'DATA': data["data"],
-                'COLUMN1': data["metadata"]["column_1"],
-                'COLUMN2': data["metadata"]["column_2"],
-                'COLUMN3': data["metadata"]["column_3"],
-                'COLUMN4': data["metadata"]["column_4"],
-                'COLUMN5': data["metadata"]["column_5"]
-            })
-        except:
-            html += render_to_string('04hms_output_table.html', {
-                'MODEL': model,
-                'SUBMODEL': submodel,
-                'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
-                'ALLDATA': json_data,
-                'METADATA': data["metadata"],
-                'DATA': data["data"],
-                'COLUMN1': 'Date/Time',
-                'COLUMN2': 'Data'
-            })
-    else:
-        html += render_to_string('04hms_output_table.html', {
+    """
+     Columns setup and ordering logic. Keys are checked for numerical value, which is used as the new key for the dict.
+    """
+    columns = {}
+    ncolumns = len(data["data"][data["data"].keys()[0]])
+    for key in data["metadata"]:
+        if "column_" in key:
+            columns[key] = data["metadata"][key]
+    if len(columns) < ncolumns:
+        for key in data["metadata"]:
+            if "timeseries_" in key:
+                k = key.split('_')
+                columns[str(k[len(k)-1])] = data["metadata"][key]
+    if "date/time" not in columns.keys() and "Date/Time" not in columns.keys() and len(columns)-1 != ncolumns:
+        columns["0"] = "Date/Time"
+    if len(columns) == 1:
+        columns["1"] = "Data"
+    columns = [value for (key, value) in sorted(columns.items())]           # Sorts values by key.
+    # -----------------------------------------------------------
+    try:
+        html += render_to_string('04hms_output_table_2.html',{
             'MODEL': model,
             'SUBMODEL': submodel,
-            'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
-            'ALLDATA': json_data,
+            'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
             'METADATA': data["metadata"],
             'DATA': data["data"],
-            'COLUMN1': 'Date/Time',
-            'COLUMN2': 'Data'
+            'COLUMNS': columns
         })
+    except:
+        print("ERROR: Unable to construct output tables.")
+        #TODO: Do something here...
+
+    # ------------ OBSOLUTE Manual column setup ----------- #
+    # if model == "precip_compare":
+    #     try:
+    #         html += render_to_string('04hms_output_table.html', {
+    #           #'ALLDATA': json_data,
+    #             'MODEL': model,
+    #             'SUBMODEL': model,
+    #             'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
+    #             'METADATA': data["metadata"],
+    #             'DATA': data["data"],
+    #             'COLUMN1': data["metadata"]["column_1"],
+    #             'COLUMN2': data["metadata"]["column_2"],
+    #             'COLUMN3': data["metadata"]["column_3"],
+    #             'COLUMN4': data["metadata"]["column_4"],
+    #             'COLUMN5': data["metadata"]["column_5"]
+    #         })
+    #     except:
+    #         html += render_to_string('04hms_output_table.html', {
+    #             'MODEL': model,
+    #             'SUBMODEL': submodel,
+    #             'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
+    #             #'ALLDATA': json_data,
+    #             'METADATA': data["metadata"],
+    #             'DATA': data["data"],
+    #             'COLUMN1': 'Date/Time',
+    #             'COLUMN2': 'Data'
+    #         })
+    # else:
+    #     html += render_to_string('04hms_output_table.html', {
+    #         'MODEL': model,
+    #         'SUBMODEL': submodel,
+    #         'TITLE': "HMS " + submodel.replace('_', ' ').title() + " Daily Data",
+    #         #'ALLDATA': json_data,
+    #         'METADATA': data["metadata"],
+    #         'DATA': data["data"],
+    #         'COLUMN1': 'Date/Time',
+    #         'COLUMN2': 'Data'
+    #     })
+
     # Generates html for links left
     html += render_to_string('07ubertext_end_drupal.html', {})
     html += links_left.ordered_list(model, submodel)
@@ -201,4 +235,17 @@ def create_output_page(model, submodel, data):
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
+
+
+def spatial_parameter_check(parameters):
+    """
+    Checks the parameters dictionary for all spatial parameters that are empty and removes them from the parameters list.
+    :param parameters: django form inputs
+    :return: dictionary of parameters
+    """
+    p = parameters
+    for key, value in p.items():
+        if value == None:
+            del p[key]
+    return p
 
