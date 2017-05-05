@@ -1,8 +1,8 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from views import description, landing, hydrology_submodels, output, precip_compare_setup, watershed_map
-
+from views import description, landing, hydrology_submodels, output, watershed_map
+from views import runoff_compare_setup, precip_compare_setup
 if settings.IS_PUBLIC:
     urlpatterns = [
         #url(r'^api/', include('api.urls')),
@@ -18,6 +18,8 @@ else:
         url(r'^$', landing.hms_landing_page),
         url(r'^precip_compare/$', precip_compare_setup.input_page),
         url(r'^precip_compare/output/?$', output.precip_compare_output_page),
+        url(r'^runoff_compare/$', runoff_compare_setup.input_page),
+        url(r'^runoff_compare/output/$', output.runoff_compare_output_page),
         url(r'^(?P<model>\w+)/$', description.description_page),
         #url(r'^(?P<model>.*?)/description/?$', description.description_page),
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
