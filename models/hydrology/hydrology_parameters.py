@@ -17,172 +17,74 @@ DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y','%m/%d/%Y', '%m/%d/%y',
                       '%d %b %Y', '%d %b, %Y', '%B %d %Y', '%B %d, %Y', '%d %B %Y', '%d %B, %Y' )
 
 
-class SubsurfaceflowFormInput(forms.Form):
+class HydrologyFormInput(forms.Form):
+    source = forms.ChoiceField(
+        label='Source',
+        choices=STANDARD_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
+    startDate = forms.DateField(
+        label='Start Date',
+        input_formats=DATE_INPUT_FORMATS
+    )
+    endDate = forms.DateField(
+        label='End Date',
+        input_formats=DATE_INPUT_FORMATS
+    )
+    spatial_input = forms.ChoiceField(
+        label='Spatial Input',
+        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson'), ('geojson_file', 'geojson file')),
+        initial='coordinates'
+    )
+    latitude = forms.DecimalField(
+        label='Latitude',
+        initial=33.925575,
+        required=False
+    )
+    longitude = forms.DecimalField(
+        label='Longitude',
+        initial=-83.356893,
+        required=False
+    )
+    geojson = forms.CharField(
+        label='GeoJSON',
+        required=False
+    )
+    geojson_file = forms.FileField()
+    localTime = forms.ChoiceField(
+        label='Local Time',
+        choices=(('false', 'no'), ('true', 'yes'))
+    )
+
+
+class SubsurfaceflowFormInput(HydrologyFormInput):
     """
     Input form fields for subsurface flow data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
 
 
-class EvapotranspirationFormInput(forms.Form):
+
+class EvapotranspirationFormInput(HydrologyFormInput):
     """
     Input form fields for evapotranspiration data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
 
 
-class PrecipitationFormInput(forms.Form):
+
+class PrecipitationFormInput(HydrologyFormInput):
     """
     Input form fields for precipitation data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=PRECIP_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
 
 
-class SoilmoistureFormInput(forms.Form):
+class SoilmoistureFormInput(HydrologyFormInput):
     """
     Input form fields for soil moisture data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
     layers = forms.ChoiceField(
         label='Layer Depth',
         choices=((0, '0-10cm'), (1, '10-40cm'),
@@ -191,85 +93,15 @@ class SoilmoistureFormInput(forms.Form):
     )
 
 
-class SurfacerunoffFormInput(forms.Form):
+class SurfacerunoffFormInput(HydrologyFormInput):
     """
     Input form fields for surface runoff data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
 
 
-class TemperatureFormInput(forms.Form):
+class TemperatureFormInput(HydrologyFormInput):
     """
     Input form fields for temperature data.
+    default fields taken from HydrologyFormInput
     """
-    source = forms.ChoiceField(
-        label='Source',
-        choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
-    )
-    startDate = forms.DateField(
-        label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    endDate = forms.DateField(
-        label='End Date',
-        input_formats=DATE_INPUT_FORMATS
-    )
-    spatial_input = forms.ChoiceField(
-        label='Spatial Value',
-        choices=(('coordinates', 'coordinates'), ('geojson', 'geojson')),
-        initial='coordinates'
-    )
-    latitude = forms.DecimalField(
-        label='Latitude',
-        initial=33.925575,
-        required=False
-    )
-    longitude = forms.DecimalField(
-        label='Longitude',
-        initial=-83.356893,
-        required=False
-    )
-    geojson = forms.CharField(
-        label='GeoJSON',
-        required=False
-    )
-    localTime = forms.ChoiceField(
-        label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
-    )
