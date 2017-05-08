@@ -50,7 +50,9 @@ class HydrologyFormInput(forms.Form):
         label='GeoJSON',
         required=False
     )
-    geojson_file = forms.FileField()
+    geojson_file = forms.FileField(
+        required=False
+    )
     localTime = forms.ChoiceField(
         label='Local Time',
         choices=(('false', 'no'), ('true', 'yes'))
@@ -78,7 +80,11 @@ class PrecipitationFormInput(HydrologyFormInput):
     Input form fields for precipitation data.
     default fields taken from HydrologyFormInput
     """
-
+    source = forms.ChoiceField(
+        label='Source',
+        choices=PRECIP_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
 
 class SoilmoistureFormInput(HydrologyFormInput):
     """
@@ -98,6 +104,11 @@ class SurfacerunoffFormInput(HydrologyFormInput):
     Input form fields for surface runoff data.
     default fields taken from HydrologyFormInput
     """
+    source = forms.ChoiceField(
+        label='Source',
+        choices= (('NLDAS','NLDAS'),('GLDAS','GLDAS'), ('curvenumber', 'Curve Number')),
+        initial='NLDAS'
+    )
 
 
 class TemperatureFormInput(HydrologyFormInput):

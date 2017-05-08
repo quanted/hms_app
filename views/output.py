@@ -33,7 +33,10 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     if(form.is_valid()):
         parameters = form.cleaned_data
         parameters['dataset'] = submodel
-        parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
+        if "geojson_file" in request.FILES:
+            parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
+        else:
+            parameters = spatial_parameter_check(parameters, None)
         data = get_data(parameters)
         # data = get_sample_data(parameters)                        # gets sample test data
         html = create_output_page(model, submodel, data)
@@ -267,12 +270,13 @@ def spatial_parameter_check(parameters, uploadedFile):
     :return: dictionary of parameters
     """
     p = parameters
-    if p["geojson_file"] != None:
-        p["geojson"] = uploadedFile.read()
-        p["geojson_file"] = None
+    if uploadedFile is not None:
+        if p["geojson_file"] is not None:
+            p["geojson"] = uploadedFile.read()
+            p["geojson_file"] = None
 
     for key, value in p.items():
-        if value == None:
+        if value is None or value is u'':
             del p[key]
     return p
 
