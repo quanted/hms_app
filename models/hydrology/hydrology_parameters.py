@@ -50,7 +50,9 @@ class HydrologyFormInput(forms.Form):
         label='GeoJSON',
         required=False
     )
-    geojson_file = forms.FileField()
+    geojson_file = forms.FileField(
+        required=False
+    )
     localTime = forms.ChoiceField(
         label='Local Time',
         choices=(('false', 'no'), ('true', 'yes'))
