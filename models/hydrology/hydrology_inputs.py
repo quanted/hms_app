@@ -21,9 +21,14 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
         'SUBMODEL': submodel,
         #'TITLE': header,
     })
-    submodel_form = get_submodel_form_input(submodel, form_data)
-    html += render_to_string('04uberinput_form.html', {
-        'FORM': submodel_form, })
+
+    if(form_data is None):
+        submodel_form = get_submodel_form_input(submodel, form_data)
+        html += render_to_string('04uberinput_form.html', {
+            'FORM': submodel_form, })
+    else:
+        html += render_to_string('04hms_input_form.html', {
+            'FORM': form_data, })
     html += render_to_string('04uberinput_end_drupal.html', {})
     html += render_to_string('04ubertext_end_drupal.html', {})
     return html
