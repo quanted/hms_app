@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from views import description, landing, hydrology_submodels, output, watershed_map
 from views import runoff_compare_setup, precip_compare_setup
+
 if settings.IS_PUBLIC:
     urlpatterns = [
         #url(r'^api/', include('api.urls')),

@@ -7,7 +7,7 @@ form setup has not been merged to allow for ease of changes for specific submodu
 from django import forms
 
 # Sources for Precipitation
-PRECIP_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'))
+PRECIP_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'), ('WGEN', 'WGEN'))
 
 # Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'))
