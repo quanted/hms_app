@@ -1,22 +1,24 @@
 import requests
 import unittest
 import numpy.testing as npt
-import linkcheck_helper
+import hms_app.tests.linkcheck_helper as linkcheck_helper
 
 test = {}
 
-servers = ["https://qedinternal.epa.gov/cyan/","http://127.0.0.1:8000/cyan/"]
+servers = ["https://qedinternal.epa.gov/hms/", "http://127.0.0.1:8000/hms/"]
 
+# TODO: replace pages array with page from hms
 pages = ["", "map", "lakecomparison", "dashboard", "algorithms", "references"]
 
+# TODO: replace api_endpoints array with endpoints from hms
 api_endpoints = ["https://cyan.epa.gov/cyan/cyano/location/data/28.6138/-81.6227/2017-12-08",
                  "https://cyan.epa.gov/cyan/cyano/notifications/2015-05-03T20-16-26-000-0400",
-                 #if the next png 500s, you can get an updated image from a specific location e.g.,
-                 #https://cyan.epa.gov/cyan/cyano/location/images/28.6138/-81.6227/
+                 # if the next png 500s, you can get an updated image from a specific location e.g.,
+                 # https://cyan.epa.gov/cyan/cyano/location/images/28.6138/-81.6227/
                  "https://cyan.epa.gov/cyan/cyano/location/images/envisat.2012094.0403.1551C.L3.EF3.v670.CIcyano2.png",
                  "https://cyan.epa.gov/cyan/cyano/location/images/28.6138/-81.6227/"]
 
-#following are lists of url's to be processed with tests below
+# following are lists of url's to be processed with tests below
 check_pages = [s + p for s in servers for p in pages]
 
 

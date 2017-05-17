@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.conf import settings
 import importlib
-import links_left
+import hms_app.views.links_left as links_left
 import os
 
 

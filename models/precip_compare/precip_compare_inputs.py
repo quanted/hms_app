@@ -3,7 +3,7 @@ HMS Precipitation Compare Input form functions
 """
 
 from django.template.loader import render_to_string
-import precip_compare_parameters
+import hms_app.models.precip_compare.precip_compare_parameters as pcp
 
 
 def precip_compare_input_page(request, model='', header='', form_data=None):
@@ -20,8 +20,8 @@ def precip_compare_input_page(request, model='', header='', form_data=None):
         'MODEL': model,
         'TITLE': "",
     })
-    if(form_data is None):
-        input_form = precip_compare_parameters.PrecipitationCompareFormInput(form_data)
+    if form_data is None:
+        input_form = pcp.PrecipitationCompareFormInput(form_data)
         html += render_to_string('04uberinput_form.html', {
             'FORM': input_form, })
     else:

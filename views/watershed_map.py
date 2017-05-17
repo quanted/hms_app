@@ -1,9 +1,9 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.shortcuts import redirect
-import links_left
+import hms_app.views.links_left as links_left
 import os
-#import secret
+# import secret
 from django.conf import settings
 
 
@@ -24,7 +24,6 @@ def hms_map_page(request):
         'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04ubertext_end_drupal.html', {})
-
 
     # Left side links
     # html += render_to_string('07ubertext_end_drupal.html', {})

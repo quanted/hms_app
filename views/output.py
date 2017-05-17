@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 import importlib, requests, json
-import links_left
+import hms_app.views.links_left as links_left
 import os
 
 # Generic ERROR json data string
@@ -30,7 +30,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST, request.FILES)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         parameters['dataset'] = submodel
         if "geojson_file" in request.FILES:
@@ -59,7 +59,7 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'PrecipitationCompareFormInput')
     form = input_form(request.POST)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
         data = get_precip_compare_data(parameters)
@@ -84,7 +84,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'RunoffCompareFormInput')
     form = input_form(request.POST)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
         data = get_runoff_compare_data(parameters)
@@ -104,9 +104,9 @@ def get_data(parameters):
     """                                                             # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSHMS/'                                  # local VS HMS
+    url = 'http://localhost:50052/api/WSHMS/'                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                   # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
     try:
         result = requests.post(str(url), data=parameters, timeout=1000)
     except requests.exceptions.RequestException as e:
@@ -190,8 +190,8 @@ def create_output_page(model, submodel, data):
     try:
         columns = {}
         ncolumns = 0
-        if("errorMsg" not in data["metadata"]):
-            ncolumns = len(data["data"][data["data"].keys()[0]])
+        if "errorMsg" not in data["metadata"]:
+            ncolumns = len(data["data"][list(data["data"].keys())[0]])
         for key in data["metadata"]:
             if "column_" in key:
                 columns[key] = data["metadata"][key]
@@ -215,7 +215,7 @@ def create_output_page(model, submodel, data):
             'DATA': data["data"],
             'COLUMNS': columns
         })
-    except:
+    except Exception as ex:
         print("ERROR: Unable to construct output tables.")
         return redirect('/hms/' + model + '/' + submodel + '/')
     # Generates html for links left
@@ -233,16 +233,16 @@ def spatial_parameter_check(parameters, uploadedFile):
     :param parameters: django form inputs
     :return: dictionary of parameters
     """
-    p = parameters
+    cleaned_parameters = parameters
     if uploadedFile is not None:
-        if p["geojson_file"] is not None:
-            p["geojson"] = uploadedFile.read()
-            p["geojson_file"] = None
+        if cleaned_parameters["geojson_file"] is not None:
+            cleaned_parameters["geojson"] = uploadedFile.read()
+            cleaned_parameters["geojson_file"] = None
 
-    for key, value in p.items():
-        if value is None or value is u'':
-            del p[key]
-    return p
+    for key in list(parameters.keys()):
+        if cleaned_parameters[key] is None or cleaned_parameters[key] is u'':
+            del cleaned_parameters[key]
+    return cleaned_parameters
 
 
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):

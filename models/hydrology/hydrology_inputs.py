@@ -41,18 +41,18 @@ def get_submodel_form_input(submodel, form_data):
     :param form_data: existing form data, currently set to None
     :return: returns django Form object
     """
-    import hydrology_parameters
+    import hms_app.models.hydrology.hydrology_parameters as hp
     if(submodel == 'subsurfaceflow'):
-        return hydrology_parameters.SubsurfaceflowFormInput(form_data)
+        return hp.SubsurfaceflowFormInput(form_data)
     elif(submodel == 'evapotranspiration'):
-        return hydrology_parameters.EvapotranspirationFormInput(form_data)
+        return hp.EvapotranspirationFormInput(form_data)
     elif(submodel == 'precipitation'):
-        return hydrology_parameters.PrecipitationFormInput(form_data)
+        return hp.PrecipitationFormInput(form_data)
     elif(submodel == 'soilmoisture'):
-        return hydrology_parameters.SoilmoistureFormInput(form_data)
+        return hp.SoilmoistureFormInput(form_data)
     elif(submodel == 'surfacerunoff'):
-        return hydrology_parameters.SurfacerunoffFormInput(form_data)
+        return hp.SurfacerunoffFormInput(form_data)
     elif(submodel == 'temperature'):
-        return hydrology_parameters.TemperatureFormInput(form_data)
+        return hp.TemperatureFormInput(form_data)
     else:
         return ''

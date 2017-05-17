@@ -4,7 +4,7 @@ HMS Landing page functions
 
 from django.template.loader import render_to_string
 from django.http import HttpResponse
-import links_left
+import hms_app.views.links_left as links_left
 import os
 from django.conf import settings
 
@@ -23,11 +23,11 @@ def hms_landing_page(request):
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS"
     })
-    #html += render_to_string('02epa_drupal_header_bluestripe.html', {})
+    # html += render_to_string('02epa_drupal_header_bluestripe.html', {})
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
-    #Page Content
+    # Page Content
     if settings.IS_PUBLIC:
         pass
     else:

@@ -7,7 +7,7 @@ from django.http import HttpResponse
 import hms_app.models.runoff_compare.views as runoff_compare_view
 import os
 import importlib
-import links_left
+import hms_app.views.links_left as links_left
 
 
 def input_page(request, header='none'):
