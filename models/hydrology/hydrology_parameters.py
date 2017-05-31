@@ -55,7 +55,8 @@ class HydrologyFormInput(forms.Form):
     )
     localTime = forms.ChoiceField(
         label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes'))
+        choices=(('false', 'no'), ('true', 'yes')),
+        initial='true'
     )
 
 
@@ -84,6 +85,11 @@ class PrecipitationFormInput(HydrologyFormInput):
         label='Source',
         choices=PRECIP_SOURCE_OPTIONS,
         initial='NLDAS'
+    )
+    temporalresolution = forms.ChoiceField(
+        label='Temporal Resolution',
+        choices=(("default", "default"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
+        initial="default"
     )
 
 class SoilmoistureFormInput(HydrologyFormInput):
