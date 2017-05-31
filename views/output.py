@@ -104,9 +104,9 @@ def get_data(parameters):
     """                                                             # True will save the current request as a sample.
     # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSHMS/'                                  # local VS HMS
+    url = 'http://localhost:50052/api/WSHMS/'                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                   # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
     try:
         result = requests.post(str(url), data=parameters, timeout=1000)
     except requests.exceptions.RequestException as e:
