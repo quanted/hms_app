@@ -40,6 +40,12 @@ def get_submodel_header(submodel):
     :return: header as a string
     """
     submodelTitle = submodel.replace('_', ' ').title()
+    if (submodelTitle == "Soilmoisture"):
+        submodelTitle = "Soil Moisture"
+    elif (submodelTitle == "Subsurfaceflow"):
+        submodelTitle = "Subsurface Flow"
+    elif (submodelTitle == "Surfacerunoff"):
+        submodelTitle = "Surface Runoff"
     return hydro.header + " - " + submodelTitle
 
 
