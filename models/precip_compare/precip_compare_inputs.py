@@ -3,7 +3,7 @@ HMS Precipitation Compare Input form functions
 """
 
 from django.template.loader import render_to_string
-import precip_compare_parameters
+import hms_app.models.precip_compare.precip_compare_parameters as precip_compare_parameters
 
 
 def precip_compare_input_page(request, model='', header='', form_data=None):

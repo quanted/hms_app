@@ -14,13 +14,25 @@ class PrecipitationCompareFormInput(forms.Form):
     Input form fields for precipitation comparision.
     """
     stationID = forms.CharField(
+        widget=forms.TextInput(attrs={
+                'title': 'NCDC station ID.'
+            }
+        ),
         label='NCDC StationID'
     )
     startDate = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'datepicker',
+            'title': 'Start date for your precipitation comparison.'
+        }),
         label='Start Date',
         input_formats=DATE_INPUT_FORMATS
     )
     endDate = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'datepicker',
+            'title': 'End date for yoru precipitation comparison.'
+        }),
         label='End Date',
         input_formats=DATE_INPUT_FORMATS
     )

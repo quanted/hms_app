@@ -3,7 +3,7 @@ HMS Runoff Compare Input form functions
 """
 
 from django.template.loader import render_to_string
-import runoff_compare_parameters
+import hms_app.models.runoff_compare.runoff_compare_parameters as runoff_compare_parameters
 
 def runoff_compare_input_page(request, model='', header='', form_data=None):
     """
