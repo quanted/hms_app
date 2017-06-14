@@ -144,9 +144,9 @@ def get_data(submodel, parameters):
     """
     # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                  # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
-    url = 'http://localhost:52569/api/' + submodel                                  # local VS HMS
+    # url = 'http://localhost:52569/api/' + submodel                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                       # local flask
-    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
@@ -167,9 +167,9 @@ def get_precip_compare_data(parameters):
     """
     # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-    url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
+    # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
     # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-    # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
