@@ -28,16 +28,14 @@ class HydrologyFormInput(forms.Form):
     )
     startDate = forms.DateField(
         widget=forms.TextInput(attrs={
-            'class': 'datepicker',
-            'title': 'Start date for your time series.'
+            'class': 'datepicker'
         }),
         label='Start Date',
         input_formats=DATE_INPUT_FORMATS
     )
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
-            'class': 'datepicker',
-            'title': 'End date for your time series.'
+            'class': 'datepicker'
         }),
         label='End Date',
         input_formats=DATE_INPUT_FORMATS
