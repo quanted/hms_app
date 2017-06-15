@@ -18,8 +18,8 @@ def ordered_list(model, submodel, page=None):
         ('Components', OrderedDict([
             ('Watershed Delineation', 'watershed'),
             ('Hydrology', 'hydrology'),
-            ('Water Quality', 'water_quality'),
-            ('Geometry Utilities', 'geometry_utils')])),
+            ('Water Quality', 'water_quality')
+            ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc')
         ])),

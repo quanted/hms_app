@@ -1,7 +1,7 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.shortcuts import redirect
-import links_left
+import hms_app.views.links_left as links_left
 import os
 #import secret
 from django.conf import settings

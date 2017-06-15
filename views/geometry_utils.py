@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 import os
 import importlib
-import links_left
+import hms_app.views.links_left as links_left
 
 
 geometry_utils_description = "<p>This form provides geometry utility functions. Centroid will be calculated from the given geojson.</p>"

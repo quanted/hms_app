@@ -4,7 +4,7 @@ HMS Landing page functions
 
 from django.template.loader import render_to_string
 from django.http import HttpResponse
-import links_left
+import hms_app.views.links_left as links_left
 import os
 from django.conf import settings
 

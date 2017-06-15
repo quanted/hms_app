@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.conf import settings
 import importlib
-import links_left
+import hms_app.views.links_left as links_left
 import os
 
 
@@ -79,4 +79,3 @@ def get_page_html(model, header, description):
     html += render_to_string('09epa_drupal_splashscripts.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-

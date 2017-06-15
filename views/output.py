@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 import importlib, requests, json
-import links_left
+import hms_app.views.links_left as links_left
 import os
 
 # Generic ERROR json data string
@@ -32,18 +32,45 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if(form.is_valid()):
         parameters = form.cleaned_data
-        parameters['dataset'] = submodel
-        if "geojson_file" in request.FILES:
-            parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
-        else:
-            parameters = spatial_parameter_check(parameters, None)
-        data = get_data(parameters)
+        # parameters['dataset'] = submodel
+        # if "geojson_file" in request.FILES:
+        #     parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
+        # else:
+        #     parameters = spatial_parameter_check(parameters, None)
+        request_parameters = {
+            "source": str(parameters['source']).lower(),
+            "dateTimeSpan": {
+                "startDate": str(parameters['startDate']),
+                "endDate": str(parameters['endDate'])
+            },
+            "geometry": {
+                "point": {
+                    "latitude": str(parameters['latitude']),
+                    "longitude": str(parameters['longitude'])
+                },
+                "geometryMetadata": set_geometry_metadata(parameters["spatial_metadata"])
+            },
+            "temporalResolution": str(parameters['temporalresolution']),
+            "timeLocalized": str(parameters['localTime'])
+        }
+        data = get_data(submodel, request_parameters)
         html = create_output_page(model, submodel, data)
     else:
         html = hydrology_input_page_errors(request, model, submodel, header, form=form)
     response = HttpResponse()
     response.write(html)
     return response
+
+
+def set_geometry_metadata(formData):
+    if(formData==''):
+        return {}
+    lines = formData.split(',')
+    gMeta = {}
+    for line in lines:
+        keyValue = line.split(':')
+        gMeta[keyValue[0]] = keyValue[1]
+    return gMeta
 
 
 @require_POST
@@ -61,8 +88,21 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     form = input_form(request.POST)
     if(form.is_valid()):
         parameters = form.cleaned_data
-        parameters['source'] = 'compare'
-        data = get_precip_compare_data(parameters)
+        request_parameters = {
+            "dataset": "Precipitation",
+            "source": "compare",
+            "dateTimeSpan": {
+                "startDate": str(parameters['startDate']),
+                "endDate": str(parameters['endDate'])
+            },
+            "geometry": {
+                "geometryMetadata": {
+                    "stationID": str(parameters['stationID'])
+                }
+            },
+            "timeLocalized": "true"
+        }
+        data = get_precip_compare_data(request_parameters)
         html = create_output_page(model, model, data)
     else:
         html = precip_compare_input_page_errors(request, model, header, form=form)
@@ -96,19 +136,19 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     return response
 
 
-def get_data(parameters):
+def get_data(submodel, parameters):
     """
     Performs the POST call to the HMS backend server for data retrieval.
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
-    """                                                             # True will save the current request as a sample.
-    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                # server 8 HMS, external
-    # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                              # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSHMS/'                                  # local VS HMS
-    # url = 'http://localhost:7777/rest/hms/'                                   # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'     # HMS backend server variable
+    """
+    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                  # server 8 HMS, external
+    # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
+    # url = 'http://localhost:52569/api/' + submodel                                  # local VS HMS
+    # url = 'http://localhost:7777/rest/hms/'                                       # local flask
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
     try:
-        result = requests.post(str(url), data=parameters, timeout=1000)
+        result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
         data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
@@ -127,11 +167,11 @@ def get_precip_compare_data(parameters):
     """
     # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSPrecipitation/'                               # local VS HMS
+    # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
     # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSPrecipitation/'   # HMS backend server variable
+    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
     try:
-        result = requests.post(str(url), data=parameters, timeout=1000)
+        result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
         data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
@@ -190,13 +230,13 @@ def create_output_page(model, submodel, data):
     try:
         columns = {}
         ncolumns = 0
-        if("errorMsg" not in data["metadata"]):
-            ncolumns = len(data["data"][data["data"].keys()[0]])
-        for key in data["metadata"]:
+        if("ERROR" not in data["Metadata"]):
+            ncolumns = len(data["Data"][list(data["Data"].keys())[0]])
+        for key in data["Metadata"]:
             if "column_" in key:
-                columns[key] = data["metadata"][key]
+                columns[key] = data["Metadata"][key]
         if len(columns) < ncolumns:
-            for key in data["metadata"]:
+            for key in data["Metadata"]:
                 if "timeseries_" in key:
                     k = key.split('_')
                     columns[str(k[len(k)-1])] = data["metadata"][key]
@@ -211,8 +251,8 @@ def create_output_page(model, submodel, data):
             'MODEL': model,
             'SUBMODEL': submodel,
             'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
-            'METADATA': data["metadata"],
-            'DATA': data["data"],
+            'METADATA': data["Metadata"],
+            'DATA': data["Data"],
             'COLUMNS': columns
         })
     except:
