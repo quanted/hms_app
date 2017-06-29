@@ -147,6 +147,7 @@ def get_data(submodel, parameters):
     # url = 'http://localhost:52569/api/' + submodel                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
+    print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
