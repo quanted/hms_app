@@ -30,7 +30,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST, request.FILES)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         # parameters['dataset'] = submodel
         # if "geojson_file" in request.FILES:
@@ -86,7 +86,7 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'PrecipitationCompareFormInput')
     form = input_form(request.POST)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         request_parameters = {
             "dataset": "Precipitation",
@@ -124,7 +124,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'RunoffCompareFormInput')
     form = input_form(request.POST)
-    if(form.is_valid()):
+    if form.is_valid():
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
         data = get_runoff_compare_data(parameters)
@@ -256,7 +256,7 @@ def create_output_page(model, submodel, data):
             'DATA': data["Data"],
             'COLUMNS': columns
         })
-    except:
+    except Exception as ex:
         print("ERROR: Unable to construct output tables.")
         return redirect('/hms/' + model + '/' + submodel + '/')
     # Generates html for links left
@@ -274,16 +274,16 @@ def spatial_parameter_check(parameters, uploadedFile):
     :param parameters: django form inputs
     :return: dictionary of parameters
     """
-    p = parameters
+    cleaned_parameters = parameters
     if uploadedFile is not None:
-        if p["geojson_file"] is not None:
-            p["geojson"] = uploadedFile.read()
-            p["geojson_file"] = None
+        if cleaned_parameters["geojson_file"] is not None:
+            cleaned_parameters["geojson"] = uploadedFile.read()
+            cleaned_parameters["geojson_file"] = None
 
-    for key, value in p.items():
-        if value is None or value is u'':
-            del p[key]
-    return p
+    for key in list(parameters.keys()):
+        if cleaned_parameters[key] is None or cleaned_parameters[key] is u'':
+            del cleaned_parameters[key]
+    return cleaned_parameters
 
 
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
