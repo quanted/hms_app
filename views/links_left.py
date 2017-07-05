@@ -1,5 +1,5 @@
 """
-HMS links left funtion
+HMS links left function
 """
 
 from django.template.loader import render_to_string
@@ -18,9 +18,10 @@ def ordered_list(model, submodel, page=None):
         ('Components', OrderedDict([
             ('Watershed Delineation', 'watershed'),
             ('Hydrology', 'hydrology'),
-            ('Water Quality', 'water_quality'),])),
+            ('Water Quality', 'water_quality')
+            ])),
         ('Utilities', OrderedDict([
-            ('API Documentation', 'api_doc'),
+            ('API Documentation', 'api_doc')
         ])),
         ('Work Flows', OrderedDict([
             ('Precipitation Compare', 'precip_compare'),
