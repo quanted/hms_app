@@ -1,8 +1,8 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from hms_app.views import description, landing, hydrology_submodels, output, watershed_map
-from hms_app.views import runoff_compare_setup, precip_compare_setup, geometry_utils
+from .views import description, landing, hydrology_submodels, output, watershed_map
+from .views import runoff_compare_setup, precip_compare_setup, geometry_utils
 
 if settings.IS_PUBLIC:
     urlpatterns = [
