@@ -25,7 +25,6 @@ def hms_map_page(request):
 
     html += render_to_string('04ubertext_end_drupal.html', {})
 
-
     # Left side links
     # html += render_to_string('07ubertext_end_drupal.html', {})
     html += links_left.ordered_list(model='watershed', submodel='')
