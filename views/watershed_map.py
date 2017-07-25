@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 import hms_app.views.links_left as links_left
 import os
-#import secret
+# import secret
 from django.conf import settings
 
 

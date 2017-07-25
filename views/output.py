@@ -4,9 +4,11 @@ HMS Hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse
 from django.shortcuts import redirect
-import importlib, requests, json
+import importlib
+import requests
+import json
 import hms_app.views.links_left as links_left
 import os
 
@@ -152,7 +154,7 @@ def get_data(submodel, parameters):
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:
@@ -175,7 +177,7 @@ def get_precip_compare_data(parameters):
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:
@@ -199,7 +201,7 @@ def get_runoff_compare_data(parameters):
         result = requests.post(str(url), data=parameters, timeout=1000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:

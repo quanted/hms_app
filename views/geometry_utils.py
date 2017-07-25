@@ -9,7 +9,8 @@ import importlib
 import hms_app.views.links_left as links_left
 
 
-geometry_utils_description = "<p>This form provides geometry utility functions. Centroid will be calculated from the given geojson.</p>"
+geometry_utils_description = "<p>This form provides geometry utility functions. Centroid will be calculated from the" \
+                             " given geojson.</p>"
 
 
 def form_page(request, model='Geometry Utilities', header='none'):
