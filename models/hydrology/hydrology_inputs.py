@@ -3,9 +3,9 @@ HMS Hydrology Input form function
 """
 
 from django.template.loader import render_to_string
-from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.views.decorators.csrf import ensure_csrf_cookie
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
 def hydrology_input_page(request, model='', submodel='', header='', form_data=None):
     """
     Constructs the html for the hydrology input pages.
