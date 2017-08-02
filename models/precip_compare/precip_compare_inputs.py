@@ -23,10 +23,10 @@ def precip_compare_input_page(request, model='', header='', form_data=None):
     if form_data is None:
         input_form = pcp.PrecipitationCompareFormInput(form_data)
         html += render_to_string('04uberinput_form.html', {
-            'FORM': input_form, })
+            'FORM': input_form, }, request=request)
     else:
         html += render_to_string('04hms_input_form.html', {
-            'FORM': form_data, })
+            'FORM': form_data}, request=request)
     html += render_to_string('04uberinput_end_drupal.html', {})
     html += render_to_string('04ubertext_end_drupal.html', {})
     return html

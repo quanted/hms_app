@@ -21,14 +21,14 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
         'SUBMODEL': submodel,
         # 'TITLE': header,
     })
-
+    # request object passed to render_to_string to test for csrf handling
     if(form_data is None):
         submodel_form = get_submodel_form_input(submodel, form_data)
         html += render_to_string('04uberinput_form.html', {
-            'FORM': submodel_form, })
+            'FORM': submodel_form, }, request=request)
     else:
         html += render_to_string('04hms_input_form.html', {
-            'FORM': form_data, })
+            'FORM': form_data, }, request=request)
     html += render_to_string('04uberinput_end_drupal.html', {})
     html += render_to_string('04ubertext_end_drupal.html', {})
     return html
@@ -41,7 +41,8 @@ def get_submodel_form_input(submodel, form_data):
     :param form_data: existing form data, currently set to None
     :return: returns django Form object
     """
-    import hms_app.models.hydrology.hydrology_parameters as hp
+    from ..hydrology import hydrology_parameters as hp
+    # import hms_app.models.hydrology.hydrology_parameters as hp
 
     if(submodel == 'subsurfaceflow'):
         return hp.SubsurfaceflowFormInput(form_data)
