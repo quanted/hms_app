@@ -3,9 +3,10 @@ HMS Precipitation Compare Input form functions
 """
 
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import ensure_csrf_cookie
 import hms_app.models.precip_compare.precip_compare_parameters as pcp
 
-
+@ensure_csrf_cookie
 def precip_compare_input_page(request, model='', header='', form_data=None):
     """
     Constructs precipitation compare html page.
