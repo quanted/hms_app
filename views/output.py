@@ -322,7 +322,7 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
-
+@ensure_csrf_cookie
 def precip_compare_input_page_errors(request, model='', header='', form=''):
     """
     Constructs html for precip compare page, with input errors.
