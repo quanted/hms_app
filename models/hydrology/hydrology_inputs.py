@@ -21,7 +21,7 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
         'MODEL': model,
         'SUBMODEL': submodel,
         # 'TITLE': header,
-    })
+    }, request=request)
     # request object passed to render_to_string to test for csrf handling
     if(form_data is None):
         submodel_form = get_submodel_form_input(submodel, form_data)

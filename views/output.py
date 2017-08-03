@@ -4,6 +4,7 @@ HMS Hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 from django.shortcuts import redirect
 import importlib
@@ -287,7 +288,7 @@ def spatial_parameter_check(parameters, uploadedFile):
             del cleaned_parameters[key]
     return cleaned_parameters
 
-
+@ensure_csrf_cookie
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
     """
     Constructs the html for the hydrology input pages, containing errors in the form.
