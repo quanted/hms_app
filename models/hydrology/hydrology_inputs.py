@@ -3,9 +3,8 @@ HMS Hydrology Input form function
 """
 
 from django.template.loader import render_to_string
-# from django.views.decorators.csrf import ensure_csrf_cookie
 
-# @ensure_csrf_cookie
+
 def hydrology_input_page(request, model='', submodel='', header='', form_data=None):
     """
     Constructs the html for the hydrology input pages.
@@ -26,10 +25,10 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
     if(form_data is None):
         submodel_form = get_submodel_form_input(submodel, form_data)
         html += render_to_string('04uberinput_form.html', {
-            'FORM': submodel_form, }, request=request)
+            'FORM': submodel_form, })
     else:
         html += render_to_string('04hms_input_form.html', {
-            'FORM': form_data, }, request=request)
+            'FORM': form_data, })
     html += render_to_string('04uberinput_end_drupal.html', {})
     html += render_to_string('04ubertext_end_drupal.html', {})
     return html
