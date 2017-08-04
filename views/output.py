@@ -288,7 +288,7 @@ def spatial_parameter_check(parameters, uploadedFile):
             del cleaned_parameters[key]
     return cleaned_parameters
 
-@ensure_csrf_cookie
+
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
     """
     Constructs the html for the hydrology input pages, containing errors in the form.
@@ -322,7 +322,7 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
-@ensure_csrf_cookie
+
 def precip_compare_input_page_errors(request, model='', header='', form=''):
     """
     Constructs html for precip compare page, with input errors.
