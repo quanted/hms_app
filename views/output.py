@@ -264,7 +264,7 @@ def create_output_page(model, submodel, data, dataset, location):
                       data["Metadata"].get(datasets + "_average", ""),
                       data["Metadata"].get(datasets + "_sum", ""),
                       data["Metadata"].get(datasets + "_standard_deviation", ""),
-                      data["Metadata"].get(datasets + "_R-Squared", ""),
+                      data["Metadata"].get(datasets + "_ncdc_R-Squared", ""),
                       data["Metadata"].get(datasets + "_ncdc_gore", "")]
             stats.append(dstats)
         # stats = {k: data["Metadata"][k] for k in data["Metadata"].keys() & {'sum', 'average', 'standard_deviation',
