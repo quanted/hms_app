@@ -3,6 +3,7 @@ HMS Precipitation Comparision page functions
 """
 
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 import hms_app.models.precip_compare.views as precip_compare_view
 import os
@@ -10,6 +11,7 @@ import importlib
 import hms_app.views.links_left as links_left
 
 
+@ensure_csrf_cookie
 def input_page(request, header='none'):
     """
     Constructs complete input page for precip compare

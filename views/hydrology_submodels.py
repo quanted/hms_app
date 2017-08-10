@@ -3,6 +3,7 @@ HMS Hydrology Submodel page functions
 """
 
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 import os
 import importlib
@@ -14,7 +15,7 @@ submodel_list = ['subsurfaceflow', 'evapotranspiration',
                  'precipitation', 'soilmoisture',
                  'surfacerunoff', 'temperature']
 
-
+@ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
     """
     Base function that constructs the HttpResponse page.

@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from .views import description, landing, hydrology_submodels, output, watershed_map
-from .views import runoff_compare_setup, precip_compare_setup, geometry_utils
+from .views import runoff_compare_setup, precip_compare_setup, geometry_utils, api_doc
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -21,13 +21,15 @@ else:
         url(r'^precip_compare/output/?$', output.precip_compare_output_page),
         url(r'^runoff_compare/$', runoff_compare_setup.input_page),
         url(r'^runoff_compare/output/$', output.runoff_compare_output_page),
-        url(r'^(?P<model>\w+)/$', description.description_page),
         # url(r'^(?P<model>.*?)/description/?$', description.description_page),
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
         # url(r'^hydrology/(?P<submodel>\w+)/error/$', hydrology_submodels.submodel_page_error),
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
         url(r'^watershed$', watershed_map.hms_map_page),
-        url(r'^geometry_utils$', geometry_utils.form_page),
+        url(r'^api_doc/$', api_doc.create_swagger_docs),
+        url(r'^api_doc/swagger$', api_doc.getSwaggerJsonContent),
+        url(r'^(?P<model>\w+)/$', description.description_page),
+        # url(r'^geometry_utils$', geometry_utils.form_page),
 
         # url(r'^$', views.qed_splash_page_intranet),
         # url(r'^admin/', include(admin.site.urls)),

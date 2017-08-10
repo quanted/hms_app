@@ -19,9 +19,9 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
     html += render_to_string('04hms_input_start_drupal.html', {
         'MODEL': model,
         'SUBMODEL': submodel,
-        #'TITLE': header,
-    })
-
+        # 'TITLE': header,
+    }, request=request)
+    # request object passed to render_to_string to test for csrf handling
     if(form_data is None):
         submodel_form = get_submodel_form_input(submodel, form_data)
         html += render_to_string('04uberinput_form.html', {
@@ -41,7 +41,8 @@ def get_submodel_form_input(submodel, form_data):
     :param form_data: existing form data, currently set to None
     :return: returns django Form object
     """
-    import hms_app.models.hydrology.hydrology_parameters as hp
+    from ..hydrology import hydrology_parameters as hp
+    # import hms_app.models.hydrology.hydrology_parameters as hp
 
     if(submodel == 'subsurfaceflow'):
         return hp.SubsurfaceflowFormInput(form_data)

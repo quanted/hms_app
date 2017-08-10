@@ -4,9 +4,12 @@ HMS Hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from django.http import HttpResponse, HttpRequest
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import HttpResponse
 from django.shortcuts import redirect
-import importlib, requests, json
+import importlib
+import requests
+import json
 import hms_app.views.links_left as links_left
 import os
 
@@ -54,7 +57,8 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
             "timeLocalized": str(parameters['localTime'])
         }
         data = get_data(submodel, request_parameters)
-        html = create_output_page(model, submodel, data)
+        location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
+        html = create_output_page(model, submodel, data, submodel.capitalize(), location)
     else:
         html = hydrology_input_page_errors(request, model, submodel, header, form=form)
     response = HttpResponse()
@@ -103,7 +107,8 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
             "timeLocalized": "true"
         }
         data = get_precip_compare_data(request_parameters)
-        html = create_output_page(model, model, data)
+        location = str(parameters['stationID'])
+        html = create_output_page(model, model, data, "Precipitation", location)
     else:
         html = precip_compare_input_page_errors(request, model, header, form=form)
     response = HttpResponse()
@@ -128,7 +133,8 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
         data = get_runoff_compare_data(parameters)
-        html = create_output_page(model, model, data)
+        location = ""
+        html = create_output_page(model, model, data, "Surface Runoff", location)
     else:
         html = runoff_compare_input_page_errors(request, model, header, form=form)
     response = HttpResponse()
@@ -152,7 +158,7 @@ def get_data(submodel, parameters):
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:
@@ -175,7 +181,7 @@ def get_precip_compare_data(parameters):
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:
@@ -199,7 +205,7 @@ def get_runoff_compare_data(parameters):
         result = requests.post(str(url), data=parameters, timeout=1000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e.message)
+        data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
     if "Message" in data:
@@ -208,18 +214,22 @@ def get_runoff_compare_data(parameters):
     return data
 
 
-def create_output_page(model, submodel, data):
+def create_output_page(model, submodel, data, dataset, location):
     """
     Generates the html for the output page.
     :param model: model of the data
     :param submodel: submodel of the data
     :param data: json object of the data
+    :param dataset: dataset name, may be the same as submodel
+    :param location: geographic location of request, used for labeling
     :return: string structured as html.
     """
     # json_data = json.dumps(data)
+    label = dataset + ": " + location
     html = render_to_string('01hms_output_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
-        'TITLE': "HMS " + model
+        'TITLE': "HMS " + model,
+        'LABEL': label
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
@@ -246,7 +256,20 @@ def create_output_page(model, submodel, data):
         if len(columns) == 1:
             columns["1"] = "Data"
         columns = [value for (key, value) in sorted(columns.items())]           # Sorts values by key.
-        # -----------------------------------------------------------
+        # -------------------------- #
+        stats = []
+        dcolumns = columns[1:len(columns)]
+        for datasets in dcolumns:
+            dstats = [datasets,
+                      data["Metadata"].get(datasets + "_average", ""),
+                      data["Metadata"].get(datasets + "_sum", ""),
+                      data["Metadata"].get(datasets + "_standard_deviation", ""),
+                      data["Metadata"].get(datasets + "_ncdc_R-Squared", ""),
+                      data["Metadata"].get(datasets + "_ncdc_gore", "")]
+            stats.append(dstats)
+        # stats = {k: data["Metadata"][k] for k in data["Metadata"].keys() & {'sum', 'average', 'standard_deviation',
+        #                                                                     'R-Squared', 'ncdc_gore'}}
+
 
         html += render_to_string('04hms_output_table_2.html',{
             'MODEL': model,
@@ -254,7 +277,10 @@ def create_output_page(model, submodel, data):
             'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
             'METADATA': data["Metadata"],
             'DATA': data["Data"],
-            'COLUMNS': columns
+            'COLUMNS': columns,
+            'STATS': stats,
+            'DATASET': dataset,
+            'LABEL': label
         })
     except Exception as ex:
         print("ERROR: Unable to construct output tables.")

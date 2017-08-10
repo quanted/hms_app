@@ -18,20 +18,23 @@ class PrecipitationCompareFormInput(forms.Form):
                 'title': 'NCDC station ID.'
             }
         ),
-        label='NCDC StationID'
+        label='NCDC StationID',
+        initial='GHCND:USW00013874'
     )
     startDate = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'datepicker'
         }),
         label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
+        input_formats=DATE_INPUT_FORMATS,
+        initial='2010-01-01'
     )
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'datepicker'
         }),
         label='End Date',
-        input_formats=DATE_INPUT_FORMATS
+        input_formats=DATE_INPUT_FORMATS,
+        initial='2010-12-31'
     )
 

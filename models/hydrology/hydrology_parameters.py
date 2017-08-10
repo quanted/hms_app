@@ -31,14 +31,16 @@ class HydrologyFormInput(forms.Form):
             'class': 'datepicker'
         }),
         label='Start Date',
-        input_formats=DATE_INPUT_FORMATS
+        input_formats=DATE_INPUT_FORMATS,
+        initial='2010-01-01'
     )
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'datepicker'
         }),
         label='End Date',
-        input_formats=DATE_INPUT_FORMATS
+        input_formats=DATE_INPUT_FORMATS,
+        initial='2010-12-31'
     )
     # spatial_input = forms.ChoiceField(
     #     label='Spatial Input',
@@ -63,7 +65,8 @@ class HydrologyFormInput(forms.Form):
     )
     spatial_metadata = forms.CharField(
         widget=forms.Textarea(attrs={
-            'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key and value.',
+            'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
+                     ' and value.',
         }),
         required=False
     )
@@ -85,19 +88,20 @@ class HydrologyFormInput(forms.Form):
     )
     output_date_format = forms.CharField(
         widget=forms.TextInput(attrs={
-            'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings'
+            'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+                     'base-types/custom-date-and-time-format-strings'
         }),
         label='Output Date Format',
         initial="yyyy-MM-dd HH"
     )
     output_data_format = forms.CharField(
         widget=forms.TextInput(attrs={
-            'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings'
+            'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+                     'base-types/standard-numeric-format-strings'
         }),
         label='Output Data Format',
         initial="E3"
     )
-
 
 
 
@@ -108,13 +112,11 @@ class SubsurfaceflowFormInput(HydrologyFormInput):
     """
 
 
-
 class EvapotranspirationFormInput(HydrologyFormInput):
     """
     Input form fields for evapotranspiration data.
     default fields taken from HydrologyFormInput
     """
-
 
 
 class PrecipitationFormInput(HydrologyFormInput):
