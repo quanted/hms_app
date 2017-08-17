@@ -25,7 +25,7 @@ evapotranspiration_description = "<p>Evapotranspiration is the combination of wa
                                  " surfaces, and plant surfaces.  Evapotranspiration is controlled by temperature," \
                                  "  solar radiation, humidity, wind, and vegetation.</p>"
 
-precipitation_description = "<p>Precipitation is one of the main processes in the global hydrological cycle thus" \
+precipitation_description = "<p>Precipitation is one of the main processes in the global hydrological cycle, thus" \
                             " integral for modeling purposes. Precipitation is highly variable and influences" \
                             " vegetation, droughts, floods, and the movement of minerals and chemicals. In" \
                             " agriculture and urban areas, precipitation is the driver in contaminant and nutrient" \
@@ -43,7 +43,8 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             "<p>GLDAS Precipitation: The Global Land Data Assimilation System (GLDAS) combines" \
                             " satellite data and ground-based observational data to provide precipitation and" \
                             " other variables on a spatial resolution of 0.25-degrees covering the Earth between" \
-                            " 90 degrees North and 60 degrees South. Data is available from 2000 to present.</p>" \
+                            " 90 degrees North and 60 degrees South. Data is available from 2000 to"\
+                            " December 2016.</p>" \
                             "<p>DAYMET Precipitation: Daymet is a daily dataset of rain gauge data that has been" \
                             " interpolated and extrapolated. Daymet uses ground station data with their model" \
                             " algorithm to produce gridded estimates of daily weather parameters. The interpolated" \
