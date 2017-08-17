@@ -25,7 +25,9 @@ def getSwaggerJsonContent(request):
     url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/docs/v1'  # HMS backend server for swagger
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
-    swagger["host"] = '134.67.114.8'
+    swagger["host"] = str(os.environ.get('HMS_BACKEND_SERVER'))
+    # swagger["host"] = "134.67.114.8"
+    # swagger["schemes"] = ["https"]
     response = HttpResponse()
     response.write(json.dumps(swagger))
     return response

@@ -56,6 +56,8 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
             "temporalResolution": str(parameters['temporalresolution']),
             "timeLocalized": str(parameters['localTime'])
         }
+        if "soilmoisture" in submodel:
+            request_parameters["layers"] = parameters["layers"]
         data = get_data(submodel, request_parameters)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)
