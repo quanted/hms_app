@@ -4,7 +4,6 @@ HMS Hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 from django.shortcuts import redirect
 import importlib
@@ -35,11 +34,6 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
-        # parameters['dataset'] = submodel
-        # if "geojson_file" in request.FILES:
-        #     parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
-        # else:
-        #     parameters = spatial_parameter_check(parameters, None)
         request_parameters = {
             "source": str(parameters['source']).lower(),
             "dateTimeSpan": {
@@ -68,15 +62,15 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     return response
 
 
-def set_geometry_metadata(formData):
-    if(formData==''):
+def set_geometry_metadata(form_data):
+    if form_data == '':
         return {}
-    lines = formData.split(',')
-    gMeta = {}
+    lines = form_data.split(',')
+    g_meta = {}
     for line in lines:
-        keyValue = line.split(':')
-        gMeta[keyValue[0]] = keyValue[1]
-    return gMeta
+        key_value = line.split(':')
+        g_meta[key_value[0]] = key_value[1]
+    return g_meta
 
 
 @require_POST
@@ -147,6 +141,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
 def get_data(submodel, parameters):
     """
     Performs the POST call to the HMS backend server for data retrieval.
+    :param submodel: submodel of requested data
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
@@ -243,7 +238,7 @@ def create_output_page(model, submodel, data, dataset, location):
     try:
         columns = {}
         ncolumns = 0
-        if("ERROR" not in data["Metadata"]):
+        if "ERROR" not in data["Metadata"]:
             ncolumns = len(data["Data"][list(data["Data"].keys())[0]])
         for key in data["Metadata"]:
             if "column_" in key:
@@ -269,11 +264,7 @@ def create_output_page(model, submodel, data, dataset, location):
                       data["Metadata"].get(datasets + "_ncdc_R-Squared", ""),
                       data["Metadata"].get(datasets + "_ncdc_gore", "")]
             stats.append(dstats)
-        # stats = {k: data["Metadata"][k] for k in data["Metadata"].keys() & {'sum', 'average', 'standard_deviation',
-        #                                                                     'R-Squared', 'ncdc_gore'}}
-
-
-        html += render_to_string('04hms_output_table_2.html',{
+        html += render_to_string('04hms_output_table_2.html', {
             'MODEL': model,
             'SUBMODEL': submodel,
             'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
@@ -296,6 +287,7 @@ def create_output_page(model, submodel, data, dataset, location):
     return html
 
 
+# OBSOLETE
 def spatial_parameter_check(parameters, uploadedFile):
     """
     Checks the parameters dictionary for all spatial parameters that are empty and removes them from the parameters list.
@@ -354,6 +346,7 @@ def precip_compare_input_page_errors(request, model='', header='', form=''):
     :param request: current request object
     :param model: current model
     :param header: current header
+    :param form: form where error was found
     :return: string formatted as html
     """
     import hms_app.models.precip_compare.views as precip_compare_view
@@ -385,6 +378,7 @@ def runoff_compare_input_page_errors(request, model='', header='', form=''):
     :param request: current request object
     :param model: current model
     :param header: current header
+    :param form: form where error was found
     :return: string formatted as html
     """
     import hms_app.models.runoff_compare.views as runoff_compare_view

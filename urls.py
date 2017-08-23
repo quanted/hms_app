@@ -27,7 +27,7 @@ else:
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
         url(r'^watershed$', watershed_map.hms_map_page),
         url(r'^api_doc/$', api_doc.create_swagger_docs),
-        url(r'^api_doc/swagger$', api_doc.getSwaggerJsonContent),
+        url(r'^api_doc/swagger$', api_doc.get_swagger_json),
         url(r'^(?P<model>\w+)/$', description.description_page),
         # url(r'^geometry_utils$', geometry_utils.form_page),
 
