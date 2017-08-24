@@ -16,11 +16,16 @@ def hms_map_page(request):
         'TITLE': "HMS"
     })
     # html += render_to_string('02epa_drupal_header_bluestripe.html', {})
-    html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03epa_drupal_section_title.html', {})
+    html += render_to_string('02hms_header_bluestripe_onesidebar.html', {})
+    # html += render_to_string('03epa_drupal_section_title.html', {})
+    html += render_to_string('03hms_section_title.html', {})
 
-    html += render_to_string('04ubertext_start_index_drupal.html', {
-        'TITLE': 'Watershed Delineation',
+
+    # html += render_to_string('04ubertext_start_index_drupal.html', {
+    #     'TITLE': 'HMS Watershed Delineation',
+    #     'TEXT_PARAGRAPH': x})
+    html += render_to_string('04hms_start_drupal.html', {
+        'TITLE': 'HMS Watershed Delineation',
         'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04ubertext_end_drupal.html', {})
