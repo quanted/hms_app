@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 import hms_app.models.precip_compare.views as precip_compare_view
+import hms_app.models.runoff_compare.views as runoff_compare_view
 import os
 import importlib
 import hms_app.views.links_left as links_left
@@ -19,19 +20,11 @@ def input_page(request, header='none'):
     :param header: current header set to none
     :return: HttpResponse object
     """
-    header = get_page_header()
+    header = precip_compare_view.header
     html = build_page(request, "precip_compare", header)
     response = HttpResponse()
     response.write(html)
     return response
-
-
-def get_page_header():
-    """
-    Gets the precipitation compare page header.
-    :return: precip compare header
-    """
-    return precip_compare_view.header
 
 
 def build_page(request, model, header):
@@ -48,7 +41,7 @@ def build_page(request, model, header):
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
-    description = precip_compare_view.description
+    description = get_description(model)
     html += render_to_string('06ubertext_start_index_drupal.html', {
         'TITLE': header,
         'TEXT_PARAGRAPH': description
@@ -63,6 +56,15 @@ def build_page(request, model, header):
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
+
+
+def get_description(model):
+    if model == "precip_compare":
+        return precip_compare_view.description
+    elif model == "runoff_compare":
+        return runoff_compare_view.description
+    else:
+        return ""
 
 
 def get_model_input_module(model):
