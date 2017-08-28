@@ -139,14 +139,23 @@ class SoilmoistureFormInput(HydrologyFormInput):
     Input form fields for soil moisture data.
     default fields taken from HydrologyFormInput
     """
-    layers = forms.ChoiceField(
-        widget=forms.Select(attrs={
+    # layers = forms.ChoiceField(
+    #     widget=forms.Select(attrs={
+    #         'title': 'Please select the desired soil moisture depth.'
+    #     }),
+    #     label='Layer Depth',
+    #     choices=(('0-10', '0-10cm'), ('10-40', '10-40cm'),
+    #              ('40-100', '40-100cm'), ('100-200', '100-200cm'),
+    #              ('0-100', '0-100cm'), ('0-200', '0-200cm'))
+    # )
+    layers = forms.MultipleChoiceField(
+        widget=forms.SelectMultiple(attrs={
             'title': 'Please select the desired soil moisture depth.'
         }),
         label='Layer Depth',
-        choices=(('0_10', '0-10cm'), ('10_40', '10-40cm'),
-                 ('40_100', '40-100cm'), ('100_200', '100-200cm'),
-                 ('0_100', '0-100cm'), ('0_200', '0-200cm'))
+        choices=(('0-10', '0-10cm'), ('10-40', '10-40cm'),
+                 ('40-100', '40-100cm'), ('100-200', '100-200cm'),
+                 ('0-100', '0-100cm'), ('0-200', '0-200cm'))
     )
 
 

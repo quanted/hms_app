@@ -16,13 +16,14 @@ def hydrology_input_page(request, model='', submodel='', header='', form_data=No
     :return: returns a string formatted as html
     """
     html = render_to_string('04hms_input_jquery.html', {})
-    html += render_to_string('04hms_input_start_drupal.html', {
-        'MODEL': model,
-        'SUBMODEL': submodel,
-        # 'TITLE': header,
-    }, request=request)
+    html += render_to_string('04hms_input_start_drupal.html',
+                             {
+                                 'MODEL': model,
+                                 'SUBMODEL': submodel,
+                             },
+                             request=request)
     # request object passed to render_to_string to test for csrf handling
-    if(form_data is None):
+    if (form_data is None):
         submodel_form = get_submodel_form_input(submodel, form_data)
         html += render_to_string('04uberinput_form.html', {
             'FORM': submodel_form, })
@@ -44,17 +45,17 @@ def get_submodel_form_input(submodel, form_data):
     from ..hydrology import hydrology_parameters as hp
     # import hms_app.models.hydrology.hydrology_parameters as hp
 
-    if(submodel == 'subsurfaceflow'):
+    if (submodel == 'subsurfaceflow'):
         return hp.SubsurfaceflowFormInput(form_data)
-    elif(submodel == 'evapotranspiration'):
+    elif (submodel == 'evapotranspiration'):
         return hp.EvapotranspirationFormInput(form_data)
-    elif(submodel == 'precipitation'):
+    elif (submodel == 'precipitation'):
         return hp.PrecipitationFormInput(form_data)
-    elif(submodel == 'soilmoisture'):
+    elif (submodel == 'soilmoisture'):
         return hp.SoilmoistureFormInput(form_data)
-    elif(submodel == 'surfacerunoff'):
+    elif (submodel == 'surfacerunoff'):
         return hp.SurfacerunoffFormInput(form_data)
-    elif(submodel == 'temperature'):
+    elif (submodel == 'temperature'):
         return hp.TemperatureFormInput(form_data)
     else:
         return ''

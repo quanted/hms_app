@@ -4,7 +4,6 @@ HMS Hydrology output page functions
 
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 from django.shortcuts import redirect
 import importlib
@@ -35,11 +34,6 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
-        # parameters['dataset'] = submodel
-        # if "geojson_file" in request.FILES:
-        #     parameters = spatial_parameter_check(parameters, request.FILES["geojson_file"])
-        # else:
-        #     parameters = spatial_parameter_check(parameters, None)
         request_parameters = {
             "source": str(parameters['source']).lower(),
             "dateTimeSpan": {
@@ -56,6 +50,8 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
             "temporalResolution": str(parameters['temporalresolution']),
             "timeLocalized": str(parameters['localTime'])
         }
+        if "soilmoisture" in submodel:
+            request_parameters["layers"] = parameters["layers"]
         data = get_data(submodel, request_parameters)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)
@@ -66,15 +62,15 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     return response
 
 
-def set_geometry_metadata(formData):
-    if(formData==''):
+def set_geometry_metadata(form_data):
+    if form_data == '':
         return {}
-    lines = formData.split(',')
-    gMeta = {}
+    lines = form_data.split(',')
+    g_meta = {}
     for line in lines:
-        keyValue = line.split(':')
-        gMeta[keyValue[0]] = keyValue[1]
-    return gMeta
+        key_value = line.split(':')
+        g_meta[key_value[0]] = key_value[1]
+    return g_meta
 
 
 @require_POST
@@ -106,11 +102,11 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
             },
             "timeLocalized": "true"
         }
-        data = get_precip_compare_data(request_parameters)
+        data = get_compare_data("precip_compare", request_parameters)
         location = str(parameters['stationID'])
         html = create_output_page(model, model, data, "Precipitation", location)
     else:
-        html = precip_compare_input_page_errors(request, model, header, form=form)
+        html = compare_input_page_errors(request, model, header, form=form)
     response = HttpResponse()
     response.write(html)
     return response
@@ -132,11 +128,11 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     if form.is_valid():
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
-        data = get_runoff_compare_data(parameters)
+        data = get_compare_data("runoff_compare",parameters)
         location = ""
         html = create_output_page(model, model, data, "Surface Runoff", location)
     else:
-        html = runoff_compare_input_page_errors(request, model, header, form=form)
+        html = compare_input_page_errors(request, model, header, form=form)
     response = HttpResponse()
     response.write(html)
     return response
@@ -145,6 +141,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
 def get_data(submodel, parameters):
     """
     Performs the POST call to the HMS backend server for data retrieval.
+    :param submodel: submodel of requested data
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
@@ -166,17 +163,26 @@ def get_data(submodel, parameters):
     return data
 
 
-def get_precip_compare_data(parameters):
+def get_compare_data(model, parameters):
     """
-    Performs the POST call to the HMS backend server for retrieving precip comparision data.
+    Performs the POST call to the HMS backend server for retrieving comparision data.
+    :param model: comparision model to compare
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
-    # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
-    # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-    # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
-    # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
+    url = ""
+    if model == "precip_compare":
+        # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
+        # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
+        # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
+        # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
+    elif model == "runoff_compare":
+        # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
+        # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
+        # url = 'http://localhost:50052/api/WSLandSurfaceFlow/'                                       # local VS HMS
+        # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSLandSurfaceFlow/'  # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
@@ -186,30 +192,6 @@ def get_precip_compare_data(parameters):
     data = json.loads(result.content)
     if "Message" in data:
         print("error getting precip compare data")
-        data = json.loads(ERROR_OUTPUT)
-    return data
-
-
-def get_runoff_compare_data(parameters):
-    """
-    Performs the POST call to the HMS backend server for retrieving runoff comparision data.
-    :param parameters: Dictionary containing the parameters.
-    :return: object constructed from json.loads()
-    """
-    # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                                  # server 8 HMS, external
-    # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                                  # server 8 HMS, internal
-    # url = 'http://localhost:50052/api/WSLandSurfaceFlow/'                                       # local VS HMS
-    # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSLandSurfaceFlow/'         # HMS backend server variable
-    try:
-        result = requests.post(str(url), data=parameters, timeout=1000)
-    except requests.exceptions.RequestException as e:
-        data = json.loads(ERROR_OUTPUT)
-        data['metadata']['errorMsg'] = "ERROR: " + str(e)
-        return data
-    data = json.loads(result.content)
-    if "Message" in data:
-        print("error getting runoff compare data")
         data = json.loads(ERROR_OUTPUT)
     return data
 
@@ -241,7 +223,7 @@ def create_output_page(model, submodel, data, dataset, location):
     try:
         columns = {}
         ncolumns = 0
-        if("ERROR" not in data["Metadata"]):
+        if "ERROR" not in data["Metadata"]:
             ncolumns = len(data["Data"][list(data["Data"].keys())[0]])
         for key in data["Metadata"]:
             if "column_" in key:
@@ -267,11 +249,7 @@ def create_output_page(model, submodel, data, dataset, location):
                       data["Metadata"].get(datasets + "_ncdc_R-Squared", ""),
                       data["Metadata"].get(datasets + "_ncdc_gore", "")]
             stats.append(dstats)
-        # stats = {k: data["Metadata"][k] for k in data["Metadata"].keys() & {'sum', 'average', 'standard_deviation',
-        #                                                                     'R-Squared', 'ncdc_gore'}}
-
-
-        html += render_to_string('04hms_output_table_2.html',{
+        html += render_to_string('04hms_output_table_2.html', {
             'MODEL': model,
             'SUBMODEL': submodel,
             'TITLE': "HMS " + model.replace('_', ' ').title() + " Data",
@@ -294,6 +272,7 @@ def create_output_page(model, submodel, data, dataset, location):
     return html
 
 
+# OBSOLETE
 def spatial_parameter_check(parameters, uploadedFile):
     """
     Checks the parameters dictionary for all spatial parameters that are empty and removes them from the parameters list.
@@ -346,61 +325,43 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
     return html
 
 
-def precip_compare_input_page_errors(request, model='', header='', form=''):
+def compare_input_page_errors(request, model='', header='', form=''):
     """
     Constructs html for precip compare page, with input errors.
     :param request: current request object
     :param model: current model
     :param header: current header
+    :param form: form where error was found
     :return: string formatted as html
     """
-    import hms_app.models.precip_compare.views as precip_compare_view
+    description = ""
+    if model == "precip_compare":
+        from hms_app.models.precip_compare import views as precip_compare_view
+        description = precip_compare_view.description
+    elif model == "runoff_compare":
+        from hms_app.models.runoff_compare import views as runoff_compare_view
+        description = runoff_compare_view.description
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
-    description = precip_compare_view.description
+
     html += render_to_string('06ubertext_start_index_drupal.html', {
         'TITLE': header,
         'TEXT_PARAGRAPH': description
     })
     html += render_to_string('07ubertext_end_drupal.html', {})
-    # -------------------- Form with Errors ---------------- #
-    import hms_app.models.precip_compare.precip_compare_inputs as pc_inputs
-    html += pc_inputs.precip_compare_input_page(request, model, header, form)
-    # ----------------------- end of Form ------------------ #
-    html += links_left.ordered_list(model, "")
-    html += render_to_string('09epa_drupal_ubertool_css.html', {})
-    html += render_to_string('10epa_drupal_footer.html', {})
-    return html
 
-
-def runoff_compare_input_page_errors(request, model='', header='', form=''):
-    """
-    Constructs html for runoff compare page
-    :param request: current request object
-    :param model: current model
-    :param header: current header
-    :return: string formatted as html
-    """
-    import hms_app.models.runoff_compare.views as runoff_compare_view
-    html = render_to_string('01epa_drupal_header.html', {
-        'SITE_SKIN': os.environ['SITE_SKIN'],
-        'TITLE': "HMS " + model
-    })
-    html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03epa_drupal_section_title.html', {})
-    description = runoff_compare_view.description
-    html += render_to_string('06ubertext_start_index_drupal.html', {
-        'TITLE': header,
-        'TEXT_PARAGRAPH': description
-    })
-    html += render_to_string('07ubertext_end_drupal.html', {})
     # -------------------- Form with Errors ---------------- #
-    import hms_app.models.runoff_compare.runoff_compare_inputs as rc_inputs
-    html += rc_inputs.runoff_compare_input_page(request, model, header, form)
+    if model == "precip_compare":
+        from hms_app.models.precip_compare import precip_compare_inputs as pc_inputs
+        html += pc_inputs.precip_compare_input_page(request, model, header, form)
+    elif model == "runoff_compare":
+        import hms_app.models.runoff_compare.runoff_compare_inputs as rc_inputs
+        html += rc_inputs.runoff_compare_input_page(request, model, header, form)
+
     # ----------------------- end of Form ------------------ #
     html += links_left.ordered_list(model, "")
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
