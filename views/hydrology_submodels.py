@@ -86,7 +86,7 @@ def build_submodel_page(request, model, submodel, header):
         'TITLE': "HMS " + model
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03hms_drupal_section_title.html', {})
+    html += render_to_string('03epa_drupal_section_title.html', {})
 
     description = get_submodel_description(submodel)
     html += render_to_string('06ubertext_start_index_drupal.html', {
