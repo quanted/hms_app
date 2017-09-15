@@ -24,6 +24,7 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
+
     urlpath = request.path.split('/')
     model = 'hydrology'
     submodel = urlpath[urlpath.index(model) + 1]
