@@ -65,7 +65,7 @@ def get_page_html(model, header, description):
         'TITLE': "HMS"
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03hms_drupal_section_title.html', {})
+    html += render_to_string('03epa_drupal_section_title.html', {})
     if settings.IS_PUBLIC:
         pass
     else:

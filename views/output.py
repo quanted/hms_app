@@ -34,6 +34,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
+        formstr = str(parameters)
         request_parameters = {
             "source": str(parameters['source']).lower(),
             "dateTimeSpan": {
@@ -214,7 +215,7 @@ def create_output_page(model, submodel, data, dataset, location):
         'LABEL': label
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03hms_drupal_section_title.html', {})
+    html += render_to_string('03epa_drupal_section_title.html', {})
 
     # Generates html for metadata and data tables.
     """
