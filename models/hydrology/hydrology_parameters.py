@@ -7,10 +7,10 @@ form setup has not been merged to allow for ease of changes for specific submodu
 from django import forms
 
 # Sources for Precipitation
-PRECIP_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'),('DAYMET','DAYMET'), ('WGEN', 'WGEN'))
+PRECIP_SOURCE_OPTIONS = (('nldas','nldas'),('gldas','gldas'),('daymet','daymet'), ('wgen', 'wgen'))
 
 # Standard List of sources
-STANDARD_SOURCE_OPTIONS = (('NLDAS','NLDAS'),('GLDAS','GLDAS'))
+STANDARD_SOURCE_OPTIONS = (('nldas','nldas'),('nldas','nldas'))
 
 # Allowed Date formats for django form
 DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y','%m/%d/%Y', '%m/%d/%y', '%b %d %Y', '%b %d, %Y',
@@ -63,14 +63,14 @@ class HydrologyFormInput(forms.Form):
         initial=-83.356893,
         required=False
     )
-    spatial_metadata = forms.CharField(
+    geometrymetadata = forms.CharField(
         widget=forms.Textarea(attrs={
             'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
                      ' and value.',
         }),
         required=False
     )
-    localTime = forms.ChoiceField(
+    timelocalized = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Set date/time timezone to local, specified by latitude and longitude values, or to GMT.'
         }),
@@ -86,7 +86,7 @@ class HydrologyFormInput(forms.Form):
         choices=(("default", "default"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
         initial="default"
     )
-    output_date_format = forms.CharField(
+    datetimeformat = forms.CharField(
         widget=forms.TextInput(attrs={
             'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
                      'base-types/custom-date-and-time-format-strings'
@@ -94,7 +94,7 @@ class HydrologyFormInput(forms.Form):
         label='Output Date Format',
         initial="yyyy-MM-dd HH"
     )
-    output_data_format = forms.CharField(
+    outputformat = forms.CharField(
         widget=forms.TextInput(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
                      'base-types/standard-numeric-format-strings'

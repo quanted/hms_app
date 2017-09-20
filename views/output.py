@@ -12,6 +12,9 @@ import json
 import hms_app.views.links_left as links_left
 import os
 
+# TESTING
+from ..swag_request import SwagRequest as swag
+
 # Generic ERROR json data string
 ERROR_OUTPUT = '{"dataset": "", "source": "", ' \
                '"metadata": {"errorMsg":"Error retrieving data. Unable to return data from server."},' \
@@ -34,26 +37,30 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
-        formstr = str(parameters)
-        request_parameters = {
-            "source": str(parameters['source']).lower(),
-            "dateTimeSpan": {
-                "startDate": str(parameters['startDate']),
-                "endDate": str(parameters['endDate'])
-            },
-            "geometry": {
-                "point": {
-                    "latitude": str(parameters['latitude']),
-                    "longitude": str(parameters['longitude'])
-                },
-                "geometryMetadata": set_geometry_metadata(parameters["spatial_metadata"])
-            },
-            "temporalResolution": str(parameters['temporalresolution']),
-            "timeLocalized": str(parameters['localTime'])
-        }
-        if "soilmoisture" in submodel:
-            request_parameters["layers"] = parameters["layers"]
-        data = get_data(submodel, request_parameters)
+
+        # request_parameters = {
+        #     "source": str(parameters['source']).lower(),
+        #     "dateTimeSpan": {
+        #         "startDate": str(parameters['startDate']),
+        #         "endDate": str(parameters['endDate'])
+        #     },
+        #     "geometry": {
+        #         "point": {
+        #             "latitude": str(parameters['latitude']),
+        #             "longitude": str(parameters['longitude'])
+        #         },
+        #         "geometryMetadata": set_geometry_metadata(parameters["spatial_metadata"])
+        #     },
+        #     "temporalResolution": str(parameters['temporalresolution']),
+        #     "timeLocalized": str(parameters['localTime'])
+        # }
+        # if "soilmoisture" in submodel:
+        #     request_parameters["layers"] = parameters["layers"]
+
+        target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel
+        swaggernurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
+        request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=swaggernurl)
+        data = get_data(submodel, request_parameters.request_object)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)
     else:
@@ -89,20 +96,23 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
     form = input_form(request.POST)
     if form.is_valid():
         parameters = form.cleaned_data
-        request_parameters = {
-            "dataset": "Precipitation",
-            "source": "compare",
-            "dateTimeSpan": {
-                "startDate": str(parameters['startDate']),
-                "endDate": str(parameters['endDate'])
-            },
-            "geometry": {
-                "geometryMetadata": {
-                    "stationID": str(parameters['stationID'])
-                }
-            },
-            "timeLocalized": "true"
-        }
+        # request_parameters = {
+        #     "dataset": "Precipitation",
+        #     "source": "compare",
+        #     "dateTimeSpan": {
+        #         "startDate": str(parameters['startDate']),
+        #         "endDate": str(parameters['endDate'])
+        #     },
+        #     "geometry": {
+        #         "geometryMetadata": {
+        #             "stationID": str(parameters['stationID'])
+        #         }
+        #     },
+        #     "timeLocalized": "true"
+        # }
+        target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/precipitation'
+        jsonurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
+        request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=jsonurl)
         data = get_compare_data("precip_compare", request_parameters)
         location = str(parameters['stationID'])
         html = create_output_page(model, model, data, "Precipitation", location)
@@ -146,7 +156,7 @@ def get_data(submodel, parameters):
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
-    # url = 'http://134.67.114.8/HMSWS/api/WSHMS/'                                  # server 8 HMS, external
+    # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
     # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
     # url = 'http://localhost:52569/api/' + submodel                                  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                       # local flask
@@ -173,7 +183,7 @@ def get_compare_data(model, parameters):
     """
     url = ""
     if model == "precip_compare":
-        # url = 'http://134.67.114.8/HMSWS/api/WSPrecipitation/'                              # server 8 HMS, external
+        # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
         # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
         # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
