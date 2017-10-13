@@ -110,9 +110,14 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
         #     },
         #     "timeLocalized": "true"
         # }
+        parameters["source"] = "compare"
+        stationID = {}
+        stationID["stationID"] = parameters["stationID"]
+        parameters["geometryMetadata"] = stationID
         target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/precipitation'
         jsonurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
-        request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=jsonurl)
+        request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=jsonurl).request_object
+        request_parameters["dataset"] = "Precipitation"
         data = get_compare_data("precip_compare", request_parameters)
         location = str(parameters['stationID'])
         html = create_output_page(model, model, data, "Precipitation", location)
@@ -183,11 +188,11 @@ def get_compare_data(model, parameters):
     """
     url = ""
     if model == "precip_compare":
-        # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
+        url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
         # url = 'http://localhost:52569/api/workflow/compare'                              # local VS HMS
         # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
+        #url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
     elif model == "runoff_compare":
         # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal

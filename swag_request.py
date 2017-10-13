@@ -20,9 +20,12 @@ class SwagRequest:
         self.target_url = target_url
         self.parameters = parameters
         self.method = self.valid_methods(method)
-        self.request_object = {}
-        if method == "POST":
+        if method.upper() == "POST":
+            self.request_object = {}
             self.construct_post_request(self.get_target_schema())
+        elif method.upper() == "GET":
+            self.request_object = ""
+            self.construct_get_query_string(self.get_target_schema())
         else:
             # TODO: Implement construction methods for other HTTP methods
             raise NotImplemented
@@ -86,6 +89,41 @@ class SwagRequest:
         reference_parts = ref.split('#')[1].split('/')
         return self.swagger_docs[reference_parts[1]][reference_parts[2]]
 
+    def construct_get_query_string(self, schema):
+        if len(self.parameters) == 0:
+            return ""
+        if "properties" in schema:
+            params = []
+            param_keys = [k.lower() for k in list(self.parameters.keys())]
+            for item in schema["properties"].items():
+                if item[0].lower() in param_keys:
+                    if "type" in item[1]:
+                        key = self.parameter_in_keys(self.parameters, item[0])
+                        params.append(item[0] + "=" + self.parameters[key])
+                    elif "$ref" in item[1]:
+                        params.append(self.construct_get_query_string_recur(self.get_definition(item[1]["$ref"])))
+                elif "$ref" in item[1]:
+                    params.append(self.construct_get_query_string_recur(self.get_definition(item[1]["$ref"])))
+                else:
+                    print(item[0] + " parameter not found in provided object.")
+            self.request_object = str(params).replace(',', '&')
+
+    def construct_get_query_string_recur(self, schema):
+        params = []
+        for item in schema["properties"].items():
+            param_keys = [k.lower() for k in list(self.parameters.keys())]
+            if item[0].lower() in param_keys:
+                if "type" in item[1]:
+                    key = self.parameter_in_keys(self.parameters, item[0])
+                    params.append(item[0] + "=" + str(self.parameters[key]))
+                elif "$ref" in item[1]:
+                    params.append(item[0] + "=" + self.construct_post_request_recur(self.get_definition(item[1]["$ref"])))
+            elif "$ref" in item[1]:
+                params.append(item[0] + "=" + self.construct_post_request_recur(self.get_definition(item[1]["$ref"])))
+            else:
+                print(item[0] + " parameter not found in provided object.")
+        return params
+
     def construct_post_request(self, schema):
         """
         Construct POST request object from schema and parameters dictionary.
@@ -123,7 +161,10 @@ class SwagRequest:
             if item[0].lower() in param_keys:
                 if "type" in item[1]:
                     key = self.parameter_in_keys(self.parameters, item[0])
-                    params[item[0]] = str(self.parameters[key])
+                    if isinstance(self.parameters[key], dict):
+                        params[item[0]] = self.parameters[key]
+                    else:
+                        params[item[0]] = str(self.parameters[key])
                 elif "$ref" in item[1]:
                     params[item[0]] = self.construct_post_request_recur(self.get_definition(item[1]["$ref"]))
             elif "$ref" in item[1]:
