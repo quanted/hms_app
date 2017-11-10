@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from .views import description, landing, hydrology_submodels, output, watershed_map
-from .views import runoff_compare_setup, precip_compare_setup, geometry_utils, api_doc
+from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -23,6 +23,7 @@ else:
         url(r'^runoff_compare/output/$', output.runoff_compare_output_page),
         url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
         url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
+        url(r'^water_quality/(?P<submodel>\w+)/$', water_quality_submodels.submodel_page),
         url(r'^watershed$', watershed_map.hms_map_page),
         url(r'^api_doc/$', api_doc.create_swagger_docs),
         url(r'^api_doc/swagger$', api_doc.get_swagger_json),

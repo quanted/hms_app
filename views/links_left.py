@@ -17,6 +17,7 @@ def ordered_list(model, submodel, page=None):
     link_dict = OrderedDict([
         ('Components', OrderedDict([
             ('Watershed Delineation', 'watershed'),
+            ('Meteorology', 'meteorology'),
             ('Hydrology', 'hydrology'),
             ('Water Quality', 'water_quality')
         ])),

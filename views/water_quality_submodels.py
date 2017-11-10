@@ -1,5 +1,5 @@
 """
-HMS Hydrology Submodel page functions
+HMS Water Quality page functions
 """
 
 from django.template.loader import render_to_string
@@ -8,25 +8,20 @@ from django.http import HttpResponse
 import os
 import importlib
 import hms_app.views.links_left as links_left
-import hms_app.models.hydrology.views as hydro
+import hms_app.models.water_quality.views as wq
 
-
-submodel_list = ['subsurfaceflow', 'evapotranspiration',
-                 'precipitation', 'soilmoisture',
-                 'surfacerunoff', 'temperature']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
     """
     Base function that constructs the HttpResponse page.
     :param request: Request object
-    :param submodel: 
+    :param submodel:
     :param header: Default set to none
     :return: HttpResponse object.
     """
-
     urlpath = request.path.split('/')
-    model = 'hydrology'
+    model = 'water_quality'
     submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
     html = build_submodel_page(request, model, submodel, header)
@@ -41,14 +36,8 @@ def get_submodel_header(submodel):
     :param submodel: Current submodel
     :return: header as a string
     """
-    submodelTitle = submodel.replace('_', ' ').title()
-    if (submodelTitle == "Soilmoisture"):
-        submodelTitle = "Soil Moisture"
-    elif (submodelTitle == "Subsurfaceflow"):
-        submodelTitle = "Subsurface Flow"
-    elif (submodelTitle == "Surfacerunoff"):
-        submodelTitle = "Surface Runoff"
-    return hydro.header + " - " + submodelTitle
+    submodel_title = submodel.replace('_', ' ').title()
+    return wq.header + " - " + submodel_title
 
 
 def get_submodel_description(submodel):
@@ -57,20 +46,10 @@ def get_submodel_description(submodel):
     :param submodel: Current submodel
     :return: submodel description as a string
     """
-    if (submodel == "subsurfaceflow"):
-        return hydro.subsurfaceflow_description
-    elif (submodel == "evapotranspiration"):
-        return hydro.evapotranspiration_description
-    elif (submodel == "precipitation"):
-        return hydro.precipitation_description
-    elif (submodel == "soilmoisture"):
-        return hydro.soilmoisture_description
-    elif (submodel == "surfacerunoff"):
-        return hydro.surfacerunoff_description
-    elif (submodel == "temperature"):
-        return hydro.temperature_description
+    if submodel == "photolysis":
+        return wq.photolysis
     else:
-        return hydro.unknown_description
+        return wq.description
 
 
 def build_submodel_page(request, model, submodel, header):
