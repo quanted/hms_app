@@ -109,9 +109,9 @@ class DegreeMinuteSecond(forms.MultiValueField, ):
 
     def __init__(self, *args, **kwargs):
         fields = (
-            forms.CharField(),
-            forms.CharField(),
-            forms.CharField(),
+            forms.CharField(required=False),
+            forms.CharField(required=False),
+            forms.CharField(required=False),
         )
         super(DegreeMinuteSecond, self).__init__(fields, require_all_fields=False, *args, **kwargs)
 
