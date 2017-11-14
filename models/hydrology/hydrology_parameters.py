@@ -1,20 +1,18 @@
 """
 HMS Hydrology Submodule Input form parameters
-
-form setup has not been merged to allow for ease of changes for specific submodules as needed.
 """
 
 from django import forms
 
 # Sources for Precipitation
-PRECIP_SOURCE_OPTIONS = (('nldas','nldas'),('gldas','gldas'),('daymet','daymet'), ('wgen', 'wgen'))
+PRECIP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'))
 
 # Standard List of sources
-STANDARD_SOURCE_OPTIONS = (('nldas','nldas'),('nldas','nldas'))
+STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('nldas', 'nldas'))
 
 # Allowed Date formats for django form
-DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y','%m/%d/%Y', '%m/%d/%y', '%b %d %Y', '%b %d, %Y',
-                      '%d %b %Y', '%d %b, %Y', '%B %d %Y', '%B %d, %Y', '%d %B %Y', '%d %B, %Y' )
+DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y', '%m/%d/%Y', '%m/%d/%y', '%b %d %Y', '%b %d, %Y',
+                      '%d %b %Y', '%d %b, %Y', '%B %d %Y', '%B %d, %Y', '%d %B %Y', '%d %B, %Y')
 
 
 class HydrologyFormInput(forms.Form):
@@ -139,15 +137,6 @@ class SoilmoistureFormInput(HydrologyFormInput):
     Input form fields for soil moisture data.
     default fields taken from HydrologyFormInput
     """
-    # layers = forms.ChoiceField(
-    #     widget=forms.Select(attrs={
-    #         'title': 'Please select the desired soil moisture depth.'
-    #     }),
-    #     label='Layer Depth',
-    #     choices=(('0-10', '0-10cm'), ('10-40', '10-40cm'),
-    #              ('40-100', '40-100cm'), ('100-200', '100-200cm'),
-    #              ('0-100', '0-100cm'), ('0-200', '0-200cm'))
-    # )
     layers = forms.MultipleChoiceField(
         widget=forms.SelectMultiple(attrs={
             'title': 'Please select the desired soil moisture depth.'
@@ -169,7 +158,7 @@ class SurfacerunoffFormInput(HydrologyFormInput):
            'title': 'Data source of the dataset.'
         }),
         label='Source',
-        choices= (('NLDAS','NLDAS'),('GLDAS','GLDAS'), ('curvenumber', 'Curve Number')),
+        choices=(('NLDAS', 'NLDAS'), ('GLDAS', 'GLDAS'), ('curvenumber', 'Curve Number')),
         initial='NLDAS'
     )
 
