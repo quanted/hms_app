@@ -196,11 +196,12 @@ def create_output_page(model, submodel, data, input):
         'TITLE': "HMS " + model,
         'LABEL': submodel
     })
+    # HMS water quality imports html
+    html += render_to_string('03hms_waterquality_imports.html', {})
+
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
-    # HMS water quality imports html
-    html += render_to_string('03hms_waterquality_imports.html', {})
 
     # Generates html for metadata and data tables.
     """
