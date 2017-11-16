@@ -144,7 +144,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     if form.is_valid():
         parameters = form.cleaned_data
         parameters['source'] = 'compare'
-        data = get_compare_data("runoff_compare",parameters)
+        data = get_compare_data("runoff_compare", parameters)
         location = ""
         html = create_output_page(model, model, data, "Surface Runoff", location)
     else:
@@ -190,15 +190,15 @@ def get_compare_data(model, parameters):
     if model == "precip_compare":
         # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-        # url = 'http://localhost:60049/api/Precipitation/'                              # local VS HMS
+        # url = 'http://localhost:60049/api/workflow/compare'                              # local VS HMS
         # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/Precipitation'   # HMS backend server variable
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
     elif model == "runoff_compare":
         # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
         # url = 'http://localhost:60049/api/LandSurfaceFlow/'                                       # local VS HMS
         # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/LandSurfaceFlow/'  # HMS backend server variable
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
