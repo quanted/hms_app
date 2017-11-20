@@ -161,7 +161,7 @@ def get_data(submodel, parameters):
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
-    if bool(os.environ['HMS_LOCAL']) is True:
+    if os.environ['HMS_LOCAL'] == "True":
         # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
         url = 'http://localhost:60049/api/' + submodel                                  # local VS HMS
@@ -190,7 +190,7 @@ def get_compare_data(model, parameters):
     """
     url = ""
     if model == "precip_compare":
-        if bool(os.environ['HMS_LOCAL']) is True:
+        if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
             url = 'http://localhost:60049/api/workflow/compare'                                 # local VS HMS
@@ -198,7 +198,7 @@ def get_compare_data(model, parameters):
         else:
             url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'     # HMS backend server variable
     elif model == "runoff_compare":
-        if bool(os.environ['HMS_LOCAL']) is True:
+        if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
             url = 'http://localhost:60049/api/workflow/compare'                                       # local VS HMS

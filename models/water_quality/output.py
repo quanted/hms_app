@@ -163,7 +163,7 @@ def get_data(model, parameters):
     """
     url = ""
     if model == "photolysis":
-        if bool(os.environ['HMS_LOCAL']) is True:
+        if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/WSSolar/run'                                 # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
             url = 'http://localhost:60049/api/WSSolar/run'                                    # local VS HMS
