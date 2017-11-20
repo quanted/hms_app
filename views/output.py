@@ -161,11 +161,13 @@ def get_data(submodel, parameters):
     :param parameters: Dictionary containing the parameters.
     :return: object constructed from json.loads()
     """
-    # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
-    # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
-    # url = 'http://localhost:60049/api/' + submodel                                  # local VS HMS
-    # url = 'http://localhost:7777/rest/hms/'                                       # local flask
-    url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
+    if bool(os.environ['HMS_LOCAL']) is True:
+        # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
+        # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
+        url = 'http://localhost:60049/api/' + submodel                                  # local VS HMS
+        # url = 'http://localhost:7777/rest/hms/'                                       # local flask
+    else:
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
     print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
@@ -188,17 +190,21 @@ def get_compare_data(model, parameters):
     """
     url = ""
     if model == "precip_compare":
-        # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
-        # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-        # url = 'http://localhost:60049/api/workflow/compare'                              # local VS HMS
-        # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'   # HMS backend server variable
+        if bool(os.environ['HMS_LOCAL']) is True:
+            # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
+            # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
+            url = 'http://localhost:60049/api/workflow/compare'                                 # local VS HMS
+            # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
+        else:
+            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'     # HMS backend server variable
     elif model == "runoff_compare":
-        # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
-        # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
-        # url = 'http://localhost:60049/api/LandSurfaceFlow/'                                       # local VS HMS
-        # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
+        if bool(os.environ['HMS_LOCAL']) is True:
+            # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
+            # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
+            url = 'http://localhost:60049/api/workflow/compare'                                       # local VS HMS
+            # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
+        else:
+            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
@@ -236,6 +242,8 @@ def create_output_page(model, submodel, data, dataset, location):
     """
      Columns setup and ordering logic. Keys are checked for numerical value, which is used as the new key for the dict.
     """
+    # sources = data["dataSource"].split(', ')
+
     try:
         columns = {}
         ncolumns = 0

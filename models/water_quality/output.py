@@ -163,11 +163,13 @@ def get_data(model, parameters):
     """
     url = ""
     if model == "photolysis":
-        # url = 'http://134.67.114.8/HMSWS/api/WSSolar/run'                                 # server 8 HMS, external
-        # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-        # url = 'http://localhost:60049/api/WSSolar/run'  # local VS HMS
-        # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSSolar/run'        # HMS backend server variable
+        if bool(os.environ['HMS_LOCAL']) is True:
+            # url = 'http://134.67.114.8/HMSWS/api/WSSolar/run'                                 # server 8 HMS, external
+            # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
+            url = 'http://localhost:60049/api/WSSolar/run'                                    # local VS HMS
+            # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
+        else:
+            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSSolar/run'        # HMS backend server variable
     try:
         result = requests.post(str(url), json=json.loads(parameters), timeout=10000)
     except requests.exceptions.RequestException as e:
