@@ -16,10 +16,13 @@ def get_model_header(model):
     :param model: current model
     :return: string containing the model's header
     """
-    model_views_location = 'hms_app.models.' + model + '.views'
-    viewmodule = importlib.import_module(model_views_location)
-    header = viewmodule.header
-    return header
+    try:
+        model_views_location = 'hms_app.models.' + model + '.views'
+        viewmodule = importlib.import_module(model_views_location)
+        header = viewmodule.header
+        return header
+    except ModuleNotFoundError as e:
+        return model.title() + " not currently available."
 
 
 def get_model_description(model):
@@ -28,10 +31,13 @@ def get_model_description(model):
     :param model: current model
     :return: string containing the model's description.
     """
-    model_views_location = 'hms_app.models.' + model + '.views'
-    viewmodule = importlib.import_module(model_views_location)
-    description = viewmodule.description
-    return description
+    try:
+        model_views_location = 'hms_app.models.' + model + '.views'
+        viewmodule = importlib.import_module(model_views_location)
+        description = viewmodule.description
+        return description
+    except ModuleNotFoundError as e:
+        return model.title() + " module is currently in development and is not available."
 
 
 def description_page(request, model, header='none'):
