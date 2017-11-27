@@ -60,7 +60,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
         # target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel
         # swaggernurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
         # request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=swaggernurl)
-        data = get_data(submodel, request_parameters)
+        data = get_data(model, submodel, request_parameters)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)
     else:
@@ -154,7 +154,7 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
     return response
 
 
-def get_data(submodel, parameters):
+def get_data(model, submodel, parameters):
     """
     Performs the POST call to the HMS backend server for data retrieval.
     :param submodel: submodel of requested data
@@ -164,10 +164,10 @@ def get_data(submodel, parameters):
     if os.environ['HMS_LOCAL'] == "True":
         # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
-        url = 'http://localhost:60049/api/' + submodel                                  # local VS HMS
+        url = 'http://localhost:60049/api/' + model + '/' + submodel                                  # local VS HMS
         # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     else:
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel    # HMS backend server variable
+        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel    # HMS backend server variable
     print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)

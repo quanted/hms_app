@@ -105,9 +105,9 @@ photolysis_default = {
 
 
 @require_POST
-def water_quality_output(request, model='water_quality', submodel='', header=''):
+def water_quality_output(request, model='water-quality', submodel='', header=''):
     parameters = json.dumps({"input": construct_dictionary(submodel, request.POST.dict())})
-    data = get_data(submodel, parameters)
+    data = get_data(model, submodel, parameters)
     html = create_output_page(model, submodel, data, parameters)
     response = HttpResponse()
     response.write(html)
@@ -115,9 +115,9 @@ def water_quality_output(request, model='water_quality', submodel='', header='')
 
 
 @require_POST
-def water_quality_json_output(request, model='water_quality', submodel='', header=''):
+def water_quality_json_output(request, model='water-quality', submodel='', header=''):
     parameters = request.POST["json_input"]
-    data = get_data(submodel, parameters)
+    data = get_data(model, submodel, parameters)
     html = create_output_page(model, submodel, data, parameters)
     response = HttpResponse()
     response.write(html)
@@ -154,7 +154,7 @@ def construct_dictionary(submodule, parameters):
     return valid_parameters
 
 
-def get_data(model, parameters):
+def get_data(model, submodel, parameters):
     """
     Performs the POST call to the HMS backend server for retrieving comparision data.
     :param model: comparision model to compare
@@ -162,14 +162,14 @@ def get_data(model, parameters):
     :return: object constructed from json.loads()
     """
     url = ""
-    if model == "photolysis":
+    if submodel == "photolysis":
         if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/WSSolar/run'                                 # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-            url = 'http://localhost:60049/api/WSSolar/run'                                    # local VS HMS
+            url = 'http://localhost:60049/api/' + model + '/solar/run'                                    # local VS HMS
             # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
         else:
-            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSSolar/run'        # HMS backend server variable
+            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/solar/run'        # HMS backend server variable
     try:
         result = requests.post(str(url), json=json.loads(parameters), timeout=10000)
     except requests.exceptions.RequestException as e:
