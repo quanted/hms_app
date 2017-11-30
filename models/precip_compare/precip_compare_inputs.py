@@ -15,7 +15,7 @@ def precip_compare_input_page(request, model='', header='', form_data=None):
     :param form_data: Set to None
     :return: string formatted as html
     """
-    html = render_to_string('04hms_input_jquery.html', {})
+    html = render_to_string('04hms_js_imports.html', {})
     html += render_to_string('04hms_input_start_drupal.html', {
         'MODEL': model,
         'TITLE': "",
