@@ -37,23 +37,37 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
-
-        request_parameters = {
-            "source": str(parameters['source']).lower(),
-            "dateTimeSpan": {
-                "startDate": str(parameters['startDate']),
-                "endDate": str(parameters['endDate'])
-            },
-            "geometry": {
-                "point": {
-                    "latitude": str(parameters['latitude']),
-                    "longitude": str(parameters['longitude'])
+        if parameters["source"] == "ncdc":
+            request_parameters = {
+                "source": str(parameters['source']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate'])
                 },
-                "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
-            },
-            "temporalResolution": str(parameters['temporalresolution']),
-            "timeLocalized": str(parameters['timelocalized'])
-        }
+                "geometry": {
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                },
+                "temporalResolution": str(parameters['temporalresolution']),
+                "timeLocalized": str(parameters['timelocalized'])
+            }
+            request_parameters["geometry"]["geometryMetadata"]["stationID"] = str(parameters["stationID"])
+        else:
+            request_parameters = {
+                "source": str(parameters['source']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate'])
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                },
+                "temporalResolution": str(parameters['temporalresolution']),
+                "timeLocalized": str(parameters['timelocalized'])
+            }
         if "soilmoisture" in submodel:
             request_parameters["layers"] = parameters["layers"]
 
