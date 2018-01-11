@@ -16,17 +16,17 @@ def ordered_list(model, submodel, page=None):
     """
     link_dict = OrderedDict([
         ('Components', OrderedDict([
-            ('Watershed Delineation', 'watershed'),
-            ('Meteorology', 'meteorology'),
-            ('Hydrology', 'hydrology'),
-            ('Water Quality', 'water_quality')
+            ('Watershed Delineation', 'watershed/'),
+            ('Meteorology', 'meteorology/'),
+            ('Hydrology', 'hydrology/'),
+            ('Water Quality', 'water_quality/')
         ])),
         ('Utilities', OrderedDict([
-            ('API Documentation', 'api_doc')
+            ('API Documentation', 'api_doc/')
         ])),
         ('Work Flows', OrderedDict([
-            ('Precipitation Compare', 'precip_compare'),
-            ('Runoff Compare', 'runoff_compare'), ])),
+            ('Precipitation Compare', 'precip_compare/'),
+            ('Runoff Compare', 'runoff_compare/'), ])),
     ])
 
     if model == "watershed":

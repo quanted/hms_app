@@ -35,19 +35,19 @@ else:
 
         # django 2.0
         path('', landing.hms_landing_page),
-        path('precip_compare', precip_compare_setup.input_page),
-        path('precip_compare/output', output.precip_compare_output_page),
-        path('runoff_compare', runoff_compare_setup.input_page),
-        path('runoff_compare/output', output.runoff_compare_output_page),
-        path('hydrology/<slug:submodel>', hydrology_submodels.submodel_page),
-        path('hydrology/<slug:submodel>/output', output.hydrology_output_page),
-        path('water_quality/<slug:submodel>', water_quality_submodels.submodel_page),
-        path('water_quality/<slug:submodel>/output', wq_output.water_quality_output),
-        path('water_quality/<slug:submodel>/output/json', wq_output.water_quality_json_output),
-        path('watershed', watershed_map.hms_map_page),
-        path('api_doc', api_doc.create_swagger_docs),
-        path('api_doc/swagger', api_doc.get_swagger_json),
-        path('<slug:model>', description.description_page),
+        path('precip_compare/', precip_compare_setup.input_page),
+        path('precip_compare/output/', output.precip_compare_output_page),
+        path('runoff_compare/', runoff_compare_setup.input_page),
+        path('runoff_compare/output/', output.runoff_compare_output_page),
+        path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
+        path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
+        path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
+        path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
+        path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
+        path('watershed/', watershed_map.hms_map_page),
+        path('api_doc/', api_doc.create_swagger_docs),
+        path('api_doc/swagger/', api_doc.get_swagger_json),
+        path('<slug:model>/', description.description_page),
     ]
 
 # 404 Error view (file not found)
