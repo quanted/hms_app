@@ -29,12 +29,10 @@ def get_swagger_json(request):
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
     if os.environ['HMS_LOCAL'] == "True":
-        # swagger["host"] = "localhost:60049"
-        swagger["host"] = "localhost:7777/hms"
+        swagger["host"] = "127.0.0.1:8000/hms/rest"
     else:
         # swagger["host"] = str(os.environ.get('HMS_BACKEND_SERVER'))  # changes internal ip to external ip
-        swagger["host"] = "qedinternal.epa.gov/hms"
-        # swagger["host"] = "134.67.114.8"
+        swagger["host"] = "qedinternal.epa.gov/hms/rest"
     # swagger["schemes"] = ["https"]
     response = HttpResponse()
     response.write(json.dumps(swagger))

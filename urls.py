@@ -1,10 +1,11 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.conf import settings
 from django.conf.urls import include, url
-from django.urls import path
+from django.urls import path, re_path
 from .views import description, landing, hydrology_submodels, output, watershed_map
 from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc
 from .models.water_quality import output as wq_output
+from . import hms_rest_api
 
 if settings.IS_PUBLIC:
     urlpatterns = [
@@ -48,6 +49,9 @@ else:
         path('api_doc/', api_doc.create_swagger_docs),
         path('api_doc/swagger/', api_doc.get_swagger_json),
         path('<slug:model>/', description.description_page),
+
+        path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
+        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy)
     ]
 
 # 404 Error view (file not found)
