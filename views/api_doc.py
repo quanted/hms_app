@@ -33,6 +33,7 @@ def get_swagger_json(request):
     else:
         # swagger["host"] = str(os.environ.get('HMS_BACKEND_SERVER'))  # changes internal ip to external ip
         swagger["host"] = "qedinternal.epa.gov/hms/rest"
+        swagger["basePath"] = ""
     # swagger["schemes"] = ["https"]
     response = HttpResponse()
     response.write(json.dumps(swagger))
