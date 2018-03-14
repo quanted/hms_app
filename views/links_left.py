@@ -37,6 +37,14 @@ def ordered_list(model, submodel, page=None):
                                     'SUBMODEL': submodel,
                                     'PAGE': page
                                 })
+    elif model == "workflow":
+        return render_to_string('03hms_workflow_links_left.html',
+                                {
+                                    'LINK_DICT': link_dict,
+                                    'MODEL': model,
+                                    'SUBMODEL': submodel,
+                                    'PAGE': page
+                                })
     else:
         return render_to_string('03ubertext_links_left_drupal_hms.html',
                                 {
