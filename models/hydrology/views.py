@@ -82,3 +82,5 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " ratio of actual to potential retention. </p>" \
 
 temperature_description = "<p>Temperature module under development.</p>"
+
+flowrouting_description = "<p>Flow Routing module under development.</p>"

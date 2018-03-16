@@ -13,7 +13,7 @@ import hms_app.models.hydrology.views as hydro
 
 submodel_list = ['subsurfaceflow', 'evapotranspiration',
                  'precipitation', 'soilmoisture',
-                 'surfacerunoff', 'temperature']
+                 'surfacerunoff', 'temperature', 'flowrouting']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -48,6 +48,8 @@ def get_submodel_header(submodel):
         submodelTitle = "Subsurface Flow"
     elif (submodelTitle == "Surfacerunoff"):
         submodelTitle = "Surface Runoff"
+    elif (submodelTitle == "flowrouting"):
+        submodelTitle = "Flow Routing"
     return hydro.header + " - " + submodelTitle
 
 
@@ -69,6 +71,8 @@ def get_submodel_description(submodel):
         return hydro.surfacerunoff_description
     elif (submodel == "temperature"):
         return hydro.temperature_description
+    elif (submodel == "flowrouting"):
+        return hydro.flowrouting_description
     else:
         return hydro.unknown_description
 

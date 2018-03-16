@@ -60,5 +60,7 @@ def get_submodel_form_input(submodel, form_data):
         return hp.SurfacerunoffFormInput(form_data)
     elif (submodel == 'temperature'):
         return hp.TemperatureFormInput(form_data)
+    elif (submodel == 'flowrouting'):
+        return hp.FlowroutingFormInput(form_data)
     else:
         return ''
