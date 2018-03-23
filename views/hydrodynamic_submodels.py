@@ -1,5 +1,5 @@
 """
-HMS Hydrology Submodel page functions
+HMS Hydrodynamic Submodel page functions
 """
 
 from django.template.loader import render_to_string
@@ -8,25 +8,24 @@ from django.http import HttpResponse
 import os
 import importlib
 import hms_app.views.links_left as links_left
-import hms_app.models.hydrology.views as hydro
+import hms_app.models.hydrodynamic.views as hydro_d
 
 
-submodel_list = ['subsurfaceflow', 'evapotranspiration',
-                 'precipitation', 'soilmoisture',
-                 'surfacerunoff', 'temperature']
+submodel_list = ['constantvolume', 'changingvolume',
+                 'kinematicwave']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
     """
     Base function that constructs the HttpResponse page.
     :param request: Request object
-    :param submodel: 
+    :param submodel:
     :param header: Default set to none
     :return: HttpResponse object.
     """
 
     urlpath = request.path.split('/')
-    model = 'hydrology'
+    model = 'hydrodynamic'
     submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
     html = build_submodel_page(request, model, submodel, header)
@@ -42,13 +41,13 @@ def get_submodel_header(submodel):
     :return: header as a string
     """
     submodelTitle = submodel.replace('_', ' ').title()
-    if (submodelTitle == "Soilmoisture"):
-        submodelTitle = "Soil Moisture"
-    elif (submodelTitle == "Subsurfaceflow"):
-        submodelTitle = "Subsurface Flow"
-    elif (submodelTitle == "Surfacerunoff"):
-        submodelTitle = "Surface Runoff"
-    return hydro.header + " - " + submodelTitle
+    if (submodelTitle == "constantvolume"):
+        submodelTitle = "Constant Volume"
+    elif (submodelTitle == "changingvolume"):
+        submodelTitle = "Changing Volume"
+    elif (submodelTitle == "kinematicwave"):
+        submodelTitle = "Kinematic Wave"
+    return hydro_d.header + " - " + submodelTitle
 
 
 def get_submodel_description(submodel):
@@ -57,20 +56,14 @@ def get_submodel_description(submodel):
     :param submodel: Current submodel
     :return: submodel description as a string
     """
-    if (submodel == "subsurfaceflow"):
-        return hydro.subsurfaceflow_description
-    elif (submodel == "evapotranspiration"):
-        return hydro.evapotranspiration_description
-    elif (submodel == "precipitation"):
-        return hydro.precipitation_description
-    elif (submodel == "soilmoisture"):
-        return hydro.soilmoisture_description
-    elif (submodel == "surfacerunoff"):
-        return hydro.surfacerunoff_description
-    elif (submodel == "temperature"):
-        return hydro.temperature_description
+    if (submodel == "constantvolume"):
+        return hydro_d.constantvolume_description
+    elif (submodel == "changingvolume"):
+        return hydro_d.changingvolume_description
+    elif (submodel == "kinematicwave"):
+        return hydro_d.kinematicwave_description
     else:
-        return hydro.unknown_description
+        return hydro_d.unknown_description
 
 
 def build_submodel_page(request, model, submodel, header):

@@ -179,10 +179,3 @@ class TemperatureFormInput(HydrologyFormInput):
     Input form fields for temperature data.
     default fields taken from HydrologyFormInput
     """
-
-class FlowroutingFormInput(HydrologyFormInput):
-    """
-    Input form fields for temperature data.
-    default fields taken from HydrologyFormInput
-    need to update with flow routing relevant form
-    """

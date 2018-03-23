@@ -19,6 +19,7 @@ def ordered_list(model, submodel, page=None):
             ('Watershed Delineation', 'watershed/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
+            ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
         ('Utilities', OrderedDict([

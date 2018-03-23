@@ -83,4 +83,3 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
 
 temperature_description = "<p>Temperature module under development.</p>"
 
-flowrouting_description = "<p>Flow Routing module under development.</p>"
