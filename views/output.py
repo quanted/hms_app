@@ -84,6 +84,65 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     return response
 
 
+@require_POST
+def meteorology_output_page(request, model='meteorology', submodel='', header=''):
+    """
+    Default meteorology output page function, constructs complete output page
+    :param request: Request object
+    :param model: set to 'hydrology'
+    :param submodel: string of the specific submodel that made the call to the output page
+    :param header: default header
+    :return: HttpResponse object
+    """
+    model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
+    parametersmodule = importlib.import_module(model_parameters_location)
+    input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
+    form = input_form(request.POST, request.FILES)
+    if form.is_valid():
+        parameters = form.cleaned_data
+        if parameters["model"] == "year":
+            request_parameters = {
+                "model": str(parameters['model']).lower(),
+                "localTime": str(parameters['local_time']),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['year'] + "-01-01"),
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "timezone": {
+                        "offset": str(parameters['timezone'])
+                    }
+                }
+            }
+        else:
+            request_parameters = {
+                "model": str(parameters['model']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['date']),
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "timezone": {
+                        "offset": str(parameters['timezone'])
+                    }
+                }
+            }
+        data = get_data(model, "solar", request_parameters)
+        location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
+        html = create_meteorology_output_page(model, submodel, data, submodel.capitalize(), location)
+    else:
+        html = hydrology_input_page_errors(request, model, submodel, header, form=form)
+    response = HttpResponse()
+    response.write(html)
+    return response
+
+
 def set_geometry_metadata(form_data):
     if form_data == '':
         return {}
@@ -178,10 +237,11 @@ def get_data(model, submodel, parameters):
     if os.environ['HMS_LOCAL'] == "True":
         # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
-        url = 'http://localhost:60049/api/' + model + '/' + submodel                                  # local VS HMS
+        url = 'http://localhost:60049/api/' + model + '/' + submodel  # local VS HMS
         # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     else:
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel    # HMS backend server variable
+        url = str(os.environ.get(
+            'HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
     print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
@@ -207,18 +267,20 @@ def get_compare_data(model, parameters):
         if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
-            url = 'http://localhost:60049/api/workflow/compare'                                 # local VS HMS
+            url = 'http://localhost:60049/api/workflow/compare'  # local VS HMS
             # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
         else:
-            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'     # HMS backend server variable
+            url = str(
+                os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
     elif model == "runoff_compare":
         if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
-            url = 'http://localhost:60049/api/workflow/compare'                                       # local VS HMS
+            url = 'http://localhost:60049/api/workflow/compare'  # local VS HMS
             # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
         else:
-            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
+            url = str(
+                os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
@@ -270,12 +332,12 @@ def create_output_page(model, submodel, data, dataset, location):
             for key in data["metadata"]:
                 if "timeseries_" in key:
                     k = key.split('_')
-                    columns[str(k[len(k)-1])] = data["metadata"][key]
-        if "date/time" not in columns.keys() and "Date/Time" not in columns.keys() and len(columns)-1 != ncolumns:
+                    columns[str(k[len(k) - 1])] = data["metadata"][key]
+        if "date/time" not in columns.keys() and "Date/Time" not in columns.keys() and len(columns) - 1 != ncolumns:
             columns["0"] = "Date/Time"
         if len(columns) == 1:
             columns["1"] = "Data"
-        columns = [value for (key, value) in sorted(columns.items())]           # Sorts values by key.
+        columns = [value for (key, value) in sorted(columns.items())]  # Sorts values by key.
         # -------------------------- #
         stats = []
         dcolumns = columns[1:len(columns)]
@@ -308,25 +370,6 @@ def create_output_page(model, submodel, data, dataset, location):
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-
-
-# OBSOLETE
-def spatial_parameter_check(parameters, uploadedFile):
-    """
-    Checks the parameters dictionary for all spatial parameters that are empty and removes them from the parameters list.
-    :param parameters: django form inputs
-    :return: dictionary of parameters
-    """
-    cleaned_parameters = parameters
-    if uploadedFile is not None:
-        if cleaned_parameters["geojson_file"] is not None:
-            cleaned_parameters["geojson"] = uploadedFile.read()
-            cleaned_parameters["geojson_file"] = None
-
-    for key in list(parameters.keys()):
-        if cleaned_parameters[key] is None or cleaned_parameters[key] is u'':
-            del cleaned_parameters[key]
-    return cleaned_parameters
 
 
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
@@ -406,3 +449,43 @@ def compare_input_page_errors(request, model='', header='', form=''):
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
+
+def create_meteorology_output_page(model, submodel, data, dataset, location):
+    """
+    Generates the html for the meteorology output page.
+    :param model: model of the data
+    :param submodel: submodel of the data
+    :param data: json object of the data
+    :param dataset: dataset name, may be the same as submodel
+    :param location: geographic location of request, used for labeling
+    :return: string structured as html.
+    """
+    label = dataset + ": " + location
+    html = render_to_string('01hms_output_header.html', {
+        'SITE_SKIN': os.environ['SITE_SKIN'],
+        'TITLE': "HMS " + model,
+        'LABEL': label
+    })
+    html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
+    html += render_to_string('03epa_drupal_section_title.html', {})
+
+    html += render_to_string('04hms_met_output.html', {
+        'MODEL': model,
+        'SUBMODEL': submodel,
+        'TITLE': "HMS " + model.replace('_', ' ').title(),
+        'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
+        'DATA_ROWS': data['data'],
+        'DATA': data,
+        'METADATA': data['metadata'],
+        'DATASET': dataset,
+        'LABEL': label
+    })
+
+    # Generates html for links left
+    html += render_to_string('07ubertext_end_drupal.html', {})
+    html += links_left.ordered_list(model, submodel)
+
+    html += render_to_string('09epa_drupal_ubertool_css.html', {})
+    html += render_to_string('10epa_drupal_footer.html', {})
+    html += render_to_string('04hms_met_output_imports.html', {})
+    return html

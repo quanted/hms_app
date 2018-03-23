@@ -10,7 +10,7 @@ servers = ["https://qedinternal.epa.gov/hms/", "http://127.0.0.1:8000/hms/"]
 # TODO: replace pages array with page from hms
 pages = ["", "watershed", "hydrology", "hydrology/evapotranspiration", "hydrology/precipitation",
          "hydrology/soilmoisture", "hydrology/subsurfaceflow", "hydrology/surfacerunoff", "hydrology/temperature",
-         "water_quality", "api_doc", "precip_compare", "runoff_compare"]
+         "hydrology/flowrouting", "water_quality", "api_doc", "precip_compare", "runoff_compare"]
 
 # TODO: replace api_endpoints array with endpoints from hms
 api_endpoints = [# "https://cyan.epa.gov/cyan/cyano/location/data/28.6138/-81.6227/2017-12-08",

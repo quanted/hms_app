@@ -16,21 +16,30 @@ def ordered_list(model, submodel, page=None):
     """
     link_dict = OrderedDict([
         ('Components', OrderedDict([
-            ('Watershed Delineation', 'watershed'),
-            ('Meteorology', 'meteorology'),
-            ('Hydrology', 'hydrology'),
-            ('Water Quality', 'water_quality')
+            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Meteorology', 'meteorology/'),
+            ('Hydrology', 'hydrology/'),
+            ('Hydrodynamics', 'hydrodynamic/'),
+            ('Water Quality', 'water_quality/')
         ])),
         ('Utilities', OrderedDict([
-            ('API Documentation', 'api_doc')
+            ('API Documentation', 'api_doc/')
         ])),
         ('Work Flows', OrderedDict([
-            ('Precipitation Compare', 'precip_compare'),
-            ('Runoff Compare', 'runoff_compare'), ])),
+            ('Precipitation Compare', 'precip_compare/'),
+            ('Runoff Compare', 'runoff_compare/'), ])),
     ])
 
     if model == "watershed":
         return render_to_string('03hms_collapsible_links_left.html',
+                                {
+                                    'LINK_DICT': link_dict,
+                                    'MODEL': model,
+                                    'SUBMODEL': submodel,
+                                    'PAGE': page
+                                })
+    elif model == "workflow":
+        return render_to_string('03hms_workflow_links_left.html',
                                 {
                                     'LINK_DICT': link_dict,
                                     'MODEL': model,

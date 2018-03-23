@@ -8,8 +8,8 @@ from django.conf import settings
 
 
 def hms_map_page(request):
-    x = render_to_string('hms_watershed_map.html')
-
+    # x = render_to_string('hms_watershed_map.html')
+    x = render_to_string('hms_workflow_map.html')
     """ Returns the html of the landing page for qed. """
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
@@ -20,19 +20,20 @@ def hms_map_page(request):
     # html += render_to_string('03epa_drupal_section_title.html', {})
     html += render_to_string('03hms_section_title.html', {})
 
-
     # html += render_to_string('04ubertext_start_index_drupal.html', {
     #     'TITLE': 'HMS Watershed Delineation',
     #     'TEXT_PARAGRAPH': x})
+
     html += render_to_string('04hms_start_drupal.html', {
-        'TITLE': 'HMS Watershed Delineation',
+        'TITLE': 'HMS Watershed Workflow',
         'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04ubertext_end_drupal.html', {})
 
     # Left side links
     # html += render_to_string('07ubertext_end_drupal.html', {})
-    html += links_left.ordered_list(model='watershed', submodel='')
+    # html += links_left.ordered_list(model='watershed', submodel='')
+    html += links_left.ordered_list(model='workflow', submodel='')
 
     html += render_to_string('09epa_drupal_splashscripts.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})

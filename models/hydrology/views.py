@@ -2,7 +2,7 @@
 HMS Hydrology module content
 """
 
-header = 'HMS: Hydrology'
+header = 'HMS: hydrology'
 
 description = "<p>The hydrological cycle is the largest movement of any substance on Earth's surface with most of the" \
               " movement of water occurring through precipitation and evaporation. Controlled by the sun's radiation," \
@@ -82,3 +82,4 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " ratio of actual to potential retention. </p>" \
 
 temperature_description = "<p>Temperature module under development.</p>"
+
