@@ -62,13 +62,19 @@ class ConstantvolumeFormInput(HydrodynamicFormInput):
     Input form fields for flow routing data.
     default fields taken from HydrodynamicFormInput
     """
+    volume = forms.FloatField(
+        widget=forms.NumberInput(attrs={
+            'title': 'Enter the volume [m3].'
+        }),
+        label='Volume',
+        initial=1
+    )
     modeldomain = forms.CharField(
         widget=forms.Textarea(attrs={
-            'title': 'Channel geometry and boundary conditions for each segment. Provide "," separated list with a '
-                     'new line for each segment. List should be ordered: Segment Length [m], Segment Bottom Width [m], '
-                     'Segment Depth [m], and Boundary Flow [m3/s]. Order first segment to last.',
+            'title': 'Boundary conditions for each segment. Provide "," separated list of the Boundary Flow [m3/s]  '
+                     '  for each day. Order first segment to last.',
         }),
-        label='Model Domain',
+        label='Boundary Flow',
         required=True
     )
 

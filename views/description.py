@@ -72,6 +72,8 @@ def get_page_html(model, header, description):
     })
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
+    html += render_to_string('04hms_mathjax.html', {})
+
     if settings.IS_PUBLIC:
         pass
     else:
