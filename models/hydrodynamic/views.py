@@ -37,8 +37,7 @@ constantvolume_description = "<p>Constant volume flow routing is the simplest of
                              " throughout the entire system instantaneously. Volume, velocity, and depth " \
                              " do not change with flow adjustments. By applying the conservation of mass to the " \
                              " channel system you get: </p>" \
-                               '<img src="/static_qed/hms/images/constant_volume_temp.png" alt="Constant Flow ' \
-                             ' Schematic" style="">'
+
 
 
 changingvolume_description = "<p>For the changing volume routing option, flow is propagated instantaneously as it is " \
