@@ -56,7 +56,7 @@ else:
 
         path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
         re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
-        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
+        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy)
     ]
 
 # 404 Error view (file not found)
