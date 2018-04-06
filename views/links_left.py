@@ -14,12 +14,32 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
+    # link_dict = OrderedDict([
+    #     ('Components', OrderedDict([
+    #         ('Watershed Workflow', 'watershed_workflow/'),
+    #         ('Meteorology', 'meteorology/'),
+    #         ('Hydrology', 'hydrology/'),
+    #         ('Hydrodynamics', 'hydrodynamic/'),
+    #         ('Water Quality', 'water_quality/')
+    #     ])),
+    #     ('Utilities', OrderedDict([
+    #         ('API Documentation', 'api_doc/')
+    #     ])),
+    #     ('Work Flows', OrderedDict([
+    #         ('Precipitation Compare', 'precip_compare/'),
+    #         ('Runoff Compare', 'runoff_compare/'), ])),
+    # ])
     link_dict = OrderedDict([
+        ('Hydrodynamics', OrderedDict([
+            ('Constant Volume', 'constant_volume/'),
+            ('Changing Volume', 'changing_volume/'),
+            ('Kinematic Wave', 'kinematic_wave/'),
+        ])),
         ('Components', OrderedDict([
             ('Watershed Workflow', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
-            ('Hydrodynamics', 'hydrodynamic/'),
+            # ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
         ('Utilities', OrderedDict([
