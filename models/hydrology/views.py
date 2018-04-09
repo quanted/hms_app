@@ -2,7 +2,7 @@
 HMS Hydrology module content
 """
 
-header = 'HMS: hydrology'
+header = 'HMS: Hydrology'
 
 description = "<p>The hydrological cycle is the largest movement of any substance on Earth's surface with most of the" \
               " movement of water occurring through precipitation and evaporation. Controlled by the sun's radiation," \

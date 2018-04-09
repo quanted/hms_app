@@ -42,7 +42,7 @@ else:
         path('runoff_compare/output/', output.runoff_compare_output_page),
         path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
         path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
-        path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
+        #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
         #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
         path('meteorology/<slug:submodel>/', meteorology_submodels.submodel_page),
         path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
@@ -58,9 +58,11 @@ else:
         re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
-        path('model/<slug:model>/<slug:submodule>', hms_model_router.landing_page),
-        # path('<slug:model>/<slug:submodule>/run', hms_model_router.run),
-        # path('<slug:model>/<slug:submodule>/qaqc', hms_model_router.qaqc)
+        #path('model/<slug:model>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
+        path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
+        #model/
     ]
 
 # 404 Error view (file not found)

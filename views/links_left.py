@@ -18,7 +18,7 @@ def ordered_list(model, submodel, page=None):
     #     ('Components', OrderedDict([
     #         ('Watershed Workflow', 'watershed_workflow/'),
     #         ('Meteorology', 'meteorology/'),
-    #         ('Hydrology', 'hydrology/'),
+    #         ('hydrology', 'hydrology/'),
     #         ('Hydrodynamics', 'hydrodynamic/'),
     #         ('Water Quality', 'water_quality/')
     #     ])),
@@ -29,11 +29,17 @@ def ordered_list(model, submodel, page=None):
     #         ('Precipitation Compare', 'precip_compare/'),
     #         ('Runoff Compare', 'runoff_compare/'), ])),
     # ])
+    print(page)
+
     link_dict = OrderedDict([
         ('Hydrodynamics', OrderedDict([
-            ('Constant Volume', 'constant_volume/'),
-            ('Changing Volume', 'changing_volume/'),
-            ('Kinematic Wave', 'kinematic_wave/'),
+            ('Overview', 'hydrodynamic/overview'),
+            ('Constant Volume', 'hydrodynamic/constant_volume'),
+            # OrderedDict([
+            #     ('Run Model', 'hydrodynamic/constant_volume/runmodel'),
+            #     ('Algorithms' 'hydrodynamic/constant_volume/algorithms')]),
+            ('Changing Volume', 'hydrodynamic/changing_volume'),
+            ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
         ('Components', OrderedDict([
             ('Watershed Workflow', 'watershed_workflow/'),

@@ -61,3 +61,9 @@ kinematicwave_description = "<p>The kinematic wave routing scheme is the most co
                             " flood wave through the system with no attenuation of the peak flow. The implementation " \
                             " of the continuity and momentum equations in the kinematic wave routing scheme is " \
                             " represented below. </p>" \
+
+constantvolume_algorithm_description = "<p>  This is where the constant volume algorithm will go. </p>"
+
+changingvolume_algorithm_description = "<p>  This is where the changing volume algorithm will go. </p>"
+
+kinematicwave_algorithm_description = "<p>  This is where the kinematic wave algorithm will go. </p>"
