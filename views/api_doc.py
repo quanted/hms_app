@@ -10,7 +10,7 @@ import requests
 
 
 def create_swagger_docs(request):
-    url = "/hms/api_doc/swagger"
+    url = "/hms/api_doc/swagger/"
     html = render_to_string('hms_swagger_2.html', {"URL": url})
     response = HttpResponse()
     response.write(html)
@@ -24,17 +24,14 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True":
         url = "http://localhost:60049/swagger/v1/swagger.json"
     else:
-        #url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/docs/v1'  # HMS backend server for swagger
         url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
     if os.environ['HMS_LOCAL'] == "True":
         swagger["host"] = "127.0.0.1:8000/hms/rest"
     else:
-        # swagger["host"] = str(os.environ.get('HMS_BACKEND_SERVER'))  # changes internal ip to external ip
         swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""
-    # swagger["schemes"] = ["https"]
     response = HttpResponse()
     response.write(json.dumps(swagger))
     return response
