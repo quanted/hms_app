@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.urls import path, re_path
 from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc
+from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, hms_model_router
 from .models.water_quality import output as wq_output
 from . import hms_rest_api
 
@@ -42,7 +42,7 @@ else:
         path('runoff_compare/output/', output.runoff_compare_output_page),
         path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
         path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
-        path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
+        #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
         #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
         path('meteorology/<slug:submodel>/', meteorology_submodels.submodel_page),
         path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
@@ -55,7 +55,13 @@ else:
         path('<slug:model>/', description.description_page),
 
         path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
-        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy)
+        re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
+        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
+
+        #path('model/<slug:model>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
+        path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
     ]
 
 # 404 Error view (file not found)

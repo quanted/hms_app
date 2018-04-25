@@ -2,35 +2,47 @@
 HMS Hydrodynamic module content
 """
 
-header = 'HMS: hydrodynamics'
+
+header = 'HMS: Hydrodynamics'
 
 description = "<p>The movement of water through a surface water system connects excess precipitation to the oceans in " \
-              " completing the hydrological cycle. Figure 1 shows the connection from precipitation to surface runoff to " \
-              " streamflow inside of a watershed. Surface water systems have great importance because they provide " \
-              " drinking water, electricity, and recreation for people. Being able to model this movement allows one to " \
-              " predict and trace the flow of water through a hydrologic system. Simulating flow throughout a stream " \
-              " network of a watershed, not only at a pour point of a watershed, is essential for studying water quality " \
-              " and quantity issues in a stream. Determining the flow rate through a stream segment is a central task of " \
+              " completing the hydrological cycle. Being able to model this movement allows one to " \
+              " predict and trace the flow of water through a hydrologic system. Determining the flow rate through" \
+              " a stream segment is a central task of " \
               " surface water hydrology studies looking at erosion, pollution concentrations, and flooding occurrences " \
-              " among many things. </p>" \
-                ' <img src="http://latex.codecogs.com/gif.latex?1+sin(x)" border="0"/>'
+              " among many things. Flow in a stream network can be described as the product of the cross-sectional area" \
+              " of the stream channel and the velocity of water moving through the system." \
+              "\[Q=vA_c\]</p>" \
+              " <p>The governing equation to simulate the flow of water is the continuity equation. Some more " \
+              "complex models use the continuity and the momentum equations. " \
+              "<p>The Continuity Equation : \( {\partial Q \over \partial x} + {\partial A_c \over \partial t} = 0\) " \
+              "The Momentum Equation: \( S_f=S_o - {\partial y \over\partial x} - {V\partial V \over g\partial x} - " \
+              "{\partial V\over g\partial t}\)<p>" \
+              "<p>The constant volume flow routing option keeps the same volume of water throughout the system " \
+              "The equation used for determining outflow is \(Q_{out}= \sum Q_{in}\) <p>" \
+              "<p>The changing volume option allows depth, velocity, volume, and area to change based on user defined " \
+              "channel geometries.  <p>" \
+              "<p>The kinematic wave option used both the continuity and momentum equations to translate a flood wave " \
+              "through a system. The equation to find the outflow at a given time and stream segment is:  \[Q_{i, t+1}" \
+              "= {-(Q_{i,t} - Q_{i-1,t+1}) \over \Delta x \\alpha \\beta ({Q_{i,t+1}^*})^{\ beta-1}} \Delta t + Q_{i,t}\]"
+
+
 
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
 constantvolume_description = "<p>Constant volume flow routing is the simplest of the three options presented. Outflow " \
-                             " (Q_out) from a segment is equal to the sum of inflows (Q_in) to that segment agreeing " \
-                             " with the conservation of mass equation. Any change in flow anywhere translates " \
-                             " throughout the entire system instantaneously (Figure 2a). Volume, velocity, and depth " \
+                             " \(Q_{out}\) from a segment is equal to the sum of inflows \(Q_{in}\) to that segment " \
+                             " agreeing with the conservation of mass equation. Any change in flow anywhere translates " \
+                             " throughout the entire system instantaneously. Volume, velocity, and depth " \
                              " do not change with flow adjustments. By applying the conservation of mass to the " \
                              " channel system you get: </p>" \
-                               '<img src="/static_qed/hms/images/constant_volume_temp.png" alt="Constant Flow ' \
-                             ' Schematic" style="">'
+
 
 
 changingvolume_description = "<p>For the changing volume routing option, flow is propagated instantaneously as it is " \
-                             " with constant volume routing using the continuity equation. The difference between the " \
-                             " two hydrological methods is how volume, velocity, area, and depth can vary throughout " \
+                             " with constant volume routing using the continuity equation. " \
+                             "  Volume, velocity, area, and depth can vary throughout " \
                              " the system in the changing volume routing method. Using a discharge-water depth " \
                              " relationship; volume, velocity, area, and depth are calculated for one of three channel " \
                              " shapes with user-defined geometries. The user chooses between a rectangle, triangle, " \
@@ -49,3 +61,9 @@ kinematicwave_description = "<p>The kinematic wave routing scheme is the most co
                             " flood wave through the system with no attenuation of the peak flow. The implementation " \
                             " of the continuity and momentum equations in the kinematic wave routing scheme is " \
                             " represented below. </p>" \
+
+constantvolume_algorithm_description = "<p>  This is where the constant volume algorithm will go. </p>"
+
+changingvolume_algorithm_description = "<p>  This is where the changing volume algorithm will go. </p>"
+
+kinematicwave_algorithm_description = "<p>  This is where the kinematic wave algorithm will go. </p>"
