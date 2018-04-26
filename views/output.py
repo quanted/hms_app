@@ -11,6 +11,7 @@ import requests
 import json
 import hms_app.views.links_left as links_left
 import os
+import time###
 
 # TESTING
 from ..swag_request import SwagRequest as swag
@@ -37,6 +38,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
+        print(parameters)
         if parameters["source"] == "ncdc":
             request_parameters = {
                 "source": str(parameters['source']).lower(),
@@ -51,6 +53,94 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                 "timeLocalized": str(parameters['timelocalized'])
             }
             request_parameters["geometry"]["geometryMetadata"]["stationID"] = str(parameters["stationID"])
+        elif(parameters["source"] == "shuttleworthwallace"):
+            request_parameters = {
+                "source": str(parameters['source']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate'])
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                },
+                "temporalResolution": str(parameters['temporalresolution']),
+                "timeLocalized": str(parameters['timelocalized']),
+                "albedo": str(parameters['albedo']),
+				"centrallongitude": str(parameters['centlong']),
+				"sunangle": str(parameters['sunangle']),
+				"emissivity": str(parameters['emissivity']),
+				"model": str(parameters['model']),
+				"zenith": str(parameters['zenith']),
+				"lakesurfacearea": str(parameters['lakesurfarea']),
+				"lakedepth": str(parameters['lakedepth']),
+				"subsurfaceresistance": str(parameters['subsurfres']),
+				"stomatalresistance": str(parameters['stomres']),
+				"leafwidth": str(parameters['leafwidth']),
+				"roughnesslength": str(parameters['roughlength']),
+				"vegetationheight": str(parameters['vegheight']),
+                "leafareaindices": {
+					1: parameters['leafarea'][0],
+					2: parameters['leafarea'][1],
+					3: parameters['leafarea'][2],
+					4: parameters['leafarea'][3],
+					5: parameters['leafarea'][4],
+					6: parameters['leafarea'][5],
+					7: parameters['leafarea'][6],
+					8: parameters['leafarea'][7],
+					9: parameters['leafarea'][8],
+					10: parameters['leafarea'][9],
+					11: parameters['leafarea'][10],
+					12: parameters['leafarea'][11]
+				}
+            }
+        elif(parameters["source"] == "mcjannett"):
+            request_parameters = {
+                "source": str(parameters['source']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate'])
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                },
+                "temporalResolution": str(parameters['temporalresolution']),
+                "timeLocalized": str(parameters['timelocalized']),
+                "albedo": str(parameters['albedo']),
+				"centrallongitude": str(parameters['centlong']),
+				"sunangle": str(parameters['sunangle']),
+				"emissivity": str(parameters['emissivity']),
+				"model": str(parameters['model']),
+				"zenith": str(parameters['zenith']),
+				"lakesurfacearea": str(parameters['lakesurfarea']),
+				"lakedepth": str(parameters['lakedepth']),
+				"subsurfaceresistance": str(parameters['subsurfres']),
+				"stomatalresistance": str(parameters['stomres']),
+				"leafwidth": str(parameters['leafwidth']),
+				"roughnesslength": str(parameters['roughlength']),
+				"vegetationheight": str(parameters['vegheight']),
+                "airtemperature": {
+					1: str(parameters['airtemps'][0]),
+					2: str(parameters['airtemps'][1]),
+					3: str(parameters['airtemps'][2]),
+					4: str(parameters['airtemps'][3]),
+					5: str(parameters['airtemps'][4]),
+					6: str(parameters['airtemps'][5]),
+					7: str(parameters['airtemps'][6]),
+					8: str(parameters['airtemps'][7]),
+					9: str(parameters['airtemps'][8]),
+					10: str(parameters['airtemps'][9]),
+					11: str(parameters['airtemps'][10]),
+					12: str(parameters['airtemps'][11])
+				}
+            }
         else:
             request_parameters = {
                 "source": str(parameters['source']).lower(),
@@ -66,7 +156,20 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                     "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
                 },
                 "temporalResolution": str(parameters['temporalresolution']),
-                "timeLocalized": str(parameters['timelocalized'])
+                "timeLocalized": str(parameters['timelocalized']),
+                "albedo": str(parameters['albedo']),
+				"centrallongitude": str(parameters['centlong']),
+				"sunangle": str(parameters['sunangle']),
+				"emissivity": str(parameters['emissivity']),
+				"model": str(parameters['model']),
+				"zenith": str(parameters['zenith']),
+				"lakesurfacearea": str(parameters['lakesurfarea']),
+				"lakedepth": str(parameters['lakedepth']),
+				"subsurfaceresistance": str(parameters['subsurfres']),
+				"stomatalresistance": str(parameters['stomres']),
+				"leafwidth": str(parameters['leafwidth']),
+				"roughnesslength": str(parameters['roughlength']),
+				"vegetationheight": str(parameters['vegheight'])
             }
         if "soilmoisture" in submodel:
             request_parameters["layers"] = parameters["layers"]
