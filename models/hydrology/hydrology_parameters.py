@@ -79,7 +79,7 @@ class HydrologyFormInput(forms.Form):
     )
     temporalresolution = forms.ChoiceField(
         widget=forms.Select(attrs={
-            'title': 'Temporal resolution of the output time series data.'
+            'title': 'Temporal resolution of the output time series data (default is hourly).'
         }),
         label='Temporal Resolution',
         choices=(("default", "default"), ("hourly", "hourly"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
@@ -165,12 +165,24 @@ class EvapotranspirationFormInput(HydrologyFormInput):
     """
     source = forms.ChoiceField(
         widget=forms.Select(attrs={
+            'title': 'Evapotranspiration data source.'
+        }),
+        label='Source',
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'),
+                 ('ncdc', 'ncdc')),
+        initial='NLDAS'
+    )
+    algorithm = forms.ChoiceField(
+        widget=forms.Select(attrs={
             'title': 'Evapotranspiration algorithm.'
         }),
         label='Algorithm',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('priestlytaylor', 'priestlytaylor'), ('grangergray', 'grangergray'),
-                 ('penpan', 'penpan'), ('mcjannett', 'mcjannett'), ('penmanopenwater', 'penmanopenwater'), ('penmandaily', 'penmandaily'),
-                 ('penmanhourly', 'penmanhourly'), ('mortoncrae', 'mortoncrae'), ('mortoncrwe', 'mortoncrwe'), ('shuttleworthwallace', 'shuttleworthwallace'),
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('priestlytaylor', 'priestlytaylor'),
+                 ('grangergray', 'grangergray'),
+                 ('penpan', 'penpan'), ('mcjannett', 'mcjannett'), ('penmanopenwater', 'penmanopenwater'),
+                 ('penmandaily', 'penmandaily'),
+                 ('penmanhourly', 'penmanhourly'), ('mortoncrae', 'mortoncrae'), ('mortoncrwe', 'mortoncrwe'),
+                 ('shuttleworthwallace', 'shuttleworthwallace'),
                  ('hspf', 'hspf')),
         initial='NLDAS'
     )
