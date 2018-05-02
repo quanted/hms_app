@@ -48,10 +48,10 @@ def get_submodel_form_input(submodel, form_data):
     # import hms_app.models.hydrodynamic.hydrodynamic_parameters as hp
 
     if (submodel == 'constant_volume'):
-        return hp.ConstantvolumeFormInput(form_data)
+        return hp.Constant_VolumeFormInput(form_data)
     elif (submodel == 'changing_volume'):
-        return hp.ChangingvolumeFormInput(form_data)
+        return hp.Changing_VolumeFormInput(form_data)
     elif (submodel == 'kinematic_wave'):
-        return hp.KinematicwaveFormInput(form_data)
+        return hp.Kinematic_WaveFormInput(form_data)
     else:
         return ''
