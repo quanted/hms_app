@@ -1,6 +1,6 @@
 from json import JSONDecodeError
 from django.http import HttpResponse, Http404, JsonResponse
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
 import json
 import os
@@ -52,6 +52,7 @@ def pass_through_proxy(request, module):
 
 
 @csrf_exempt
+@require_http_methods(["GET", "POST"])
 def flask_proxy(request, flask_url):
     if os.environ["HMS_LOCAL"] == "True":
         proxy_url = "http://localhost:7777" + "/" + flask_url
@@ -60,6 +61,7 @@ def flask_proxy(request, flask_url):
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
+        proxy_url = proxy_url + "/"
         flask_request = requests.request("post", proxy_url, data=request.POST)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":

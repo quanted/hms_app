@@ -11,6 +11,7 @@ import requests
 import json
 import hms_app.views.links_left as links_left
 import os
+import time  ###
 
 # TESTING
 from ..swag_request import SwagRequest as swag
@@ -24,19 +25,20 @@ ERROR_OUTPUT = '{"dataset": "", "source": "", ' \
 @require_POST
 def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     """
-    Default hydrology output page function, constructs complete output page
-    :param request: Request object
-    :param model: set to 'hydrology'
-    :param submodel: string of the specific submodel that made the call to the output page
-    :param header: default header
-    :return: HttpResponse object
-    """
+	Default hydrology output page function, constructs complete output page
+	:param request: Request object
+	:param model: set to 'hydrology'
+	:param submodel: string of the specific submodel that made the call to the output page
+	:param header: default header
+	:return: HttpResponse object
+	"""
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
+        print(parameters)
         if parameters["source"] == "ncdc":
             request_parameters = {
                 "source": str(parameters['source']).lower(),
@@ -51,6 +53,67 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                 "timeLocalized": str(parameters['timelocalized'])
             }
             request_parameters["geometry"]["geometryMetadata"]["stationID"] = str(parameters["stationID"])
+        elif (submodel.title() == "Evapotranspiration"):
+            request_parameters = {
+                "source": str(parameters['source']).lower(),
+                "algorithm": str(parameters['algorithm']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate'])
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                },
+                "temporalResolution": str(parameters['temporalresolution']),
+                "timeLocalized": str(parameters['timelocalized']),
+                "albedo": str(parameters['albedo']),
+                "centrallongitude": str(parameters['centlong']),
+                "sunangle": str(parameters['sunangle']),
+                "emissivity": str(parameters['emissivity']),
+                "model": str(parameters['model']),
+                "zenith": str(parameters['zenith']),
+                "lakesurfacearea": str(parameters['lakesurfarea']),
+                "lakedepth": str(parameters['lakedepth']),
+                "subsurfaceresistance": str(parameters['subsurfres']),
+                "stomatalresistance": str(parameters['stomres']),
+                "leafwidth": str(parameters['leafwidth']),
+                "roughnesslength": str(parameters['roughlength']),
+                "vegetationheight": str(parameters['vegheight'])
+            }
+            if (parameters["algorithm"] == "shuttleworthwallace"):
+                request_parameters["leafareaindices"] = {
+                    1: parameters['leafarea'][0],
+                    2: parameters['leafarea'][1],
+                    3: parameters['leafarea'][2],
+                    4: parameters['leafarea'][3],
+                    5: parameters['leafarea'][4],
+                    6: parameters['leafarea'][5],
+                    7: parameters['leafarea'][6],
+                    8: parameters['leafarea'][7],
+                    9: parameters['leafarea'][8],
+                    10: parameters['leafarea'][9],
+                    11: parameters['leafarea'][10],
+                    12: parameters['leafarea'][11]
+                }
+            elif (parameters["algorithm"] == "mcjannett"):
+                request_parameters["airtemperature"] = {
+                    1: str(parameters['airtemps'][0]),
+                    2: str(parameters['airtemps'][1]),
+                    3: str(parameters['airtemps'][2]),
+                    4: str(parameters['airtemps'][3]),
+                    5: str(parameters['airtemps'][4]),
+                    6: str(parameters['airtemps'][5]),
+                    7: str(parameters['airtemps'][6]),
+                    8: str(parameters['airtemps'][7]),
+                    9: str(parameters['airtemps'][8]),
+                    10: str(parameters['airtemps'][9]),
+                    11: str(parameters['airtemps'][10]),
+                    12: str(parameters['airtemps'][11])
+                }
         else:
             request_parameters = {
                 "source": str(parameters['source']).lower(),
@@ -87,13 +150,13 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
 @require_POST
 def meteorology_output_page(request, model='meteorology', submodel='', header=''):
     """
-    Default meteorology output page function, constructs complete output page
-    :param request: Request object
-    :param model: set to 'hydrology'
-    :param submodel: string of the specific submodel that made the call to the output page
-    :param header: default header
-    :return: HttpResponse object
-    """
+	Default meteorology output page function, constructs complete output page
+	:param request: Request object
+	:param model: set to 'hydrology'
+	:param submodel: string of the specific submodel that made the call to the output page
+	:param header: default header
+	:return: HttpResponse object
+	"""
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
@@ -142,6 +205,7 @@ def meteorology_output_page(request, model='meteorology', submodel='', header=''
     response.write(html)
     return response
 
+
 @require_POST
 def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header=''):
     """
@@ -161,9 +225,9 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
         if submodel == "constantvolume":
             request_parameters = {
                 "dateTimeSpan": {
-                       "startDate": str(parameters['startDate']),
-                       "endDate": str(parameters['endDate']),
-                "timestep": str(parameters['timestep']),
+                    "startDate": str(parameters['startDate']),
+                    "endDate": str(parameters['endDate']),
+                    "timestep": str(parameters['timestep']),
                 },
             }
         elif submodel == "changingvolume":
@@ -183,24 +247,24 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
                 }
             }
         elif submodel == "kinematicwave":
-                    request_parameters = {
-                        "model": str(parameters['model']).lower(),
-                        "dateTimeSpan": {
-                            "startDate": str(parameters['date']),
-                        },
-                        "geometry": {
-                            "point": {
-                                "latitude": str(parameters['latitude']),
-                                "longitude": str(parameters['longitude'])
-                            },
-                            "timezone": {
-                                "offset": str(parameters['timezone'])
-                            }
-                        }
+            request_parameters = {
+                "model": str(parameters['model']).lower(),
+                "dateTimeSpan": {
+                    "startDate": str(parameters['date']),
+                },
+                "geometry": {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "timezone": {
+                        "offset": str(parameters['timezone'])
                     }
+                }
+            }
         data = get_data(model, submodel, request_parameters)
         print(data)
-        html = create_hydrodynamic_output_page(model, submodel, data, submodel.capitalize()) ##hydrodynamic_
+        html = create_hydrodynamic_output_page(model, submodel, data, submodel.capitalize())  ##hydrodynamic_
         print(html)
 
     else:
@@ -208,7 +272,6 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
     response = HttpResponse()
     response.write(html)
     return response
-
 
 
 def set_geometry_metadata(form_data):
@@ -225,12 +288,12 @@ def set_geometry_metadata(form_data):
 @require_POST
 def precip_compare_output_page(request, model='precip_compare', header=''):
     """
-    Precipitation compare output page function.
-    :param request: Request object
-    :param model: set to 'precip_compare'
-    :param header: default header
-    :return: HttpResponse object
-    """
+	Precipitation compare output page function.
+	:param request: Request object
+	:param model: set to 'precip_compare'
+	:param header: default header
+	:return: HttpResponse object
+	"""
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'PrecipitationCompareFormInput')
@@ -272,12 +335,12 @@ def precip_compare_output_page(request, model='precip_compare', header=''):
 @require_POST
 def runoff_compare_output_page(request, model='runoff_compare', header=''):
     """
-    Runoff compare output page function.
-    :param request: Request object
-    :param model: set to 'runoff_compare'
-    :param header: default header
-    :return: HttpResponse object
-    """
+	Runoff compare output page function.
+	:param request: Request object
+	:param model: set to 'runoff_compare'
+	:param header: default header
+	:return: HttpResponse object
+	"""
     model_parameters_location = 'hms_app.models.' + model + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, 'RunoffCompareFormInput')
@@ -297,20 +360,20 @@ def runoff_compare_output_page(request, model='runoff_compare', header=''):
 
 def get_data(model, submodel, parameters):
     """
-    Performs the POST call to the HMS backend server for data retrieval.
-    :param submodel: submodel of requested data
-    :param parameters: Dictionary containing the parameters.
-    :return: object constructed from json.loads()
-    """
+	Performs the POST call to the HMS backend server for data retrieval.
+	:param submodel: submodel of requested data
+	:param parameters: Dictionary containing the parameters.
+	:return: object constructed from json.loads()
+	"""
     if os.environ['HMS_LOCAL'] == "True":
         # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
         url = 'http://localhost:60049/api/' + model + '/' + submodel  # local VS HMS
-        # url = 'http://localhost:7777/rest/hms/'                                       # local flask
+    # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     else:
         url = str(os.environ.get(
             'HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
-    #print("url: " + url)
+    print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
@@ -325,18 +388,18 @@ def get_data(model, submodel, parameters):
 
 def get_compare_data(model, parameters):
     """
-    Performs the POST call to the HMS backend server for retrieving comparision data.
-    :param model: comparision model to compare
-    :param parameters: Dictionary containing the parameters.
-    :return: object constructed from json.loads()
-    """
+	Performs the POST call to the HMS backend server for retrieving comparision data.
+	:param model: comparision model to compare
+	:param parameters: Dictionary containing the parameters.
+	:return: object constructed from json.loads()
+	"""
     url = ""
     if model == "precip_compare":
         if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/Precipitation/'                              # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSPrecipitation/'                            # server 8 HMS, internal
             url = 'http://localhost:60049/api/workflow/compare'  # local VS HMS
-            # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
+        # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
         else:
             url = str(
                 os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
@@ -345,7 +408,7 @@ def get_compare_data(model, parameters):
             # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
             # url = 'http://172.20.10.18/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, internal
             url = 'http://localhost:60049/api/workflow/compare'  # local VS HMS
-            # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
+        # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
         else:
             url = str(
                 os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
@@ -364,14 +427,14 @@ def get_compare_data(model, parameters):
 
 def create_output_page(model, submodel, data, dataset, location):
     """
-    Generates the html for the output page.
-    :param model: model of the data
-    :param submodel: submodel of the data
-    :param data: json object of the data
-    :param dataset: dataset name, may be the same as submodel
-    :param location: geographic location of request, used for labeling
-    :return: string structured as html.
-    """
+	Generates the html for the output page.
+	:param model: model of the data
+	:param submodel: submodel of the data
+	:param data: json object of the data
+	:param dataset: dataset name, may be the same as submodel
+	:param location: geographic location of request, used for labeling
+	:return: string structured as html.
+	"""
     # json_data = json.dumps(data)
     label = dataset + ": " + location
     html = render_to_string('01hms_output_drupal_header.html', {
@@ -384,8 +447,8 @@ def create_output_page(model, submodel, data, dataset, location):
 
     # Generates html for metadata and data tables.
     """
-     Columns setup and ordering logic. Keys are checked for numerical value, which is used as the new key for the dict.
-    """
+	 Columns setup and ordering logic. Keys are checked for numerical value, which is used as the new key for the dict.
+	"""
     # sources = data["dataSource"].split(', ')
 
     try:
@@ -442,14 +505,14 @@ def create_output_page(model, submodel, data, dataset, location):
 
 def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
     """
-    Constructs the html for the hydrology input pages, containing errors in the form.
-    :param request: current request object
-    :param model: current model
-    :param submodel: current submodel
-    :param header: current header
-    :param form: Previous form data.
-    :return: returns a string formatted as html
-    """
+	Constructs the html for the hydrology input pages, containing errors in the form.
+	:param request: current request object
+	:param model: current model
+	:param submodel: current submodel
+	:param header: current header
+	:param form: Previous form data.
+	:return: returns a string formatted as html
+	"""
     import hms_app.views.hydrology_submodels as hydro_sub
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
@@ -476,13 +539,13 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
 
 def compare_input_page_errors(request, model='', header='', form=''):
     """
-    Constructs html for precip compare page, with input errors.
-    :param request: current request object
-    :param model: current model
-    :param header: current header
-    :param form: form where error was found
-    :return: string formatted as html
-    """
+	Constructs html for precip compare page, with input errors.
+	:param request: current request object
+	:param model: current model
+	:param header: current header
+	:param form: form where error was found
+	:return: string formatted as html
+	"""
     description = ""
     if model == "precip_compare":
         from hms_app.models.precip_compare import views as precip_compare_view
@@ -520,14 +583,14 @@ def compare_input_page_errors(request, model='', header='', form=''):
 
 def create_meteorology_output_page(model, submodel, data, dataset, location):
     """
-    Generates the html for the meteorology output page.
-    :param model: model of the data
-    :param submodel: submodel of the data
-    :param data: json object of the data
-    :param dataset: dataset name, may be the same as submodel
-    :param location: geographic location of request, used for labeling
-    :return: string structured as html.
-    """
+	Generates the html for the meteorology output page.
+	:param model: model of the data
+	:param submodel: submodel of the data
+	:param data: json object of the data
+	:param dataset: dataset name, may be the same as submodel
+	:param location: geographic location of request, used for labeling
+	:return: string structured as html.
+	"""
     label = dataset + ": " + location
     html = render_to_string('01hms_output_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
@@ -592,6 +655,7 @@ def hydrodynamic_input_page_errors(request, model='', submodel='', header='', fo
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
+
 def create_hydrodynamic_output_page(model, submodel, data, dataset):
     """
     Generates the html for the meteorology output page.
@@ -627,42 +691,3 @@ def create_hydrodynamic_output_page(model, submodel, data, dataset):
     html += render_to_string('10epa_drupal_footer.html', {})
     html += render_to_string('04hms_met_output_imports.html', {})
     return html
-
-# def create_hydrodynamic_output_page(model, submodel, data):
-#      """
-#     Generates the html for the meteorology output page.
-#     :param model: model of the data
-#     :param submodel: submodel of the data
-#     :param data: json object of the data
-#     :param dataset: dataset name, may be the same as submodel
-#     :param location: geographic location of request, used for labeling
-#     :return: string structured as html.
-#     """
-#     html = render_to_string('01hms_output_header.html', {
-#         'SITE_SKIN': os.environ['SITE_SKIN'],
-#         'TITLE': "HMS " + model #,
-#         #'LABEL': label
-#     })
-#     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-#     html += render_to_string('03epa_drupal_section_title.html', {})
-#
-#     html += render_to_string('04hms_met_output.html', {
-#         'MODEL': model,
-#         'SUBMODEL': submodel,
-#         'TITLE': "HMS " + model.replace('_', ' ').title(),
-#         'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
-#         'DATA_ROWS': data['data'],
-#         'DATA': data,
-#         'METADATA': data['metadata'],
-#         'DATASET': dataset,
-#         #'LABEL': label
-#     })
-#
-#     # Generates html for links left
-#     html += render_to_string('07ubertext_end_drupal.html', {})
-#     html += links_left.ordered_list(model, submodel)
-#
-#     html += render_to_string('09epa_drupal_ubertool_css.html', {})
-#     html += render_to_string('10epa_drupal_footer.html', {})
-#     html += render_to_string('04hms_met_output_imports.html', {})
-#     return html

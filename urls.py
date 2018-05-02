@@ -63,7 +63,6 @@ else:
         path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
         path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
         path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
-        #model/
     ]
 
 # 404 Error view (file not found)
