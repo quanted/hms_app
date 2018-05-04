@@ -363,7 +363,7 @@ def hydrodynamic_input_page_errors(request, model='', submodel='', header='', fo
 
 def create_hydrodynamic_output_page(model, submodel, data, dataset):
     """
-    Generates the html for the meteorology output page.
+    Generates the html for the hydrodynamic output page.
     :param model: model of the data
     :param submodel: submodel of the data
     :param data: json object of the data
@@ -381,11 +381,11 @@ def create_hydrodynamic_output_page(model, submodel, data, dataset):
         'MODEL': model,
         'SUBMODEL': submodel,
         'TITLE': "HMS " + model.replace('_', ' ').title(),
-        'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
+        #'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
         'DATA_ROWS': data['data'],
-        'DATA': data,
-        'METADATA': data['metadata'],
-        'DATASET': dataset
+        'DATA': data#,
+        #'METADATA': data['metadata'],
+        #'DATASET': dataset
     })
 
     # Generates html for links left
