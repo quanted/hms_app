@@ -38,8 +38,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
-        print(parameters)
-        if parameters["source"] == "ncdc":
+        if (parameters["source"] == "ncdc" and submodel.title() != "Evapotranspiration"):
             request_parameters = {
                 "source": str(parameters['source']).lower(),
                 "dateTimeSpan": {
@@ -61,13 +60,6 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                     "startDate": str(parameters['startDate']),
                     "endDate": str(parameters['endDate'])
                 },
-                "geometry": {
-                    "point": {
-                        "latitude": str(parameters['latitude']),
-                        "longitude": str(parameters['longitude'])
-                    },
-                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
-                },
                 "temporalResolution": str(parameters['temporalresolution']),
                 "timeLocalized": str(parameters['timelocalized']),
                 "albedo": str(parameters['albedo']),
@@ -84,6 +76,19 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                 "roughnesslength": str(parameters['roughlength']),
                 "vegetationheight": str(parameters['vegheight'])
             }
+            if(parameters["source"] != "ncdc"):
+                request_parameters["geometry"] = {
+                    "point": {
+                        "latitude": str(parameters['latitude']),
+                        "longitude": str(parameters['longitude'])
+                    },
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                }
+            elif(parameters["source"] == "ncdc"):
+                request_parameters["geometry"] = {
+                    "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
+                }
+                request_parameters["geometry"]["geometryMetadata"]["stationID"] = str(parameters["stationID"])
             if (parameters["algorithm"] == "shuttleworthwallace"):
                 request_parameters["leafareaindices"] = {
                     1: parameters['leafarea'][0],
@@ -137,6 +142,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
         # target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel
         # swaggernurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
         # request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=swaggernurl)
+        print(request_parameters)
         data = get_data(model, submodel, request_parameters)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)
