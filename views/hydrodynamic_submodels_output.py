@@ -86,21 +86,18 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
     """
     model_parameters_location = 'hms_app.models.' + 'hydrodynamic' + '.' + model + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
-    print(submodel)
-    print(submodel.title())
     input_form = getattr(parametersmodule, submodel.title() + 'FormInput')
     form = input_form(request.POST, request.FILES)
     if form.is_valid():
         parameters = form.cleaned_data
         if submodel == "constant_volume":
             request_parameters = {
-                "dateTimeSpan": {
-                       "startDate": str(parameters['startDate']),
-                       "endDate": str(parameters['endDate']),
+                "model": model,
+                "startDate": str(parameters['startDate']),
+                "endDate": str(parameters['endDate']),
                 "timestep": str(parameters['timestep']),
                 "segments": str(parameters['segments']),
-                "boundary_flow": str(parameters['boundary_flow']),
-                },
+                "boundary_flow": str(parameters['boundary_flow'])
             }
         elif submodel == "changing_volume":
             request_parameters = {
@@ -135,9 +132,7 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
                         }
                     }
         data = get_data(model, submodel, request_parameters)
-        #print(data)
         html = create_hydrodynamic_output_page(model, submodel, data, submodel.capitalize()) ##hydrodynamic_
-        #print(html)
 
     else:
         html = hydrodynamic_input_page_errors(request, model, submodel, header, form=form)
@@ -154,7 +149,7 @@ def get_data(model, submodel, parameters):
     :return: object constructed from json.loads()
     """
     if os.environ["HMS_LOCAL"] == "True":
-        url = "http://localhost:7777" + "/hms/hydrodynamic/" + submodel
+        url = "http://localhost:7777" + "/hms/hydrodynamic/" + submodel + "/"
     else:
         url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/hydrodynamic/" + submodel
     try:
@@ -361,7 +356,8 @@ def hydrodynamic_input_page_errors(request, model='', submodel='', header='', fo
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
-def create_hydrodynamic_output_page(model, submodel, data, dataset):
+def create_hydrodynamic_output_page(model, submodel, result, dataset):
+    print(result)
     """
     Generates the html for the hydrodynamic output page.
     :param model: model of the data
@@ -377,13 +373,15 @@ def create_hydrodynamic_output_page(model, submodel, data, dataset):
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
+    # html += constant_volume_table(output)
     html += render_to_string('04hms_met_output.html', {
         'MODEL': model,
         'SUBMODEL': submodel,
         'TITLE': "HMS " + model.replace('_', ' ').title(),
         #'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
-        'DATA_ROWS': data['data'],
-        'DATA': data#,
+        #print(data)
+        #'DATA_ROWS': data['data'],
+        'DATA': result#,
         #'METADATA': data['metadata'],
         #'DATASET': dataset
     })
