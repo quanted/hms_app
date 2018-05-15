@@ -32,53 +32,59 @@ class HydrodynamicFormInput(forms.Form):
         input_formats=DATE_INPUT_FORMATS,
         initial='2010-12-31'
     )
-    deltaT = forms.FloatField(
+    timestep = forms.FloatField(
         widget=forms.NumberInput(attrs={
             'title': 'Enter the timestep [hours].'
         }),
-        label='Delta t',
+        label='Time Step (hours)',
         initial=1
     )
-    datetimeformat = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-                     'base-types/custom-date-and-time-format-strings'
-        }),
-        label='Output Date Format',
-        initial="yyyy-MM-dd HH"
-    )
-    outputformat = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-                     'base-types/standard-numeric-format-strings'
-        }),
-        label='Output Data Format',
-        initial="E3"
-    )
+    # datetimeformat = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+    #                  'base-types/custom-date-and-time-format-strings'
+    #     }),
+    #     label='Output Date Format',
+    #     initial="yyyy-MM-dd HH"
+    # )
+    # outputformat = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+    #                  'base-types/standard-numeric-format-strings'
+    #     }),
+    #     label='Output Data Format',
+    #     initial="E3"
+    # )
 
 
-class ConstantvolumeFormInput(HydrodynamicFormInput):
+class Constant_VolumeFormInput(HydrodynamicFormInput):
     """
     Input form fields for flow routing data.
     default fields taken from HydrodynamicFormInput
     """
-    volume = forms.FloatField(
+    # volume = forms.FloatField(
+    #     widget=forms.NumberInput(attrs={
+    #         'title': 'Enter the volume [m3].'
+    #     }),
+    #     label='Volume',
+    #     initial=1
+    # )
+    segments = forms.FloatField(
         widget=forms.NumberInput(attrs={
-            'title': 'Enter the volume [m3].'
+            'title': 'Enter the number of segments.'
         }),
-        label='Volume',
+        label='Number of Segments',
         initial=1
     )
-    modeldomain = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'title': 'Boundary conditions for each segment. Provide "," separated list of the Boundary Flow [m3/s]  '
-                     '  for each day. Order first segment to last.',
+    boundary_flow = forms.FloatField(
+        widget=forms.NumberInput(attrs={
+            'title': 'Enter the boundary flow for the first segment.',
         }),
         label='Boundary Flow',
-        required=True
+        initial=1
     )
 
-class ChangingvolumeFormInput(HydrodynamicFormInput):
+class Changing_VolumeFormInput(HydrodynamicFormInput):
     """
     Input form fields for flow routing data.
     default fields taken from HydrodynamicFormInput
@@ -95,7 +101,7 @@ class ChangingvolumeFormInput(HydrodynamicFormInput):
     )
 
 
-class KinematicwaveFormInput(HydrodynamicFormInput):
+class Kinematic_WaveFormInput(HydrodynamicFormInput):
     """
     Input form fields for flow routing data.
     default fields taken from HydrodynamicFormInput
