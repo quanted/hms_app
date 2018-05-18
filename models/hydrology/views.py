@@ -35,22 +35,22 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             "hydrologic transportation of contaminants, best management practices, and regulations." \
                             " Precipitation data is generated through direct observation as well" \
                             " as model simulation.</p>" \
-                            "<p>NLDAS Precipitation: The North American Land Data Assimilation System (NLDAS)" \
+                            "<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
                             " combines North American radar data and satellite data from CMORPH. NLDAS has an" \
                             " hourly time step on a 0.125 -degree grid of North America and has a maximum time" \
                             " lag of four days for data retrieval. Data is available from January 2, 1979 to" \
                             " present.</p>" \
-                            "<p>GLDAS Precipitation: The Global Land Data Assimilation System (GLDAS) combines" \
+                            "<p><b>GLDAS Precipitation:</b> The Global Land Data Assimilation System (GLDAS) combines" \
                             " satellite data and ground-based observational data to provide precipitation and" \
                             " other variables on a spatial resolution of 0.25-degrees covering the Earth between" \
                             " 90 degrees North and 60 degrees South. Data is available from 2000 to"\
                             " December 2016.</p>" \
-                            "<p>DAYMET Precipitation: Daymet is a daily dataset of rain gauge data that has been" \
+                            "<p><b>DAYMET Precipitation:</b> Daymet is a daily dataset of rain gauge data that has been" \
                             " interpolated and extrapolated. Daymet uses ground station data with their model" \
                             " algorithm to produce gridded estimates of daily weather parameters. The interpolated" \
                             " spatial resolution is about a 0.009-degree grid over North America. Data is" \
                             " accessible since 1980 to the latest full year.</p>" \
-                            "<p>WGEN Precipitation: WGEN is a stochastic weather generator that statistically simulates" \
+                            "<p><b>WGEN Precipitation:</b> WGEN is a stochastic weather generator that statistically simulates" \
                             " precipitation. WGEN uses a Markov Chain Model to determine the probability of" \
                             " precipitation occurrence. The Markov Chain Model determines precipitation by finding " \
                             " the probability of a wet day following a dry dat. Then an equation using mean daily" \
@@ -70,12 +70,12 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
                             " potential source of contamination of surface waters and a nonpoint source of" \
                             " pollution.</p>" \
-                            "<p>NLDAS/GLDAS Surface Runoff: Uses a physically distributed runoff model, NOAH, to" \
+                            "<p><b>NLDAS/GLDAS Surface Runoff:</b> Uses a physically distributed runoff model, NOAH, to" \
                             " calculate runoff. By calculating runoff for every grid cell, the model provides detailed" \
                             " information at various points within the catchment. An infiltration-excess based" \
                             " surface runoff scheme with a gravitational drainage subsurface runoff scheme is used" \
                             " in determining runoff for NLDAS and GLDAS. </p>" \
-                            "<p>Curve Number Surface Runoff: The SCS Curve number is an empirical method for" \
+                            "<p><b>Curve Number Surface Runoff:</b> The SCS Curve number is an empirical method for" \
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall" \
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff." \
                             " This empirical method assumes the actual runoff to potential runoff is equal to the" \
