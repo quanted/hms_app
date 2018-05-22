@@ -42,14 +42,21 @@ def ordered_list(model, submodel, page=None):
             ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
         ('Components', OrderedDict([
-            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Watershed Delineation', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             # ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
+        #('Hydrology', OrderedDict([
+         #   ('Evapotranspiration', 'evap/'),
+         #   ('Soil Moisture', 'soil_moist/'),
+        #    ('Subsurface Flow', 'subsurface/'),
+        #    ('Surface Runoff', 'runoff/'),
+        #])),
         ('Utilities', OrderedDict([
-            ('API Documentation', 'api_doc/')
+            ('API Documentation', 'api_doc/'),
+            ('HMS Documentation', 'Documents/')
         ])),
         ('Work Flows', OrderedDict([
             ('Precipitation Compare', 'precip_compare/'),

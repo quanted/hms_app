@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.urls import path, re_path
 from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels, hydrodynamic_submodels_output
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, hms_model_router
+from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, Documents_submodels, hms_model_router
 from .models.water_quality import output as wq_output
 from . import hms_rest_api
 
@@ -49,6 +49,8 @@ else:
         path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
         path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
         path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
+        path('Documents/<slug:submodel>/', Documents_submodels.submodels_page),
+        #path('Documents/<slug:submodel>/output/', output.Documents_output_page),
         path('watershed_workflow/', watershed_map.hms_map_page),
         path('api_doc/', api_doc.create_swagger_docs),
         path('api_doc/swagger/', api_doc.get_swagger_json),
