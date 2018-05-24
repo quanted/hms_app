@@ -10,7 +10,7 @@ from .hydrodynamic_submodels_algorithms import submodel_page as hydrodynamic_sub
 from .hydrodynamic_submodels_output import hydrodynamics_output_page as hydrodynamics_output_page
 import logging
 
-hydrology_submodules = ["evapotranspiration", "soilmoisture", "surfacerunoff"]
+hydrology_submodules = ["evapotranspiration", "soilmoisture", "surfacerunoff", "subsurface"]
 hydrodynamic_modules = ['overview', "constant_volume", "changing_volume", "kinematic_wave"]
 meteorology_submodules = ["precipitation", "solarcalculator", "temperature"]
 

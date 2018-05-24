@@ -29,7 +29,7 @@ def ordered_list(model, submodel, page=None):
     #         ('Precipitation Compare', 'precip_compare/'),
     #         ('Runoff Compare', 'runoff_compare/'), ])),
     # ])
-    print(page)
+
 
     link_dict = OrderedDict([
         ('Hydrodynamics', OrderedDict([
@@ -45,15 +45,14 @@ def ordered_list(model, submodel, page=None):
             ('Watershed Delineation', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
-            # ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
-        #('Hydrology', OrderedDict([
-         #   ('Evapotranspiration', 'evap/'),
-         #   ('Soil Moisture', 'soil_moist/'),
-        #    ('Subsurface Flow', 'subsurface/'),
-        #    ('Surface Runoff', 'runoff/'),
-        #])),
+        ('Hydrology', OrderedDict([
+            ('Evapotranspiration', 'evap/'),
+            ('Soil Moisture', 'soil_moist/'),
+            ('Subsurface Flow', 'subsurface/'),
+            ('Surface Runoff', 'runoff/'),
+        ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),
             ('HMS Documentation', 'Documents/')
@@ -87,3 +86,4 @@ def ordered_list(model, submodel, page=None):
                                     'SUBMODEL': submodel,
                                     'PAGE': page
                                 })
+        print(page)
