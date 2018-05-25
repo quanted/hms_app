@@ -159,6 +159,7 @@ def get_data(model, submodel, parameters):
         data['metadata']['errorMsg'] = "ERROR: " + str(e)
         return data
     data = json.loads(result.content)
+    print(data)
     if "Message" in data:
         data = json.loads(ERROR_OUTPUT)
     return data
@@ -356,8 +357,8 @@ def hydrodynamic_input_page_errors(request, model='', submodel='', header='', fo
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
-def create_hydrodynamic_output_page(model, submodel, result, dataset):
-    print(result)
+def create_hydrodynamic_output_page(model, submodel, data, dataset):
+    print("data: " + str(data))
     """
     Generates the html for the hydrodynamic output page.
     :param model: model of the data
@@ -377,11 +378,10 @@ def create_hydrodynamic_output_page(model, submodel, result, dataset):
     html += render_to_string('04hms_met_output.html', {
         'MODEL': model,
         'SUBMODEL': submodel,
-        'TITLE': "HMS " + model.replace('_', ' ').title(),
+        'TITLE': "HMS " + model.replace('_', ' ').title()#,
         #'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
-        #print(data)
         #'DATA_ROWS': data['data'],
-        'DATA': result#,
+        'DATA': data#,
         #'METADATA': data['metadata'],
         #'DATASET': dataset
     })
