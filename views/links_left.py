@@ -14,6 +14,7 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
+
     link_dict = OrderedDict([
         ('Hydrodynamics', OrderedDict([
             ('Overview', 'hydrodynamic/overview'),
@@ -22,14 +23,21 @@ def ordered_list(model, submodel, page=None):
             ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
         ('Components', OrderedDict([
-            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Watershed Delineation', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
-            # ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
+        ('Hydrology', OrderedDict([
+            ('Overview', 'hydrology/overview'),
+            ('Evapotranspiration', 'hydrology/evapotranspiration/'),
+            ('Soil Moisture', 'hydrology/soilmoisture/'),
+            ('Subsurface Flow', 'hydrology/subsurfaceflow/'),
+            ('Surface Runoff', 'hydrology/surfacerunoff/'),
+        ])),
         ('Utilities', OrderedDict([
-            ('API Documentation', 'api_doc/')
+            ('API Documentation', 'api_doc/'),
+            ('HMS Documentation', 'Documents/')
         ])),
         ('Work Flows', OrderedDict([
             ('Precipitation Compare', 'precip_compare/'),

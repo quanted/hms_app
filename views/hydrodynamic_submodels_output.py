@@ -1,5 +1,5 @@
 '''
-HMS Hydrology output page functions
+HMS Hydrodynamic output page functions
 '''
 
 from django.template.loader import render_to_string
@@ -21,8 +21,6 @@ from ..swag_request import SwagRequest as swag
 ERROR_OUTPUT = '{"dataset": "", "source": "", ' \
                '"metadata": {"errorMsg":"Error retrieving data. Unable to return data from server."},' \
                '"data": {"":[""]}}'
-
-
 
 submodel_list = ['constantvolume', 'changingvolume',
                  'kinematicwave']
@@ -61,8 +59,6 @@ submodel_list = ['constantvolume', 'changingvolume',
 #         submodelTitle = "Kinematic Wave"
 #     return hydro_d.header + " - " + submodelTitle
 
-
-
 def get_model_input_module(model):
     """
     Gets the object of the model containing the submodule input functions.
@@ -73,7 +69,7 @@ def get_model_input_module(model):
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module
 
-
+@require_POST
 def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header=''):
 
     """
@@ -92,7 +88,7 @@ def hydrodynamics_output_page(request, model='hydrodynamic', submodel='', header
         parameters = form.cleaned_data
         if submodel == "constant_volume":
             request_parameters = {
-                "model": model,
+                "submodel": submodel,
                 "startDate": str(parameters['startDate']),
                 "endDate": str(parameters['endDate']),
                 "timestep": str(parameters['timestep']),
@@ -153,6 +149,7 @@ def get_data(model, submodel, parameters):
     else:
         url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/hydrodynamic/" + submodel
     try:
+        print("request url: " + str(url))
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:
         data = json.loads(ERROR_OUTPUT)
@@ -163,9 +160,6 @@ def get_data(model, submodel, parameters):
     if "Message" in data:
         data = json.loads(ERROR_OUTPUT)
     return data
-
-
-
 
 
 def create_output_page(model, submodel, data, dataset, location):
@@ -245,85 +239,6 @@ def create_output_page(model, submodel, data, dataset, location):
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
 
-
-def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
-    """
-    Constructs the html for the hydrology input pages, containing errors in the form.
-    :param request: current request object
-    :param model: current model
-    :param submodel: current submodel
-    :param header: current header
-    :param form: Previous form data.
-    :return: returns a string formatted as html
-    """
-    import hms_app.views.hydrology_submodels as hydro_sub
-    html = render_to_string('01epa_drupal_header.html', {
-        'SITE_SKIN': os.environ['SITE_SKIN'],
-        'TITLE': "HMS " + model
-    })
-    html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03epa_drupal_section_title.html', {})
-
-    description = hydro_sub.get_submodel_description(submodel)
-    html += render_to_string('06ubertext_start_index_drupal.html', {
-        'TITLE': header,
-        'TEXT_PARAGRAPH': description
-    })
-    html += render_to_string('07ubertext_end_drupal.html', {})
-    # --------------- Form with Errors --------------- #
-    import hms_app.models.hydrology.hydrology_inputs as hydro_form
-    html += hydro_form.hydrology_input_page(request, model, submodel, header, form)
-    # ------------------ end of Form ----------------- #
-    html += links_left.ordered_list(model, submodel)
-    html += render_to_string('09epa_drupal_ubertool_css.html', {})
-    html += render_to_string('10epa_drupal_footer.html', {})
-    return html
-
-
-def compare_input_page_errors(request, model='', header='', form=''):
-    """
-    Constructs html for precip compare page, with input errors.
-    :param request: current request object
-    :param model: current model
-    :param header: current header
-    :param form: form where error was found
-    :return: string formatted as html
-    """
-    description = ""
-    if model == "precip_compare":
-        from hms_app.models.precip_compare import views as precip_compare_view
-        description = precip_compare_view.description
-    elif model == "runoff_compare":
-        from hms_app.models.runoff_compare import views as runoff_compare_view
-        description = runoff_compare_view.description
-    html = render_to_string('01epa_drupal_header.html', {
-        'SITE_SKIN': os.environ['SITE_SKIN'],
-        'TITLE': "HMS " + model
-    })
-    html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
-    html += render_to_string('03epa_drupal_section_title.html', {})
-
-    html += render_to_string('06ubertext_start_index_drupal.html', {
-        'TITLE': header,
-        'TEXT_PARAGRAPH': description
-    })
-    html += render_to_string('07ubertext_end_drupal.html', {})
-
-    # -------------------- Form with Errors ---------------- #
-    if model == "precip_compare":
-        from hms_app.models.precip_compare import precip_compare_inputs as pc_inputs
-        html += pc_inputs.precip_compare_input_page(request, model, header, form)
-    elif model == "runoff_compare":
-        import hms_app.models.runoff_compare.runoff_compare_inputs as rc_inputs
-        html += rc_inputs.runoff_compare_input_page(request, model, header, form)
-
-    # ----------------------- end of Form ------------------ #
-    html += links_left.ordered_list(model, "")
-    html += render_to_string('09epa_drupal_ubertool_css.html', {})
-    html += render_to_string('10epa_drupal_footer.html', {})
-    return html
-
-
 def hydrodynamic_input_page_errors(request, model='', submodel='', header='', form=''):
     """
     Constructs the html for the hydrology input pages, containing errors in the form.
@@ -358,7 +273,6 @@ def hydrodynamic_input_page_errors(request, model='', submodel='', header='', fo
     return html
 
 def create_hydrodynamic_output_page(model, submodel, data, dataset):
-    print("data: " + str(data))
     """
     Generates the html for the hydrodynamic output page.
     :param model: model of the data
@@ -375,13 +289,13 @@ def create_hydrodynamic_output_page(model, submodel, data, dataset):
     html += render_to_string('03epa_drupal_section_title.html', {})
 
     # html += constant_volume_table(output)
-    html += render_to_string('04hms_met_output.html', {
+    html += render_to_string('04hms_met_output.html', { #change
         'MODEL': model,
         'SUBMODEL': submodel,
         'TITLE': "HMS " + model.replace('_', ' ').title()#,
         #'COLUMN_HEADERS': str(data['metadata']['columns']).split(", "),
         #'DATA_ROWS': data['data'],
-        'DATA': data#,
+        #'DATA': data#,
         #'METADATA': data['metadata'],
         #'DATASET': dataset
     })
@@ -392,5 +306,5 @@ def create_hydrodynamic_output_page(model, submodel, data, dataset):
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
-    html += render_to_string('04hms_met_output_imports.html', {})
+    # html += render_to_string('04hms_met_output_imports.html', {}) #change
     return html

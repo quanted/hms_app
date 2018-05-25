@@ -52,13 +52,9 @@ def get_submodel_form_input(submodel, form_data):
         return hp.SubsurfaceflowFormInput(form_data)
     elif (submodel == 'evapotranspiration'):
         return hp.EvapotranspirationFormInput(form_data)
-    elif (submodel == 'precipitation'):
-        return hp.PrecipitationFormInput(form_data)
     elif (submodel == 'soilmoisture'):
         return hp.SoilmoistureFormInput(form_data)
     elif (submodel == 'surfacerunoff'):
         return hp.SurfacerunoffFormInput(form_data)
-    elif (submodel == 'temperature'):
-        return hp.TemperatureFormInput(form_data)
     else:
         return ''

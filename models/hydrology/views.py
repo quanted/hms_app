@@ -25,37 +25,6 @@ evapotranspiration_description = "<p>Evapotranspiration is the combination of wa
                                  " surfaces, and plant surfaces.  Evapotranspiration is controlled by temperature," \
                                  "  solar radiation, humidity, wind, and vegetation.</p>"
 
-precipitation_description = "<p>Precipitation is one of the main processes in the global hydrological cycle, thus" \
-                            " integral for modeling purposes. Precipitation is highly variable and influences" \
-                            " vegetation, droughts, floods, and the movement of minerals and chemicals. In" \
-                            " agriculture and urban areas, precipitation is the driver in contaminant and nutrient" \
-                            " transport in water systems due to runoff. Precipitation data is an integral input" \
-                            " for many watershed, air, erosion, and agricultural models as well as climate" \
-                            " predicting projects. This data is used to determine flood/drought conditions, " \
-                            "hydrologic transportation of contaminants, best management practices, and regulations." \
-                            " Precipitation data is generated through direct observation as well" \
-                            " as model simulation.</p>" \
-                            "<p>NLDAS Precipitation: The North American Land Data Assimilation System (NLDAS)" \
-                            " combines North American radar data and satellite data from CMORPH. NLDAS has an" \
-                            " hourly time step on a 0.125 -degree grid of North America and has a maximum time" \
-                            " lag of four days for data retrieval. Data is available from January 2, 1979 to" \
-                            " present.</p>" \
-                            "<p>GLDAS Precipitation: The Global Land Data Assimilation System (GLDAS) combines" \
-                            " satellite data and ground-based observational data to provide precipitation and" \
-                            " other variables on a spatial resolution of 0.25-degrees covering the Earth between" \
-                            " 90 degrees North and 60 degrees South. Data is available from 2000 to"\
-                            " December 2016.</p>" \
-                            "<p>DAYMET Precipitation: Daymet is a daily dataset of rain gauge data that has been" \
-                            " interpolated and extrapolated. Daymet uses ground station data with their model" \
-                            " algorithm to produce gridded estimates of daily weather parameters. The interpolated" \
-                            " spatial resolution is about a 0.009-degree grid over North America. Data is" \
-                            " accessible since 1980 to the latest full year.</p>" \
-                            "<p>WGEN Precipitation: WGEN is a stochastic weather generator that statistically simulates" \
-                            " precipitation. WGEN uses a Markov Chain Model to determine the probability of" \
-                            " precipitation occurrence. The Markov Chain Model determines precipitation by finding " \
-                            " the probability of a wet day following a dry dat. Then an equation using mean daily" \
-                            " rainfall, standard deviation of daily rainfall, and skew coefficients give the amount" \
-                            " of rainfall on a given wet day.</p>" \
 
 soilmoisture_description = "<p>Soil moisture is amount of water the soil retains. When the water holding capacity" \
                            " of the soil is exceeded by precipitation the excess water is defined as surface" \
@@ -70,16 +39,38 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
                             " potential source of contamination of surface waters and a nonpoint source of" \
                             " pollution.</p>" \
-                            "<p>NLDAS/GLDAS Surface Runoff: Uses a physically distributed runoff model, NOAH, to" \
+                            "<p><b>NLDAS/GLDAS Surface Runoff:</b> Uses a physically distributed runoff model, NOAH, to" \
                             " calculate runoff. By calculating runoff for every grid cell, the model provides detailed" \
                             " information at various points within the catchment. An infiltration-excess based" \
                             " surface runoff scheme with a gravitational drainage subsurface runoff scheme is used" \
                             " in determining runoff for NLDAS and GLDAS. </p>" \
-                            "<p>Curve Number Surface Runoff: The SCS Curve number is an empirical method for" \
+                            "<p><b>Curve Number Surface Runoff:</b> The SCS Curve number is an empirical method for" \
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall" \
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff." \
                             " This empirical method assumes the actual runoff to potential runoff is equal to the" \
                             " ratio of actual to potential retention. </p>" \
 
-temperature_description = "<p>Temperature module under development.</p>"
+subsurfaceflow_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
+                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
+                                       " constant in this model." \
+                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
+                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
+
+evapotranspiration_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
+                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
+                                       " constant in this model." \
+                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
+                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
+
+soilmoisture_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
+                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
+                                       " constant in this model." \
+                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
+                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
+
+surfacerunoff_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
+                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
+                                       " constant in this model." \
+                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
+                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
 
