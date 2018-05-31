@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.urls import path, re_path
 from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels, hydrodynamic_submodels_output
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, hms_model_router
+from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, Documents_submodels, hms_model_router
 from .models.water_quality import output as wq_output
 from . import hms_rest_api
 
@@ -40,8 +40,8 @@ else:
         path('precip_compare/output/', output.precip_compare_output_page),
         path('runoff_compare/', runoff_compare_setup.input_page),
         path('runoff_compare/output/', output.runoff_compare_output_page),
-        path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
-        path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
+        #path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
+        #path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
         #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
         #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
         path('meteorology/<slug:submodel>/', meteorology_submodels.submodel_page),
@@ -49,6 +49,7 @@ else:
         path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
         path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
         path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
+        path('Documents/<slug:submodel>/', Documents_submodels.submodels_page),
         path('watershed_workflow/', watershed_map.hms_map_page),
         path('api_doc/', api_doc.create_swagger_docs),
         path('api_doc/swagger/', api_doc.get_swagger_json),
@@ -59,7 +60,7 @@ else:
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
         #path('model/<slug:model>', hms_model_router.landing_page),
-        path('<slug:model>/<slug:submodule>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>/', hms_model_router.landing_page),
         path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
         path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
         path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
