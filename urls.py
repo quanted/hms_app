@@ -61,7 +61,7 @@ else:
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
         #path('model/<slug:model>', hms_model_router.landing_page),
-        path('<slug:model>/<slug:submodule>', hms_model_router.landing_page),
+        path('<slug:model>/<slug:submodule>/', hms_model_router.landing_page),
         path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
         path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
         path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
