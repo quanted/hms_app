@@ -11,7 +11,8 @@ import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
 
 
-submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
+submodel_list = ['precipitation', 'temperature',
+                 'solarcalculator']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -22,7 +23,6 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
-
     urlpath = request.path.split('/')
     model = 'meteorology'
     submodel = urlpath[urlpath.index(model) + 1]
@@ -31,7 +31,6 @@ def submodel_page(request, submodel, header='none'):
     response = HttpResponse()
     response.write(html)
     return response
-
 
 def get_submodel_header(submodel):
     """
@@ -50,22 +49,6 @@ def get_submodel_header(submodel):
         submodelTitle = "Temperature"
     return meteor.header + " - " + submodelTitle
 
-def get_submodel_description(submodel):
-    """
-    Gets the submodel description.
-    :param submodel: Current submodel
-    :return: submodel description as a string
-    """
-    if submodel == "solarcalculator":
-        return meteor.solarcalculator_description
-    elif (submodel == "precipitation"):
-        return meteor.precipitation_description
-    elif (submodel == "temperature"):
-        return meteor.temperature_description
-    else:
-        return ''
-
-
 def build_submodel_page(request, model, submodel, header):
     """
     Builds the html for the submodel page.
@@ -82,22 +65,21 @@ def build_submodel_page(request, model, submodel, header):
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
-    description = get_submodel_description(submodel)
+    #description = get_submodel_description(submodel)
     html += render_to_string('06ubertext_start_index_drupal.html', {
-        'TITLE': header,
-        'TEXT_PARAGRAPH': description
+        'TITLE': header
+    #    'TEXT_PARAGRAPH': description
     })
     html += render_to_string('07ubertext_end_drupal.html', {})
 
-    #input_module = get_model_input_module(model)
-    #input_page_func = getattr(input_module, model + '_input_page')
-    #html += input_page_func(request, model, submodel, header)
-    html += links_left.ordered_list(model, submodel)
+    input_module = get_model_input_module(model)
+    input_page_func = getattr(input_module, model + '_input_page')
+    html += input_page_func(request, model, submodel, header)
+    html += links_left.ordered_list(model, submodel, page="run")
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-
 
 def get_model_input_module(model):
     """

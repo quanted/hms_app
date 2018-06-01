@@ -1,5 +1,5 @@
 """
-HMS Meteorology Submodel page functions
+HMS Hydrology Submodel page functions
 """
 
 from django.template.loader import render_to_string
@@ -10,8 +10,8 @@ import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
 
-
-submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
+submodel_list = ['precipitation', 'temperature',
+                 'solarcalculator']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -33,6 +33,22 @@ def submodel_page(request, submodel, header='none'):
     return response
 
 
+
+def get_submodel_description(submodel):
+    """
+    Gets the submodel description.
+    :param submodel: Current submodel
+    :return: submodel description as a string
+    """
+    if (submodel == "precipitation"):
+        return meteor.precipitation_algorithm_description
+    elif (submodel == "temperature"):
+        return meteor.temperature_algorithm_description
+    elif (submodel == "solarcalculator"):
+        return meteor.solarcalculator_algorithm_description
+    else:
+        return meteor.unknown_description
+
 def get_submodel_header(submodel):
     """
     Gets the submodel page header.
@@ -49,22 +65,6 @@ def get_submodel_header(submodel):
     elif (submodelTitle == "temperature"):
         submodelTitle = "Temperature"
     return meteor.header + " - " + submodelTitle
-
-def get_submodel_description(submodel):
-    """
-    Gets the submodel description.
-    :param submodel: Current submodel
-    :return: submodel description as a string
-    """
-    if submodel == "solarcalculator":
-        return meteor.solarcalculator_description
-    elif (submodel == "precipitation"):
-        return meteor.precipitation_description
-    elif (submodel == "temperature"):
-        return meteor.temperature_description
-    else:
-        return ''
-
 
 def build_submodel_page(request, model, submodel, header):
     """
@@ -92,12 +92,11 @@ def build_submodel_page(request, model, submodel, header):
     #input_module = get_model_input_module(model)
     #input_page_func = getattr(input_module, model + '_input_page')
     #html += input_page_func(request, model, submodel, header)
-    html += links_left.ordered_list(model, submodel)
+    html += links_left.ordered_list(model, submodel, page="algorithms")
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-
 
 def get_model_input_module(model):
     """
