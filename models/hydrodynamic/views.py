@@ -85,6 +85,18 @@ changingvolume_algorithm_description = "<p> Using a discharge-water depth relati
                                        " gives:\[log (d)=c*\log (Q) + \log (y)\]"\
                                        '<img src="/static_qed/hms/images/flow_regression.png" alt="Depth Flow Regression" style="">'
 
-kinematicwave_algorithm_description = "<p>  This is where the full kinematic wave algorithm will go. \[Q_{i, t+1}" \
+kinematicwave_algorithm_description = "<p>  The full kinematic wave algorithm is derived from the Continuity, Momentum," \
+                                      " and Manning's Equations. \[Q_{i, t+1}" \
                                       "= {-(Q_{i,t} - Q_{i-1,t+1}) \over \Delta x \\alpha \\beta ({Q_{i,t+1}^*})^" \
-                                      "{\ beta-1}} \Delta t + Q_{i,t}\]</p> "
+                                      "{\ beta-1}} \Delta t + Q_{i,t}\]</p> " \
+                                      "The subscript i, t+1 is the location and time we are interested in solving for," \
+                                      " thus \(Q_{(i,t+1)}\) is the unknown flow. \(Q_{(i-1,t+1)}\)is the flow from the upstream " \
+                                      "segment at the time we are interested in and \(Q_{(i,t)}\) is the flow from the " \
+                                      "segment of interest at the previous time step. \(t\) is time and \(x\) is distance while, " \
+                                      "\(β = 3/5\) and \(α={(nP^{(2/3)})\over √( S_o )}^{(3/5)}\). The equation must be solved using" \
+                                      " an iteration.For the initial calculation we set one of the unknowns to equal " \
+                                      "the outflow from the current time and location \((Q_{(i,t+1)}^*=Q_{(i,t)})\) , then" \
+                                      " the unknown, \(Q_{(i,t+1)}\) is solved in an iterative loop where \(Q_{(i,t+1)}^*\) is " \
+                                      "equal to the new answer for \(Q_{(i,t+1)}\)and solved again until it converges" \
+                                      " with an error of less than \(10^{-3}\)." \
+                                      "\[error=|Q_{(i,t+1)}^*-Q_{(i,t+1)} |\]"

@@ -14,30 +14,11 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
-    # link_dict = OrderedDict([
-    #     ('Components', OrderedDict([
-    #         ('Watershed Workflow', 'watershed_workflow/'),
-    #         ('Meteorology', 'meteorology/'),
-    #         ('hydrology', 'hydrology/'),
-    #         ('Hydrodynamics', 'hydrodynamic/'),
-    #         ('Water Quality', 'water_quality/')
-    #     ])),
-    #     ('Utilities', OrderedDict([
-    #         ('API Documentation', 'api_doc/')
-    #     ])),
-    #     ('Work Flows', OrderedDict([
-    #         ('Precipitation Compare', 'precip_compare/'),
-    #         ('Runoff Compare', 'runoff_compare/'), ])),
-    # ])
-    print(page)
 
     link_dict = OrderedDict([
         ('Hydrodynamics', OrderedDict([
             ('Overview', 'hydrodynamic/overview'),
             ('Constant Volume', 'hydrodynamic/constant_volume'),
-            # OrderedDict([
-            #     ('Run Model', 'hydrodynamic/constant_volume/runmodel'),
-            #     ('Algorithms' 'hydrodynamic/constant_volume/algorithms')]),
             ('Changing Volume', 'hydrodynamic/changing_volume'),
             ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
@@ -45,15 +26,15 @@ def ordered_list(model, submodel, page=None):
             ('Watershed Delineation', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
-            # ('Hydrodynamics', 'hydrodynamic/'),
             ('Water Quality', 'water_quality/')
         ])),
-        #('Hydrology', OrderedDict([
-         #   ('Evapotranspiration', 'evap/'),
-         #   ('Soil Moisture', 'soil_moist/'),
-        #    ('Subsurface Flow', 'subsurface/'),
-        #    ('Surface Runoff', 'runoff/'),
-        #])),
+        ('Hydrology', OrderedDict([
+            ('Overview', 'hydrology/overview'),
+            ('Evapotranspiration', 'hydrology/evapotranspiration/'),
+            ('Soil Moisture', 'hydrology/soilmoisture/'),
+            ('Subsurface Flow', 'hydrology/subsurfaceflow/'),
+            ('Surface Runoff', 'hydrology/surfacerunoff/'),
+        ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),
             ('HMS Documentation', 'Documents/')
