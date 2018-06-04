@@ -79,7 +79,7 @@ class HydrologyFormInput(forms.Form):
 	)
 	temporalresolution = forms.ChoiceField(
 		widget=forms.Select(attrs={
-			'title': 'Temporal resolution of the output time series data (default is hourly).'
+			'title': 'Temporal resolution of the output time series data.'
 		}),
 		label='Temporal Resolution',
 		choices=(("default", "default"), ("hourly", "hourly"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
@@ -168,9 +168,16 @@ class EvapotranspirationFormInput(HydrologyFormInput):
 			'title': 'Evapotranspiration data source.'
 		}),
 		label='Source',
-		choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'),
-				 ('ncdc', 'ncdc')),
+		choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('ncdc', 'ncdc'), ('custom', 'custom')),
 		initial='NLDAS'
+	)
+	userdata = forms.FileField(
+		widget=forms.ClearableFileInput(attrs={
+			'title': 'Must contain following parameters: year, julianday, daylight(hours), solar radiation(W/m^2), max temperature(deg c), min temperature(deg c), vapor pressure(Pa).',
+			'accept':'.csv'
+		}),
+		label='Custom data file upload (.csv)',
+		required=False
 	)
 	algorithm = forms.ChoiceField(
 		widget=forms.Select(attrs={
