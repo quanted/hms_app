@@ -46,15 +46,18 @@ def get_submodel_form_input(submodel, form_data):
     :return: returns django Form object
     """
     from ..hydrology import hydrology_parameters as hp
-    # import hms_app.models.hydrology.hydrology_parameters as hp
 
-    if (submodel == 'subsurfaceflow'):
+    if submodel == 'subsurfaceflow':
         return hp.SubsurfaceflowFormInput(form_data)
-    elif (submodel == 'evapotranspiration'):
+    elif submodel == 'precipitation':
+        return hp.PrecipitationFormInput(form_data)
+    elif submodel == 'evapotranspiration':
         return hp.EvapotranspirationFormInput(form_data)
-    elif (submodel == 'soilmoisture'):
+    elif submodel == 'soilmoisture':
         return hp.SoilmoistureFormInput(form_data)
-    elif (submodel == 'surfacerunoff'):
+    elif submodel == 'surfacerunoff':
         return hp.SurfacerunoffFormInput(form_data)
+    elif submodel == "temperature":
+        return hp.TemperatureFormInput(form_data)
     else:
         return ''
