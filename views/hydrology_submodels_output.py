@@ -142,6 +142,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
         # target = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + submodel
         # swaggernurl = "https://qedinternal.epa.gov/hms/api_doc/swagger"
         # request_parameters = swag(method="POST", target_url=target, parameters=parameters, swagger_url=swaggernurl)
+        print(request_parameters)
         data = get_data(model, submodel, request_parameters)
         location = str(parameters['latitude']) + ", " + str(parameters['longitude'])
         html = create_output_page(model, submodel, data, submodel.capitalize(), location)

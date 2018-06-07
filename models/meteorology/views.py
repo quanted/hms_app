@@ -4,7 +4,7 @@ HMS Meteorology module content
 
 header = 'HMS: Meteorology'
 
-description = 'Currently in development'
+description = 'Meteorology currently in development'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
@@ -20,7 +20,15 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             "hydrologic transportation of contaminants, best management practices, and regulations." \
                             " Precipitation data is generated through direct observation as well" \
                             " as model simulation.</p>" \
-                            "<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
+
+
+temperature_description = "<p>Temperature module under development.</p>"
+
+solarcalculator_algorithm_description=""
+
+temperature_algorithm_description=""
+
+precipitation_algorithm_description="<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
                             " combines North American radar data and satellite data from CMORPH. NLDAS has an" \
                             " hourly time step on a 0.125 -degree grid of North America and has a maximum time" \
                             " lag of four days for data retrieval. Data is available from January 2, 1979 to" \
@@ -40,7 +48,5 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             " precipitation occurrence. The Markov Chain Model determines precipitation by finding " \
                             " the probability of a wet day following a dry dat. Then an equation using mean daily" \
                             " rainfall, standard deviation of daily rainfall, and skew coefficients give the amount" \
-                            " of rainfall on a given wet day.</p>" \
-
-temperature_description = "<p>Temperature module under development.</p>"
+                            " of rainfall on a given wet day.</p>"
 

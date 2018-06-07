@@ -76,6 +76,10 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
                 "roughnesslength": str(parameters['roughlength']),
                 "vegetationheight": str(parameters['vegheight'])
             }
+            if(parameters["source"] == "custom"):
+                request_parameters["userData"] = parameters['userdata'].read()
+                if(parameters['userdata'] == None):
+                    return HttpResponse("ERROR: Custom data source was selected but no data was provided.");
             if(parameters["source"] != "ncdc"):
                 request_parameters["geometry"] = {
                     "point": {
