@@ -18,6 +18,8 @@ unknown_description = '<p>There is nothing for you here!</p>'
 subsurfaceflow_description = "<p>Subsurface flow is the flow of water beneath the Earth's surface in both the" \
                              " unsaturated and saturated zones. </p>" \
 
+precipitation_description = "<p>Precipitation description placeholder... </p>"
+
 
 evapotranspiration_description = "<p>Evapotranspiration is the combination of water loss through a phase change by" \
                                  " evaporation and transpiration. This process is the second largest component in" \
