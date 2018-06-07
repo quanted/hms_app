@@ -18,6 +18,8 @@ unknown_description = '<p>There is nothing for you here!</p>'
 subsurfaceflow_description = "<p>Subsurface flow is the flow of water beneath the Earth's surface in both the" \
                              " unsaturated and saturated zones. </p>" \
 
+precipitation_description = "<p>Precipitation description placeholder... </p>"
+
 
 evapotranspiration_description = "<p>Evapotranspiration is the combination of water loss through a phase change by" \
                                  " evaporation and transpiration. This process is the second largest component in" \
@@ -56,11 +58,11 @@ subsurfaceflow_algorithm_description = "<p>The constant volume option uses the c
                                        " \[Q_{out}= \sum Q_{in}\] </p>"\
                                        '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
 
-evapotranspiration_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
-                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
-                                       " constant in this model." \
-                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
-                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
+evapotranspiration_algorithm_description = "<p>The table below lists the supported evapotranspiration algorithms as well as " \
+                                           "the data sources that contain the required parameters for each algorithm. More" \
+                                           "information regarding the inputs and outputs can be found" \
+                                           "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
+                                       '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
 
 soilmoisture_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
                                        " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \

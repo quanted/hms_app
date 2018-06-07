@@ -16,6 +16,12 @@ def ordered_list(model, submodel, page=None):
     """
 
     link_dict = OrderedDict([
+        ('Meteorology', OrderedDict([
+            ('Overview', 'meteorology/overview'),
+            ('Precipitation', 'meteorology/precipitation'),
+            ('Temperature', 'meteorology/temperature'),
+            ('Solar Calculator', 'meteorology/solarcalculator'),
+        ])),
         ('Hydrodynamics', OrderedDict([
             ('Overview', 'hydrodynamic/overview'),
             ('Constant Volume', 'hydrodynamic/constant_volume'),
