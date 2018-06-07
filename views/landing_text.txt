@@ -11,6 +11,24 @@ By tapping into the strengths of the different approaches taken by different mod
 </p>
 <h2>Structure of HMS web app</h2>
 <h3>Components</h3>
+
+<ul>
+<li><h4>Meteorology</h4></li>
+<ul>
+<li>Precipitation</li>
+<li>Solar Calculator</li>
+<li>Temperature</li>
+</ul>
+</ul>
+<ul>
+<li><h4>Hydrology</h4></li>
+<ul>
+<li>Evapotranspiration</li>
+<li>Surface Runoff</li>
+<li>Soil Moisture</li>
+<li>Subsurface Flow</li>
+</ul>
+</ul>
 <ul>
 <li><h4>Hydrodynamics</h4></li>
 <ul>
@@ -21,25 +39,7 @@ By tapping into the strengths of the different approaches taken by different mod
 </ul>
 </ul>
 <ul>
-<li><h4>Meteorology</h4></li>
-<ul>
-<li>Solar Calculator</li>
-<li>Precipitation</li>
-<li>Temperature</li>
-</ul>
-</ul>
-<ul>
-<li><h4>Hydrology</h4></li>
-<ul>
-<li>Evapotranspiration</li>
-<li>Precipitation</li>
-<li>Surface Runoff</li>
-<li>Subsurface Flow</li>
-<li>Soil Moisture</li>
-<li>Temperature</li>
-</ul>
-</ul>
-<ul>
+<li><h4>Watershed Delineation</h4></li>
 <li><h4>Water Quality</h4></li>
 <ul>
 <li>Photolysis</li>

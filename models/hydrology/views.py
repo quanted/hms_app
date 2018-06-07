@@ -39,7 +39,20 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
                             " potential source of contamination of surface waters and a nonpoint source of" \
                             " pollution.</p>" \
-                            "<p><b>NLDAS/GLDAS Surface Runoff:</b> Uses a physically distributed runoff model, NOAH, to" \
+
+
+subsurfaceflow_algorithm_description = "<p>The subsurface flow algorithm goes here"
+
+evapotranspiration_algorithm_description = "<p>The table below lists the supported evapotranspiration algorithms as well as " \
+                                           "the data sources that contain the required parameters for each algorithm. More" \
+                                           "information regarding the inputs and outputs can be found" \
+                                           "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
+                                       '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
+
+soilmoisture_algorithm_description = "<p>The NLDAS soil moisture algorithm is modeled with the NOAH community land" \
+                                     " surface model. "
+
+surfacerunoff_algorithm_description = "<p><b>NLDAS/GLDAS Surface Runoff:</b> Uses a physically distributed runoff model, NOAH, to" \
                             " calculate runoff. By calculating runoff for every grid cell, the model provides detailed" \
                             " information at various points within the catchment. An infiltration-excess based" \
                             " surface runoff scheme with a gravitational drainage subsurface runoff scheme is used" \
@@ -49,28 +62,3 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff." \
                             " This empirical method assumes the actual runoff to potential runoff is equal to the" \
                             " ratio of actual to potential retention. </p>" \
-
-subsurfaceflow_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
-                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
-                                       " constant in this model." \
-                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
-                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
-
-evapotranspiration_algorithm_description = "<p>The table below lists the supported evapotranspiration algorithms as well as " \
-                                           "the data sources that contain the required parameters for each algorithm. More" \
-                                           "information regarding the inputs and outputs can be found" \
-                                           "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
-                                       '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
-
-soilmoisture_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
-                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
-                                       " constant in this model." \
-                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
-                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
-
-surfacerunoff_algorithm_description = "<p>The constant volume option uses the conservation of mass equation to determine" \
-                                       " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
-                                       " constant in this model." \
-                                       " \[Q_{out}= \sum Q_{in}\] </p>"\
-                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
-

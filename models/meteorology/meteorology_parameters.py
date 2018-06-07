@@ -67,4 +67,4 @@ class SolarcalculatorFormInput(forms.Form):
         initial='2010-06-10'
     )
 
-#did not add temperature or precipitation because they use the hydrology FormInput
+#did not add temperature or precipitation because they use the hydrology FormInput -js
