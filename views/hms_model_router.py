@@ -4,6 +4,7 @@ Router to direct requests for a specified model/submodule
 
 from django.shortcuts import redirect
 from .hydrology_submodels import submodel_page as hydrology_submodel
+from .v2hydrology_submodels import submodel_page as v2hydrology_submodel
 from .meteorology_submodels import submodel_page as meteorology_submodel
 from .hydrodynamic_submodels import submodel_page as hydrodynamic_submodel
 from .hydrology_submodels_run import submodel_page as hydrology_submodel_run
@@ -14,7 +15,7 @@ from .meteorology_submodels_algorithms import submodel_page as meteorology_submo
 from .hydrology_submodels_algorithms import submodel_page as hydrology_submodel_algorithms
 from .hydrodynamic_submodels_output import hydrodynamics_output_page as hydrodynamics_output_page
 from .meteorology_submodels_output import meteorology_output_page as meteorology_output_page
-from .hydrology_submodels_output import hydrology_output_page as hydrology_output_page
+from .hydrology_submodels_output import v2hydrology_output_page as hydrology_output_page
 import logging
 
 hydrology_submodules = ['overview', "evapotranspiration", "soilmoisture", "surfacerunoff", "subsurfaceflow"]
@@ -34,13 +35,13 @@ def landing_page(request, model, submodule):
     logging.info("hms page request, model: " + model + "; submodule: " + submodule)
     print("hms page request, model: " + model + "; submodule: " + submodule)
 
-    if model == "hydrology":
+    if model == "v2hydrology":
         if submodule in hydrology_submodules:
             # construct page from existing code
-            landing_html = hydrology_submodel(request, submodule)
+            landing_html = v2hydrology_submodel(request, submodule)
         else:
             # redirect to default hms/hydrology page, invalid submodule request
-            return redirect('/hms/hydrology/')
+            return redirect('/hms/v2hydrology/')
     elif model == "hydrodynamic":
         if submodule in hydrodynamic_modules:
             # construct page for hydrodynamic submodule
@@ -48,6 +49,13 @@ def landing_page(request, model, submodule):
         else:
             # redirect to default hms/hydrodynamics page, invalid submodule request
             return redirect('/hms/hydrodynamic/')
+    elif model == "hydrology":
+        if submodule in hydrology_submodules:
+            # construct page from existing code
+            landing_html = hydrology_submodel(request, submodule)
+        else:
+            # redirect to default hms/hydrology page, invalid submodule request
+            return redirect('/hms/hydrology/')
     elif model == "meteorology":
         if submodule in meteorology_submodules:
             # construct page for meteorlogy submodules
@@ -74,7 +82,7 @@ def run(request, model, submodule):
     logging.info("hms page request, model: " + model + "; submodule: " + submodule)
     print("hms page request, model: " + model + "; submodule: " + submodule)
 
-    if model == "hydrology":
+    if model == "v2hydrology":
         if submodule in hydrology_submodules:
             # construct page from existing code
             run_html = hydrology_submodel_run(request, submodule)
@@ -115,7 +123,7 @@ def algorithms(request, model, submodule):
     logging.info("hms page request, model: " + model + "; submodule: " + submodule)
     print("hms page request, model: " + model + "; submodule: " + submodule)
 
-    if model == "hydrology":
+    if model == "v2hydrology":
         if submodule in hydrology_submodules:
             # construct page from existing code
             algorithm_html = hydrology_submodel_algorithms(request, submodule)
@@ -132,7 +140,7 @@ def algorithms(request, model, submodule):
             return redirect('/hms/hydrodynamic/')
     elif model == "meteorology":
         if submodule in meteorology_submodules:
-            # construct page for meteorlogy submodules
+            # construct page for meteorology submodules
             # (will need some recoding due to some submodules existing in hydrology_submodels)
             algorithm_html = meteorology_submodel_algorithms(request, submodule)
         else:
@@ -156,7 +164,7 @@ def output(request, model, submodule):
     logging.info("hms page request, model: " + model + "; submodule: " + submodule)
     print("hms page request, model: " + model + "; submodule: " + submodule)
 
-    if model == "hydrology":
+    if model == "v2hydrology":
         if submodule in hydrology_submodules:
             # construct page from existing code
             output_html = hydrology_output_page(request, submodule)

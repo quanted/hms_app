@@ -8,7 +8,7 @@ from django.http import HttpResponse
 import os
 import importlib
 import hms_app.views.links_left as links_left
-import hms_app.models.hydrology.views as hydro
+import hms_app.models.v2hydrology.views as hydro
 
 
 submodel_list = ['subsurfaceflow', 'evapotranspiration',
@@ -25,7 +25,7 @@ def submodel_page(request, submodel, header='none'):
     """
 
     urlpath = request.path.split('/')
-    model = 'hydrology'
+    model = 'v2hydrology'
     submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
     html = build_submodel_page(request, model, submodel, header)
