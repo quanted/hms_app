@@ -38,7 +38,7 @@ class SolarcalculatorFormInput(forms.Form):
         widget=forms.NumberInput(attrs={
             'title': 'Timezone for the specified location.'
         }),
-        label='Timezone',
+        label='Time Zone',
         initial=-7,
         required=False
     )
