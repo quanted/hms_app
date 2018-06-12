@@ -24,7 +24,8 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True":
         url = "http://localhost:60049/swagger/v1/swagger.json"
     else:
-        url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
+        # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
+        url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER'))
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
     if os.environ['HMS_LOCAL'] == "True":
