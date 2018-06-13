@@ -1,13 +1,13 @@
 """
-HMS Meteorology Input form function
+HMS Hydrology Input form function
 """
 
 from django.template.loader import render_to_string
 
 
-def meteorology_input_page(request, model='', submodel='', header='', form_data=None):
+def v2hydrology_input_page(request, model='', submodel='', header='', form_data=None):
     """
-    Constructs the html for the meteorology input pages.
+    Constructs the html for the hydrology input pages.
     :param request: current request object
     :param model: current model
     :param submodel: current submodel
@@ -15,7 +15,7 @@ def meteorology_input_page(request, model='', submodel='', header='', form_data=
     :param form_data: Set to None
     :return: returns a string formatted as html
     """
-    sub_import = "/static_qed/hms/js/meteorology/" + submodel + ".js"
+    sub_import = "/static_qed/hms/js/hydrology/hms_" + submodel + ".js"
     html = render_to_string('04hms_js_imports.html', {
         'SUBMODEL_IMPORT': sub_import
     })
@@ -45,14 +45,19 @@ def get_submodel_form_input(submodel, form_data):
     :param form_data: existing form data, currently set to None
     :return: returns django Form object
     """
-    from ..meteorology import meteorology_parameters as mp
-    #from ..hydrology import hydrology_parameters as hp
+    from ..v2hydrology import v2hydrology_parameters as hp
 
-    if submodel == 'solarcalculator':
-        return mp.SolarcalculatorFormInput(form_data)
-    elif (submodel == 'precipitation'):
-        return mp.PrecipitationFormInput(form_data)
-    elif (submodel == 'temperature'):
-        return mp.TemperatureFormInput(form_data)
+    if submodel == 'subsurfaceflow':
+        return hp.SubsurfaceflowFormInput(form_data)
+    #elif submodel == 'precipitation':
+        #return hp.PrecipitationFormInput(form_data)
+    elif submodel == 'evapotranspiration':
+        return hp.EvapotranspirationFormInput(form_data)
+    elif submodel == 'soilmoisture':
+        return hp.SoilmoistureFormInput(form_data)
+    elif submodel == 'surfacerunoff':
+        return hp.SurfacerunoffFormInput(form_data)
+    #elif submodel == "temperature":
+        #return hp.TemperatureFormInput(form_data)
     else:
         return ''
