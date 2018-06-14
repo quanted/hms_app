@@ -75,6 +75,7 @@ def build_submodel_page(request, model, submodel, header):
     input_module = get_model_input_module(model)
     input_page_func = getattr(input_module, model + '_input_page')
     html += input_page_func(request, model, submodel, header)
+    #print(header)
     html += links_left.ordered_list(model, submodel, page="run")
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
