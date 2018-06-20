@@ -34,7 +34,8 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True":
         swagger["host"] = "127.0.0.1:8000/hms/rest"
     elif os.environ['IN_DOCKER'] == "True":
-        swagger["host"] = "172.20.100.15/hms/rest"
+        # TODO: removed hardcoded ips
+        swagger["host"] = "172.20.100.11/hms/rest"
         swagger["basePath"] = ""
     else:
         swagger["host"] = "qedinternal.epa.gov/hms/rest"
