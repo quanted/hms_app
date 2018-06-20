@@ -22,6 +22,13 @@ def ordered_list(model, submodel, page=None):
             ('Temperature', 'meteorology/temperature'),
             ('Solar Calculator', 'meteorology/solarcalculator'),
         ])),
+        ('v2Hydrology', OrderedDict([
+            ('Overview', 'v2hydrology/overview'),
+            ('Evapotranspiration', 'v2hydrology/evapotranspiration/'),
+            ('Surface Runoff', 'v2hydrology/surfacerunoff/'),
+            ('Soil Moisture', 'v2hydrology/soilmoisture/'),
+            ('Subsurface Flow', 'v2hydrology/subsurfaceflow/'),
+        ])),
         ('Hydrodynamics', OrderedDict([
             ('Overview', 'hydrodynamic/overview'),
             ('Constant Volume', 'hydrodynamic/constant_volume'),
@@ -33,13 +40,6 @@ def ordered_list(model, submodel, page=None):
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             ('Water Quality', 'water_quality/')
-        ])),
-        ('Hydrology', OrderedDict([
-            ('Overview', 'hydrology/overview'),
-            ('Evapotranspiration', 'hydrology/evapotranspiration/'),
-            ('Soil Moisture', 'hydrology/soilmoisture/'),
-            ('Subsurface Flow', 'hydrology/subsurfaceflow/'),
-            ('Surface Runoff', 'hydrology/surfacerunoff/'),
         ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),

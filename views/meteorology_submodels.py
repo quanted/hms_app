@@ -27,6 +27,8 @@ def submodel_page(request, submodel, header='none'):
     model = 'meteorology'
     submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
+    print('submodel:' + str(submodel))
+    print('header:' + str(header))
     html = build_submodel_page(request, model, submodel, header)
     response = HttpResponse()
     response.write(html)
@@ -60,6 +62,8 @@ def get_submodel_description(submodel):
         return meteor.solarcalculator_description
     elif (submodel == "precipitation"):
         return meteor.precipitation_description
+    elif (submodel == "overview"):
+        return meteor.description
     elif (submodel == "temperature"):
         return meteor.temperature_description
     else:

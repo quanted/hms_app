@@ -23,7 +23,7 @@ ERROR_OUTPUT = '{"dataset": "", "source": "", ' \
 
 
 @require_POST
-def hydrology_output_page(request, model='hydrology', submodel='', header=''):
+def v2hydrology_output_page(request, model='v2hydrology', submodel='', header=''):
     """
 	Default hydrology output page function, constructs complete output page
 	:param request: Request object
@@ -32,7 +32,7 @@ def hydrology_output_page(request, model='hydrology', submodel='', header=''):
 	:param header: default header
 	:return: HttpResponse object
 	"""
-    model_parameters_location = 'hms_app.models.' + 'hydrology' + '.' + 'hydrology' + '_parameters'
+    model_parameters_location = 'hms_app.models.' + 'v2hydrology' + '.' + 'v2hydrology' + '_parameters'
     parametersmodule = importlib.import_module(model_parameters_location)
     input_form = getattr(parametersmodule, model.title() + 'FormInput')
     form = input_form(request.POST, request.FILES)
@@ -269,7 +269,7 @@ def create_output_page(model, submodel, data, dataset, location):
     return html
 
 
-def hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
+def v2hydrology_input_page_errors(request, model='', submodel='', header='', form=''):
     """
 	Constructs the html for the hydrology input pages, containing errors in the form.
 	:param request: current request object
@@ -279,7 +279,7 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
 	:param form: Previous form data.
 	:return: returns a string formatted as html
 	"""
-    import hms_app.views.hydrology_submodels as hydro_sub
+    import hms_app.views.v2hydrology_submodels as hydro_sub
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
@@ -294,7 +294,7 @@ def hydrology_input_page_errors(request, model='', submodel='', header='', form=
     })
     html += render_to_string('07ubertext_end_drupal.html', {})
     # --------------- Form with Errors --------------- #
-    import hms_app.models.hydrology.hydrology_inputs as hydro_form
+    import hms_app.models.v2hydrology.v2hydrology_inputs as hydro_form
     html += hydro_form.hydrology_input_page(request, model, submodel, header, form)
     # ------------------ end of Form ----------------- #
     html += links_left.ordered_list(model, submodel)

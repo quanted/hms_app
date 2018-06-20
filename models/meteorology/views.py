@@ -4,11 +4,13 @@ HMS Meteorology module content
 
 header = 'HMS: Meteorology'
 
-description = 'Meteorology currently in development'
+description = 'Meteorology is the study of the atmosphere that focuses on weather processes. Precipitation, Solar data, ' \
+              'and air temperature are part of the meteorology component.'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
-solarcalculator_description = 'Description for solar calculator.'
+solarcalculator_description = 'Description for solar calculator. The NOAA Solar Calculator will calculate solar data' \
+                              ' for a day or a year at a specific location between the year 1901 and 2099. '
 
 precipitation_description = "<p>Precipitation is one of the main processes in the global hydrological cycle, thus" \
                             " integral for modeling purposes. Precipitation is highly variable and influences" \
@@ -24,9 +26,16 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
 
 temperature_description = "<p>Temperature module under development.</p>"
 
-solarcalculator_algorithm_description=""
+solarcalculator_algorithm_description="The equations used in the solar calculator are based on 'Astronomical Algorithms" \
+                                      "' by Jean Meeus."
 
-temperature_algorithm_description=""
+temperature_algorithm_description="<p><b>NLDAS Temperature: </b>The North American Land Data Assimilation System" \
+                                  " (NLDAS)" \
+                                  " provides temperature measurements 2-meters above the ground in Kelvin. NLDAS" \
+                                  " provides data on a 0.125-degree grid of North America. " \
+                                  "<p><b>GLDAS Temperature: </b>The Global Land Data Assimilation System (GLDAS) " \
+                                  "provides temperature measurements in Kelvin on" \
+                                  " a .25-degree grid covering the Earth between 90 degrees North and 60 degrees South. </p>"
 
 precipitation_algorithm_description="<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
                             " combines North American radar data and satellite data from CMORPH. NLDAS has an" \
