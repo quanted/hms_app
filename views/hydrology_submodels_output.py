@@ -76,7 +76,7 @@ def v2hydrology_output_page(request, model='v2hydrology', submodel='', header=''
                 "roughnesslength": str(parameters['roughlength']),
                 "vegetationheight": str(parameters['vegheight'])
             }
-            if(parameters["source"] != "ncdc"):
+            if (parameters["source"] != "ncdc"):
                 request_parameters["geometry"] = {
                     "point": {
                         "latitude": str(parameters['latitude']),
@@ -84,7 +84,7 @@ def v2hydrology_output_page(request, model='v2hydrology', submodel='', header=''
                     },
                     "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
                 }
-            elif(parameters["source"] == "ncdc"):
+            elif (parameters["source"] == "ncdc"):
                 request_parameters["geometry"] = {
                     "geometryMetadata": set_geometry_metadata(parameters["geometrymetadata"])
                 }
@@ -152,6 +152,7 @@ def v2hydrology_output_page(request, model='v2hydrology', submodel='', header=''
     response.write(html)
     return response
 
+
 def set_geometry_metadata(form_data):
     if form_data == '':
         return {}
@@ -165,19 +166,22 @@ def set_geometry_metadata(form_data):
 
 def get_data(model, submodel, parameters):
     """
-	Performs the POST call to the HMS backend server for data retrieval.
-	:param submodel: submodel of requested data
-	:param parameters: Dictionary containing the parameters.
-	:return: object constructed from json.loads()
-	"""
+    Performs the POST call to the HMS backend server for data retrieval.
+    :param submodel: submodel of requested data
+    :param parameters: Dictionary containing the parameters.
+    :return: object constructed from json.loads()
+    """
+
+
     if os.environ['HMS_LOCAL'] == "True":
         # url = 'http://134.67.114.8/HMSWS/api/' + submodel                                  # server 8 HMS, external
         # url = 'http://172.20.10.18/HMSWS/api/WSHMS/'                                  # server 8 HMS, internal
         url = 'http://localhost:60049/api/' + model + '/' + submodel  # local VS HMS
     # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     else:
-        url = str(os.environ.get(
-            'HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
+        url = 'http://127.0.0.1:8000/hms/rest/api/' + model
+        # url = str(os.environ.get(
+        #     'HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
     print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
@@ -301,4 +305,3 @@ def v2hydrology_input_page_errors(request, model='', submodel='', header='', for
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-
