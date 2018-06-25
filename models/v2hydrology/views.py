@@ -46,8 +46,8 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
 subsurfaceflow_algorithm_description = "<p>The subsurface flow algorithm goes here"
 
 evapotranspiration_algorithm_description = "<p>The table below lists the supported evapotranspiration algorithms as well as " \
-                                           "the data sources that contain the required parameters for each algorithm. " \
-                                           "More information regarding the inputs and outputs can be found" \
+                                           "the data sources that contain the required parameters for each algorithm. More" \
+                                           " information regarding the inputs and outputs can be found" \
                                            "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
                                        '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
 

@@ -25,7 +25,7 @@ def hms_map_page(request):
     #     'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04hms_start_drupal.html', {
-        'TITLE': 'HMS Watershed Workflow',
+        'TITLE': 'HMS Watershed Delineation',
         'TEXT_PARAGRAPH': x})
 
     html += render_to_string('04ubertext_end_drupal.html', {})

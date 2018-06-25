@@ -11,7 +11,7 @@ import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
 
 
-submodel_list = ['solarcalculator']
+submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -22,14 +22,35 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
+
     urlpath = request.path.split('/')
     model = 'meteorology'
     submodel = urlpath[urlpath.index(model) + 1]
-    html = build_submodel_page(request, model, submodel, 'HMS: Meteorology')
+    header = get_submodel_header(submodel)
+    print('submodel:' + str(submodel))
+    print('header:' + str(header))
+    html = build_submodel_page(request, model, submodel, header)
     response = HttpResponse()
     response.write(html)
     return response
 
+
+def get_submodel_header(submodel):
+    """
+    Gets the submodel page header.
+    :param submodel: Current submodel
+    :return: header as a string
+    """
+    submodelTitle = submodel.replace('_', ' ').title()
+    if (submodelTitle == "overview"):
+        submodelTitle = "Overview"
+    elif (submodelTitle == "solarcalculator"):
+        submodelTitle = "Solar Calculator"
+    elif (submodelTitle == "precipitation"):
+        submodelTitle = "Precipitation"
+    elif (submodelTitle == "temperature"):
+        submodelTitle = "Temperature"
+    return meteor.header + " - " + submodelTitle
 
 def get_submodel_description(submodel):
     """
@@ -39,6 +60,12 @@ def get_submodel_description(submodel):
     """
     if submodel == "solarcalculator":
         return meteor.solarcalculator_description
+    elif (submodel == "precipitation"):
+        return meteor.precipitation_description
+    elif (submodel == "overview"):
+        return meteor.description
+    elif (submodel == "temperature"):
+        return meteor.temperature_description
     else:
         return ''
 
@@ -66,9 +93,9 @@ def build_submodel_page(request, model, submodel, header):
     })
     html += render_to_string('07ubertext_end_drupal.html', {})
 
-    input_module = get_model_input_module(model)
-    input_page_func = getattr(input_module, model + '_input_page')
-    html += input_page_func(request, model, submodel, header)
+    #input_module = get_model_input_module(model)
+    #input_page_func = getattr(input_module, model + '_input_page')
+    #html += input_page_func(request, model, submodel, header)
     html += links_left.ordered_list(model, submodel)
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})

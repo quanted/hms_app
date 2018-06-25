@@ -46,8 +46,13 @@ def get_submodel_form_input(submodel, form_data):
     :return: returns django Form object
     """
     from ..meteorology import meteorology_parameters as mp
+    #from ..hydrology import hydrology_parameters as hp
 
     if submodel == 'solarcalculator':
         return mp.SolarcalculatorFormInput(form_data)
+    elif (submodel == 'precipitation'):
+        return mp.PrecipitationFormInput(form_data)
+    elif (submodel == 'temperature'):
+        return mp.TemperatureFormInput(form_data)
     else:
         return ''

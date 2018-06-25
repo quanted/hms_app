@@ -1,13 +1,13 @@
 """
-HMS Hydrodynamic Input form function
+HMS Hydrology Input form function
 """
 
 from django.template.loader import render_to_string
 
 
-def hydrodynamic_input_page(request, model='', submodel='', header='', form_data=None):
+def v2hydrology_input_page(request, model='', submodel='', header='', form_data=None):
     """
-    Constructs the html for the hydrodynamic input pages.
+    Constructs the html for the hydrology input pages.
     :param request: current request object
     :param model: current model
     :param submodel: current submodel
@@ -15,7 +15,7 @@ def hydrodynamic_input_page(request, model='', submodel='', header='', form_data
     :param form_data: Set to None
     :return: returns a string formatted as html
     """
-    sub_import = "/static_qed/hms/js/hydrodynamic/hms_" + submodel + ".js"
+    sub_import = "/static_qed/hms/js/hydrology/hms_" + submodel + ".js"
     html = render_to_string('04hms_js_imports.html', {
         'SUBMODEL_IMPORT': sub_import
     })
@@ -37,6 +37,7 @@ def hydrodynamic_input_page(request, model='', submodel='', header='', form_data
     html += render_to_string('04ubertext_end_drupal.html', {})
     return html
 
+
 def get_submodel_form_input(submodel, form_data):
     """
     Gets the input form for the specified submodel.
@@ -44,14 +45,19 @@ def get_submodel_form_input(submodel, form_data):
     :param form_data: existing form data, currently set to None
     :return: returns django Form object
     """
-    from ..hydrodynamic import hydrodynamic_parameters as hp
-    # import hms_app.models.hydrodynamic.hydrodynamic_parameters as hp
+    from ..v2hydrology import v2hydrology_parameters as hp
 
-    if (submodel == 'constant_volume'):
-        return hp.Constant_VolumeFormInput(form_data)
-    elif (submodel == 'changing_volume'):
-        return hp.Changing_VolumeFormInput(form_data)
-    elif (submodel == 'kinematic_wave'):
-        return hp.Kinematic_WaveFormInput(form_data)
+    if submodel == 'subsurfaceflow':
+        return hp.SubsurfaceflowFormInput(form_data)
+    #elif submodel == 'precipitation':
+        #return hp.PrecipitationFormInput(form_data)
+    elif submodel == 'evapotranspiration':
+        return hp.EvapotranspirationFormInput(form_data)
+    elif submodel == 'soilmoisture':
+        return hp.SoilmoistureFormInput(form_data)
+    elif submodel == 'surfacerunoff':
+        return hp.SurfacerunoffFormInput(form_data)
+    #elif submodel == "temperature":
+        #return hp.TemperatureFormInput(form_data)
     else:
         return ''

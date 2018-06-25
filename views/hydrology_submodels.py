@@ -11,9 +11,8 @@ import hms_app.views.links_left as links_left
 import hms_app.models.hydrology.views as hydro
 
 
-submodel_list = ['subsurfaceflow', 'evapotranspiration',
-                 'precipitation', 'soilmoisture',
-                 'surfacerunoff', 'temperature']
+submodel_list = ['overview', 'precipitation', 'evapotranspiration', 'soilmoisture',
+                 'subsurfaceflow', 'surfacerunoff']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -42,7 +41,11 @@ def get_submodel_header(submodel):
     :return: header as a string
     """
     submodelTitle = submodel.replace('_', ' ').title()
-    if (submodelTitle == "Soilmoisture"):
+    if (submodelTitle == "overview"):
+        submodelTitle = "Overview"
+    elif (submodelTitle == "Evapotranspiration"):
+        submodelTitle = "Evapotranspiration"
+    elif (submodelTitle == "Soilmoisture"):
         submodelTitle = "Soil Moisture"
     elif (submodelTitle == "Subsurfaceflow"):
         submodelTitle = "Subsurface Flow"
@@ -57,18 +60,18 @@ def get_submodel_description(submodel):
     :param submodel: Current submodel
     :return: submodel description as a string
     """
-    if (submodel == "subsurfaceflow"):
+    if (submodel == "overview"):
+        return hydro.description
+    elif submodel == "precipitation":
+        return hydro.precipitation_description
+    elif (submodel == "subsurfaceflow"):
         return hydro.subsurfaceflow_description
     elif (submodel == "evapotranspiration"):
         return hydro.evapotranspiration_description
-    elif (submodel == "precipitation"):
-        return hydro.precipitation_description
     elif (submodel == "soilmoisture"):
         return hydro.soilmoisture_description
     elif (submodel == "surfacerunoff"):
         return hydro.surfacerunoff_description
-    elif (submodel == "temperature"):
-        return hydro.temperature_description
     else:
         return hydro.unknown_description
 

@@ -1,5 +1,5 @@
 """
-HMS Hydrodynamic Submodel page functions
+HMS Meteorology Submodel page functions
 """
 
 from django.template.loader import render_to_string
@@ -8,11 +8,11 @@ from django.http import HttpResponse
 import os
 import importlib
 import hms_app.views.links_left as links_left
-import hms_app.models.hydrodynamic.views as hydro_d
+import hms_app.models.meteorology.views as meteor
 
 
-submodel_list = ['constant_volume', 'changing_volume',
-                 'kinematic_wave']
+submodel_list = ['precipitation', 'temperature',
+                 'solarcalculator']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -23,9 +23,8 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
-
     urlpath = request.path.split('/')
-    model = 'hydrodynamic'
+    model = 'meteorology'
     submodel = urlpath[urlpath.index(model) + 1]
     header = get_submodel_header(submodel)
     html = build_submodel_page(request, model, submodel, header)
@@ -40,13 +39,15 @@ def get_submodel_header(submodel):
     :return: header as a string
     """
     submodelTitle = submodel.replace('_', ' ').title()
-    if (submodelTitle == "constant_volume"):
-        submodelTitle = "Constant Volume"
-    elif (submodelTitle == "changing_volume"):
-        submodelTitle = "Changing Volume"
-    elif (submodelTitle == "kinematic_wave"):
-        submodelTitle = "Kinematic Wave"
-    return hydro_d.header + " - " + submodelTitle
+    if (submodelTitle == "overview"):
+        submodelTitle = "Overview"
+    elif (submodelTitle == "solarcalculator"):
+        submodelTitle = "Solar Calculator"
+    elif (submodelTitle == "precipitation"):
+        submodelTitle = "Precipitation"
+    elif (submodelTitle == "temperature"):
+        submodelTitle = "Temperature"
+    return meteor.header + " - " + submodelTitle
 
 def build_submodel_page(request, model, submodel, header):
     """
@@ -61,27 +62,25 @@ def build_submodel_page(request, model, submodel, header):
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
     })
-    html += render_to_string('04hms_mathjax.html', {})
-
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
     #description = get_submodel_description(submodel)
     html += render_to_string('06ubertext_start_index_drupal.html', {
-        'TITLE': header,
-        #'TEXT_PARAGRAPH': description
+        'TITLE': header
+    #    'TEXT_PARAGRAPH': description
     })
     html += render_to_string('07ubertext_end_drupal.html', {})
 
     input_module = get_model_input_module(model)
     input_page_func = getattr(input_module, model + '_input_page')
     html += input_page_func(request, model, submodel, header)
+    #print(header)
     html += links_left.ordered_list(model, submodel, page="run")
 
     html += render_to_string('09epa_drupal_ubertool_css.html', {})
     html += render_to_string('10epa_drupal_footer.html', {})
     return html
-
 
 def get_model_input_module(model):
     """
