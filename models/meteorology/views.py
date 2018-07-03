@@ -52,7 +52,11 @@ temperature_algorithm_description="<p><b>NLDAS Temperature: </b>The North Americ
                                   "provides temperature measurements in Kelvin on" \
                                   " a .25-degree grid covering the Earth between 90 degrees North and 60 degrees South. </p>"
 
-precipitation_algorithm_description="<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
+precipitation_algorithm_description="<p><b>NCDC Precipitation:</b> The National Climatic Data Center (NCDC)" \
+                            " provides precipitation data recorded at rain gauge stations. Stations are" \
+                            "identified by their Station ID which includes the type of station and the station number. " \
+                            " Some stations have been recording data as far back as 1901 to present day. " \
+                            "<p><b>NLDAS Precipitation:</b> The North American Land Data Assimilation System (NLDAS)" \
                             " combines North American radar data and satellite data from CMORPH. NLDAS has an" \
                             " hourly time step on a 0.125 -degree grid of North America and has a maximum time" \
                             " lag of four days for data retrieval. Data is available from January 2, 1979 to" \
@@ -67,6 +71,10 @@ precipitation_algorithm_description="<p><b>NLDAS Precipitation:</b> The North Am
                             " algorithm to produce gridded estimates of daily weather parameters. The interpolated" \
                             " spatial resolution is about a 0.009-degree grid over North America. Data is" \
                             " accessible since 1980 to the latest full year.</p>" \
+                            "<p><b> PRISM Precipitation:</b> The Parameter-elevation Relationship on Independent Slopes Model" \
+                            " (PRISM) is a combined dataset consisting of ground gauge station and RADAR products. The " \
+                            " data is on a 4km grid resolution covering the contiguous United States. Data is available from" \
+                            " 1981 to present. </p>"\
                             "<p><b>WGEN Precipitation:</b> WGEN is a stochastic weather generator that statistically simulates" \
                             " precipitation. WGEN uses a Markov Chain Model to determine the probability of" \
                             " precipitation occurrence. The Markov Chain Model determines precipitation by finding " \
