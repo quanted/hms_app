@@ -30,7 +30,7 @@ def pass_through_proxy(request, module):
         proxy_url = "http://localhost:60049/api/" + module
     else:
         # proxy_url = os.environ.get('HMS_BACKEND_SERVER') + "/HMSWS/api/" + module
-        proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + "/api/" + module
+        proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_INTERNAL')) + "/api/" + module
         # proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + "/HMSWS/api/" + module
     method = str(request.method)
     print("HMS proxy: " + method + " url: " + proxy_url)
