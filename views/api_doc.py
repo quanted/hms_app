@@ -34,16 +34,16 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True":
         swagger["host"] = "127.0.0.1:8000/hms/rest"
     elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.11:7778":
-        swagger["host"] = "qedinternal.epa.gov/hms/rest/api"
+        swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""
     elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.15:7778":
-        swagger["host"] = "134.67.114.5/hms/rest/api"
+        swagger["host"] = "134.67.114.5/hms/rest"
         swagger["basePath"] = ""
     # elif os.environ['IN_DOCKER'] == "True":
     #     swagger["host"] = "172.20.100.11/hms/rest/"
     #     swagger["basePath"] = ""
     else:
-        swagger["host"] = "qedinternal.epa.gov/hms/rest/api"
+        swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""
     response = HttpResponse()
     response.write(json.dumps(swagger))
