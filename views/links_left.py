@@ -6,6 +6,25 @@ from django.template.loader import render_to_string
 from collections import OrderedDict
 
 
+def get_ordered_link_list(model, submodel, page=None):
+    link_dict = OrderedDict([
+        ('Components', OrderedDict([
+            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Meteorology', 'meteorology/'),
+            ('Hydrology', 'hydrology/'),
+            ('Water Quality', 'water_quality/')
+        ])),
+        ('Utilities', OrderedDict([
+            ('API Documentation', 'api_doc/'),
+            ('HMS Documentation', 'Documents/')
+        ])),
+        ('Work Flows', OrderedDict([
+            ('Precipitation Compare', 'precip_compare/'),
+            ('Runoff Compare', 'runoff_compare/'), ])),
+    ])
+    return link_dict
+
+
 def ordered_list_new(model, submodel, page=None):
     """
     Constructs the links left menu for the hms pages.
@@ -36,7 +55,7 @@ def ordered_list_new(model, submodel, page=None):
             ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
         ('Components', OrderedDict([
-            ('Watershed Delineation', 'watershed_workflow/'),
+            ('Watershed Workflow', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             ('Water Quality', 'water_quality/')
@@ -75,6 +94,7 @@ def ordered_list_new(model, submodel, page=None):
                                     'PAGE': page
                                 })
 
+
 def ordered_list(model, submodel, page=None):
     """
     Constructs the links left menu for the hms pages.
@@ -83,7 +103,14 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
-
+    if model == "watershed":
+        template_file = '03hms_collapsible_links_left.html'
+    elif model == "workflow" and submodel == "v2":
+        template_file = 'workflow/hms_workflow_links_left.html'
+    elif model == "workflow":
+        template_file = '03hms_workflow_links_left.html'
+    else:
+        template_file = '03ubertext_links_left_drupal_hms.html'
     link_dict = OrderedDict([
         # ('Meteorology', OrderedDict([
         #     ('Overview', 'meteorology/overview'),
@@ -105,7 +132,7 @@ def ordered_list(model, submodel, page=None):
         #     ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         # ])),
         ('Components', OrderedDict([
-            ('Watershed Delineation', 'watershed_workflow/'),
+            ('Watershed Workflow', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             ('Water Quality', 'water_quality/')
@@ -119,27 +146,10 @@ def ordered_list(model, submodel, page=None):
             ('Runoff Compare', 'runoff_compare/'), ])),
     ])
 
-    if model == "watershed":
-        return render_to_string('03hms_collapsible_links_left.html',
-                                {
-                                    'LINK_DICT': link_dict,
-                                    'MODEL': model,
-                                    'SUBMODEL': submodel,
-                                    'PAGE': page
-                                })
-    elif model == "workflow":
-        return render_to_string('03hms_workflow_links_left.html',
-                                {
-                                    'LINK_DICT': link_dict,
-                                    'MODEL': model,
-                                    'SUBMODEL': submodel,
-                                    'PAGE': page
-                                })
-    else:
-        return render_to_string('03ubertext_links_left_drupal_hms.html',
-                                {
-                                    'LINK_DICT': link_dict,
-                                    'MODEL': model,
-                                    'SUBMODEL': submodel,
-                                    'PAGE': page
-                                })
+    return render_to_string(template_file,
+                            {
+                                'LINK_DICT': link_dict,
+                                'MODEL': model,
+                                'SUBMODEL': submodel,
+                                'PAGE': page
+                            })
