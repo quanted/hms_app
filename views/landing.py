@@ -10,7 +10,35 @@ from django.conf import settings
 
 
 def hms_landing_page(request):
+    page_title = "HMS: Hydrologic Micro Services"
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
+    imports = render_to_string('hms_default_imports.html')
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': page_title,
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports
+    })                                                                     # Default EPA header
+    html += links_left.ordered_list(model='hms', submodel=None)
+    page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
+    page_text = page_text_file.read()
+
+    html += render_to_string('05hms_body_start.html', {
+        'TITLE': "HMS Introduction",
+        'TEXT_PARAGRAPH': page_text
+    })                                                                      # HMS Workflow main body start
+    html += render_to_string('06hms_body_end.html')                         # HMS Workflow main body end
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    response = HttpResponse()
+    response.write(html)
+    return response
+
+
+def hms_landing_page_old(request):
     """
+    DEPRECATED
     Constucts landing page html.
     :param request: current request object
     :return: HttpResponse object
@@ -23,6 +51,16 @@ def hms_landing_page(request):
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS"
     })
+    page_title = "HMS: Hydrological Micro Services"
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, Watershed, Watershed Workflow"
+    imports = render_to_string("hms_default_imports.html")
+
+    # html = render_to_string('workflow/01epa18_default_header.html', {
+    #     'TITLE': "",
+    #     'URL': str(request.get_host) + request.path,
+    #     'KEYWORDS': keywords,
+    #     'IMPORTS': imports
+    # })
     # html += render_to_string('02epa_drupal_header_bluestripe.html', {})
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
@@ -32,7 +70,7 @@ def hms_landing_page(request):
         pass
     else:
         html += render_to_string('06ubertext_start_index_drupal.html',{
-            'TITLE': 'Hydrologic Micro Services',
+            'TITLE': page_title,
             'TEXT_PARAGRAPH': page_text
         })
     # Left side links

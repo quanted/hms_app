@@ -9,20 +9,21 @@ def hms_workflow_page(request):
     keywords = "HMS, Hydrology, Hydrologic Micro Services, Watershed, Watershed Workflow"
     imports = render_to_string('workflow/hms_workflow_imports.html')
 
-    html = render_to_string('workflow/01epa18_default_header.html', {
+    html = render_to_string('01epa18_default_header.html', {
         'TITLE': page_title,
         'URL': str(request.get_host) + request.path,
         'KEYWORDS': keywords,
         'IMPORTS': imports
-    })                                                                     # Default EPA header
-    html += links_left.ordered_list(model='workflow', submodel='v2')         # QED-HMS links left
-    body = render_to_string('workflow/hms_workflow_body.html')              # HMS Workflow main body
-    html += render_to_string('workflow/05hms_workflow_start.html', {
+    })
+    # Default EPA header
+    html += links_left.ordered_list(model='watershed_workflow', submodel='')        # QED-HMS links left
+    body = render_to_string('workflow/hms_workflow_body.html')                      # HMS Workflow main body
+    html += render_to_string('05hms_body_start.html', {
         'TEXT_PARAGRAPH': body
-    })                                                                      # HMS Workflow main body start
-    html += render_to_string('workflow/06hms_workflow_end.html')            # HMS Workflow main body end
-    html += render_to_string('workflow/07hms_splashscripts.html')           # EPA splashscripts import
-    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    })                                                                              # HMS Workflow main body start
+    html += render_to_string('06hms_body_end.html')                                 # HMS Workflow main body end
+    html += render_to_string('07hms_splashscripts.html')                            # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                            # Default EPA footer
     response = HttpResponse()
     response.write(html)
     return response

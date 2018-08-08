@@ -103,21 +103,25 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
-    if model == "watershed":
-        template_file = '03hms_collapsible_links_left.html'
-    elif model == "workflow" and submodel == "v2":
-        template_file = 'workflow/hms_workflow_links_left.html'
-    elif model == "workflow":
-        template_file = '03hms_workflow_links_left.html'
-    else:
-        template_file = '03ubertext_links_left_drupal_hms.html'
+    # if model == "watershed":
+    #     template_file = '03hms_collapsible_links_left.html'
+    # elif model == "workflow" and submodel == "v2":
+    #     template_file = 'workflow/hms_workflow_links_left.html'
+    # elif model == "workflow":
+    #     template_file = '03hms_workflow_links_left.html'
+    # else:
+    template_file = '03hms_links_left_drupal.html'
     link_dict = OrderedDict([
-        # ('Meteorology', OrderedDict([
-        #     ('Overview', 'meteorology/overview'),
-        #     ('Precipitation', 'meteorology/precipitation'),
-        #     ('Temperature', 'meteorology/temperature'),
-        #     ('Solar Calculator', 'meteorology/solarcalculator'),
-        # ])),
+        ('Work Flows', OrderedDict([
+            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Precipitation Compare', 'precip_compare/'),
+            ('Runoff Compare', 'runoff_compare/'), ])),
+        ('Meteorology', OrderedDict([
+            ('Overview', 'meteorology/overview/'),
+            ('Precipitation', 'meteorology/precipitation/'),
+            ('Temperature', 'meteorology/temperature/'),
+            ('Solar Calculator', 'meteorology/solarcalculator/'),
+        ])),
         # ('v2Hydrology', OrderedDict([
         #     ('Overview', 'v2hydrology/overview'),
         #     ('Evapotranspiration', 'v2hydrology/evapotranspiration/'),
@@ -132,20 +136,14 @@ def ordered_list(model, submodel, page=None):
         #     ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         # ])),
         ('Components', OrderedDict([
-            ('Watershed Workflow', 'watershed_workflow/'),
-            ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             ('Water Quality', 'water_quality/')
         ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),
             ('HMS Documentation', 'Documents/')
-        ])),
-        ('Work Flows', OrderedDict([
-            ('Precipitation Compare', 'precip_compare/'),
-            ('Runoff Compare', 'runoff_compare/'), ])),
+        ]))
     ])
-
     return render_to_string(template_file,
                             {
                                 'LINK_DICT': link_dict,

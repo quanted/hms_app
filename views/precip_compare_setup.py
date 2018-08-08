@@ -35,6 +35,40 @@ def build_page(request, model, header):
     :param header: current header
     :return: string formatted as html
     """
+    page_title = "HMS: Precipitation Data Compare"
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA, Precipitation, Precipitation Compare"
+    imports = render_to_string('hms_default_imports.html')
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Work Flows",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports
+    })                                                                     # Default EPA header
+    html += links_left.ordered_list(model=model, submodel=None)
+    description = get_description(model)
+    html += render_to_string('05hms_body_start.html', {
+        'TITLE': page_title,
+        'TEXT_PARAGRAPH': description
+    })
+    input_module = get_model_input_module(model)
+    input_page_func = getattr(input_module, model + '_input_page')
+    html += input_page_func(request, model)
+
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
+def build_page_old(request, model, header):
+    """
+    Constructs html for precip compare page
+    :param request: current request object
+    :param model: current model
+    :param header: current header
+    :return: string formatted as html
+    """
     html = render_to_string('01epa_drupal_header.html', {
         'SITE_SKIN': os.environ['SITE_SKIN'],
         'TITLE': "HMS " + model
