@@ -44,8 +44,8 @@ else:
         path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
         #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
         #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
-        path('meteorology/<slug:submodel>/', meteorology_submodels_run.submodel_page),
-        path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
+        #path('meteorology/<slug:submodel>/', meteorology_submodels_run.submodel_page),
+        #path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
         path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
         path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
         path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
@@ -60,10 +60,10 @@ else:
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
         #path('model/<slug:model>', hms_model_router.landing_page),
-        path('<slug:model>/<slug:submodule>/', hms_model_router.landing_page),
-        path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
-        path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
-        path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
+        path('<slug:model>/<slug:submodel>/', hms_model_router.component_page),
+        # path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
+        # path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
+        # path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
     ]
 
 # 404 Error view (file not found)

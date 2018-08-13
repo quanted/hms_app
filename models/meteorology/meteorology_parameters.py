@@ -29,7 +29,7 @@ class HydrologyFormInput(forms.Form):
 		}),
 		label='Start Date',
 		input_formats=DATE_INPUT_FORMATS,
-		initial='2010-01-01'
+		initial='01/01/2010'
 	)
 	endDate = forms.DateField(
 		widget=forms.TextInput(attrs={
@@ -37,7 +37,7 @@ class HydrologyFormInput(forms.Form):
 		}),
 		label='End Date',
 		input_formats=DATE_INPUT_FORMATS,
-		initial='2010-12-31'
+		initial='12/31/2010'
 	)
 	# spatial_input = forms.ChoiceField(
 	#     label='Spatial Input',

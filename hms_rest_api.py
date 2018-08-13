@@ -27,7 +27,7 @@ def delineate_watershed(request):
 @csrf_exempt
 def pass_through_proxy(request, module):
     if os.environ['HMS_LOCAL'] == "True":
-        proxy_url = "http://localhost:60049/api/" + module
+        proxy_url = "http://localhost:60050/api/" + module
     else:
         # proxy_url = os.environ.get('HMS_BACKEND_SERVER') + "/HMSWS/api/" + module
         proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_INTERNAL')) + "/api/" + module
