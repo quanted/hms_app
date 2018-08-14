@@ -57,7 +57,9 @@ else:
 
         path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
         re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
+        re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
+
 
         #path('model/<slug:model>', hms_model_router.landing_page),
         path('<slug:model>/<slug:submodel>/', hms_model_router.component_page),

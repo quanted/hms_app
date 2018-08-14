@@ -73,3 +73,27 @@ def flask_proxy(request, flask_url):
     else:
         print("Django to Flask proxy url invalid.")
         raise Http404
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def flask_proxy_v3(request, model):
+    if os.environ["HMS_LOCAL"] == "True":
+        proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
+    else:
+        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/proxy/" + model
+    method = str(request.method)
+    print("Django to Flask proxy method: " + method + " url: " + proxy_url)
+    if method == "POST":
+        if len(request.POST) == 0:
+            try:
+                data = json.loads(request.body)
+            except JSONDecodeError:
+                return Http404
+        else:
+            data = request.POST
+        proxy_url = proxy_url + "/"
+        flask_request = requests.request("post", proxy_url, json=data, timeout=120)
+        return HttpResponse(flask_request, content_type="application/json")
+    else:
+        print("Django to Flask proxy url invalid.")
+        raise Http404
