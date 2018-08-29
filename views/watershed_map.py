@@ -16,10 +16,10 @@ def hms_workflow_page(request):
         'IMPORTS': imports
     })
     # Default EPA header
-    html += links_left.ordered_list(model='watershed_workflow', submodel='')        # QED-HMS links left
+    html += links_left.ordered_list(model='workflow', submodel='watershed')        # QED-HMS links left
     body = render_to_string('workflow/hms_workflow_body.html')                      # HMS Workflow main body
     html += render_to_string('05hms_body_start.html', {
-        'TEXT_PARAGRAPH': body
+        'DESCRIPTION': body
     })                                                                              # HMS Workflow main body start
     html += render_to_string('06hms_body_end.html')                                 # HMS Workflow main body end
     html += render_to_string('07hms_splashscripts.html')                            # EPA splashscripts import

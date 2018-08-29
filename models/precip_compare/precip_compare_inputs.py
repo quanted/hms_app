@@ -21,7 +21,7 @@ def precip_compare_input_page(request, model='', header='', form_data=None):
         'TITLE': "",
     }, request=request)
     if form_data is None:
-        input_form = pcp.PrecipitationCompareFormInput(form_data)
+        input_form = pcp.PrecipitationCompareFormInput(request)
         html += render_to_string('04uberinput_form.html', {
             'FORM': input_form, })
     else:

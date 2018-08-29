@@ -7,9 +7,30 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 import hms_app.models.precip_compare.views as precip_compare_view
 import hms_app.models.runoff_compare.views as runoff_compare_view
+from hms_app.models.precip_compare import precip_compare_parameters as pcp
 import os
 import importlib
 import hms_app.views.links_left as links_left
+from .default_pages import build_model_page
+
+
+def precip_compare_page(request):
+    model = "workflow"
+    submodel = "precip_compare"
+    title = precip_compare_view.header
+    import_block = render_to_string("workflow/precip_compare_imports.html")
+    description = precip_compare_view.description
+
+    # input_model = get_model_input_module(submodel)
+    input_form = pcp.PrecipitationCompareFormInput()
+    input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+    algorithm = precip_compare_view.algorithm
+
+    html = build_model_page(request=request, model=model, submodel=submodel, title=title, import_block=import_block,
+                            description=description, input_block=input_block, algorithms=algorithm)
+    response = HttpResponse()
+    response.write(html)
+    return response
 
 
 @ensure_csrf_cookie

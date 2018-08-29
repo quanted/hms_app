@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.urls import path, re_path
 from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels_run, hydrodynamic_submodels_output
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, Documents_submodels, hms_model_router
+from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, documentation, hms_model_router
 from .models.water_quality import output as wq_output
 from . import hms_rest_api
 
@@ -36,26 +36,26 @@ else:
 
         # django 2.0
         path('', landing.hms_landing_page),
-        path('precip_compare/', precip_compare_setup.input_page),
-        path('precip_compare/output/', output.precip_compare_output_page),
-        path('runoff_compare/', runoff_compare_setup.input_page),
-        path('runoff_compare/output/', output.runoff_compare_output_page),
+        path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
+        # path('precip_compare/output/', output.precip_compare_output_page),
+        path('workflow/runoff_compare/', runoff_compare_setup.input_page),
+        # path('runoff_compare/output/', output.runoff_compare_output_page),
         # path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
         # path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
         #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
         #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
         #path('meteorology/<slug:submodel>/', meteorology_submodels_run.submodel_page),
         #path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
-        path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
-        path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
-        path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
-        path('Documents/<slug:submodel>/', Documents_submodels.submodels_page),
-        path('watershed_workflow/', watershed_map.hms_workflow_page),
+        # path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
+        # path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
+        # path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
+        path('docs/', documentation.docs_page),
+        path('workflow/watershed/', watershed_map.hms_workflow_page),
         path('api_doc/', api_doc.create_swagger_docs),
         path('api_doc/swagger/', api_doc.get_swagger_json),
         path('<slug:model>/', description.description_page),
 
-        path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
+        # path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
         re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
         re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
         re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),

@@ -113,9 +113,10 @@ def ordered_list(model, submodel, page=None):
     template_file = '03hms_links_left_drupal.html'
     link_dict = OrderedDict([
         ('Work Flows', OrderedDict([
-            ('Watershed Workflow', 'watershed_workflow/'),
-            ('Precipitation Compare', 'precip_compare/'),
-            ('Runoff Compare', 'runoff_compare/'), ])),
+            ('Watershed Workflow', 'workflow/watershed/'),
+            ('Precipitation Compare', 'workflow/precip_compare/'),
+            # ('Runoff Compare', 'workflow/runoff_compare/'),
+        ])),
         ('Meteorology', OrderedDict([
             ('Overview', 'meteorology/overview/'),
             ('Precipitation', 'meteorology/precipitation/'),
@@ -141,7 +142,7 @@ def ordered_list(model, submodel, page=None):
         # ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),
-            ('HMS Documentation', 'Documents/')
+            ('HMS Documentation', 'docs/')
         ]))
     ])
     return render_to_string(template_file,
