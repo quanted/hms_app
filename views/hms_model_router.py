@@ -16,7 +16,7 @@ hydrodynamic_modules = ['overview', "constant_volume", "changing_volume", "kinem
 meteorology_submodules = ['overview', "precipitation", "solarcalculator", "temperature"]
 
 
-def component_page(request, model, submodel):
+def component_page(request, model=None, submodel=None):
     """
     Build the component page for the model/submodel
     :param request:
@@ -96,6 +96,10 @@ def component_page(request, model, submodel):
             input_form = input_page_func(submodel, None)
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = hydro_submodel_algor.get_submodel_description(submodel)
+        else:
+            return error_404_page(request)
+    else:
+        return error_404_page(request)
     html = build_model_page(request=request, model=model, submodel=submodel, title=title, import_block=import_block,
                             description=description, input_block=input_block, algorithms=algorithm)
     response = HttpResponse()
