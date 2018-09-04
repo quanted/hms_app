@@ -55,6 +55,7 @@ def component_page(request, model=None, submodel=None):
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = met_submodel_algor.get_submodel_description(submodel)
         elif submodel == "solarcalculator":
+            title = "{} - Solar Calculator".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = met_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')
@@ -76,6 +77,7 @@ def component_page(request, model=None, submodel=None):
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = hydro_submodel_algor.get_submodel_description(submodel)
         elif submodel == "soilmoisture":
+            title = "{} - Soil Moisture".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = hydro_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')
