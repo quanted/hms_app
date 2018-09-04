@@ -11,3 +11,5 @@ description = '<p>The precipitation values from the chosen NCDC Station ID and t
               ' standard deviation, and total precipitation over the time period is recorded for each dataset.' \
               ' The R-squared value and a Goodness of Rainfall Estimation (GORE) index value is given to quantify' \
               ' data against NCDC precipitation data. </p>' \
+
+algorithm = ''

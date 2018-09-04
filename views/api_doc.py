@@ -23,7 +23,7 @@ def get_swagger_json(request):
     """
     print("Swagger json request local: " + str(os.environ['HMS_LOCAL']))
     if os.environ['HMS_LOCAL'] == "True":
-        url = "http://localhost:60049/swagger/v1/swagger.json"
+        url = "http://localhost:60050/swagger/v1/swagger.json"
     else:
         # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
         url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + '/swagger/v1/swagger.json'
@@ -33,10 +33,15 @@ def get_swagger_json(request):
     swagger = json.loads(swagger.content)
     if os.environ['HMS_LOCAL'] == "True":
         swagger["host"] = "127.0.0.1:8000/hms/rest"
-    elif os.environ['IN_DOCKER'] == "True":
-        # TODO: removed hardcoded ips
-        swagger["host"] = "172.20.100.11/hms/rest"
+    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.11:7778":
+        swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""
+    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.15:7778":
+        swagger["host"] = "134.67.114.5/hms/rest"
+        swagger["basePath"] = ""
+    # elif os.environ['IN_DOCKER'] == "True":
+    #     swagger["host"] = "172.20.100.11/hms/rest/"
+    #     swagger["basePath"] = ""
     else:
         swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""

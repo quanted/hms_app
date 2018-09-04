@@ -27,10 +27,10 @@ def delineate_watershed(request):
 @csrf_exempt
 def pass_through_proxy(request, module):
     if os.environ['HMS_LOCAL'] == "True":
-        proxy_url = "http://localhost:60049/api/" + module
+        proxy_url = "http://localhost:60050/api/" + module
     else:
         # proxy_url = os.environ.get('HMS_BACKEND_SERVER') + "/HMSWS/api/" + module
-        proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + "/api/" + module
+        proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_INTERNAL')) + "/api/" + module
         # proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + "/HMSWS/api/" + module
     method = str(request.method)
     print("HMS proxy: " + method + " url: " + proxy_url)
@@ -69,6 +69,30 @@ def flask_proxy(request, flask_url):
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
         flask_request = requests.request("get", proxy_url, timeout=120)
+        return HttpResponse(flask_request, content_type="application/json")
+    else:
+        print("Django to Flask proxy url invalid.")
+        raise Http404
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def flask_proxy_v3(request, model):
+    if os.environ["HMS_LOCAL"] == "True":
+        proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
+    else:
+        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/proxy/" + model
+    method = str(request.method)
+    print("Django to Flask proxy method: " + method + " url: " + proxy_url)
+    if method == "POST":
+        if len(request.POST) == 0:
+            try:
+                data = json.loads(request.body)
+            except JSONDecodeError:
+                return Http404
+        else:
+            data = request.POST
+        proxy_url = proxy_url + "/"
+        flask_request = requests.request("post", proxy_url, json=data, timeout=120)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")

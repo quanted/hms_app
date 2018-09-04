@@ -81,4 +81,3 @@ precipitation_algorithm_description="<p><b>NCDC Precipitation:</b> The National 
                             " the probability of a wet day following a dry dat. Then an equation using mean daily" \
                             " rainfall, standard deviation of daily rainfall, and skew coefficients give the amount" \
                             " of rainfall on a given wet day.</p>"
-
