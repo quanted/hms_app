@@ -16,7 +16,7 @@ hydrodynamic_modules = ['overview', "constant_volume", "changing_volume", "kinem
 meteorology_submodules = ['overview', "precipitation", "solarcalculator", "temperature"]
 
 
-def component_page(request, model, submodel):
+def component_page(request, model=None, submodel=None):
     """
     Build the component page for the model/submodel
     :param request:
@@ -55,6 +55,7 @@ def component_page(request, model, submodel):
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = met_submodel_algor.get_submodel_description(submodel)
         elif submodel == "solarcalculator":
+            title = "{} - Solar Calculator".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = met_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')
@@ -76,6 +77,7 @@ def component_page(request, model, submodel):
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = hydro_submodel_algor.get_submodel_description(submodel)
         elif submodel == "soilmoisture":
+            title = "{} - Soil Moisture".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = hydro_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')
@@ -83,6 +85,7 @@ def component_page(request, model, submodel):
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = hydro_submodel_algor.get_submodel_description(submodel)
         elif submodel == "surfacerunoff":
+            title = "{} - Surface Runoff".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = hydro_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')
@@ -96,6 +99,10 @@ def component_page(request, model, submodel):
             input_form = input_page_func(submodel, None)
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
             algorithm = hydro_submodel_algor.get_submodel_description(submodel)
+        else:
+            return error_404_page(request)
+    else:
+        return error_404_page(request)
     html = build_model_page(request=request, model=model, submodel=submodel, title=title, import_block=import_block,
                             description=description, input_block=input_block, algorithms=algorithm)
     response = HttpResponse()
