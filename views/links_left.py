@@ -6,7 +6,26 @@ from django.template.loader import render_to_string
 from collections import OrderedDict
 
 
-def ordered_list(model, submodel, page=None):
+def get_ordered_link_list(model, submodel, page=None):
+    link_dict = OrderedDict([
+        ('Components', OrderedDict([
+            ('Watershed Workflow', 'watershed_workflow/'),
+            ('Meteorology', 'meteorology/'),
+            ('Hydrology', 'hydrology/'),
+            ('Water Quality', 'water_quality/')
+        ])),
+        ('Utilities', OrderedDict([
+            ('API Documentation', 'api_doc/'),
+            ('HMS Documentation', 'Documents/')
+        ])),
+        ('Work Flows', OrderedDict([
+            ('Precipitation Compare', 'precip_compare/'),
+            ('Runoff Compare', 'runoff_compare/'), ])),
+    ])
+    return link_dict
+
+
+def ordered_list_new(model, submodel, page=None):
     """
     Constructs the links left menu for the hms pages.
     :param model: current model
@@ -36,7 +55,7 @@ def ordered_list(model, submodel, page=None):
             ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
         ])),
         ('Components', OrderedDict([
-            ('Watershed Delineation', 'watershed_workflow/'),
+            ('Watershed Workflow', 'watershed_workflow/'),
             ('Meteorology', 'meteorology/'),
             ('Hydrology', 'hydrology/'),
             ('Water Quality', 'water_quality/')
@@ -74,3 +93,62 @@ def ordered_list(model, submodel, page=None):
                                     'SUBMODEL': submodel,
                                     'PAGE': page
                                 })
+
+
+def ordered_list(model, submodel, page=None):
+    """
+    Constructs the links left menu for the hms pages.
+    :param model: current model
+    :param submodel: current submodel
+    :param page: set to none
+    :return: string containing html
+    """
+    # if model == "watershed":
+    #     template_file = '03hms_collapsible_links_left.html'
+    # elif model == "workflow" and submodel == "v2":
+    #     template_file = 'workflow/hms_workflow_links_left.html'
+    # elif model == "workflow":
+    #     template_file = '03hms_workflow_links_left.html'
+    # else:
+    template_file = '03hms_links_left_drupal.html'
+    link_dict = OrderedDict([
+        ('Work Flows', OrderedDict([
+            ('Watershed Workflow', 'workflow/watershed/'),
+            ('Precipitation Compare', 'workflow/precip_compare/'),
+            # ('Runoff Compare', 'workflow/runoff_compare/'),
+        ])),
+        ('Meteorology', OrderedDict([
+            ('Overview', 'meteorology/overview/'),
+            ('Precipitation', 'meteorology/precipitation/'),
+            ('Temperature', 'meteorology/temperature/'),
+            ('Solar Calculator', 'meteorology/solarcalculator/'),
+        ])),
+        ('Hydrology', OrderedDict([
+            ('Overview', 'hydrology/overview/'),
+            ('Evapotranspiration', 'hydrology/evapotranspiration/'),
+            ('Surface Runoff', 'hydrology/surfacerunoff/'),
+            ('Soil Moisture', 'hydrology/soilmoisture/'),
+            ('Subsurface Flow', 'hydrology/subsurfaceflow/')
+        ])),
+        # ('Hydrodynamics', OrderedDict([
+        #     ('Overview', 'hydrodynamic/overview'),
+        #     ('Constant Volume', 'hydrodynamic/constant_volume'),
+        #     ('Changing Volume', 'hydrodynamic/changing_volume'),
+        #     ('Kinematic Wave', 'hydrodynamic/kinematic_wave'),
+        # ])),
+        # ('Components', OrderedDict([
+        #     ('Hydrology', 'hydrology/'),
+        #     ('Water Quality', 'water_quality/')
+        # ])),
+        ('Utilities', OrderedDict([
+            ('API Documentation', 'api_doc/'),
+            ('HMS Documentation', 'docs/')
+        ]))
+    ])
+    return render_to_string(template_file,
+                            {
+                                'LINK_DICT': link_dict,
+                                'MODEL': model,
+                                'SUBMODEL': submodel,
+                                'PAGE': page
+                            })
