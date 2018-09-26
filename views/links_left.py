@@ -113,7 +113,6 @@ def ordered_list(model, submodel, page=None):
     template_file = '03hms_links_left_drupal.html'
     link_dict = OrderedDict([
         ('Work Flows', OrderedDict([
-            ('Watershed Workflow', 'workflow/watershed/'),
             ('Precipitation Compare', 'workflow/precip_compare/'),
             # ('Runoff Compare', 'workflow/runoff_compare/'),
         ])),
@@ -125,6 +124,7 @@ def ordered_list(model, submodel, page=None):
         ])),
         ('Hydrology', OrderedDict([
             ('Overview', 'hydrology/overview/'),
+            ('Streamflow', 'hydrology/streamflow/'),
             ('Evapotranspiration', 'hydrology/evapotranspiration/'),
             ('Surface Runoff', 'hydrology/surfacerunoff/'),
             ('Soil Moisture', 'hydrology/soilmoisture/'),

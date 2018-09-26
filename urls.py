@@ -50,7 +50,7 @@ else:
         # path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
         # path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
         path('docs/', documentation.docs_page),
-        path('workflow/watershed/', watershed_map.hms_workflow_page),
+        path('hydrology/streamflow/', watershed_map.hms_workflow_page),
         path('api_doc/', api_doc.create_swagger_docs),
         path('api_doc/swagger/', api_doc.get_swagger_json),
         path('<slug:model>/', hms_model_router.component_page),
