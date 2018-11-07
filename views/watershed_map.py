@@ -16,7 +16,7 @@ def hms_workflow_page(request):
         'IMPORTS': imports
     })
     # Default EPA header
-    html += links_left.ordered_list(model='workflow', submodel='watershed')        # QED-HMS links left
+    html += links_left.ordered_list(model='hydrology', submodel='streamflow')        # QED-HMS links left
     body = render_to_string('workflow/hms_workflow_body.html')                      # HMS Workflow main body
     html += render_to_string('05hms_body_start.html', {
         'DESCRIPTION': body
