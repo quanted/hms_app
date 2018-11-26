@@ -37,4 +37,14 @@ class PrecipitationCompareFormInput(forms.Form):
         input_formats=DATE_INPUT_FORMATS,
         initial='2010-12-31'
     )
+    temporalresolution = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Temporal resolution of the output time series data.'
+        }),
+        label='Temporal Resolution',
+        choices=(
+            ("default", "default"), ("daily", "daily"), ("weekly", "weekly"),
+            ("monthly", "monthly")),
+        initial="default"
+    )
 
