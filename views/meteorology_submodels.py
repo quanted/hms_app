@@ -52,6 +52,7 @@ def get_submodel_header(submodel):
         submodelTitle = "Temperature"
     return meteor.header + " - " + submodelTitle
 
+
 def get_submodel_description(submodel):
     """
     Gets the submodel description.

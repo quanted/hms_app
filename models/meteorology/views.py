@@ -4,8 +4,12 @@ HMS Meteorology module content
 
 header = 'HMS: Meteorology'
 
-description = 'Meteorology is the study of the atmosphere that focuses on weather processes. Precipitation, Solar data, ' \
-              'and air temperature are part of the meteorology component.'
+description = 'HMS meteorological components include precipitation, air temperature, solar radiation and sun’s precise' \
+              ' position calculator. The components tap into national data sources and calculators to retrieve and' \
+              ' process data per user requirements. HMS meteorological components add value by performing operations' \
+              ' like localizing time series data in situations where the original source of data report time series in' \
+              ' Coordinated Universal Time (UTC), calculating spatially weighted average values time series for gridded' \
+              ' datasets, and temporal aggregations such as daily values from hourly data.'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
@@ -81,4 +85,3 @@ precipitation_algorithm_description="<p><b>NCDC Precipitation:</b> The National 
                             " the probability of a wet day following a dry dat. Then an equation using mean daily" \
                             " rainfall, standard deviation of daily rainfall, and skew coefficients give the amount" \
                             " of rainfall on a given wet day.</p>"
-

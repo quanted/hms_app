@@ -15,11 +15,11 @@ def meteorology_input_page(request, model='', submodel='', header='', form_data=
     :param form_data: Set to None
     :return: returns a string formatted as html
     """
-    sub_import = "/static_qed/hms/js/meteorology/" + submodel + ".js"
-    html = render_to_string('04hms_js_imports.html', {
-        'SUBMODEL_IMPORT': sub_import
-    })
-    html += render_to_string('04hms_input_start_drupal.html',
+    # sub_import = "/static_qed/hms/js/meteorology/" + submodel + ".js"
+    # html = render_to_string('04hms_js_imports.html', {
+    #     'SUBMODEL_IMPORT': sub_import
+    # })
+    html = render_to_string('04hms_input_start_drupal.html',
                              {
                                  'MODEL': model,
                                  'SUBMODEL': submodel,

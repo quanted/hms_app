@@ -7,9 +7,35 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 import hms_app.models.precip_compare.views as precip_compare_view
 import hms_app.models.runoff_compare.views as runoff_compare_view
+from hms_app.models.precip_compare import precip_compare_parameters as pcp
 import os
 import importlib
 import hms_app.views.links_left as links_left
+from .default_pages import build_model_page
+
+
+def precip_compare_page(request):
+    model = "workflow"
+    submodel = "precip_compare"
+    title = precip_compare_view.header
+    import_block = render_to_string("workflow/precip_compare_imports.html")
+    description = precip_compare_view.description
+
+    # input_model = get_model_input_module(submodel)
+    input_form = pcp.PrecipitationCompareFormInput()
+    # input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+    algorithm = precip_compare_view.algorithm
+
+    # precip_compare_v2
+    v1 = render_to_string('04hms_input_form.html', {'FORM': input_form})
+    v2 = render_to_string('04hms_input_form_v2.html')
+    input_block = render_to_string('04hms_precipcompare_input.html', {'V1': v1, 'V2': v2})
+
+    html = build_model_page(request=request, model=model, submodel=submodel, title=title, import_block=import_block,
+                            description=description, input_block=input_block, algorithms=algorithm)
+    response = HttpResponse()
+    response.write(html)
+    return response
 
 
 @ensure_csrf_cookie
@@ -28,6 +54,40 @@ def input_page(request, header='none'):
 
 
 def build_page(request, model, header):
+    """
+    Constructs html for precip compare page
+    :param request: current request object
+    :param model: current model
+    :param header: current header
+    :return: string formatted as html
+    """
+    page_title = "HMS: Precipitation Data Compare"
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA, Precipitation, Precipitation Compare"
+    imports = render_to_string('hms_default_imports.html')
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Work Flows",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports
+    })                                                                     # Default EPA header
+    html += links_left.ordered_list(model=model, submodel=None)
+    description = get_description(model)
+    html += render_to_string('05hms_body_start.html', {
+        'TITLE': page_title,
+        'TEXT_PARAGRAPH': description
+    })
+    input_module = get_model_input_module(model)
+    input_page_func = getattr(input_module, model + '_input_page')
+    html += input_page_func(request, model)
+
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
+def build_page_old(request, model, header):
     """
     Constructs html for precip compare page
     :param request: current request object
