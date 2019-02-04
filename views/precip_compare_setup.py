@@ -23,8 +23,13 @@ def precip_compare_page(request):
 
     # input_model = get_model_input_module(submodel)
     input_form = pcp.PrecipitationCompareFormInput()
-    input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+    # input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
     algorithm = precip_compare_view.algorithm
+
+    # precip_compare_v2
+    v1 = render_to_string('04hms_input_form.html', {'FORM': input_form})
+    v2 = render_to_string('04hms_input_form_v2.html')
+    input_block = render_to_string('04hms_precipcompare_input.html', {'V1': v1, 'V2': v2})
 
     html = build_model_page(request=request, model=model, submodel=submodel, title=title, import_block=import_block,
                             description=description, input_block=input_block, algorithms=algorithm)
