@@ -34,7 +34,7 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True":
         swagger["host"] = "127.0.0.1:8000/hms/rest"
         print("HMS Local")
-    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.16.0.4:7778":
+    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://hms_dotnetcore":
         swagger["host"] = "172.16.0.4/hms/rest"
         swagger["basePath"] = ""
         print("HMS AZURE Backend Docker")
@@ -48,7 +48,6 @@ def get_swagger_json(request):
     else:
         swagger["host"] = "qedinternal.epa.gov/hms/rest"
         swagger["basePath"] = ""
-        print("HMS qedinteral")
     response = HttpResponse()
     response.write(json.dumps(swagger))
     return response

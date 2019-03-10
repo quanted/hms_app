@@ -59,7 +59,8 @@ def flask_proxy(request, flask_url):
     if os.environ["HMS_LOCAL"] == "True":
         proxy_url = "http://localhost:7777" + "/" + flask_url
     else:
-        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/" + flask_url
+        # proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/" + flask_url
+        proxy_url = 'http://qed_flask/' + flask_url
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
@@ -80,7 +81,8 @@ def flask_proxy_v3(request, model):
     if os.environ["HMS_LOCAL"] == "True":
         proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
     else:
-        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/proxy/" + model
+        proxy_url = 'http://qed_flask/hms/proxy/' + model
+        # proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/proxy/" + model
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
