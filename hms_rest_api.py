@@ -26,7 +26,7 @@ def delineate_watershed(request):
 
 @csrf_exempt
 def pass_through_proxy(request, module):
-    if os.environ['HMS_LOCAL'] == "True":
+    if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
         proxy_url = "http://localhost:60050/api/" + module
     else:
         # proxy_url = os.environ.get('HMS_BACKEND_SERVER') + "/HMSWS/api/" + module
@@ -56,7 +56,7 @@ def pass_through_proxy(request, module):
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def flask_proxy(request, flask_url):
-    if os.environ["HMS_LOCAL"] == "True":
+    if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
         proxy_url = "http://localhost:7777" + "/" + flask_url
     else:
         # proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/" + flask_url
@@ -78,7 +78,7 @@ def flask_proxy(request, flask_url):
 @csrf_exempt
 @require_http_methods(["POST"])
 def flask_proxy_v3(request, model):
-    if os.environ["HMS_LOCAL"] == "True":
+    if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
         proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
     else:
         proxy_url = 'http://qed_flask/hms/proxy/' + model
