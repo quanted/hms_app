@@ -31,12 +31,10 @@ def get_swagger_json(request):
     print("Swagger json request url: " + url)
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
-    if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
-        swagger["host"] = "127.0.0.1:8000/hms/rest"
+    if os.environ['HMS_LOCAL'] == "True":
+        swagger["host"] = request.META["HTTP_HOST"] + "/hms/rest"
+        swagger["basePath"] = ""
         print("HMS Local")
-    elif os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "True":
-        swagger["host"] = "/hms/rest"
-        
     elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://hms_dotnetcore":
         swagger["host"] = "172.16.0.4/hms/rest"
         swagger["basePath"] = ""
