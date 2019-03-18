@@ -22,7 +22,7 @@ def get_swagger_json(request):
     Opens up swagger.json content
     """
     print("Swagger json request local: " + str(os.environ['HMS_LOCAL']))
-    if os.environ['HMS_LOCAL'] == "True":
+    if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
         url = "http://localhost:60050/swagger/v1/swagger.json"
     else:
         # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
@@ -32,13 +32,17 @@ def get_swagger_json(request):
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
     if os.environ['HMS_LOCAL'] == "True":
-        swagger["host"] = "127.0.0.1:8000/hms/rest"
-    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.11:7778":
-        swagger["host"] = "qedinternal.epa.gov/hms/rest"
+        swagger["host"] = request.META["HTTP_HOST"] + "/hms/rest"
         swagger["basePath"] = ""
+        print("HMS Local")
+    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://hms_dotnetcore":
+        swagger["host"] = "172.16.0.4/hms/rest"
+        swagger["basePath"] = ""
+        print("HMS AZURE Backend Docker")
     elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.15:7778":
         swagger["host"] = "134.67.114.5/hms/rest"
         swagger["basePath"] = ""
+        print("HMS CGI server 5")
     # elif os.environ['IN_DOCKER'] == "True":
     #     swagger["host"] = "172.20.100.11/hms/rest/"
     #     swagger["basePath"] = ""
