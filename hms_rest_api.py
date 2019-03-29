@@ -96,7 +96,7 @@ def flask_proxy_v3(request, model):
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, json=data, timeout=120, header=request_header)
+        flask_request = requests.request("post", proxy_url, json=data, timeout=120, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
