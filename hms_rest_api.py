@@ -67,11 +67,11 @@ def flask_proxy(request, flask_url):
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, data=request.POST, timeout=120)
+        flask_request = requests.request("post", proxy_url, verify=False, data=request.POST, timeout=120)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
-        flask_request = requests.request("get", proxy_url, timeout=120)
+        flask_request = requests.request("get", proxy_url, verify=False, timeout=120)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
@@ -96,7 +96,7 @@ def flask_proxy_v3(request, model):
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, json=data, timeout=120, headers=request_header)
+        flask_request = requests.request("post", proxy_url, verify=False, json=data, timeout=120, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
