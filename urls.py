@@ -1,10 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
-from django.conf import settings
-from django.conf.urls import include, url
 from django.urls import path, re_path
-from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels_run, hydrodynamic_submodels_output
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, documentation, hms_model_router
-from .models.water_quality import output as wq_output
+from .views import landing, watershed_map
+from .views import precip_compare_setup, api_doc, documentation, hms_model_router
 from . import hms_rest_api
 
 urlpatterns = [
@@ -12,7 +9,7 @@ urlpatterns = [
     path('', landing.hms_landing_page),
 
     path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
-    path('workflow/runoff_compare/', runoff_compare_setup.input_page),
+    path('workflow/precip_data_extraction/', precip_compare_setup.precip_extraction_page),
 
     path('docs/', documentation.docs_page),
     path('hydrology/streamflow/', watershed_map.hms_workflow_page),
@@ -25,7 +22,7 @@ urlpatterns = [
     re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
     re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
-    #path('model/<slug:model>', hms_model_router.landing_page),
+    # path('model/<slug:model>', hms_model_router.landing_page),
     path('<slug:model>/<slug:submodel>/', hms_model_router.component_page)
 ]
 

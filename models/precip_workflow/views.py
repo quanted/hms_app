@@ -35,4 +35,4 @@ algorithm = ' <br></br><p><b>Precipitation Comparison Version 1.0 Algorithms:</b
 			' <div align="left"> <a href="https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c26496ea52aab66a092593b"> A map of NHDPlus COM IDs can be found here.</a>' \
 			' To find the COM ID for your region, expand the "Surface Water Features" tab, and check the box labeled "Catchments".' \
 			' Click on the map to highlight a region of interest, which will bring up a window on the map. Click the three dots on the bottom right of this window and select "View in Attribute Table". This will bring up a table which contains the COM ID, which is labeled as "FeatureID".' \
-			' This ID contains commas, which will need to be removed when used in Precipitation Comparison Version 2.0.</div></p>' \
+			' This ID contains commas, which will need to be removed when used in Precipitation Comparison Version 2.0.</div></p>'
