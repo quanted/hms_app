@@ -8,7 +8,7 @@ header = 'HMS: Precipitation Data Extraction.'
 description = '<p>Replace with details about precipitation data extraction tool.</p>' \
 
 algorithm = ' <br></br><p><b>Precipitation Data Extraction Algorithms:</b>' \
-			' <div align="left"> This workflow will collect precipitation data from a given NCEI Station and compare it to data obtained from NLDAS, GLDAS, and Daymet.' \
+			' <div align="left"> This workflow will collect precipitation data from a variety of data sources, including NCEI, NLDAS, GLDAS, Daymet, and PRISM.' \
 			' This comparison presents relevant metadata, a   time series graph, the Pearson''s Correlation Matrix, and a table of statistics performed on the datasets. </div></p>' \
 			' <br></br><p><b>Handling Missing Data:</b>' \
 			' <div align="left"> Occasionally, some NCEI Stations will have periods of missing or invalid data. Days with missing data will be indicated in the output time series with values of "-9999".' \
