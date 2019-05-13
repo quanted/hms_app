@@ -1,0 +1,1 @@
+HMS functionality should be used for no purpose other than quality assurance and peer review of the presented components, tools, and web services. This web site is under development. It is available for the purposes of receiving feedback and quality assurance from EPA personnel and from interested members of the hydrological and water quality modeling community.
