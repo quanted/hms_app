@@ -50,6 +50,10 @@ def get_submodel_header(submodel):
         submodelTitle = "Precipitation"
     elif (submodelTitle == "temperature"):
         submodelTitle = "Temperature"
+    elif submodelTitle == "wind":
+        submodelTitle = "Wind"
+    elif submodelTitle == "radiation":
+        submodelTitle = "Radiation"
     return meteor.header + " - " + submodelTitle
 
 
@@ -67,6 +71,10 @@ def get_submodel_description(submodel):
         return meteor.description
     elif (submodel == "temperature"):
         return meteor.temperature_description
+    elif (submodel == "wind"):
+        return meteor.wind_description
+    elif (submodel == "radiation"):
+        return meteor.radiation_description
     else:
         return ''
 

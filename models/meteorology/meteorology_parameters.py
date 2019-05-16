@@ -11,6 +11,12 @@ PRECIP_SOURCE_OPTIONS = (
 # Sources for Temperature
 TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'))
 
+# Sources for Wind
+WIND_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('ncei', 'ncei'))
+
+# Sources for Radiation
+RAD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'))
+
 # Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'))
 
@@ -44,11 +50,6 @@ class HydrologyFormInput(forms.Form):
         input_formats=DATE_INPUT_FORMATS,
         initial='12/31/2010'
     )
-    # spatial_input = forms.ChoiceField(
-    #     label='Spatial Input',
-    #     choices=(('coordinates', 'coordinates'), ('geojson', 'geojson'), ('geojson_file', 'geojson file')),
-    #     initial='coordinates'
-    # )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
             'title': 'Latitude value for area of interest.'
@@ -123,14 +124,45 @@ class PrecipitationFormInput(HydrologyFormInput):
     )
     stationID = forms.CharField(
         widget=forms.TextInput(attrs={
-            'title': 'NCDC station ID.'
+            'title': 'NCEI station ID.'
         }
         ),
-        label='NCDC StationID',
+        label='NCEI StationID',
         initial='GHCND:USW00013874'
     )
     field_order = ['source', 'startDate', 'endDate', 'latitude', 'longitude', 'stationID',
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
+
+
+class WindFormInput(HydrologyFormInput):
+    """
+    Input form fields for precipitation data.
+    default fields taken from HydrologyFormInput
+    """
+    source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Data source of the dataset.'
+        }),
+        label='Source',
+        choices=WIND_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
+    stationID = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NCEI station ID.'
+        }
+        ),
+        label='NCEI StationID',
+        initial='GHCND:USW00013874'
+    )
+    component = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Desired component of wind.'
+        }),
+        label='Component',
+        choices=(('u/v', 'u/v'), ('vel/deg', 'vel/deg'), ('all', 'all')),
+        initial='all'
+    )
 
 
 class TemperatureFormInput(HydrologyFormInput):
@@ -144,6 +176,21 @@ class TemperatureFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=TEMP_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
+
+
+class RadiationFormInput(HydrologyFormInput):
+    """
+    Input form fields for temperature data.
+    default fields taken from HydrologyFormInput
+    """
+    source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Data source of the dataset.'
+        }),
+        label='Source',
+        choices=RAD_SOURCE_OPTIONS,
         initial='NLDAS'
     )
 

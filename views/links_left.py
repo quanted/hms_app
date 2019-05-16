@@ -23,8 +23,10 @@ def ordered_list(model, submodel, page=None):
         ('Meteorology', OrderedDict([
             ('Overview', 'meteorology/overview/'),
             ('Precipitation', 'meteorology/precipitation/'),
-            ('Temperature', 'meteorology/temperature/'),
+            ('Radiation', 'meteorology/radiation/'),
             ('Solar Calculator', 'meteorology/solarcalculator/'),
+            ('Temperature', 'meteorology/temperature/'),
+            ('Wind', 'meteorology/wind/'),
         ])),
         ('Hydrology', OrderedDict([
             ('Overview', 'hydrology/overview/'),

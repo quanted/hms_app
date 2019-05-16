@@ -31,6 +31,10 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             " Precipitation data is generated through direct observation as well" \
                             " as model simulation.</p>" \
 
+radiation_description = "<p>Radiation module under development</p>" \
+
+wind_description = "<p>Wind module under development</p>" \
+
 
 temperature_description = "<p>Temperature module under development.</p>"
 
@@ -47,6 +51,9 @@ solarcalculator_algorithm_description="<p>The equations used in the solar calcul
                                       "	Solar Zenith Angle (deg), Solar Elevation Angle (deg), Approx Atmospheric" \
                                       " Refraction (deg), Solar Elevation corrected for atm refraction (deg), " \
                                       "Solar Azimuth Angle (deg cw from N)</p>"\
+
+radiation_algorithm_description="<p></p>"
+wind_algorithm_description="<p></p>"
 
 temperature_algorithm_description="<p><b>NLDAS Temperature: </b>The North American Land Data Assimilation System" \
                                   " (NLDAS)" \

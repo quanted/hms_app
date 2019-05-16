@@ -54,5 +54,9 @@ def get_submodel_form_input(submodel, form_data):
         return mp.PrecipitationFormInput(form_data)
     elif (submodel == 'temperature'):
         return mp.TemperatureFormInput(form_data)
+    elif (submodel == 'radiation'):
+        return mp.RadiationFormInput(form_data)
+    elif (submodel == 'wind'):
+        return mp.WindFormInput(form_data)
     else:
         return ''
