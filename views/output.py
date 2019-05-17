@@ -491,7 +491,7 @@ def compare_input_page_errors(request, model='', header='', form=''):
 	"""
     description = ""
     if model == "precip_compare":
-        from hms_app.models.precip_compare import views as precip_compare_view
+        from hms_app.models.precip_workflow import views as precip_compare_view
         description = precip_compare_view.description
     elif model == "runoff_compare":
         from hms_app.models.runoff_compare import views as runoff_compare_view
@@ -511,7 +511,7 @@ def compare_input_page_errors(request, model='', header='', form=''):
 
     # -------------------- Form with Errors ---------------- #
     if model == "precip_compare":
-        from hms_app.models.precip_compare import precip_compare_inputs as pc_inputs
+        from hms_app.models.precip_workflow import precip_compare_inputs as pc_inputs
         html += pc_inputs.precip_compare_input_page(request, model, header, form)
     elif model == "runoff_compare":
         import hms_app.models.runoff_compare.runoff_compare_inputs as rc_inputs

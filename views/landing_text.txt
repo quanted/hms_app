@@ -1,8 +1,3 @@
-<p style="color:red"><i>
-This web site is under development.  It is available for the purposes of receiving feedback and quality assurance from personnel in the EPA.
-</i></p>
-
-
 <p>
 Hydrologic Micro Services, HMS, is a watershed modeling system comprised of hydrology, erosion, and contaminant fate
 and transport components. Data preparation is included with automated data downloads from national and local data sources and pre-processing data for consumption by models.
