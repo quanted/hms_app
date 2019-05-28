@@ -58,5 +58,7 @@ def get_submodel_form_input(submodel, form_data):
         return mp.RadiationFormInput(form_data)
     elif (submodel == 'wind'):
         return mp.WindFormInput(form_data)
+    elif submodel == 'humidity':
+        return mp.HumidityFormInput(form_data)
     else:
         return ''

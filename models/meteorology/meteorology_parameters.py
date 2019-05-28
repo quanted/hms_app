@@ -9,13 +9,16 @@ PRECIP_SOURCE_OPTIONS = (
 ('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncdc', 'ncdc'), ('nwm', 'nwm'))
 
 # Sources for Temperature
-TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'))
+TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('prism', 'prism'))
 
 # Sources for Wind
 WIND_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('ncei', 'ncei'))
 
 # Sources for Radiation
 RAD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'))
+
+# Sources for Humidity
+HUMID_SOURCE_OPTIONS = (('prism', 'prism'),)
 
 # Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'))
@@ -136,7 +139,7 @@ class PrecipitationFormInput(HydrologyFormInput):
 
 class WindFormInput(HydrologyFormInput):
     """
-    Input form fields for precipitation data.
+    Input form fields for wind data.
     default fields taken from HydrologyFormInput
     """
     source = forms.ChoiceField(
@@ -182,7 +185,7 @@ class TemperatureFormInput(HydrologyFormInput):
 
 class RadiationFormInput(HydrologyFormInput):
     """
-    Input form fields for temperature data.
+    Input form fields for radiation data.
     default fields taken from HydrologyFormInput
     """
     source = forms.ChoiceField(
@@ -193,6 +196,31 @@ class RadiationFormInput(HydrologyFormInput):
         choices=RAD_SOURCE_OPTIONS,
         initial='NLDAS'
     )
+
+
+class HumidityFormInput(HydrologyFormInput):
+    """
+    Input form fields for humidity data.
+    default fields taken from HydrologyFormInput
+    """
+    source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Data source of the dataset.'
+        }),
+        label='Source',
+        choices=HUMID_SOURCE_OPTIONS,
+        initial='prism'
+    )
+    component = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Parameter: Relative Humidity/Dew Point Temperature'
+        }),
+        choices=(('relative', 'relative  humidity'), ('dewpoint', 'dew point')),
+        initial='relative',
+        label='Parameter',
+    )
+    field_order = ['source', 'component', 'startDate', 'endDate', 'latitude', 'longitude',
+                   'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
 class SolarcalculatorFormInput(forms.Form):

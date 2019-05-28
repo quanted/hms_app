@@ -29,14 +29,15 @@ precipitation_description = "<p>Precipitation is one of the main processes in th
                             " predicting projects. This data is used to determine flood/drought conditions, " \
                             "hydrologic transportation of contaminants, best management practices, and regulations." \
                             " Precipitation data is generated through direct observation as well" \
-                            " as model simulation.</p>" \
+                            " as model simulation.</p>"
 
-radiation_description = "<p>Radiation module under development</p>" \
+radiation_description = "<p>Radiation module under development</p>"
 
-wind_description = "<p>Wind module under development</p>" \
-
+wind_description = "<p>Wind module under development</p>"
 
 temperature_description = "<p>Temperature module under development.</p>"
+
+humidity_description = "<p>Humidity module is under development</p>"
 
 solarcalculator_algorithm_description="<p>The equations used in the solar calculator are based on 'Astronomical Algorithms" \
                                       "' by Jean Meeus. For more information about NOAA's Solar Calculator go to " \
@@ -52,8 +53,9 @@ solarcalculator_algorithm_description="<p>The equations used in the solar calcul
                                       " Refraction (deg), Solar Elevation corrected for atm refraction (deg), " \
                                       "Solar Azimuth Angle (deg cw from N)</p>"\
 
-radiation_algorithm_description="<p></p>"
-wind_algorithm_description="<p></p>"
+radiation_algorithm_description = "<p></p>"
+wind_algorithm_description = "<p></p>"
+humidity_algorithm_description = "<p></p>"
 
 temperature_algorithm_description="<p><b>NLDAS Temperature: </b>The North American Land Data Assimilation System" \
                                   " (NLDAS)" \
