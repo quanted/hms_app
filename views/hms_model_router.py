@@ -36,7 +36,8 @@ def component_page(request, model=None, submodel=None):
     import_block = None
 
     if model == "meteorology":
-        description = met_submodels.get_submodel_description(submodel)
+        p = request.scheme + "://" + request.get_host()
+        description = met_submodels.get_submodel_description(p, submodel)
         if submodel == "overview":
             input_block = None
             algorithm = None

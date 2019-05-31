@@ -69,14 +69,14 @@ class HydrologyFormInput(forms.Form):
         initial=-83.356893,
         required=False
     )
-    geometrymetadata = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
-                     ' and value.',
-        }),
-        label='Geometry Metadata',
-        required=False
-    )
+    # geometrymetadata = forms.CharField(
+    #     widget=forms.Textarea(attrs={
+    #         'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
+    #                  ' and value.',
+    #     }),
+    #     label='Geometry Metadata',
+    #     required=False
+    # )
     timelocalized = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Set date/time timezone to local, specified by latitude and longitude values, or to GMT.'

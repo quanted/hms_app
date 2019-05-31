@@ -40,9 +40,7 @@ def get_submodel_description(submodel):
     :param submodel: Current submodel
     :return: submodel description as a string
     """
-    if (submodel == "precipitation"):
-        return meteor.precipitation_algorithm_description
-    elif (submodel == "temperature"):
+    if (submodel == "temperature"):
         return meteor.temperature_algorithm_description
     elif (submodel == "solarcalculator"):
         return meteor.solarcalculator_algorithm_description

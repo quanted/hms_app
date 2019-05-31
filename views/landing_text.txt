@@ -15,14 +15,18 @@ HMS users can use the system components and workflows directly or build their ow
 <ul>
 <li><h4>Meteorology</h4></li>
 <ul>
+<li>Humidity</li>
 <li>Precipitation</li>
+<li>Radiation</li>
 <li>Solar Calculator</li>
 <li>Temperature</li>
+<li>Wind</li>
 </ul>
 </ul>
 <ul>
 <li><h4>Hydrology</h4></li>
 <ul>
+<li>Streamflow</li>
 <li>Evapotranspiration</li>
 <li>Surface Runoff</li>
 <li>Soil Moisture</li>
@@ -59,8 +63,8 @@ HMS users can use the system components and workflows directly or build their ow
 </ul>
 <h3>Work Flows</h3>
 <ul>
-<li><h4>Precipitation Compare</h4></li>
-<li><h4>Surface Runoff Compare</h4></li>
+<li><h4>Precipitation Data Extraction</h4></li>
+<li><h4>Precipitation Comparison</h4></li>
 </ul>
 
 

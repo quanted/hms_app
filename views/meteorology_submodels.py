@@ -59,7 +59,7 @@ def get_submodel_header(submodel):
     return meteor.header + " - " + submodelTitle
 
 
-def get_submodel_description(submodel):
+def get_submodel_description(base_url, submodel):
     """
     Gets the submodel description.
     :param submodel: Current submodel
@@ -68,7 +68,7 @@ def get_submodel_description(submodel):
     if submodel == "solarcalculator":
         return meteor.solarcalculator_description
     elif (submodel == "precipitation"):
-        return build_overview_page(submodel)
+        return build_overview_page(base_url, submodel)
     elif (submodel == "overview"):
         return meteor.description
     elif (submodel == "temperature"):
@@ -127,17 +127,21 @@ def get_model_input_module(model):
     return model_input_module
 
 
-def build_overview_page(submodel):
+def build_overview_page(base_url, submodel):
+    details = None
+    if submodel == "precipitation":
+        details = precip.Precipitation
     html = render_to_string('hms_submodel_overview.html', {
         'SUBMODEL': submodel,
-        'DESCRIPTION': precip.description,
-        'VERSION': precip.version,
-        'CAPABILITIES': precip.capabilities,
-        'SCENARIOS': precip.usage,
-        'SAMPLECODE': precip.samples,
-        'INPUTS': precip.input_parameters,
-        'OUTPUTS': precip.output_object,
-        'API': precip.http_API,
-        'CHANGELOG': precip.changelog
+        'DESCRIPTION': details.description,
+        'VERSION': details.version,
+        'CAPABILITIES': details.capabilities,
+        'SCENARIOS': details.usage,
+        'SAMPLECODE': details.samples,
+        'INPUTS': details.input_parameters,
+        'OUTPUTS': details.output_object,
+        'API': details.http_API,
+        'BASEURL': base_url,
+        'CHANGELOG': details.changelog
     })
     return html
