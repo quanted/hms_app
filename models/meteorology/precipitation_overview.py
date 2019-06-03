@@ -68,14 +68,14 @@ class Precipitation:
         ["startDate", "String", "Start date for the output timeseries."],
         ["endDate", "String", "End date for the output timeseries."],
         ["dateTimeFormat", "String", "Format of the datetime stamp of the output timeseries. Valid options can be found "
-                                        "here: https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2"],
+                                        "here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
         ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
         ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
         ["latitude", "Number", "Latitude coordinate for the output timeseries."],
         ["longitude", "Number", "Longitude coordinate for the output timeseries."],
         ["stationID", "String", "NOAA NCEI station identification number.(Requires source to be set to 'ncei'."],
         ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                      "https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2"],
+                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
         ["temporalResolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
                                      "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
         ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
