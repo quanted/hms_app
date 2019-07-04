@@ -83,6 +83,18 @@ def get_submodel_description(base_url, submodel):
         return ''
 
 
+def get_submodel_algorithm(submodel):
+    """
+    Gets the submodel algorithm details
+    :param submodel: Current submodel
+    :return: Dictionary of algorithm details.
+    """
+    if submodel == "precipitation":
+        return precip.Precipitation.algorithms
+    else:
+        return {}
+
+
 def build_submodel_page(request, model, submodel, header):
     """
     Builds the html for the submodel page.
