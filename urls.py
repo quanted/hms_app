@@ -1,12 +1,14 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.urls import path, re_path
-from .views import landing, watershed_map
+from .views import landing, watershed_map, workflow_setup
 from .views import precip_compare_setup, api_doc, documentation, hms_model_router
 from . import hms_rest_api
 
 urlpatterns = [
     # django 2.0
     path('', landing.hms_landing_page),
+
+    path('workflow/water_quality/', workflow_setup.water_quality_page),
 
     path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
     path('workflow/precip_data_extraction/', precip_compare_setup.precip_extraction_page),

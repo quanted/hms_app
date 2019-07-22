@@ -1,5 +1,5 @@
 """
-HMS Meteorology submodule Input form parameters
+HMS Workflow submodule Input form parameters
 """
 
 from django import forms
