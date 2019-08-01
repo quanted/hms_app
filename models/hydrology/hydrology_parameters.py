@@ -165,12 +165,21 @@ class EvapotranspirationFormInput(HydrologyFormInput):
     Input form fields for evapotranspiration data.
     default fields taken from HydrologyFormInput
     """
+    """
+    old choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('priestlytaylor', 'priestlytaylor'),
+                 ('grangergray', 'grangergray'),
+                 ('penpan', 'penpan'), ('mcjannett', 'mcjannett'), ('penmanopenwater', 'penmanopenwater'),
+                 ('penmandaily', 'penmandaily'),
+                 ('penmanhourly', 'penmanhourly'), ('mortoncrae', 'mortoncrae'), ('mortoncrwe', 'mortoncrwe'),
+                 ('shuttleworthwallace', 'shuttleworthwallace'),
+                 ('hspf', 'hspf'))
+    """
     source = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Evapotranspiration data source.'
         }),
         label='Source',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('ncdc', 'ncdc'), ('custom', 'custom')),
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas')),
         initial='NLDAS'
     )
     algorithm = forms.ChoiceField(
@@ -178,13 +187,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
             'title': 'Evapotranspiration algorithm.'
         }),
         label='Algorithm',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('priestlytaylor', 'priestlytaylor'),
-                 ('grangergray', 'grangergray'),
-                 ('penpan', 'penpan'), ('mcjannett', 'mcjannett'), ('penmanopenwater', 'penmanopenwater'),
-                 ('penmandaily', 'penmandaily'),
-                 ('penmanhourly', 'penmanhourly'), ('mortoncrae', 'mortoncrae'), ('mortoncrwe', 'mortoncrwe'),
-                 ('shuttleworthwallace', 'shuttleworthwallace'),
-                 ('hspf', 'hspf')),
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('penmandaily', 'penmandaily')),
         initial='NLDAS'
     )
     userdata = forms.FileField(
