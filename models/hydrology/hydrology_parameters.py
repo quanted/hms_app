@@ -179,7 +179,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
             'title': 'Evapotranspiration data source.'
         }),
         label='Source',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas')),
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet')),
         initial='NLDAS'
     )
     algorithm = forms.ChoiceField(
@@ -187,7 +187,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
             'title': 'Evapotranspiration algorithm.'
         }),
         label='Algorithm',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('penmandaily', 'penmandaily')),
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('hamon', 'hamon'), ('penmandaily', 'penmandaily'), ('hargreaves', 'hargreaves')),
         initial='NLDAS'
     )
     userdata = forms.FileField(
