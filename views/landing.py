@@ -83,7 +83,7 @@ def hms_landing_page_old(request):
     return response
 
 
-def file_not_found(request):
+def file_not_found(request, exception=None):
     """
     Constructs html for page not found.
     :param request: current request object
