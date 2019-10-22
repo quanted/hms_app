@@ -63,26 +63,30 @@ class Precipitation:
     # description and any child elements.
     input_parameters = [
         ["source", "String", "Time-series data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
-        ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
-                                       "(startDate, endDate, dateTimeFormat)"],
-        ["startDate", "String", "Start date for the output timeseries."],
-        ["endDate", "String", "End date for the output timeseries."],
+        ["startDate", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
+        ["endDate", "String", "End date for the output timeseries. e.g., 12/31/2010"],
         ["dateTimeFormat", "String", "Format of the datetime stamp of the output timeseries. Valid options can be found "
                                         "here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-        ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
-        ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
-        ["latitude", "Number", "Latitude coordinate for the output timeseries."],
-        ["longitude", "Number", "Longitude coordinate for the output timeseries."],
-        ["stationID", "String", "NOAA NCEI station identification number.(Requires source to be set to 'ncei'."],
-        ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
+        ["latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575"],
+        ["longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893"],
+        ["stationID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). e.g., GHCND:USW00013874 ."],
+
         ["temporalResolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
                                      "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
+        ["outputFormat", "String", "Format of the returned API object. Valid options are: 'json'."],
+        ["timeLocalized", "Boolean",
+         "Specify if the date/timestamp on the output timeseries is set to the local timezone of the spatial area of interest or to GMT."],
+    ]
+        '''--------------------discarded documentation:---------------------
+        ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
+                                       "(startDate, endDate, dateTimeFormat)"],
+        ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
+        ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
+        ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
+                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
         ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
         ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
-        ["outputFormat", "String", "Format of the returned API object. Valid options are: 'json'."]
-    ]
-
+        '''
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
     output_object = [
