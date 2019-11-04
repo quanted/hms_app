@@ -79,7 +79,7 @@ class HydrologyFormInput(forms.Form):
     # )
     timelocalized = forms.ChoiceField(
         widget=forms.Select(attrs={
-            'title': 'Set date/time timezone to local, specified by latitude and longitude values, or to GMT.'
+            'title': 'If yes, set date/time timezone to local to the spatial area of interest or if no, to GMT.'
         }),
         label='Local Time',
         choices=(('false', 'no'), ('true', 'yes')),
