@@ -6,7 +6,7 @@ from django import forms
 
 # Sources for Precipitation
 PRECIP_SOURCE_OPTIONS = (
-('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncdc', 'ncdc'), ('nwm', 'nwm'))
+('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncei', 'ncei'), ('nwm', 'nwm'))
 
 # Sources for Temperature
 TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('prism', 'prism'))
