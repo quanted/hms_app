@@ -67,32 +67,26 @@ class PrecipCompare:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["stationID", "String", "NOAA NCEI station identification number.(Requires source to be set to 'ncei'."],
-        ["startDate", "String", "Start date for the output timeseries."],
-        ["endDate", "String", "End date for the output timeseries."],
-        ["temporalResolution", "String",
-         "Temporal resolution/timestep of the output timeseries. Options are limited by the "
-         "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
-        ["dataset", "String", "Value: 'Precipitation'"],
-        ["sourceList", "List", "Time-series precipitation data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
-        ["weighted", "Boolean", "Default: true. Determines whether calculation uses weighted averaging or not."],
-        ["extremeDaily", "Number", "Default: 0. Daily threshold for extreme precipitation events (mm)."],
-        ["extremeTotal", "Number", "Default: 0. 5 day total threshold for extreme precipitation events (mm)."],
-        ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
-                                       "(startDate, endDate, dateTimeFormat)"],
-        ["dateTimeFormat", "String", "Format of the datetime stamp of the output timeseries. Valid options can be found "
-                                        "here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-        ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
-        ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
-        ["latitude", "Number", "Latitude coordinate for the output timeseries."],
-        ["longitude", "Number", "Longitude coordinate for the output timeseries."],
-        ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-
-        ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
-        ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
-        ["outputFormat", "String", "Format of the returned API object. Valid options are: 'json'."]
-    ]
+        ["Location Parameters for NCEI Weather Observation Station","","The user must select 'NHDPlus COMID' button or "
+            "'NCEI Station ID' button to determine the location for precipitation comparison. See 'Data Algorithms' for "
+            "more details"],
+        ["NHDPlus COMID", "String", "If selected, the catchment for the user provided NHDPlus Common Identifier is"
+            " used to determine which NCEI Weather Observatio Station is used for comparison. e.g., 1049831"],
+        ["Use weighted spatial average","Button","If selected, gridded data from selected 'Data Sources' are averaged "
+             "over the 'NHDPlus COMID' catchment area for comparison."],
+        ["NCEI Station ID","Button","If selected, user is presented with 'NCEI Station' String input parameter for "
+             "overriding automatic selection of NCEI Station ID based on user provided 'NHDPlus COMID'."],
+        ["NCEI Station","String","if 'NCEI Station ID' button is selected, this input parameter becomes visible, and "
+             "the user can override automatic NCEI station selection with a user provided NCEI Station ID. e.g., "
+            "'099486'"],
+        ["NCEI Station ID","String","If selected, the NCEI Weather Observation Station data is compared to data in the "
+            "cell from gridded 'Data Sources' containing the provided NCEI station"],
+        ["Temporal Parameters","",""],
+        ["Start Year", "String", "Start Year for the output timeseries. e.g., 2010"],
+        ["End Year", "String", "End Year for the output timeseries. e.g., 2012"],
+        ["Data Sources","Checkbox","user must choose at least one gridded data source to compare to the NCEI Weather "
+            "Observation Station associated with 'Location'"]
+     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
