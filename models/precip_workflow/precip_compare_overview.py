@@ -37,17 +37,34 @@ class PrecipCompare:
                                                " ID for data retrieval. If only a COM ID is provided, data from the"
                                                " nearest NCEI Station will be used. If both a COM ID and NCEI Station"
                                                " are provided, data from the specified NCEI Station will be used.</p>"
-			                                   " Data will be collected from January 1st of the specified start year"
+                                               " Data will be collected from January 1st of the specified start year"
                                                " through December 31st of the end year, and can be aggregated by"
                                                " Daily, Monthly, Annually, or Extreme Event temporal resolutions."
-			                                   "An Extreme Event is defined as an accumulation threshold of "
+                                               "An Extreme Event is defined as an accumulation threshold of "
                                                "precipitation during the five preceding days or daily precipitation "
                                                "exceeding a specified amount. There is no limit on the number of years "
                                                "that can be specified, although annual resolution requires 2 or more "
                                                "years, and some NCEI stations may not have data for all years.",
-        "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days with missing data will be indicated in the output time series with values of -9999. However, days with missing data will be excluded for all datasets when calculating statistics. For extreme event aggregation, missing data will be replaced by the mean of the other datasets, or with 0 if the mean is negative.",
-        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI Stations can be found here.</a> The Station ID, Name, Location, and Dates can be found by clicking on the map icon. Some stations may not show up until the map is zoomed into that location. It is recommended that you use NCEI Stations that support the 'Normals Daily' Precipitation Dataset, although stations that support the 'Precipitation Hourly' dataset will work as well.",
-        "Obtaining NHDPlus COM IDs": " <a href='https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c26496ea52aab66a092593b'> A map of NHDPlus COM IDs can be found here.</a> To find the COM ID for your region, expand the 'Surface Water Features' tab, and check the box labeled 'Catchments'. Click on the map to highlight a region of interest, which will bring up a window on the map. Click the three dots on the bottom right of this window and select 'View' in Attribute Table. This will bring up a table which contains the COM ID, which is labeled as 'FeatureI'D' This ID contains commas, which will need to be removed when used in Precipitation Comparison Version 2.0."
+        "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days"
+                                 " with missing data will be indicated in the output time series with values of -9999."
+                                 " However, days with missing data will be excluded for all datasets when calculating"
+                                 " statistics. For extreme event aggregation, missing data will be replaced by the mean"
+                                 " of the other datasets, or with 0 if the mean is negative.",
+        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
+                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can"
+                                      " be found by clicking on the map icon. Some stations may not show up until the"
+                                      " map is zoomed into that location. It is recommended that you use NCEI Stations"
+                                      " that support the 'Normals Daily' Precipitation Dataset, although stations that"
+                                      " support the 'Precipitation Hourly' dataset will work as well.",
+        "Obtaining NHDPlus COM IDs": " <a href='https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c"
+                                     "26496ea52aab66a092593b'> A map of NHDPlus COM IDs can be found here.</a> To "
+                                     "find the COM ID for your region, expand the 'Surface Water Features' tab, and "
+                                     "check the box labeled 'Catchments'. Click on the map to highlight a region of "
+                                     "interest, which will bring up a window on the map. Click the three dots on the "
+                                     "bottom right of this window and select 'View' in Attribute Table. This will "
+                                     "bring up a table which contains the COM ID, which is labeled as 'FeatureI'D' "
+                                     "This ID contains commas, which will need to be removed when used in "
+                                     "Precipitation Comparison Version 2.0."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -68,8 +85,8 @@ class PrecipCompare:
     # description and any child elements.
     input_parameters = [
         ["Location Parameters for NCEI Weather Observation Station","","The user must select 'NHDPlus COMID' button or "
-            "'NCEI Station ID' button to determine the location for precipitation comparison. See 'Data Algorithms' for "
-            "more details"],
+            "'NCEI Station ID' button to determine the location for precipitation comparison. See 'Data Algorithms' "
+            "for more details"],
         ["NHDPlus COMID", "String", "If selected, the catchment for the user provided NHDPlus Common Identifier is"
             " used to determine which NCEI Weather Observatio Station is used for comparison. e.g., 1049831"],
         ["Use weighted spatial average","Button","If selected, gridded data from selected 'Data Sources' are averaged "
@@ -91,13 +108,13 @@ class PrecipCompare:
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
     output_object = [
-        ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                             "either for a workflow API or other relevent dataset."],
+        ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one "
+            " dataset,either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                                   "as HMS metadata."],
-        ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                               "and value is a list of values for the source/dataset."]
+            "as HMS metadata."],
+        ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime "
+            "stamp and value is a list of values for the source/dataset."]
     ]
 
     # HTTP API endpoint

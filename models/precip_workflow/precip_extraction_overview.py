@@ -35,19 +35,9 @@ class PrecipExtract:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["dataset", "String", "Value: 'Precipitation'"],
-        ["sourceList", "List", "Time-series precipitation data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
-        ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
-                                       "(startDate, endDate, dateTimeFormat)"],
         ["startDate", "String", "Start date for the output timeseries."],
         ["endDate", "String", "End date for the output timeseries."],
-        ["dateTimeFormat", "String", "Format of the datetime stamp of the output timeseries. Valid options can be found "
-                                        "here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-        ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
-        ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
-        ["latitude", "Number", "Latitude coordinate for the output timeseries."],
-        ["longitude", "Number", "Longitude coordinate for the output timeseries."],
-        ["stationID", "String", "NOAA NCEI station identification number.(Requires source to be set to 'ncei'."],
+        ["NCEI StationID", "String", "NOAA NCEI station identification number. See 'Data Alogorithms' for a map of NCEI stations. e.g., GHCND:USW00013874"],
         ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
                                       "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
         ["temporalResolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "

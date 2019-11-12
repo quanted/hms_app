@@ -20,6 +20,17 @@ class Precipitation:
 
     # Data source algorithms and brief description
     algorithms = {
+        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
+                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
+                                      "be found by clicking on the map icon. Some stations may not show up until the "
+                                      "map is zoomed into that location. It is recommended that you use NCEI Stations "
+                                      "that support the 'Normals Daily' Precipitation Dataset, although stations that "
+                                      "support the 'Precipitation Hourly' dataset will work as well.",
+        "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days"
+                                 " with missing data will be indicated in the output time series with values of -9999."
+                                 " However, days with missing data will be excluded for all datasets when calculating"
+                                 " statistics. For extreme event aggregation, missing data will be replaced by the mean"
+                                 " of the other datasets, or with 0 if the mean is negative.",
         "NCDC Precipitation": "The National Climatic Data Center (NCDC) provides precipitation data recorded at rain "
                               "gauge stations. Stations are identified by their Station ID which includes the type of "
                               "station and the station number. Some stations have been recording data as far back as "
