@@ -101,24 +101,24 @@ class Precipitation:
     ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
     ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
     '''
-# Output return object are provided as a list of lists, each list containing 3 elements: column,
-# datatype and description.
-output_object = [
-    ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
+    # Output return object are provided as a list of lists, each list containing 3 elements: column,
+    # datatype and description.
+    output_object = [
+        ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
                           "either for a workflow API or other relevent dataset."],
-    ["dataSource", "String", "Primary source of the requested timeseries."],
-    ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
+        ["dataSource", "String", "Primary source of the requested timeseries."],
+        ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
                                "as HMS metadata."],
-    ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
+        ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
                            "and value is a list of values for the source/dataset."]
-]
+    ]
+    
+    # HTTP API endpoint
+    http_API = [
+        ["POST", "/hms/rest/api/v3/meteorology/precipitation/"]
+    ]
 
-# HTTP API endpoint
-http_API = [
-    ["POST", "/hms/rest/api/v3/meteorology/precipitation/"]
-]
-
-# Changelog is provided as a list of lists, where each list contains 3 elements: title, date, and a list of changes.
-changelog = [
-    ["Version: 0.1 Beta", "May 29, 2019", ["Production UI and documentation initial setup."]]
-]
+    # Changelog is provided as a list of lists, where each list contains 3 elements: title, date, and a list of changes.
+    changelog = [
+        ["Version: 0.1 Beta", "May 29, 2019", ["Production UI and documentation initial setup."]]
+    ]
