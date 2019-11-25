@@ -38,13 +38,9 @@ class PrecipExtract:
         ["startDate", "String", "Start date for the output timeseries."],
         ["endDate", "String", "End date for the output timeseries."],
         ["NCEI StationID", "String", "NOAA NCEI station identification number. See 'Data Alogorithms' for a map of NCEI stations. e.g., GHCND:USW00013874"],
-        ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
+
         ["temporalResolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
                                      "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
-        ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
-        ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
-        ["outputFormat", "String", "Format of the returned API object. Valid options are: 'json'."]
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
