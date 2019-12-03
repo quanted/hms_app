@@ -20,6 +20,17 @@ class Precipitation:
 
     # Data source algorithms and brief description
     algorithms = {
+        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
+                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
+                                      "be found by clicking on the map icon. Some stations may not show up until the "
+                                      "map is zoomed into that location. It is recommended that you use NCEI Stations "
+                                      "that support the 'Normals Daily' Precipitation Dataset, although stations that "
+                                      "support the 'Precipitation Hourly' dataset will work as well.",
+        "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days"
+                                 " with missing data will be indicated in the output time series with values of -9999."
+                                 " However, days with missing data will be excluded for all datasets when calculating"
+                                 " statistics. For extreme event aggregation, missing data will be replaced by the mean"
+                                 " of the other datasets, or with 0 if the mean is negative.",
         "NCDC Precipitation": "The National Climatic Data Center (NCDC) provides precipitation data recorded at rain "
                               "gauge stations. Stations are identified by their Station ID which includes the type of "
                               "station and the station number. Some stations have been recording data as far back as "
@@ -33,7 +44,7 @@ class Precipitation:
                                "0.25-degrees covering the Earth between December 2016.",
         "DAYMET Precipitation": "Daymet is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
                                 "Daymet uses ground station data with their model algorithm to produce gridded estimates "
-                               "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
+                                "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
                                 "grid over North America. Data is accessible since 1980 to the latest full year.",
         "PRISM Precipitation": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
                                "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
@@ -65,40 +76,43 @@ class Precipitation:
         ["Source", "String", "Time-series data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
         ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
         ["End Date", "String", "End date for the output timeseries. e.g., 12/31/2010"],
-        ["Output Date Format", "String", "Format of the datetime stamp of the output timeseries. Valid options can be found "
-                                        "here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
+        ["Output Date Format", "String", "Format of the datetime stamp of the output timeseries. Valid options can be"
+                                         " found here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system."
+                                         "datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft "
+                                         "Documentation</a>"],
         ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575"],
         ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893"],
-        ["NCEI StationID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). e.g., GHCND:USW00013874 ."],
-
-        ["Temporal Resolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
-                                     "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
+        ["NCEI StationID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). "
+                                     "e.g., GHCND:USW00013874 ."],
+        ["Temporal Resolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited"
+                                          " by the default timestep of the data source. All options are: 'default',"
+                                          " 'daily', 'weekly', 'monthly'."],
         ["Output Data Format", "String", "Format of the returned API object. Valid options are: 'json'."],
-        ["Local Time", "Boolean",
-         "Specify if the date/timestamp on the output timeseries is set to the local timezone of the spatial area of interest or to GMT."],
+        ["Local Time", "Boolean", "Specify if the date/timestamp on the output timeseries is set to the local timezone"
+                                  " of the spatial area of interest or to GMT."],
     ]
-        '''--------------------discarded documentation:---------------------
-        ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
-                                       "(startDate, endDate, dateTimeFormat)"],
-        ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
-        ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
-        ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                      "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-        ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
-        ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
-        '''
+    '''--------------------discarded documentation:---------------------
+    ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
+                                   "(startDate, endDate, dateTimeFormat)"],
+    ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
+    ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
+    ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
+                                  "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
+    ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
+    ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
+    '''
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
     output_object = [
         ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                             "either for a workflow API or other relevent dataset."],
+                          "either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                                   "as HMS metadata."],
+                               "as HMS metadata."],
         ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                               "and value is a list of values for the source/dataset."]
+                           "and value is a list of values for the source/dataset."]
     ]
-
+    
     # HTTP API endpoint
     http_API = [
         ["POST", "/hms/rest/api/v3/meteorology/precipitation/"]
