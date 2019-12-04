@@ -84,11 +84,11 @@ class PrecipCompare:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["Location Parameters for NCEI Weather Observation Station","","The user must select 'NHDPlus COMID' button or "
+        ["Location","Parameters for NCEI Weather Observation Station","The user must select 'NHDPlus COMID' button or "
             "'NCEI Station ID' button to determine the location for precipitation comparison. See 'Data Algorithms' "
             "for more details"],
         ["NHDPlus COMID", "String", "If selected, the catchment for the user provided NHDPlus Common Identifier is"
-            " used to determine which NCEI Weather Observatio Station is used for comparison. e.g., 1049831"],
+            " used to determine which NCEI Weather Observation Station is used for comparison. e.g., 1049831"],
         ["Use weighted spatial average","Button","If selected, gridded data from selected 'Data Sources' are averaged "
              "over the 'NHDPlus COMID' catchment area for comparison."],
         ["NCEI Station ID","Button","If selected, user is presented with 'NCEI Station' String input parameter for "
@@ -98,9 +98,11 @@ class PrecipCompare:
             "'099486'"],
         ["NCEI Station ID","String","If selected, the NCEI Weather Observation Station data is compared to data in the "
             "cell from gridded 'Data Sources' containing the provided NCEI station"],
-        ["Temporal Parameters","",""],
+        ["Temporal","Parameters for controlling the time of the data comparison.",""],
         ["Start Year", "String", "Start Year for the output timeseries. e.g., 2010"],
         ["End Year", "String", "End Year for the output timeseries. e.g., 2012"],
+        ["Temporal Aggregation","Button","the user must select the temporal resolution of the data comparison or choose"
+                                         " to compare extreme precipitation events"],
         ["Data Sources","Checkbox","user must choose at least one gridded data source to compare to the NCEI Weather "
             "Observation Station associated with 'Location'"]
      ]
