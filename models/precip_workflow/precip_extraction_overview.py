@@ -35,11 +35,13 @@ class PrecipExtract:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["startDate", "String", "Start date for the output timeseries."],
-        ["endDate", "String", "End date for the output timeseries."],
-        ["NCEI StationID", "String", "NOAA NCEI station identification number. See 'Data Alogorithms' for a map of NCEI stations. e.g., GHCND:USW00013874"],
+        ["NCEI Station ID", "String",
+         "NOAA NCEI station identification number. See 'Data Alogorithms' for a map of NCEI stations. e.g., GHCND:USW00013874"],
+        ["Start Date", "String", "Start date for the output timeseries."],
+        ["End Date", "String", "End date for the output timeseries."],
 
-        ["temporalResolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
+
+        ["Temporal Resolution", "Drop-Down List", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
                                      "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
     ]
 
