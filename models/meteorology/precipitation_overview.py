@@ -46,12 +46,20 @@ class Precipitation:
                               "station and the station number. Some stations have been recording data as far back as "
                               "1901 to present day.",
         "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH. NLDAS has an hourly time step on a 0.125 -degree "
-                               "grid of North America and has a maximum time lag of four days for data retrieval. Data "
-                               "is available from January 2, 1979 to present",
-        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and ground-based "
-                               "observational data to provide precipitation and other variables on a spatial resolution of "
-                               "0.25-degrees covering the Earth between December 2016.",
+                               "data and satellite data from CMORPH "
+                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                               "NLDAS has a one hour time step on a 0.125-degree grid of North America, with an "
+                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                               "January 1, 1979 to the present.",
+        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+                               "ground-based observational data to provide precipitation and other meteorological "
+                               "parameters. GLDAS has a three hour time step on a global 0.25-degree grid. GLDAS "
+                               "timeseries are generated from two GLDAS products, GLDAS-2.0 and GDLAS-2.1. GLDAS-2.0 "
+                               "provides data coverage from January 1, 1948 to December 31, 2010. GLDAS-2.1 provides "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                               "for data retrieval. GLDAS requests in HMS gives preference to GLDAS-2.1, but will "
+                               "merge timeseries data, from GLDAS-2.0, for dates not available in GLDAS-2.1.",
         "DAYMET Precipitation": "Daymet is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
                                 "Daymet uses ground station data with their model algorithm to produce gridded estimates "
                                 "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
