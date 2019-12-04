@@ -83,7 +83,7 @@ class Precipitation:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-        ["Source", "String", "Time-series data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
+        ["Source", "Drop-Down List", "Time-series data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
         ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
         ["End Date", "String", "End date for the output timeseries. e.g., 12/31/2010"],
         ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575"],
@@ -92,9 +92,9 @@ class Precipitation:
                                      "e.g., GHCND:USW00013874. A tool to find a NCEI station can be found here: "
                                      "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>"
                                      "https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
-        ["Local Time", "Boolean", "Specify if the date/timestamp on the output timeseries is set to the local timezone"
-                                  " of the spatial area of interest or to GMT."],
-        ["Temporal Resolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited"
+        ["Local Time", "Drop-Down List", "Specify if the date/timestamp on the output timeseries is set to the local timezone"
+                                  " ('yes') of the spatial area of interest or to GMT ('no')."],
+        ["Temporal Resolution", "Drop-Down List", "Temporal resolution/timestep of the output timeseries. Options are limited"
                                           " by the default timestep of the data source. All options are: 'default',"
                                           " 'daily', 'weekly', 'monthly'."],
         ["Output Date Format", "String", "Format of the datetime stamp of the output timeseries. Valid options can be"
