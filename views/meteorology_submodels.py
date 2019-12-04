@@ -144,6 +144,7 @@ def build_overview_page(base_url, submodel):
     if submodel == "precipitation":
         details = precip.Precipitation
     html = render_to_string('hms_submodel_overview.html', {
+        'MODEL': 'meteorology',
         'SUBMODEL': submodel,
         'DESCRIPTION': details.description,
         'VERSION': details.version,

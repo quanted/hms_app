@@ -9,18 +9,28 @@ class Precipitation:
     version = 0.1
 
     # HMS module description
-    description = "Precipitation is one of the main processes in the global hydrological cycle, thus integral for " \
-                  "modeling purposes. Precipitation is highly variable and influences vegetation, droughts, floods, " \
-                  "and the movement of minerals and chemicals. In agriculture and urban areas, precipitation is the " \
-                  "driver in contaminant and nutrient transport in water systems due to runoff. Precipitation data is " \
-                  "an integral input for many watershed, air, erosion, and agricultural models as well as climate " \
-                  "predicting projects. This data is used to determine flood/drought conditions, hydrologic " \
+    description = "Precipitation is one of the main processes in the global hydrological cycle, thus integral " \
+                  "for modeling purposes. Precipitation is highly variable and influences vegetation, droughts, " \
+                  "floods, and the movement of minerals and chemicals. In agriculture and urban areas, precipitation " \
+                  "is the driver in contaminant and nutrient transport in water systems due to runoff. Precipitation " \
+                  "data is an integral input for many watershed, air, erosion, and agricultural models as well as " \
+                  "climate predicting projects. This data is used to determine flood/drought conditions, hydrologic " \
                   "transportation of contaminants, best management practices, and regulations. Precipitation data is " \
-                  "generated through direct observation as well as model simulation."
+                  "generated through direct observation as well as model simulation." \
+                  "<br>Precipitation data request can be submitted using one of the following two methods:" \
+                  "<div style='margin-left:2em; text-align:left; margin-top:-1em;'>1.	Click on the “Data Request” tab, fill input parameter " \
+                  "values, and then click on the “Submit” button. A successful submit makes “Output” tab active " \
+                  "and the user is provided a data request task ID. It is recommended that the user copy the task ID. " \
+                  "The user has the option to wait on the “output” tab until output data is displayed on the tab. " \
+                  "For longer running data requests the user has the option to copy the task ID and leave the page. " \
+                  "The user can come back later, click on the “Retrieve Data” tab, enter the task ID, and retrieve " \
+                  "output data</div>." \
+                  "<div style='margin-left: 2em; text-align:left; margin-top:-1em;'>2. Programmatically access RESTful API. Please navigate to " \
+                  "documentation on the “Web Service Details” and “Code Samples” panels on this page.</div>"
 
     # Data source algorithms and brief description
     algorithms = {
-        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
+        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'> A map of NCEI"
                                       " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
                                       "be found by clicking on the map icon. Some stations may not show up until the "
                                       "map is zoomed into that location. It is recommended that you use NCEI Stations "
@@ -31,7 +41,7 @@ class Precipitation:
                                  " However, days with missing data will be excluded for all datasets when calculating"
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
-        "NCDC Precipitation": "The National Climatic Data Center (NCDC) provides precipitation data recorded at rain "
+        "NCEI Precipitation": "The National Climatic Data Center (NCEI) provides precipitation data recorded at rain "
                               "gauge stations. Stations are identified by their Station ID which includes the type of "
                               "station and the station number. Some stations have been recording data as far back as "
                               "1901 to present day.",
@@ -52,7 +62,7 @@ class Precipitation:
         "WGEN Precipitation": "WGEN is a stochastic weather generator that statistically simulates precipitation. WGEN "
                               "uses a Markov Chain Model to determine the probability of precipitation occurrence. The "
                               "Markov Chain Model determines precipitation by finding  the probability of a wet day "
-                              "following a dry dat. Then an equation using mean daily rainfall, standard deviation of "
+                              "following a dry dat. Then an equation using 20-year mean daily rainfall, standard deviation of "
                               "daily rainfall, and skew coefficients give the amount of rainfall on a given wet day."
     }
 
@@ -83,7 +93,9 @@ class Precipitation:
         ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575"],
         ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893"],
         ["NCEI StationID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). "
-                                     "e.g., GHCND:USW00013874 ."],
+                                     "e.g., GHCND:USW00013874. A tool to find a NCEI station can be found here: "
+                                     "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>"
+                                     "https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
         ["Temporal Resolution", "String", "Temporal resolution/timestep of the output timeseries. Options are limited"
                                           " by the default timestep of the data source. All options are: 'default',"
                                           " 'daily', 'weekly', 'monthly'."],
