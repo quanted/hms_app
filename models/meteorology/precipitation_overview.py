@@ -60,10 +60,11 @@ class Precipitation:
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS requests in HMS gives preference to GLDAS-2.1, but will "
                                "merge timeseries data, from GLDAS-2.0, for dates not available in GLDAS-2.1.",
-        "DAYMET Precipitation": "Daymet is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
-                                "Daymet uses ground station data with their model algorithm to produce gridded estimates "
+        "DAYMET Precipitation": "DAYMET is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
+                                "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
                                 "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
-                                "grid over North America. Data is accessible since 1980 to the latest full year.",
+                                "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
+                                " discards values for December 31 from leap years to maintain a 365-day year.",
         "PRISM Precipitation": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
                                "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
                                "resolution covering the contiguous United States. Data is available from 1981 to present.",
