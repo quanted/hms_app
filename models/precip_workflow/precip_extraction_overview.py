@@ -9,7 +9,13 @@ class PrecipExtract:
     version = 0.1
 
     # HMS module description
-    description = "This workflow automatically extracts precipitation data from 5 nationally recognized sources and compiles data into a readable format. Data from the chosen NCEI Station ID are extracted and precipitation values from all sources (NLDAS, GLDAS, Daymet, and PRISM) at the same location and time frame are also extracted. A temporal resolution of daily, weekly, or monthly can be chosen for data requests. Summary statistics are provided for each of the 5 data sources. The time series of data extracted for the time period and location can be downloaded as a CSV or JSON."
+    description = "This workflow automatically extracts precipitation data from five national sources and compiles " \
+                  "data into a consistent format. The workflow requires the user to select an NCEI station.  " \
+                  "Data from the user selected NCEI Station along with data from four gridded data sources " \
+                  "(NLDAS, GLDAS, DAYMET, and PRISM) at the same location and time frame are downloaded and " \
+                  "reformatted. A temporal resolution of daily, weekly, or monthly can be chosen for data requests. " \
+                  "Summary statistics are provided for each of the five data sources. The time series of data " \
+                  "downloaded for the time period and location can be downloaded as a CSV or JSON."
 
     # Data source algorithms and brief description
     algorithms = {
@@ -35,12 +41,15 @@ class PrecipExtract:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["NCEI Station ID", "String",
-         "NOAA NCEI station identification number. See 'Data Alogorithms' for a map of NCEI stations. e.g., GHCND:USW00013874"],
-        ["Start Date", "String", "Start date for the output timeseries."],
-        ["End Date", "String", "End date for the output timeseries."],
-        ["Temporal Resolution", "Drop-Down List", "Temporal resolution/timestep of the output timeseries. Options are limited by the "
-                                     "default timestep of the data source. All options are: 'default', 'daily', 'weekly', 'monthly'."],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
+        ["End Date", "String", "End date for the output timeseries. e.g., 12/31/2010"],
+        ["NCEI Station ID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). "
+                                     "e.g., GHCND:USW00013874. A tool to find a NCEI station can be found here: "
+                                     "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>"
+                                     "https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+        ["Temporal Resolution", "Drop-Down List", "Temporal resolution/timestep of the output timeseries. Options are limited"
+                                          " by the default timestep of the data source. All options are: 'default',"
+                                          " 'daily', 'weekly', 'monthly'."],
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
