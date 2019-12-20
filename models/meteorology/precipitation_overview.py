@@ -72,10 +72,10 @@ class Precipitation:
                               "uses a Markov Chain Model to determine the probability of precipitation occurrence. The "
                               "Markov Chain Model determines precipitation by finding  the probability of a wet day "
                               "following a dry dat. Then an equation using 20-year mean daily rainfall, standard deviation of "
-                              "daily rainfall, and skew coefficients give the amount of rainfall on a given wet day."
+                              "daily rainfall, and skew coefficients give the amount of rainfall on a given wet day.",
         "NWM Precipitation": "The National Water Model simulates ovserved and forecast data for hydrologic modeling. "
                               "Data is available on 1km and 250m grids that provide coverage over various lookback ranges, "
-                              "varying from 3 hours to 30 days depending on the dataset."
+                              "varying from 3 hours to 30 days depending on the dataset.",
         "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-satellite Precipitation Analysis Algorithm "
                               "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
                               "presented in 3-hourly timesteps over a 0.25 degree spatial grid."
