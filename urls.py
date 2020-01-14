@@ -9,6 +9,7 @@ urlpatterns = [
     path('', landing.hms_landing_page),
 
     path('workflow/water_quality/', workflow_setup.water_quality_page),
+    path('workflow/time_of_travel/', workflow_setup.time_of_travel_page),
 
     path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
     path('workflow/precip_data_extraction/', precip_compare_setup.precip_extraction_page),
