@@ -33,8 +33,14 @@ class TimeOfTravelFormInput(forms.Form):
         }),
         required=True,
         label='Start Date',
-        input_formats=DATE_INPUT_FORMATS,
-        initial=datetime.datetime.now().strftime("%Y-%m-%d")
+        input_formats=DATE_INPUT_FORMATS
+    )
+    startHour = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True,
+        label='Start Hour',
+        max_value=23,
+        min_value=0
     )
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
@@ -42,9 +48,13 @@ class TimeOfTravelFormInput(forms.Form):
         }),
         required=True,
         label='End Date',
-        input_formats=DATE_INPUT_FORMATS,
-        initial=(datetime.datetime.now() + datetime.timedelta(hours=18)).strftime("%Y-%m-%d")
+        input_formats=DATE_INPUT_FORMATS
     )
-
-    field_order = ['startCOMID', 'endCOMID', 'startDate', 'endDate']
-
+    endHour = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True,
+        label='End Hour',
+        max_value=23,
+        min_value=0
+    )
+    field_order = ['startCOMID', 'endCOMID', 'startDate', 'startHour', 'endDate', 'endHour']
