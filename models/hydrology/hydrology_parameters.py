@@ -14,6 +14,14 @@ STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'))
 # Allowed Date formats for django form
 DATE_INPUT_FORMATS = ('%Y-%m-%d', '%m-%d-%Y', '%m-%d-%y', '%m/%d/%Y', '%m/%d/%y', '%b %d %Y', '%b %d, %Y',
                       '%d %b %Y', '%d %b, %Y', '%B %d %Y', '%B %d, %Y', '%d %B %Y', '%d %B, %Y')
+DATA_OUTPUT_FORMATS = (
+    ("E", "E"), ("E0", "E0"), ("E1", "E1"), ("E2", "E2"), ("E3", "E3"),
+    ("e", "e"), ("e0", "e0"), ("e1", "e1"), ("e2", "e2"), ("e3", "e3"),
+    ("F", "F"), ("F0", "F0"), ("F1", "F1"), ("F2", "F2"), ("F3", "F3"),
+    ("G", "G"), ("G0", "G0"), ("G1", "G1"), ("G2", "G2"), ("G3", "G3"),
+    ("N", "N"), ("N0", "N0"), ("N1", "N1"), ("N2", "N2"), ("N3", "N3"),
+    ("R", "R")
+)
 
 
 class HydrologyFormInput(forms.Form):
@@ -95,12 +103,13 @@ class HydrologyFormInput(forms.Form):
         label='Output Date Format',
         initial="yyyy-MM-dd HH"
     )
-    outputformat = forms.CharField(
-        widget=forms.TextInput(attrs={
+    outputformat = forms.ChoiceField(
+        widget=forms.Select(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
                      'base-types/standard-numeric-format-strings'
         }),
         label='Output Data Format',
+        choices=DATA_OUTPUT_FORMATS,
         initial="E3"
     )
 
