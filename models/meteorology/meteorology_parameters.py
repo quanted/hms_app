@@ -44,7 +44,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Source',
         choices=STANDARD_SOURCE_OPTIONS,
-        initial='NLDAS'
+        initial='NLDAS',
+        help_text='SOURCE TEMP HELP TEXT'
     )
     startDate = forms.DateField(
         widget=forms.TextInput(attrs={
@@ -52,7 +53,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Start Date',
         input_formats=DATE_INPUT_FORMATS,
-        initial='01/01/2010'
+        initial='01/01/2010',
+        help_text='START DATE TEMP HELP TEXT'
     )
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
@@ -60,7 +62,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='End Date',
         input_formats=DATE_INPUT_FORMATS,
-        initial='12/31/2010'
+        initial='12/31/2010',
+        help_text='END DATE TEMP HELP TEXT'
     )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -68,7 +71,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Latitude',
         initial=33.925575,
-        required=False
+        required=False,
+        help_text='LATITUDE TEMP HELP TEXT'
     )
     longitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -76,7 +80,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Longitude',
         initial=-83.356893,
-        required=False
+        required=False,
+        help_text='LONGITUDE TEMP HELP TEXT'
     )
     # geometrymetadata = forms.CharField(
     #     widget=forms.Textarea(attrs={
@@ -101,7 +106,8 @@ class HydrologyFormInput(forms.Form):
         label='Temporal Resolution',
         choices=(
         ("default", "default"), ("hourly", "hourly"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
-        initial="default"
+        initial="default",
+        help_text='TEMPORAL RESOLUTION TEMP HELP TEXT'
     )
     datetimeformat = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -109,7 +115,8 @@ class HydrologyFormInput(forms.Form):
                      'base-types/custom-date-and-time-format-strings'
         }),
         label='Output Date Format',
-        initial="yyyy-MM-dd HH"
+        initial="yyyy-MM-dd HH",
+        help_text='DATE TIME FORMAT TEMP HELP TEXT'
     )
     outputformat = forms.ChoiceField(
         widget=forms.Select(attrs={
@@ -118,7 +125,8 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Output Data Format',
         choices=DATA_OUTPUT_FORMATS,
-        initial="E3"
+        initial="E3",
+        help_text='OUTPUT FORMAT TEMP HELP TEXT'
     )
 
 
@@ -133,7 +141,8 @@ class PrecipitationFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=PRECIP_SOURCE_OPTIONS,
-        initial='NLDAS'
+        initial='NLDAS',
+        help_text='SOURCE TEMP HELP TEXT'
     )
     stationID = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -141,7 +150,8 @@ class PrecipitationFormInput(HydrologyFormInput):
         }
         ),
         label='NCEI StationID',
-        initial='GHCND:USW00013874'
+        initial='GHCND:USW00013874',
+        help_text='STATIONID TEMP HELP TEXT'
     )
     field_order = ['source', 'startDate', 'endDate', 'latitude', 'longitude', 'stationID',
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
@@ -158,7 +168,8 @@ class WindFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=WIND_SOURCE_OPTIONS,
-        initial='NLDAS'
+        initial='NLDAS',
+        help_text='SOURCE TEMP HELP TEXT'
     )
     stationID = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -166,7 +177,8 @@ class WindFormInput(HydrologyFormInput):
         }
         ),
         label='NCEI StationID',
-        initial='GHCND:USW00013874'
+        initial='GHCND:USW00013874',
+        help_text='STATIONID TEMP HELP TEXT'
     )
     component = forms.ChoiceField(
         widget=forms.Select(attrs={
@@ -174,7 +186,8 @@ class WindFormInput(HydrologyFormInput):
         }),
         label='Component',
         choices=(('u/v', 'u/v'), ('vel/deg', 'vel/deg'), ('all', 'all')),
-        initial='all'
+        initial='all',
+        help_text='COMPONENT TEMP HELP TEXT'
     )
 
 
@@ -189,7 +202,8 @@ class TemperatureFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=TEMP_SOURCE_OPTIONS,
-        initial='NLDAS'
+        initial='NLDAS',
+        help_text='SOURCE TEMP HELP TEXT'
     )
 
 
@@ -204,7 +218,8 @@ class RadiationFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=RAD_SOURCE_OPTIONS,
-        initial='NLDAS'
+        initial='NLDAS',
+        help_text='SOURCE TEMP HELP TEXT'
     )
 
 
@@ -219,7 +234,8 @@ class HumidityFormInput(HydrologyFormInput):
         }),
         label='Source',
         choices=HUMID_SOURCE_OPTIONS,
-        initial='prism'
+        initial='prism',
+        help_text='SOURCE TEMP HELP TEXT'
     )
     component = forms.ChoiceField(
         widget=forms.Select(attrs={
@@ -228,6 +244,7 @@ class HumidityFormInput(HydrologyFormInput):
         choices=(('relative', 'relative  humidity'), ('dewpoint', 'dew point')),
         initial='relative',
         label='Parameter',
+        help_text='COMPONENT TEMP HELP TEXT'
     )
     field_order = ['source', 'component', 'startDate', 'endDate', 'latitude', 'longitude',
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
@@ -240,7 +257,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Model',
         choices=(('year', 'year'), ('day', 'day')),
-        initial='year'
+        initial='year',
+        help_text='MODEL TEMP HELP TEXT'
     )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -248,7 +266,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Latitude',
         initial=33.925575,
-        required=False
+        required=False,
+        help_text='LATITUDE TEMP HELP TEXT'
     )
     longitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -256,7 +275,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Longitude',
         initial=-83.356893,
-        required=False
+        required=False,
+        help_text='LONGITUDE TEMP HELP TEXT'
     )
     timezone = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -264,7 +284,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Time Zone',
         initial=-7,
-        required=False
+        required=False,
+        help_text='TIMEZONE TEMP HELP TEXT'
     )
     local_time = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -272,7 +293,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Local Time',
         initial='12:00:00',
-        required=False
+        required=False,
+        help_text='LOCALTIME TEMP HELP TEXT'
     )
     year = forms.CharField(
         widget=forms.TextInput(attrs={
@@ -280,7 +302,8 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Year',
         initial='2010',
-        required=False
+        required=False,
+        help_text='YEAR TEMP HELP TEXT'
     )
     date = forms.DateField(
         widget=forms.TextInput(attrs={
@@ -288,5 +311,6 @@ class SolarcalculatorFormInput(forms.Form):
         }),
         label='Date',
         input_formats=DATE_INPUT_FORMATS,
-        initial='2010-06-10'
+        initial='2010-06-10',
+        help_text='DATE TEMP HELP TEXT'
     )
