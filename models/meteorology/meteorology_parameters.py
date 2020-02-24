@@ -6,7 +6,7 @@ from django import forms
 
 # Sources for Precipitation
 PRECIP_SOURCE_OPTIONS = (
-('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncei', 'ncei'), ('nwm', 'nwm'), ('trmm', 'trmm'))
+('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncei', 'ncei'), ('trmm', 'trmm'))
 
 # Sources for Temperature
 TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('prism', 'prism'))
@@ -105,19 +105,21 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-        ("default", "default"), ("hourly", "hourly"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
+            ("hourly", "hourly"), ("3hourly", "3hourly"),
+            ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")
+        ),
         initial="default",
         help_text='TEMPORAL RESOLUTION TEMP HELP TEXT'
     )
-    datetimeformat = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-                     'base-types/custom-date-and-time-format-strings'
-        }),
-        label='Output Date Format',
-        initial="yyyy-MM-dd HH",
-        help_text='DATE TIME FORMAT TEMP HELP TEXT'
-    )
+    # datetimeformat = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+    #                  'base-types/custom-date-and-time-format-strings'
+    #     }),
+    #     label='Output Date Format',
+    #     initial="yyyy-MM-dd HH",
+    #     help_text='DATE TIME FORMAT TEMP HELP TEXT'
+    # )
     outputformat = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
@@ -153,7 +155,21 @@ class PrecipitationFormInput(HydrologyFormInput):
         initial='GHCND:USW00013874',
         help_text='STATIONID TEMP HELP TEXT'
     )
-    field_order = ['source', 'startDate', 'endDate', 'latitude', 'longitude', 'stationID',
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
+    field_order = ['source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid", 'stationID',
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 

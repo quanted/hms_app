@@ -92,17 +92,19 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-        ("default", "default"), ("hourly", "hourly"), ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")),
+            ("hourly", "hourly"), ("3hourly", "3hourly"),
+            ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")
+        ),
         initial="default"
     )
-    datetimeformat = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-                     'base-types/custom-date-and-time-format-strings'
-        }),
-        label='Output Date Format',
-        initial="yyyy-MM-dd HH"
-    )
+    # datetimeformat = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
+    #                  'base-types/custom-date-and-time-format-strings'
+    #     }),
+    #     label='Output Date Format',
+    #     initial="yyyy-MM-dd HH"
+    # )
     outputformat = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
