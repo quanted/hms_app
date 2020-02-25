@@ -83,7 +83,7 @@ class HydrologyFormInput(forms.Form):
             'title': 'Set date/time timezone to local, specified by latitude and longitude values, or to GMT.'
         }),
         label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes')),
+        choices=(('false', 'GMT'), ('true', 'yes')),
         initial='true'
     )
     temporalresolution = forms.ChoiceField(

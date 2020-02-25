@@ -96,7 +96,7 @@ class HydrologyFormInput(forms.Form):
             'title': 'If yes, set date/time timezone to local to the spatial area of interest or if no, to GMT.'
         }),
         label='Local Time',
-        choices=(('false', 'no'), ('true', 'yes')),
+        choices=(('false', 'GMT'), ('true', 'yes')),
         initial='true'
     )
     temporalresolution = forms.ChoiceField(
