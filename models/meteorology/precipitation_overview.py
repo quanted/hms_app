@@ -9,24 +9,14 @@ class Precipitation:
     version = 0.1
 
     # HMS module description
-    description = "Precipitation is one of the main processes in the global hydrological cycle, thus integral " \
-                  "for modeling purposes. Precipitation is highly variable and influences vegetation, droughts, " \
-                  "floods, and the movement of minerals and chemicals. In agriculture and urban areas, precipitation " \
-                  "is the driver in contaminant and nutrient transport in water systems due to runoff. Precipitation " \
-                  "data is an integral input for many watershed, air, erosion, and agricultural models as well as " \
-                  "climate predicting projects. This data is used to determine flood/drought conditions, hydrologic " \
-                  "transportation of contaminants, best management practices, and regulations. Precipitation data is " \
-                  "generated through direct observation as well as model simulation." \
-                  "<br>Precipitation data request can be submitted using one of the following two methods:" \
-                  "<div style='margin-left:2em; text-align:left; margin-top:-1em;'>1.	Click on the “Data Request” tab, fill input parameter " \
-                  "values, and then click on the “Submit” button. A successful submit makes “Output” tab active " \
-                  "and the user is provided a data request task ID. It is recommended that the user copy the task ID. " \
-                  "The user has the option to wait on the “output” tab until output data is displayed on the tab. " \
-                  "For longer running data requests the user has the option to copy the task ID and leave the page. " \
-                  "The user can come back later, click on the “Retrieve Data” tab, enter the task ID, and retrieve " \
-                  "output data</div>." \
-                  "<div style='margin-left: 2em; text-align:left; margin-top:-1em;'>2. Programmatically access RESTful API. Please navigate to " \
-                  "documentation on the “Web Service Details” and “Code Samples” panels on this page.</div>"
+    description = "Precipitation is one of the main processes in the global hydrological cycle. Precipitation is highly variable and influences vegetation, droughts, floods, and the movement of nutrients, sediment, minerals, chemicals and other contaminants. In agriculture and urban areas, precipitation is the driver in contaminant and nutrient transport in water systems due to runoff. Precipitation data is an integral input for many watershed, air, erosion, and agricultural models as well as climate predicting projects. The data can be used in applications such as determining flood/drought conditions, hydrologic transportation of contaminants, best management practices, and regulations. Precipitation data is generated through direct observation as well as modeling.  Click on the “Data Algorithms” tab to view details of precipitation data available through HMS.  Input and output parameter descriptions are available below in the “Input Paraments” and “output Parameters” panels. Precipitation data request can be submitted using one of the following two methods:" \
+                  "</br></br>" \
+                  "<div style='margin-left:2em; text-align:left; margin-top:-1em;'>" \
+                  "1. Click on the “Data Request” tab on this page, fill input parameter values, and then click on the “Submit” button. A successful submit makes “Output” tab active and the user is provided a data request task ID. It is recommended that the user copy the task ID. The user has the option to wait until output data is displayed on the tab. For longer running data requests the user has the option to copy the task ID and leave the page. The user can come back later, click on the “Retrieve Data” tab, enter the task ID, and retrieve output data.  Outputs are cached for 24 hours." \
+                  "</div>." \
+                  "<div style='margin-left: 2em; text-align:left; margin-top:-1em;'>" \
+                  "2. Programmatically access RESTful API. Please navigate to documentation on the “Web Service Details” and “Code Samples” panels on this page.  Swagger implementation can be accessed by clicking on the “API Documentation” node on the left pane and then navigating to the “WSPrecipitation” service." \
+                  "</div>"
 
     # Data source algorithms and brief description
     algorithms = {
@@ -98,36 +88,52 @@ class Precipitation:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-        ["Source", "Drop-Down List", "Time-series data source (valid sources: nldas, gldas, daymet, ncei, prism, wgen, nwm)"],
-        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
-        ["End Date", "String", "End date for the output timeseries. e.g., 12/31/2010"],
-        ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575"],
-        ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893"],
-        ["NCEI Station ID", "String", "NOAA NCEI station identification number (available if source set to 'ncei'). "
-                                     "e.g., GHCND:USW00013874. A tool to find a NCEI station can be found here: "
-                                     "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>"
-                                     "https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
-        ["Local Time", "Drop-Down List", "Specify if the date/timestamp on the output timeseries is set to the local timezone"
-                                  " ('yes') of the spatial area of interest or to GMT ('no')."],
-        ["Temporal Resolution", "Drop-Down List", "Temporal resolution/timestep of the output timeseries. Options are limited"
-                                          " by the default timestep of the data source. All options are: 'default',"
-                                          " 'daily', 'weekly', 'monthly'."],
-        ["Output Date Format", "String", "Format of the datetime stamp of the output timeseries. Valid options can be"
-                                         " found here: <a href=\"https://docs.microsoft.com/en-us/dotnet/api/system."
-                                         "datetime.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft "
-                                         "Documentation</a>"],
-        ["Output Data Format", "String", "Format of the returned API object. Valid options are: 'json'."]
+                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+                           ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
+                            "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+                           ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+                            "<div style='text-align:center;'>Data Availability</div><div>"
+                            "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
+                            "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
+                            "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
+                            "<br><b>ncei:</b> depends upon selected station"
+                            "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
+                            "<br><b>wgen:</b> daily, replicates last 20-year daymet statistics."
+                            "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
+                            "</div>", "rowspan=2"
+                           ],
+                           ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+                           ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
+                           ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+                           ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+                           ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
+                           ["Output Time Zone", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: Local Time, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
+                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas, gldas, and trmm."],
+                           ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]
-    '''--------------------discarded documentation:---------------------
-    ["dateTimeSpan", "Dictionary", "Object holding the timeseries temporal input parameters "
-                                   "(startDate, endDate, dateTimeFormat)"],
-    ["geometry", "Dictionary", "Object holding the timeseries spatial input parameters. (point, stationID)"],
-    ["point", "Dictionary", "Object holding point coordinate parameters. (latitude, longitude)"],
-    ["dataValueFormat", "String", "Format of the output timeseries data values. Valid options can be found here: "
-                                  "<a href=\"https://docs.microsoft.com/en-us/dotnet/api/system.double.tostring?view=netcore-2.2\" target=\"_blank\">Microsoft Documentation</a>"],
-    ["localTime", "Boolean", "Specify if the timestamp on the output timeseries is set to the timezone of the spatial area of interest."],
-    ["units", "String", "Units of the output timeseries. Valid options are: 'default', 'metric', 'imperial'"],
-    '''
+
+    data_format = [
+        ["\"E\" or \"e\"", "Exponential (Scientific).</br>Exponential notation.",
+         "\"E\": 1052.0329112756 -> 1.052033E+003</br>"
+         "\"e\": 1052.0329112756 -> 1.052033e+003</br>"
+         "\"E2\": -1052.0329112756 -> -1.05E+003</br>"
+         "\"e2\": -1052.0329112756 -> -1.05e+003</br>"],
+        ["\"F\"", "Fixed-point.</br>Integral and decimal digits with optional negative sign.",
+         "\"F\": 1234.567 -> 1234.57</br>"
+         "\"F1\": 1234 -> 1234.0</br>"
+         "\"F4\": -1234.56 -> -1234.5600</br>"],
+        ["\"G\"", "General.</br>The more compact of either fixed-point or scientific notation.",
+         "\"G\": -123.456 -> -123.456</br>"
+         "\"G4\": 123.4546 -> 123.5</br>"
+         "\"G\": -1.234567890e-25 -> -1.23456789E-25</br>"],
+        ["\"N\"", "Number.</br>Integral and decimal digits, group separators, and a decimal separator with optional negative sign.",
+         "\"N\": 1234.567 -> 1, 234.57</br>"
+         "\"N1\": 1234 -> 1, 234.0</br>"
+         "\"N3\": -1234.56 -> -1, 234.560</br>"],
+        ["\"R\"", "Round-trip.</br>A string that can round-trip to an identical number.",
+         "\"R\": 123456789.12345678 -> 123456789.12345678</br>"
+         "\"R\": -1234567890.12345678 -> -1234567890.1234567</br>"]
+    ]
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
     output_object = [

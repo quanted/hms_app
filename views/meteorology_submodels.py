@@ -147,6 +147,7 @@ def build_overview_page(base_url, submodel):
         'MODEL': 'meteorology',
         'SUBMODEL': submodel,
         'DESCRIPTION': details.description,
+        'FORMATS': details.data_format,
         'VERSION': details.version,
         'CAPABILITIES': details.capabilities,
         'SCENARIOS': details.usage,
