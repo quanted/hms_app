@@ -9,22 +9,16 @@ class PrecipCompare:
     version = 0.1
 
     # HMS module description
-    description = "This online tool automatically retrieves, processes, compares, and visualizes precipitation " \
-                  "time-series data at point or catchment locations for selected data sources. Data covers January " \
-                  "1st of the start year to December 31st of the end year and comparison statistics are provided." \
-                  "</br></br>Data requests can be retrieved by (1) National Hydrography Dataset (NHDPlus V2) catchment " \
-                  "identifier (COMID) or (2) NCEI gauge station identifier (Station ID). If Station ID or COMIDs are unknown," \
-                  " a hyperlink is provided to a nationwide map where this information can be obtained. The" \
-                  " combinations for location inputs are: (i) COMID is provided and the nearest (to catchment" \
-                  " centroid) NCEI station is used, along with gridded data at catchment centroid location; (ii)" \
-                  " COMID is provided, with nearest NCEI station used with spatially aggregated gridded data for" \
-                  " the catchment; (iii) COMID and specific NCEI station are provided with gridded data at the" \
-                  " catchment centroid; or (iv) COMID and specific NCEI station are provided with spatially" \
-                  " aggregated gridded data for the catchment.</br></br> " \
-                  "A temporal resolution is needed which includes daily, monthly, annual, or extreme precipitation " \
-                  "event. Two user specified threshold values are required for an extreme precipitation event: one " \
-                  "for rainfall accumulation for the previous five days and one for the sixth day amount. The time " \
-                  "series, statistics, and metadata can be downloaded as a CSV or JSON. "
+    description = "This workflow automatically extracts precipitation data from four national sources and compiles " \
+                  "data into a consistent format. The workflow requires the user to select an NCEI station. " \
+                  "Data from the user selected NCEI Station along with data from three gridded data sources " \
+                  "(NLDAS, GLDAS, and TRMM) at the same location and time period are downloaded and reformatted.  " \
+                  "It should be noted that dates in time-series refer to local time-zone.  The algorithm coverts " \
+                  "time-series from GMT to local time-zone (of NCEI station location) for NLDAS. GLDAS, and TRMM.  " \
+                  "A uniform distribution of values is assumed within a time step for gridded data sources when " \
+                  "converting to local time zone. A temporal resolution of daily, weekly, or monthly can be chosen " \
+                  "for data requests. Summary statistics are provided for each of the four data sources. The time " \
+                  "series of data downloaded for the time period and location can be downloaded as a CSV or JSON."
 
     # Data source algorithms and brief description
     algorithms = {
@@ -51,11 +45,11 @@ class PrecipCompare:
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
         "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
-                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can"
-                                      " be found by clicking on the map icon. Some stations may not show up until the"
-                                      " map is zoomed into that location. It is recommended that you use NCEI Stations"
-                                      " that support the 'Normals Daily' Precipitation Dataset, although stations that"
-                                      " support the 'Precipitation Hourly' dataset will work as well.",
+                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
+                                      "be found by clicking on the map icon. Some stations may not show up until the "
+                                      "map is zoomed into that location. It is recommended that you use NCEI Stations "
+                                      "that support the 'Normals Daily' Precipitation Dataset, although stations that "
+                                      "support the 'Precipitation Hourly' dataset will work as well.",
         "Obtaining NHDPlus COM IDs": " <a href='https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c"
                                      "26496ea52aab66a092593b'> A map of NHDPlus COM IDs can be found here.</a> To "
                                      "find the COM ID for your region, expand the 'Surface Water Features' tab, and "
@@ -84,28 +78,20 @@ class PrecipCompare:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements.
     input_parameters = [
-        ["Location","Parameters for NCEI Weather Observation Station","The user must select 'NHDPlus COMID' button or "
-            "'NCEI Station ID' button to determine the location for precipitation comparison. See 'Data Algorithms' "
-            "for more details"],
-        ["NHDPlus COMID", "String", "If selected, the catchment for the user provided NHDPlus Common Identifier is"
-            " used to determine which NCEI Weather Observation Station is used for comparison. e.g., 1049831"],
-        ["Use weighted spatial average","Button","If selected, gridded data from selected 'Data Sources' are averaged "
-             "over the 'NHDPlus COMID' catchment area for comparison."],
-        ["NCEI Station ID","Button","If selected, user is presented with 'NCEI Station' String input parameter for "
-             "overriding automatic selection of NCEI Station ID based on user provided 'NHDPlus COMID'."],
-        ["NCEI Station","String","if 'NCEI Station ID' button is selected, this input parameter becomes visible, and "
-             "the user can override automatic NCEI station selection with a user provided NCEI Station ID. e.g., "
-            "'099486'"],
-        ["NCEI Station ID","String","If selected, the NCEI Weather Observation Station data is compared to data in the "
-            "cell from gridded 'Data Sources' containing the provided NCEI station"],
-        ["Temporal","Parameters for controlling the time of the data comparison.",""],
-        ["Start Year", "String", "Start Year for the output timeseries. e.g., 2010"],
-        ["End Year", "String", "End Year for the output timeseries. e.g., 2012"],
-        ["Temporal Aggregation","Button","the user must select the temporal resolution of the data comparison or choose"
-                                         " to compare extreme precipitation events"],
-        ["Data Sources","Checkbox","user must choose at least one gridded data source to compare to the NCEI Weather "
-            "Observation Station associated with 'Location'"]
-     ]
+        ["NHDPlus COMID", "String", "NHDPlusV2.1 catchment COMID.","Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+        ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
+         "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+        ["Start Year", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+         "<div style='text-align:center;'>Data Availability</div><div>"
+         "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
+         "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
+         "<br><b>ncei:</b> depends upon selected station"
+         "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
+         "</div>", "rowspan=2"],
+        ["End Year", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["Temporal Resolution", "Selection", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, weekly, monthly."],
+    ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
     # datatype and description.
