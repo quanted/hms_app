@@ -1,71 +1,33 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
-from django.conf import settings
-from django.conf.urls import include, url
 from django.urls import path, re_path
-from .views import description, landing, hydrodynamic_submodels, hydrology_submodels, output, watershed_map, meteorology_submodels_run, hydrodynamic_submodels_output
-from .views import runoff_compare_setup, precip_compare_setup, water_quality_submodels, api_doc, documentation, hms_model_router
-from .models.water_quality import output as wq_output
+from .views import landing, watershed_map, workflow_setup
+from .views import precip_compare_setup, api_doc, documentation, hms_model_router
 from . import hms_rest_api
 
-if settings.IS_PUBLIC:
-    urlpatterns = [
-        # url(r'^api/', include('api.urls')),
-        # url(r'^rest/', include('REST.urls')),
-        url(r'^$', landing.hms_landing_page),
-        # url(r'^$', views.qed_splash_page_intranet),
-        # url(r'^admin/', include(admin.site.urls)),
-    ]
-else:
-    urlpatterns = [
+urlpatterns = [
+    # django 2.0
+    path('', landing.hms_landing_page),
 
-        # django 1.11
-        # url(r'^$', landing.hms_landing_page),
-        # url(r'^precip_compare/$', precip_compare_setup.input_page),
-        # url(r'^precip_compare/output/?$', output.precip_compare_output_page),
-        # url(r'^runoff_compare/$', runoff_compare_setup.input_page),
-        # url(r'^runoff_compare/output/$', output.runoff_compare_output_page),
-        # url(r'^hydrology/(?P<submodel>\w+)/$', hydrology_submodels.submodel_page),
-        # url(r'^hydrology/(?P<submodel>\w+)/output/?$', output.hydrology_output_page),
-        # url(r'^water_quality/(?P<submodel>\w+)/$', water_quality_submodels.submodel_page),
-        # url(r'^water_quality/(?P<submodel>\w+)/output$', wq_output.water_quality_output),
-        # url(r'^water_quality/(?P<submodel>\w+)/output/json$', wq_output.water_quality_json_output),
-        # url(r'^watershed$', watershed_map.hms_map_page),
-        # url(r'^api_doc/$', api_doc.create_swagger_docs),
-        # url(r'^api_doc/swagger$', api_doc.get_swagger_json),
-        # url(r'^(?P<model>\w+)/$', description.description_page),
+    path('workflow/water_quality/', workflow_setup.water_quality_page),
+    path('workflow/time_of_travel/', workflow_setup.time_of_travel_page),
 
-        # django 2.0
-        path('', landing.hms_landing_page),
-        path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
-        # path('precip_compare/output/', output.precip_compare_output_page),
-        path('workflow/runoff_compare/', runoff_compare_setup.input_page),
-        # path('runoff_compare/output/', output.runoff_compare_output_page),
-        # path('hydrology/<slug:submodel>/', hydrology_submodels.submodel_page),
-        # path('hydrology/<slug:submodel>/output/', output.hydrology_output_page),
-        #path('hydrodynamic/<slug:submodel>/', hydrodynamic_submodels.submodel_page),
-        #path('hydrodynamic/<slug:submodel>/output/', output.hydrodynamic_output_page),
-        #path('meteorology/<slug:submodel>/', meteorology_submodels_run.submodel_page),
-        #path('meteorology/<slug:submodel>/output/', output.meteorology_output_page),
-        # path('water_quality/<slug:submodel>/', water_quality_submodels.submodel_page),
-        # path('water_quality/<slug:submodel>/output/', wq_output.water_quality_output),
-        # path('water_quality/<slug:submodel>/output/json/', wq_output.water_quality_json_output),
-        path('docs/', documentation.docs_page),
-        path('hydrology/streamflow/', watershed_map.hms_workflow_page),
-        path('api_doc/', api_doc.create_swagger_docs),
-        path('api_doc/swagger/', api_doc.get_swagger_json),
-        path('<slug:model>/', hms_model_router.component_page),
+    path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
+    path('workflow/precip_data_extraction/', precip_compare_setup.precip_extraction_page),
 
-        # path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
-        re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
-        re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
-        re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
+    path('docs/', documentation.docs_page),
+    path('hydrology/streamflow/', watershed_map.hms_workflow_page),
+    path('api_doc/', api_doc.create_swagger_docs),
+    path('api_doc/swagger/', api_doc.get_swagger_json),
+    path('<slug:model>/', hms_model_router.component_page),
 
-        #path('model/<slug:model>', hms_model_router.landing_page),
-        path('<slug:model>/<slug:submodel>/', hms_model_router.component_page),
-        # path('<slug:model>/<slug:submodule>/runmodel/', hms_model_router.run),
-        # path('<slug:model>/<slug:submodule>/algorithms/', hms_model_router.algorithms),
-        # path('<slug:model>/<slug:submodule>/output/', hms_model_router.output),
-    ]
+    # path('rest/watershed_delineation', hms_rest_api.delineate_watershed),
+    re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
+    re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
+    re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
+
+    # path('model/<slug:model>', hms_model_router.landing_page),
+    path('<slug:model>/<slug:submodel>/', hms_model_router.component_page)
+]
 
 # 404 Error view (file not found)
 handler404 = landing.file_not_found

@@ -11,7 +11,8 @@ import requests
 
 def create_swagger_docs(request):
     url = "/hms/api_doc/swagger/"
-    html = render_to_string('hms_swagger_2.html', {"URL": url})
+    html = render_to_string('swagger/hms_swagger_index.html', {"URL": url})
+    # html = render_to_string('hms_swagger_2.html', {"URL": url})
     response = HttpResponse()
     response.write(html)
     return response
@@ -22,29 +23,15 @@ def get_swagger_json(request):
     Opens up swagger.json content
     """
     print("Swagger json request local: " + str(os.environ['HMS_LOCAL']))
-    if os.environ['HMS_LOCAL'] == "True":
+    if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
         url = "http://localhost:60050/swagger/v1/swagger.json"
     else:
-        # url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/swagger/v1/swagger.json'  # .NET core backend
         url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + '/swagger/v1/swagger.json'
-        # url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + '/HMSWS/swagger/v1/swagger.json'
     print("Swagger json request url: " + url)
+    protocol = request.META["SERVER_PROTOCOL"].split("/")
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
-    if os.environ['HMS_LOCAL'] == "True":
-        swagger["host"] = "127.0.0.1:8000/hms/rest"
-    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.11:7778":
-        swagger["host"] = "qedinternal.epa.gov/hms/rest"
-        swagger["basePath"] = ""
-    elif os.environ['HMS_BACKEND_SERVER_DOCKER'] == "http://172.20.100.15:7778":
-        swagger["host"] = "134.67.114.5/hms/rest"
-        swagger["basePath"] = ""
-    # elif os.environ['IN_DOCKER'] == "True":
-    #     swagger["host"] = "172.20.100.11/hms/rest/"
-    #     swagger["basePath"] = ""
-    else:
-        swagger["host"] = "qedinternal.epa.gov/hms/rest"
-        swagger["basePath"] = ""
+    swagger["servers"] = [{"url": protocol[0] + "://" + request.META["HTTP_HOST"] + "/hms/rest", "description": "HMS Frontend"}]
     response = HttpResponse()
     response.write(json.dumps(swagger))
     return response

@@ -15,10 +15,10 @@ class PrecipitationCompareFormInput(forms.Form):
     """
     stationID = forms.CharField(
         widget=forms.TextInput(attrs={
-                'title': 'NCDC station ID.'
+                'title': 'NCEI station ID.'
             }
         ),
-        label='NCDC StationID',
+        label='NCEI StationID',
         initial='GHCND:USW00013874'
     )
     startDate = forms.DateField(
@@ -43,8 +43,8 @@ class PrecipitationCompareFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-            ("default", "default"), ("daily", "daily"), ("weekly", "weekly"),
+            ("daily", "daily"), ("weekly", "weekly"),
             ("monthly", "monthly")),
-        initial="default"
+        initial="daily"
     )
 

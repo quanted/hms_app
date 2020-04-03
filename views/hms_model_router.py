@@ -13,7 +13,7 @@ import logging
 
 hydrology_submodules = ['overview', "evapotranspiration", "soilmoisture", "surfacerunoff", "subsurfaceflow"]
 hydrodynamic_modules = ['overview', "constant_volume", "changing_volume", "kinematic_wave"]
-meteorology_submodules = ['overview', "precipitation", "solarcalculator", "temperature"]
+meteorology_submodules = ['overview', "precipitation", "radiation", "solarcalculator", "temperature", "wind", "humidity"]
 
 
 def component_page(request, model=None, submodel=None):
@@ -36,7 +36,8 @@ def component_page(request, model=None, submodel=None):
     import_block = None
 
     if model == "meteorology":
-        description = met_submodels.get_submodel_description(submodel)
+        p = request.scheme + "://" + request.get_host()
+        description = met_submodels.get_submodel_description(p, submodel)
         if submodel == "overview":
             input_block = None
             algorithm = None
@@ -46,7 +47,8 @@ def component_page(request, model=None, submodel=None):
             input_page_func = getattr(input_model, 'get_submodel_form_input')
             input_form = input_page_func(submodel, None)
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
-            algorithm = met_submodel_algor.get_submodel_description(submodel)
+            # algorithm = met_submodel_algor.get_submodel_description(submodel)
+            algorithm = render_to_string('hms_submodel_algorithms.html', {'ALGORITHMS': met_submodels.get_submodel_algorithm(submodel)})
         elif submodel == "temperature":
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = met_submodels.get_model_input_module(model)
@@ -56,6 +58,27 @@ def component_page(request, model=None, submodel=None):
             algorithm = met_submodel_algor.get_submodel_description(submodel)
         elif submodel == "solarcalculator":
             title = "{} - Solar Calculator".format(model.capitalize())
+            import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
+            input_model = met_submodels.get_model_input_module(model)
+            input_page_func = getattr(input_model, 'get_submodel_form_input')
+            input_form = input_page_func(submodel, None)
+            input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+            algorithm = met_submodel_algor.get_submodel_description(submodel)
+        elif submodel == "radiation":
+            import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
+            input_model = met_submodels.get_model_input_module(model)
+            input_page_func = getattr(input_model, 'get_submodel_form_input')
+            input_form = input_page_func(submodel, None)
+            input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+            algorithm = met_submodel_algor.get_submodel_description(submodel)
+        elif submodel == "wind":
+            import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
+            input_model = met_submodels.get_model_input_module(model)
+            input_page_func = getattr(input_model, 'get_submodel_form_input')
+            input_form = input_page_func(submodel, None)
+            input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
+            algorithm = met_submodel_algor.get_submodel_description(submodel)
+        elif submodel == "humidity":
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))
             input_model = met_submodels.get_model_input_module(model)
             input_page_func = getattr(input_model, 'get_submodel_form_input')

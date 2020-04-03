@@ -14,11 +14,17 @@ def hms_landing_page(request):
     keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
     imports = render_to_string('hms_default_imports.html')
 
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    notpublic = True
+
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': page_title,
         'URL': str(request.get_host) + request.path,
         'KEYWORDS': keywords,
-        'IMPORTS': imports
+        'IMPORTS': imports,
+        'NOTPUBLIC': notpublic,
+        'DISCLAIMER': disclaimer_text
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='hms', submodel=None)
     page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
@@ -55,13 +61,6 @@ def hms_landing_page_old(request):
     keywords = "HMS, Hydrology, Hydrologic Micro Services, Watershed, Watershed Workflow"
     imports = render_to_string("hms_default_imports.html")
 
-    # html = render_to_string('workflow/01epa18_default_header.html', {
-    #     'TITLE': "",
-    #     'URL': str(request.get_host) + request.path,
-    #     'KEYWORDS': keywords,
-    #     'IMPORTS': imports
-    # })
-    # html += render_to_string('02epa_drupal_header_bluestripe.html', {})
     html += render_to_string('02epa_drupal_header_bluestripe_onesidebar.html', {})
     html += render_to_string('03epa_drupal_section_title.html', {})
 
@@ -84,7 +83,7 @@ def hms_landing_page_old(request):
     return response
 
 
-def file_not_found(request):
+def file_not_found(request, exception=None):
     """
     Constructs html for page not found.
     :param request: current request object

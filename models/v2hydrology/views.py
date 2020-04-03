@@ -45,11 +45,13 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
 
 subsurfaceflow_algorithm_description = "<p>The subsurface flow algorithm goes here"
 
-evapotranspiration_algorithm_description = "<p>The table below lists the supported evapotranspiration algorithms as well as " \
-                                           "the data sources that contain the required parameters for each algorithm. More" \
-                                           " information regarding the inputs and outputs can be found" \
-                                           "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
-                                       '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
+evapotranspiration_algorithm_description = "<p><b>The HMS Evapotranspiration module currently supports the following methods of obtaining evapotranspiration data:</b></p>" \
+                                           "<p><b>NLDAS:</b> Observed values for Total Evapotranspiration are obtained from NLDAS in kg/m^2</p>" \
+                                           "<p><b>GLDAS:</b> Observed values for Total Evapotranspiration are obtained from GLDAS in kg/m^2/s</p>" \
+                                           "<p><b>Hamon:</b> The Hamon algorithm calculates Potential Evapotranspiration using temperature data obtained from NLDAS or GLDAS. The following table shows all parameters used and produced by the algorithm along with their units.</p>" \
+										   "<table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr><tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Sunshine Hours</td><td>hours</td><td>Output</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td><td>Output</td></tr></table>" \
+                                           "<p><b>Penman:</b> The Penman algorithm calculates Potential Evapotranspiration using temperature, solar radiation, specific humidity, and wind speed data obtained from NLDAS or GLDAS. Note that the Penman algorithm also requires pressure data, which is only available from GLDAS, so GLDAS pressure data is used regardless of the chosen data source. The following table shows all parameters used and produced by the algorithm along with their units.</p>" \
+										   "<table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr><tr><td>Elevation (Derived from Lat/Long)</td><td>m</td><td>Input</td></tr><tr><td>Albedo Coefficient</td><td>Double</td><td>Input</td></tr><tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td><td>mJ/m^2</td><td>Input</td></tr><tr><td>Mean Wind Speed</td><td>m/s</td><td>Input</td></tr><tr><td>Specific Humidity</td><td>kg/kg</td><td>Input</td></tr><tr><td>Mean Pressure</td><td>mbar</td><td>Input</td></tr><tr><td>Min/Max Relative Humidity</td><td>%</td><td>Output</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td><td>Output</td></tr></table>" \
 
 soilmoisture_algorithm_description = "<p>The NLDAS soil moisture algorithm is modeled with the NOAH community land" \
                                      " surface model. "

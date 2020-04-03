@@ -40,12 +40,12 @@ def get_submodel_description(submodel):
     :param submodel: Current submodel
     :return: submodel description as a string
     """
-    if (submodel == "precipitation"):
-        return meteor.precipitation_algorithm_description
-    elif (submodel == "temperature"):
+    if (submodel == "temperature"):
         return meteor.temperature_algorithm_description
     elif (submodel == "solarcalculator"):
         return meteor.solarcalculator_algorithm_description
+    elif (submodel == "humidity"):
+        return meteor.humidity_algorithm_description
     else:
         return meteor.unknown_description
 
@@ -64,6 +64,8 @@ def get_submodel_header(submodel):
         submodelTitle = "Precipitation"
     elif (submodelTitle == "temperature"):
         submodelTitle = "Temperature"
+    elif (submodelTitle == "humdiity"):
+        submodelTitle = "Humidity"
     return meteor.header + " - " + submodelTitle
 
 def build_submodel_page(request, model, submodel, header):

@@ -1,6 +1,11 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 import hms_app.views.links_left as links_left
+import os
+
+# Paths listed in public_modules will not display the disclaimer banner at the top of the page.
+# module paths, like '/hms/meteorology/precipitation/' can be added to public_modules.
+public_modules = []
 
 
 def build_model_page(request, model, submodel, title=None, import_block=None, description=None, input_block=None, algorithms=None):
@@ -21,11 +26,17 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
     if import_block is not None:
         imports += import_block
 
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    notpublic = True if request.path not in public_modules else False
+
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
         'URL': str(request.get_host) + request.path,
         'KEYWORDS': keywords,
-        'IMPORTS': imports
+        'IMPORTS': imports,
+        'NOTPUBLIC': notpublic,
+        'DISCLAIMER': disclaimer_text
     })
     html += links_left.ordered_list(model=model, submodel=submodel)
     if input_block is None and algorithms is None:
@@ -41,6 +52,49 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
             'ALGORITHMS': algorithms
         })
     html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
+def build_map_model_page(request, model, submodel, title=None, import_block=None, description=None, input_block=None, algorithms=None):
+    """
+    Compiles model/submodel map page for hms
+    :param request:
+    :param model:
+    :param submodel:
+    :param title:
+    :param import_block:
+    :param description:
+    :param input_block:
+    :param algorithms:
+    :return:
+    """
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
+    imports = render_to_string('hms_default_imports.html')
+    if import_block is not None:
+        imports += import_block
+
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    notpublic = True if request.path not in public_modules else False
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Hydrologic Micro Services",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': '',
+        'NOTPUBLIC': notpublic,
+        'DISCLAIMER': disclaimer_text
+    })
+    html += links_left.ordered_list(model=model, submodel=submodel)
+    html += render_to_string('05hms_map_body_start_2.html', {
+            'TITLE': title,
+            'DESCRIPTION': description,
+            'INPUT_FORM': input_block,
+            'ALGORITHMS': algorithms
+    })
+    html += render_to_string('06hms_body_end.html', {'IMPORTS': imports})
     html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
     html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
     return html

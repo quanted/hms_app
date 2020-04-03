@@ -9,7 +9,7 @@ import os
 import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
-
+import hms_app.models.meteorology.precipitation_overview as precip
 
 submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
 
@@ -50,10 +50,16 @@ def get_submodel_header(submodel):
         submodelTitle = "Precipitation"
     elif (submodelTitle == "temperature"):
         submodelTitle = "Temperature"
+    elif submodelTitle == "wind":
+        submodelTitle = "Wind"
+    elif submodelTitle == "radiation":
+        submodelTitle = "Radiation"
+    elif submodelTitle == "humidity":
+        submodelTitle = "Humidity"
     return meteor.header + " - " + submodelTitle
 
 
-def get_submodel_description(submodel):
+def get_submodel_description(base_url, submodel):
     """
     Gets the submodel description.
     :param submodel: Current submodel
@@ -62,13 +68,31 @@ def get_submodel_description(submodel):
     if submodel == "solarcalculator":
         return meteor.solarcalculator_description
     elif (submodel == "precipitation"):
-        return meteor.precipitation_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "overview"):
         return meteor.description
     elif (submodel == "temperature"):
         return meteor.temperature_description
+    elif (submodel == "wind"):
+        return meteor.wind_description
+    elif (submodel == "radiation"):
+        return meteor.radiation_description
+    elif (submodel == "humidity"):
+        return meteor.humidity_description
     else:
         return ''
+
+
+def get_submodel_algorithm(submodel):
+    """
+    Gets the submodel algorithm details
+    :param submodel: Current submodel
+    :return: Dictionary of algorithm details.
+    """
+    if submodel == "precipitation":
+        return precip.Precipitation.algorithms
+    else:
+        return {}
 
 
 def build_submodel_page(request, model, submodel, header):
@@ -113,3 +137,25 @@ def get_model_input_module(model):
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module
+
+
+def build_overview_page(base_url, submodel):
+    details = None
+    if submodel == "precipitation":
+        details = precip.Precipitation
+    html = render_to_string('hms_submodel_overview.html', {
+        'MODEL': 'meteorology',
+        'SUBMODEL': submodel,
+        'DESCRIPTION': details.description,
+        'FORMATS': details.data_format,
+        'VERSION': details.version,
+        'CAPABILITIES': details.capabilities,
+        'SCENARIOS': details.usage,
+        'SAMPLECODE': details.samples,
+        'INPUTS': details.input_parameters,
+        'OUTPUTS': details.output_object,
+        'API': details.http_API,
+        'BASEURL': base_url,
+        'CHANGELOG': details.changelog
+    })
+    return html
