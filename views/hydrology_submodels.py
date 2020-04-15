@@ -9,6 +9,7 @@ import os
 import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.hydrology.views as hydro
+import hms_app.models.hydrology.evapotranspiration_overview as evapo
 
 
 submodel_list = ['overview', 'precipitation', 'evapotranspiration', 'soilmoisture',
@@ -54,7 +55,7 @@ def get_submodel_header(submodel):
     return hydro.header + " - " + submodelTitle
 
 
-def get_submodel_description(submodel):
+def get_submodel_description(base_url, submodel):
     """
     Gets the submodel description.
     :param submodel: Current submodel
@@ -67,7 +68,7 @@ def get_submodel_description(submodel):
     elif (submodel == "subsurfaceflow"):
         return hydro.subsurfaceflow_description
     elif (submodel == "evapotranspiration"):
-        return hydro.evapotranspiration_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "soilmoisture"):
         return hydro.soilmoisture_description
     elif (submodel == "surfacerunoff"):
@@ -118,3 +119,24 @@ def get_model_input_module(model):
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module
+
+def build_overview_page(base_url, submodel):
+    details = None
+    if submodel == "evapotranspiration":
+        details = evapo.Evapotranspiration
+    html = render_to_string('hms_submodel_overview.html', {
+        'MODEL': 'meteorology',
+        'SUBMODEL': submodel,
+        'DESCRIPTION': details.description,
+        'FORMATS': details.data_format,
+        'VERSION': details.version,
+        'CAPABILITIES': details.capabilities,
+        'SCENARIOS': details.usage,
+        'SAMPLECODE': details.samples,
+        'INPUTS': details.input_parameters,
+        'OUTPUTS': details.output_object,
+        'API': details.http_API,
+        'BASEURL': base_url,
+        'CHANGELOG': details.changelog
+    })
+    return html

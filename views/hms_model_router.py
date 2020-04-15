@@ -34,9 +34,9 @@ def component_page(request, model=None, submodel=None):
     algorithm = ""
     title = "{} - {}".format(model.capitalize(), submodel.capitalize())
     import_block = None
+    p = request.scheme + "://" + request.get_host()
 
     if model == "meteorology":
-        p = request.scheme + "://" + request.get_host()
         description = met_submodels.get_submodel_description(p, submodel)
         if submodel == "overview":
             input_block = None
@@ -88,7 +88,7 @@ def component_page(request, model=None, submodel=None):
         else:
             return error_404_page(request)
     elif model == "hydrology":
-        description = hydro_submodels.get_submodel_description(submodel)
+        description = hydro_submodels.get_submodel_description(p, submodel)
         if submodel == "overview":
             input_block = None
             algorithm = None
