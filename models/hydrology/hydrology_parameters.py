@@ -49,11 +49,20 @@ class HydrologyFormInput(forms.Form):
         input_formats=DATE_INPUT_FORMATS,
         initial='2010-12-31'
     )
-    # spatial_input = forms.ChoiceField(
-    #     label='Spatial Input',
-    #     choices=(('coordinates', 'coordinates'), ('geojson', 'geojson'), ('geojson_file', 'geojson file')),
-    #     initial='coordinates'
-    # )
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
             'title': 'Latitude value for area of interest.'
@@ -68,14 +77,6 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Longitude',
         initial=-83.356893,
-        required=False
-    )
-    geometrymetadata = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
-                     ' and value.',
-        }),
-        label='Geometry Metadata',
         required=False
     )
     timelocalized = forms.ChoiceField(
@@ -97,14 +98,6 @@ class HydrologyFormInput(forms.Form):
         ),
         initial="default"
     )
-    # datetimeformat = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-    #                  'base-types/custom-date-and-time-format-strings'
-    #     }),
-    #     label='Output Date Format',
-    #     initial="yyyy-MM-dd HH"
-    # )
     outputformat = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
@@ -209,14 +202,14 @@ class EvapotranspirationFormInput(HydrologyFormInput):
         label='Custom data file upload (.csv)',
         required=False
     )
-    stationID = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'NCDC station ID.'
-        }
-        ),
-        label='NCDC StationID',
-        initial='GHCND:USW00013874'
-    )
+    # stationID = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'NCDC station ID.'
+    #     }
+    #     ),
+    #     label='NCDC StationID',
+    #     initial='GHCND:USW00013874'
+    # )
     albedo = forms.DecimalField(
         widget=forms.NumberInput(attrs={
             'title': 'Albedo coefficient.'
@@ -324,6 +317,8 @@ class EvapotranspirationFormInput(HydrologyFormInput):
     )
     leafarea = Monthly(label="Monthly Leaf Area Indices", required=False)
     airtemps = Monthly(label="Monthly Air Temperature Coefficients", required=False)
+    field_order = ['algorithm', 'source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid",
+                   'timelocalized', 'temporalresolution', 'outputformat']
 
 
 class PrecipitationFormInput(HydrologyFormInput):
