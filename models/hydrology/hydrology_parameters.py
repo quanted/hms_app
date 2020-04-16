@@ -182,7 +182,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
         widget=forms.Select(attrs={
             'title': 'Evapotranspiration data source.'
         }),
-        label='Source',
+        label='Weather Data Source',
         choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet')),
         initial='NLDAS'
     )
