@@ -9,7 +9,10 @@ class Temperature:
     version = 0.1
 
     # HMS module description
-    description = "(PLACEHOLDER)"
+    description = "Air temperature plays an important role in hydrology and water quality. Evaporation from open " \
+                  "water and soil surfaces is affected by air temperature. Plat transpiration and snow melts are " \
+                  "also affected by air temperature. Air temperature affects water temperature and dissolved oxygen " \
+                  "levels which in turn impact chemical and biological characteristics of water."
 
     # Data source algorithms and brief description
     algorithms = {
