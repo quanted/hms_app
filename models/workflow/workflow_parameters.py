@@ -57,4 +57,12 @@ class TimeOfTravelFormInput(forms.Form):
         max_value=23,
         min_value=0
     )
-    field_order = ['startCOMID', 'endCOMID', 'startDate', 'startHour', 'endDate', 'endHour']
+    inflowSource = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Choose to input contaminant inflow data manually or download National Water Model forecast data.'
+        }),
+        label='Source of Contaminant Inflow Data',
+        choices=(("Input Table", "Input Table"), ("National Water Model", "National Water Model")),
+        initial="National Water Model"
+    )
+    field_order = ['startCOMID', 'endCOMID', 'startDate', 'startHour', 'endDate', 'endHour', 'inflowTable']
