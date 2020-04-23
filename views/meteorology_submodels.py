@@ -10,6 +10,7 @@ import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
 import hms_app.models.meteorology.precipitation_overview as precip
+import hms_app.models.meteorology.temperature_overview as temp
 
 submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
 
@@ -72,7 +73,7 @@ def get_submodel_description(base_url, submodel):
     elif (submodel == "overview"):
         return meteor.description
     elif (submodel == "temperature"):
-        return meteor.temperature_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "wind"):
         return meteor.wind_description
     elif (submodel == "radiation"):
@@ -91,6 +92,8 @@ def get_submodel_algorithm(submodel):
     """
     if submodel == "precipitation":
         return precip.Precipitation.algorithms
+    elif submodel == "temperature":
+        return temp.Temperature.algorithms
     else:
         return {}
 
@@ -143,6 +146,8 @@ def build_overview_page(base_url, submodel):
     details = None
     if submodel == "precipitation":
         details = precip.Precipitation
+    elif submodel == "temperature":
+        details = temp.Temperature
     html = render_to_string('hms_submodel_overview.html', {
         'MODEL': 'meteorology',
         'SUBMODEL': submodel,

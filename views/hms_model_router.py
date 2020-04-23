@@ -55,7 +55,8 @@ def component_page(request, model=None, submodel=None):
             input_page_func = getattr(input_model, 'get_submodel_form_input')
             input_form = input_page_func(submodel, None)
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
-            algorithm = met_submodel_algor.get_submodel_description(submodel)
+            # algorithm = met_submodel_algor.get_submodel_description(submodel)
+            algorithm = render_to_string('hms_submodel_algorithms.html', {'ALGORITHMS': met_submodels.get_submodel_algorithm(submodel)})
         elif submodel == "solarcalculator":
             title = "{} - Solar Calculator".format(model.capitalize())
             import_block = render_to_string("{}/{}_imports.html".format(model, submodel))

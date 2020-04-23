@@ -9,7 +9,7 @@ PRECIP_SOURCE_OPTIONS = (
 ('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncei', 'ncei'), ('trmm', 'trmm'))
 
 # Sources for Temperature
-TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('prism', 'prism'))
+TEMP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('prism', 'prism'), ("ncei", "ncei"))
 
 # Sources for Wind
 WIND_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('ncei', 'ncei'))
@@ -221,6 +221,33 @@ class TemperatureFormInput(HydrologyFormInput):
         initial='NLDAS',
         help_text='SOURCE TEMP HELP TEXT'
     )
+    stationID = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NCEI station ID.'
+        }
+        ),
+        label='NCEI StationID',
+        initial='GHCND:USW00013874',
+        help_text='STATIONID TEMP HELP TEXT'
+    )
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
+    field_order = ['source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid", 'stationID',
+                   'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
+
+
 
 
 class RadiationFormInput(HydrologyFormInput):
