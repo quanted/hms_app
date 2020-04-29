@@ -37,7 +37,7 @@ DATA_OUTPUT_FORMATS = (
 )
 
 
-class HydrologyFormInput(forms.Form):
+class MeteorologyFormInput(forms.Form):
     source = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Data source of the dataset.'
@@ -132,7 +132,7 @@ class HydrologyFormInput(forms.Form):
     )
 
 
-class PrecipitationFormInput(HydrologyFormInput):
+class PrecipitationFormInput(MeteorologyFormInput):
     """
     Input form fields for precipitation data.
     default fields taken from HydrologyFormInput
@@ -173,7 +173,7 @@ class PrecipitationFormInput(HydrologyFormInput):
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
-class WindFormInput(HydrologyFormInput):
+class WindFormInput(MeteorologyFormInput):
     """
     Input form fields for wind data.
     default fields taken from HydrologyFormInput
@@ -196,18 +196,35 @@ class WindFormInput(HydrologyFormInput):
         initial='GHCND:USW00013874',
         help_text='STATIONID TEMP HELP TEXT'
     )
-    component = forms.ChoiceField(
+    # component = forms.ChoiceField(
+    #     widget=forms.Select(attrs={
+    #         'title': 'Desired component of wind.'
+    #     }),
+    #     label='Component',
+    #     choices=(('u/v', 'u/v'), ('vel/deg', 'vel/deg'), ('all', 'all')),
+    #     initial='all',
+    #     help_text='COMPONENT TEMP HELP TEXT'
+    # )
+    area_of_interest = forms.ChoiceField(
         widget=forms.Select(attrs={
-            'title': 'Desired component of wind.'
+            'title': 'Type of area of interest selection option'
         }),
-        label='Component',
-        choices=(('u/v', 'u/v'), ('vel/deg', 'vel/deg'), ('all', 'all')),
-        initial='all',
-        help_text='COMPONENT TEMP HELP TEXT'
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
     )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
+    field_order = ['source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid",
+                   'stationID',
+                   'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
-class TemperatureFormInput(HydrologyFormInput):
+class TemperatureFormInput(MeteorologyFormInput):
     """
     Input form fields for temperature data.
     default fields taken from HydrologyFormInput
@@ -248,9 +265,7 @@ class TemperatureFormInput(HydrologyFormInput):
                    'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
-
-
-class RadiationFormInput(HydrologyFormInput):
+class RadiationFormInput(MeteorologyFormInput):
     """
     Input form fields for radiation data.
     default fields taken from HydrologyFormInput
@@ -264,9 +279,26 @@ class RadiationFormInput(HydrologyFormInput):
         initial='NLDAS',
         help_text='SOURCE TEMP HELP TEXT'
     )
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
+    field_order = ['source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid",
+                   'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
-class HumidityFormInput(HydrologyFormInput):
+
+class HumidityFormInput(MeteorologyFormInput):
     """
     Input form fields for humidity data.
     default fields taken from HydrologyFormInput
@@ -289,8 +321,22 @@ class HumidityFormInput(HydrologyFormInput):
         label='Parameter',
         help_text='COMPONENT TEMP HELP TEXT'
     )
-    field_order = ['source', 'component', 'startDate', 'endDate', 'latitude', 'longitude',
-                   'geometrymetadata', 'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
+    field_order = ['source', 'component', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid",
+                   'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
 
 
 class SolarcalculatorFormInput(forms.Form):
@@ -302,6 +348,20 @@ class SolarcalculatorFormInput(forms.Form):
         choices=(('year', 'year'), ('day', 'day')),
         initial='year',
         help_text='MODEL TEMP HELP TEXT'
+    )
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
     )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
@@ -357,3 +417,4 @@ class SolarcalculatorFormInput(forms.Form):
         initial='2010-06-10',
         help_text='DATE TEMP HELP TEXT'
     )
+

@@ -10,6 +10,9 @@ import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.hydrology.views as hydro
 import hms_app.models.hydrology.evapotranspiration_overview as evapo
+import hms_app.models.hydrology.surfacerunoff_overview as runoff
+import hms_app.models.hydrology.subsurfacerunoff_overview as subrunoff
+import hms_app.models.hydrology.soilmoisture_overview as soilmoisture
 
 
 submodel_list = ['overview', 'precipitation', 'evapotranspiration', 'soilmoisture',
@@ -24,7 +27,6 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
-
     urlpath = request.path.split('/')
     model = 'hydrology'
     submodel = urlpath[urlpath.index(model) + 1]
@@ -63,16 +65,14 @@ def get_submodel_description(base_url, submodel):
     """
     if (submodel == "overview"):
         return hydro.description
-    elif submodel == "precipitation":
-        return hydro.precipitation_description
     elif (submodel == "subsurfaceflow"):
-        return hydro.subsurfaceflow_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "evapotranspiration"):
         return build_overview_page(base_url, submodel)
     elif (submodel == "soilmoisture"):
-        return hydro.soilmoisture_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "surfacerunoff"):
-        return hydro.surfacerunoff_description
+        return build_overview_page(base_url, submodel)
     else:
         return hydro.unknown_description
 
@@ -124,6 +124,12 @@ def build_overview_page(base_url, submodel):
     details = None
     if submodel == "evapotranspiration":
         details = evapo.Evapotranspiration
+    elif submodel == "surfacerunoff":
+        details = runoff.SurfaceRunoff
+    elif submodel == "subsurfaceflow":
+        details = subrunoff.SubsurfaceRunoff
+    elif submodel == "soilmoisture":
+        details = soilmoisture.SoilMoisture
     html = render_to_string('hms_submodel_overview.html', {
         'MODEL': 'meteorology',
         'SUBMODEL': submodel,

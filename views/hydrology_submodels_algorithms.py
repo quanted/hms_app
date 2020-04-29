@@ -9,7 +9,10 @@ import os
 import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.v2hydrology.views as hydro
-
+import hms_app.models.hydrology.evapotranspiration_overview as evapo
+import hms_app.models.hydrology.surfacerunoff_overview as runoff
+import hms_app.models.hydrology.subsurfacerunoff_overview as subrunoff
+import hms_app.models.hydrology.soilmoisture_overview as soilmoisture
 
 submodel_list = ['subsurfaceflow', 'evapotranspiration',
                  'soilmoisture', 'surfacerunoff']
@@ -56,13 +59,13 @@ def get_submodel_description(submodel):
     :return: submodel description as a string
     """
     if (submodel == "subsurfaceflow"):
-        return hydro.subsurfaceflow_algorithm_description
+        return subrunoff.SubsurfaceRunoff.algorithms
     elif (submodel == "evapotranspiration"):
-        return hydro.evapotranspiration_algorithm_description
+        return evapo.Evapotranspiration.algorithms
     elif (submodel == "soilmoisture"):
-        return hydro.soilmoisture_algorithm_description
+        return soilmoisture.SoilMoisture.algorithms
     elif (submodel == "surfacerunoff"):
-        return hydro.surfacerunoff_algorithm_description
+        return runoff.SurfaceRunoff.algorithms
     else:
         return hydro.unknown_description
 
