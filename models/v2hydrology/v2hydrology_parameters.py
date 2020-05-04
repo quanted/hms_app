@@ -5,7 +5,7 @@ HMS Hydrology Submodule Input form parameters
 from django import forms
 
 # Sources for Precipitation
-PRECIP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncdc', 'ncdc'))
+PRECIP_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncei', 'ncei'), ('trmm', 'trmm'))
 
 # Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'))
@@ -358,12 +358,31 @@ class SurfacerunoffFormInput(HydrologyFormInput):
 	"""
 	source = forms.ChoiceField(
 		widget=forms.Select(attrs={
-		   'title': 'Data source of the dataset.'
+		   'title': 'Algorithm of the dataset.'
 		}),
-		label='Source',
+		label='Algorithm',
 		choices=(('NLDAS', 'NLDAS'), ('GLDAS', 'GLDAS'), ('curvenumber', 'Curve Number')),
 		initial='NLDAS'
 	)
+	precip_source = forms.ChoiceField(
+		widget=forms.Select(attrs={
+		   'title': 'Data source for the precipitation data.'
+		}),
+		label='Precipitation Data Source',
+		choices=PRECIP_SOURCE_OPTIONS,
+		initial='NLDAS'
+	)
+	stationID = forms.CharField(
+		widget=forms.TextInput(attrs={
+				'title': 'NCDC station ID.'
+			}
+		),
+		label='NCDC StationID',
+		initial='GHCND:USW00013874'
+	)
+	field_order = ['source', 'precip_source', 'startDate', 'endDate', 'latitude', 'longitude', 'stationID',
+				   'timelocalized', 'temporalresolution', 'datetimeformat', 'outputformat']
+
 
 
 class TemperatureFormInput(HydrologyFormInput):
