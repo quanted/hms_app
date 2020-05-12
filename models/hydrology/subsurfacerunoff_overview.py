@@ -24,7 +24,7 @@ class SubsurfaceRunoff:
         "GLDAS Surface Baseflow": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
                                "ground-based observational data to provide baseflow and other hydrologic "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2010 to present, with an average time delay of one month "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "Curve Number": "The SCS Curve number is an empirical method for"
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
@@ -56,7 +56,7 @@ class SubsurfaceRunoff:
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
+                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
                             "<br><b>ncei:</b> depends upon selected station"
                             "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."

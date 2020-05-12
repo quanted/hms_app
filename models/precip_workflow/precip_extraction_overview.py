@@ -49,7 +49,7 @@ class PrecipExtract:
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
+                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "<br><b>ncei:</b> depends upon selected station"
                             "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
                             "</div>", "rowspan=2"

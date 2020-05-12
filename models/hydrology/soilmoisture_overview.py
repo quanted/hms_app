@@ -40,7 +40,7 @@ class SoilMoisture:
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
+                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "</div>", "rowspan=2"
                            ],
                            ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],

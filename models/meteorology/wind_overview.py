@@ -65,12 +65,8 @@ class Wind:
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2010-Present (~1-month lag); Global @ 0.250 deg resolution."
-                            "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
+                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "<br><b>ncei:</b> depends upon selected station"
-                            "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
-                            "<br><b>wgen:</b> daily, replicates last 20-year daymet statistics."
-                            "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
                             "</div>", "rowspan=2"
                            ],
                            ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
