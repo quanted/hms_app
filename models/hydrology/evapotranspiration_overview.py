@@ -28,23 +28,30 @@ class Evapotranspiration:
                                "data coverage from January 1, 2010 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "Hamon": "The Hamon algorithm calculates Potential Evapotranspiration using temperature data obtained from "
-                 "NLDAS or GLDAS. The following table shows all parameters used and produced by the algorithm along "
-                 "with their units.</p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
+                 "NLDAS or GLDAS. The following equations are used for the calculation of Hamon PET, where H is the number of daylight hours and T<sub>mean</sub> is the average daily temperature: <img src='/static_qed/hms/images/Hamon.png' alt='Hamon equations' style=''> The following table shows all parameters used and produced by the algorithm along "
+                 "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
                  "<tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Sunshine Hours</td>"
                  "<td>hours</td><td>Output</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
+                 "<td>Output</td></tr></table>",
+        "Hargreaves": "The Hargreaves algorithm calculates Potential Evapotranspiration using temperature data obtained from "
+                 "NLDAS, GLDAS, or Daymet. The following equations are used for the calculation of Hargreaves PET, where H<sub>0</sub> is the extraterrestrial radiation in MJ m<sup>-2</sup> d<sup>-1</sup> and T<sub>mn</sub>, T<sub>mx</sub>, T<sub>av</sub> are the minimum, maximum, and average daily temperatures in celsius: <img src='/static_qed/hms/images/hargreaves.png' alt='Hamon equations' style=''> The following table shows all parameters used and produced by the algorithm along "
+                 "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
+                 "<tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td>"
+                 "<td>MJ m<sup>-2</sup> d<sup>-1</sup></td><td>Input</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
                  "<td>Output</td></tr></table>",
         "Penman": "The Penman algorithm calculates Potential Evapotranspiration using temperature, solar radiation, "
                   "specific humidity, and wind speed data obtained from NLDAS or GLDAS. Note that the Penman algorithm"
                   " also requires pressure data, which is only available from GLDAS, so GLDAS pressure data is used "
-                  "regardless of the chosen data source. The following table shows all parameters used and produced by "
-                  "the algorithm along with their units.</p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th>"
+                  "regardless of the chosen data source. The images below show the main Penman ET equation as well as the equations used to calculate the individual parameters: <img src='/static_qed/hms/images/Penman.png' alt='Penman equations' style=''><br><img src='/static_qed/hms/images/penmansub.png' alt='Penman subequations' style=''><br> where &Delta; is the slope of the saturation vapor pressure-temperature curve (kPa &deg;C<sup>-1</sup>), H<sub>net</sub> is the net radiation (MJ m<sup>-2</sup> d<sup>-1</sup>), G is the heat flux density (MJ m<sup>-2</sup> d<sup>-1</sup>), &rho;<sub>air</sub> is the air density (kg m<sup>-3</sup>), c<sub>p</sub> is the specific heat (MJ kg<sup>-1</sup> &deg;C<sup>-1</sup>), e<sup>0</sup><sub>z</sub> is the saturation vapor pressure (kPa), e<sub>z</sub> is the water vapor pressure (kPa), &gamma; is the psychrometric constant (kPa &deg;C<sup>-1</sup>), r<sub>c</sub> is the plant canopy resistance (sm<sup>-1</sup>), r<sub>a</sub> is the diffusion resistance (sm<sup>-1</sup>), and T<sub>mean</sub> is the average daily temperature (&deg;C). The following table shows all parameters used and produced by the algorithm along with their units:"
+                  "</p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th>"
                   "<th>Type</th></tr><tr><td>Elevation (Derived from Lat/Long)</td><td>m</td><td>Input</td></tr><tr>"
                   "<td>Albedo Coefficient</td><td>Double</td><td>Input</td></tr><tr><td>Min/Max/Mean Temperature</td>"
-                  "<td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td><td>mJ/m^2</td><td>Input</td>"
+                  "<td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td><td>mJ/m<sup>2</sup></td><td>Input</td>"
                   "</tr><tr><td>Mean Wind Speed</td><td>m/s</td><td>Input</td></tr><tr><td>Specific Humidity</td>"
                   "<td>kg/kg</td><td>Input</td></tr><tr><td>Mean Pressure</td><td>mbar</td><td>Input</td></tr>"
                   "<tr><td>Min/Max Relative Humidity</td><td>%</td><td>Output</td></tr>"
-                  "<tr><td>Potential Evapotranspiration</td><td>in/day</td><td>Output</td></tr></table>"
+                  "<tr><td>Potential Evapotranspiration</td><td>in/day</td><td>Output</td></tr></table style='margin-left:auto;margin-right:auto;'>"
+                  "<br><br>Further documentation of the above algorithms can be found here:<br> Neitsch, S. L., Arnold, J. G., Kiniry, J. R., & Williams, J. R. (2005, January). Soil Water and Assessment Tool Theoretical Documentation. Retrieved from https://swat.tamu.edu/media/1292/SWAT2005theory.pdf"
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
