@@ -37,7 +37,7 @@ class Temperature:
         "GLDAS Temperature": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
                                "ground-based observational data to provide temperature and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2010 to present, with an average time delay of one month "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT)."
     }
 

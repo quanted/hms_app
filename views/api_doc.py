@@ -28,10 +28,10 @@ def get_swagger_json(request):
     else:
         url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + '/swagger/v1/swagger.json'
     print("Swagger json request url: " + url)
-    protocol = request.META["SERVER_PROTOCOL"].split("/")
+    protocol = "https" if "https" in request.META["HTTP_REFERER"] else "http"  #request.META["SERVER_PROTOCOL"].split("/")
     swagger = requests.get(url)
     swagger = json.loads(swagger.content)
-    swagger["servers"] = [{"url": protocol[0] + "://" + request.META["HTTP_HOST"] + "/hms/rest", "description": "HMS Frontend"}]
+    swagger["servers"] = [{"url": protocol + "://" + request.META["HTTP_HOST"] + "/hms/rest", "description": "HMS Frontend"}]
     response = HttpResponse()
     response.write(json.dumps(swagger))
     return response

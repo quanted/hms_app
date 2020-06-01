@@ -25,7 +25,7 @@ class Evapotranspiration:
         "GLDAS Evapotranspiration": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
                                "ground-based observational data to provide evapotranspiration and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2010 to present, with an average time delay of one month "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "Hamon": "The Hamon algorithm calculates Potential Evapotranspiration using temperature data obtained from "
                  "NLDAS or GLDAS. The following equations are used for the calculation of Hamon PET, where H is the number of daylight hours and T<sub>mean</sub> is the average daily temperature: <img src='/static_qed/hms/images/Hamon.png' alt='Hamon equations' style=''> The following table shows all parameters used and produced by the algorithm along "

@@ -23,7 +23,7 @@ class Radiation:
         "GLDAS Radiation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
                                "ground-based observational data to provide radiation and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2010 to present, with an average time delay of one month "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "DAYMET Radiation": "DAYMET is a daily dataset of radiation data that has been interpolated and extrapolated. "
                                 "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
