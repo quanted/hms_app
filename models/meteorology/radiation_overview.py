@@ -9,7 +9,7 @@ class Radiation:
     version = 0.1
 
     # HMS module description
-    description = "Radiation module is currently under development"
+    description = "Solar radiation refers to the amount of radioactive energy emitted by the sun. This metric is useful in the calculation of evapotranspiration and the soil moisure levels of the surrounding environment. The HMS solar radiation module gives users the ability to calculate direct photolysis rates and half-lives of pollutants in aquatic environments. "
 
     # Data source algorithms and brief description
     algorithms = {

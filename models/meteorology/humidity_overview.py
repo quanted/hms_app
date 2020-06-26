@@ -9,7 +9,7 @@ class Humidity:
     version = 0.1
 
     # HMS module description
-    description = "Humidity module is currently under development"
+    description = "Humidity refers to the amount of water vapor present in the atmosphere, and is an important factor in determining the amount of moisture present in the environment at a certain temperature. Relative humidity is typically not an observed measurement, but rather one that is derived from calculations and algorithms that rely on dew point temperature and atmospheric temperature."
 
     # Data source algorithms and brief description
     algorithms = {
@@ -37,8 +37,7 @@ class Humidity:
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
                            ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
-                           ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
-                            "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+                           ["Parameter", "Drop-down list", "Parameter to specify the humidity dataset", "Available parameters: relative humidity, dew point"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."

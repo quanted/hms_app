@@ -15,8 +15,18 @@ class SoilMoisture:
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Soil Moisture": "(PLACEHOLDER)",
-        "GLDAS Soil Moisture": "(PLACEHOLDER)"
+        "NLDAS Soil Moisture": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
+                               "data and satellite data from CMORPH "
+                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+        "GLDAS Soil Moisture": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+                               "ground-based observational data to provide surface runoff and other hydrology "
+                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                               "for data retrieval. GLDAS data are reported in UTC (GMT)."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -51,6 +61,7 @@ class SoilMoisture:
                            ["Output Time Zone", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: Local Time, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
                            ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas, gldas, and trmm."],
                            ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
+                           ["Layer Depth", "String", "Depth of the top layer of soil.", "Valid options: 0-10cm, 10-40cm, 40-100cm, 100-200cm, 0-100cm, 0-200cm."],
     ]
 
     data_format = [

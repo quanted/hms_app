@@ -57,7 +57,8 @@ class SurfaceRunoff:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+                           ["Algorithm", "Drop-down list", "Method of surface runoff calculation", "Valid sources: nldas, gldas, Curve Number"],
+                           ["Source", "Drop-down list", "Time-series data source", "Used only when “Curve Number” is selected for “Algorithm”. Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
                            ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
                             "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",

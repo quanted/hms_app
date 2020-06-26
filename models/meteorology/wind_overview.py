@@ -9,7 +9,7 @@ class Wind:
     version = 0.1
 
     # HMS module description
-    description = "Wind module is currently under development."
+    description = "Wind is categorized as the movement of air and gases in the atmosphere, which can help in weather forecasting as well as other meteorological calculation like evapotranspiration. The speed of wind forces can depend on several other environmental factors, noteably atmospheric pressure and air temperature."
 
     # Data source algorithms and brief description
     algorithms = {
