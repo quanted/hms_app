@@ -9,7 +9,9 @@ class Wind:
     version = 0.1
 
     # HMS module description
-    description = "Wind is categorized as the movement of air and gases in the atmosphere, which can help in weather forecasting as well as other meteorological calculation like evapotranspiration. The speed of wind forces can depend on several other environmental factors, noteably atmospheric pressure and air temperature."
+    description = "Winds play important role in hydrological cycle and water quality. Atmospheric moisture moves " \
+                  "around the globe because of winds. Wind also affects rate of evaporation. Contaminant plumes in " \
+                  "waterbodies get pushed by winds."
 
     # Data source algorithms and brief description
     algorithms = {
@@ -59,7 +61,7 @@ class Wind:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, and ncei."],
                            ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
                             "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
@@ -74,7 +76,7 @@ class Wind:
                            ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
                            ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
                            ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
-                           ["Output Time Zone", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: Local Time, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
+                           ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, and gldas time-series can be returned in local time."],
                            ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas, gldas, and trmm."],
                            ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]

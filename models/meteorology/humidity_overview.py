@@ -9,14 +9,21 @@ class Humidity:
     version = 0.1
 
     # HMS module description
-    description = "Humidity refers to the amount of water vapor present in the atmosphere, and is an important factor in determining the amount of moisture present in the environment at a certain temperature. Relative humidity is typically not an observed measurement, but rather one that is derived from calculations and algorithms that rely on dew point temperature and atmospheric temperature."
+    description = "Humidity is the measure of water vapor present in the air.  Humidity directly affects evaporation " \
+                  "in hydrologic cycle.  There are several measures of humidity.  Relative humidity and dew point " \
+                  "temperature are the two most commonly used measures.  Relative humidity at a given air temperature " \
+                  "is the amount of water vapor in air expressed as percentage of the amount needed to achieve " \
+                  "saturation at the same temperature. The dew point is the temperature the air needs to be cooled " \
+                  "to in order to achieve saturation while maintaining constant pressure. If the air were to be " \
+                  "cooled further, water vapor would have to come out of the atmosphere in the liquid form, usually " \
+                  "as fog or precipitation."
 
     # Data source algorithms and brief description
     algorithms = {
         "PRISM Humidity": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
-                               "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
-                               "resolution covering the contiguous United States. Data is available from 1981 to present."
-                               "PRISM data are reported in GMT (UTC)."
+                          "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
+                          "resolution covering the contiguous United States. Data is available from 1981 to present."
+                          "PRISM data are reported in GMT (UTC)."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -36,21 +43,21 @@ class Humidity:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
-                           ["Parameter", "Drop-down list", "Parameter to specify the humidity dataset", "Available parameters: relative humidity, dew point"],
-                           ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
-                            "<div style='text-align:center;'>Data Availability</div><div>"
-                            "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
-                            "</div>", "rowspan=2"
-                           ],
-                           ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-                           ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
-                           ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
-                           ["Output Time Zone", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: Local Time, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
-                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas, gldas, and trmm."],
-                           ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
+        ["Source", "Drop-down list", "Time-series data source", "Valid sources: prism"],
+        ["Parameter", "Drop-down list", "Parameter to specify the humidity dataset", "Available parameters: relative humidity, dew point"],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+         "<div style='text-align:center;'>Data Availability</div><div>"
+         "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
+         "</div>", "rowspan=2"
+         ],
+        ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
+        ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: GMT"],
+        ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, weekly, monthly."],
+        ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]
 
     data_format = [
@@ -79,14 +86,14 @@ class Humidity:
     # datatype and description.
     output_object = [
         ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                          "either for a workflow API or other relevent dataset."],
+                              "either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                               "as HMS metadata."],
+                                   "as HMS metadata."],
         ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                           "and value is a list of values for the source/dataset."]
+                               "and value is a list of values for the source/dataset."]
     ]
-    
+
     # HTTP API endpoint
     http_API = [
         ["POST", "/hms/rest/api/v3/meteorology/humidity/"]

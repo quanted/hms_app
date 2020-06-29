@@ -9,27 +9,36 @@ class Radiation:
     version = 0.1
 
     # HMS module description
-    description = "Solar radiation refers to the amount of radioactive energy emitted by the sun. This metric is useful in the calculation of evapotranspiration and the soil moisure levels of the surrounding environment. The HMS solar radiation module gives users the ability to calculate direct photolysis rates and half-lives of pollutants in aquatic environments. "
+    description = "Solar radiation plays a significant role in hydrologic cycle and water quality. " \
+                  "Photosynthetically Active Radiation (PAR) has direct effect on plant growth. " \
+                  "Earth’s energy balance depends largely on the long wave solar radiation which effects" \
+                  " weather. Surface water quality is directly affected by short wave and PAR spectra of solar " \
+                  "radiation. Ultraviolet radiation effects fate of many contaminants such as microbes and some " \
+                  "chemicals. PAR spectrum affects transformation rates of many contaminates."
 
     # Data source algorithms and brief description
     algorithms = {
         "NLDAS Radiation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH "
-                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
-                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
-                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
-                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
-                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+                           "data and satellite data from CMORPH "
+                           "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                           "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                           "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                           "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                           "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT). Temporal aggregations "
+                           "are provided as averages calculated from smaller timesteps.",
         "GLDAS Radiation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide radiation and other meteorological "
-                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+                           "ground-based observational data to provide radiation and other meteorological "
+                           "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                           "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                           "for data retrieval. GLDAS data are reported in UTC (GMT). Temporal aggregations "
+                           "are provided as averages calculated from smaller timesteps.",
         "DAYMET Radiation": "DAYMET is a daily dataset of radiation data that has been interpolated and extrapolated. "
-                                "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
-                                "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
-                                "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
-                                " discards values for December 31 from leap years to maintain a 365-day year. DAYMET data are reported in UTC (GMT).",
+                            "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
+                            "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
+                            "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
+                            " discards values for December 31 from leap years to maintain a 365-day year. DAYMET data "
+                            "are reported in UTC (GMT).Temporal aggregations are provided as averages calculated "
+                            "from smaller timesteps.",
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -49,22 +58,22 @@ class Radiation:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet"],
-                           ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
-                            "<div style='text-align:center;'>Data Availability</div><div>"
-                            "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
-                            "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
-                            "</div>", "rowspan=2"
-                           ],
-                           ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-                           ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
-                           ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
-                           ["Output Time Zone", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: Local Time, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
-                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas, gldas, and trmm."],
-                           ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
+        ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, and daymet"],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+         "<div style='text-align:center;'>Data Availability</div><div>"
+         "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
+         "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
+         "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
+         "</div>", "rowspan=2"
+         ],
+        ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
+        ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only nldas and gldas time-series can be returned in local time."],
+        ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, weekly, monthly. Daily, weekly, and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for nldas and gldas."],
+        ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]
 
     data_format = [
@@ -93,14 +102,14 @@ class Radiation:
     # datatype and description.
     output_object = [
         ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                          "either for a workflow API or other relevent dataset."],
+                              "either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                               "as HMS metadata."],
+                                   "as HMS metadata."],
         ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                           "and value is a list of values for the source/dataset."]
+                               "and value is a list of values for the source/dataset."]
     ]
-    
+
     # HTTP API endpoint
     http_API = [
         ["POST", "/hms/rest/api/v3/meteorology/radiation/"]
