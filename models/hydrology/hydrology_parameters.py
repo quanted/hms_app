@@ -6,7 +6,7 @@ from django import forms
 
 # Sources for Precipitation
 PRECIP_SOURCE_OPTIONS = (
-    ('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'),
+    ('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'),
     ('prism', 'prism'), ('ncei', 'ncei'), ('trmm', 'trmm'))
 
 # Standard List of sources
