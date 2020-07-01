@@ -53,7 +53,7 @@ class Temperature:
                              "PRISM provides daily average, minimum, and maximum air temperature data in GMT (UTC) at "
                              "2-m height above surface.",
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
-                                 "data source. Possible options include 'daily', for those sources which are not "
+                                 " data source. Possible options include 'daily', for those sources which are not "
                                  "by default daily, and 'monthly'. Aggregated temperature data is averaged over these "
                                  "time periods, as well as the minimum and maximum temperatures recorded, and provided "
                                  "in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
@@ -85,7 +85,7 @@ class Temperature:
          "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
          "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
          "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
-         "<br><b>ncei:</b> depends upon selected station"
+         "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
          "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
          "</div>", "rowspan=2"
          ],

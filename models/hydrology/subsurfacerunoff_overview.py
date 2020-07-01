@@ -30,7 +30,12 @@ class SubsurfaceRunoff:
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff."
                             " This empirical method assumes the actual runoff to potential runoff is equal to the"
-                            " ratio of actual to potential retention."
+                            " ratio of actual to potential retention.",
+        "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
+                                 " data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated surface baseflow data are the totals over these "
+                                 "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included

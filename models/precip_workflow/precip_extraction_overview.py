@@ -55,7 +55,7 @@ class PrecipExtract:
                             "</div>", "rowspan=2"
                            ],
                            ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, weekly, monthly."],
+                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, monthly."],
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,

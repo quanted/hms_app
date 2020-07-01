@@ -23,7 +23,8 @@ class Humidity:
         "PRISM Humidity": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
                           "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
                           "resolution covering the contiguous United States. Data is available from 1981 to present."
-                          "PRISM data are reported in GMT (UTC)."
+                          "PRISM data are reported in GMT (UTC).",
+        "Temporal Aggregations": "****************** Placeholder *********************"
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included

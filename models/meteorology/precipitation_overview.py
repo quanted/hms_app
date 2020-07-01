@@ -67,7 +67,12 @@ class Precipitation:
         #                       "varying from 3 hours to 30 days depending on the dataset.",
         "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
                               "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
-                              "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT)."
+                              "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
+        "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
+                                 " data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated precipitation data are the totals over these "
+                                 "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -87,7 +92,7 @@ class Precipitation:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
                            ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
                             "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
@@ -95,7 +100,7 @@ class Precipitation:
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
                             "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
-                            "<br><b>ncei:</b> depends upon selected station"
+                            "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
                             "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
                             "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
                             "</div>", "rowspan=2"

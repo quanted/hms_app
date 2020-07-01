@@ -26,7 +26,12 @@ class SoilMoisture:
                                "ground-based observational data to provide surface runoff and other hydrology "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT)."
+                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
+                                 " data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated soil moisture data are the averages over these "
+                                 "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included

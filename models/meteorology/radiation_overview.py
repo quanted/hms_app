@@ -39,6 +39,11 @@ class Radiation:
                             " discards values for December 31 from leap years to maintain a 365-day year. DAYMET data "
                             "are reported in UTC (GMT).Temporal aggregations are provided as averages calculated "
                             "from smaller timesteps.",
+        "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
+                                 " data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated radiation data are the averages over these "
+                                 "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included

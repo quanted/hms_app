@@ -41,7 +41,12 @@ class Wind:
                                "ground-based observational data to provide wind and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT)."
+                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
+                                 " data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated wind data are the averages over these "
+                                 "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -68,7 +73,7 @@ class Wind:
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
                             "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
-                            "<br><b>ncei:</b> depends upon selected station"
+                            "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
                             "</div>", "rowspan=2"
                            ],
                            ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],

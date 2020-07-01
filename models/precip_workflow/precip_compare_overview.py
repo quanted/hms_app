@@ -79,7 +79,7 @@ class PrecipCompare:
     # description and any child elements.
     input_parameters = [
         ["NHDPlus COMID", "String", "NHDPlusV2.1 catchment COMID.","Used only when 'catchment Centroid' is selected for 'Location Option'."],
-        ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, wgen, trmm"],
+        ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
         ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
          "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
         ["Start Year", "String", "Start date for the output timeseries. e.g., 01/01/2010",
@@ -90,7 +90,7 @@ class PrecipCompare:
          "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
          "</div>", "rowspan=2"],
         ["End Year", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-        ["Temporal Resolution", "Selection", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, weekly, monthly."],
+        ["Temporal Resolution", "Selection", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, monthly."],
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
