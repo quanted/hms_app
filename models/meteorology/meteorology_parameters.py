@@ -105,8 +105,7 @@ class MeteorologyFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-            ("hourly", "hourly"), ("3hourly", "3hourly"),
-            ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")
+            ("hourly", "hourly"), ("3hourly", "3hourly"), ("daily", "daily"), ("monthly", "monthly")
         ),
         initial="default",
         help_text='TEMPORAL RESOLUTION TEMP HELP TEXT'

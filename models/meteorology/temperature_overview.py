@@ -53,9 +53,11 @@ class Temperature:
                              "PRISM provides daily average, minimum, and maximum air temperature data in GMT (UTC) at "
                              "2-m height above surface.",
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
-                                 "data source. Possible options include 'daily', 'weekly', and 'monthly'. Aggregated "
-                                 "temperature data is averaged over these time periods, as well as the minimum and maximum"
-                                 " temperatures recorded, and provided in the aggregated timeseries."
+                                 "data source. Possible options include 'daily', for those sources which are not "
+                                 "by default daily, and 'monthly'. Aggregated temperature data is averaged over these "
+                                 "time periods, as well as the minimum and maximum temperatures recorded, and provided "
+                                 "in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
+                                 " and require the entire month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
