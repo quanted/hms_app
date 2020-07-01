@@ -27,21 +27,24 @@ class Wind:
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
         "NCEI Wind": "The National Climatic Data Center (NCEI) provides wind data recorded at rain "
-                              "gauge stations. Stations are identified by their Station ID which includes the type of "
-                              "station and the station number. Some stations have been recording data as far back as "
-                              "1901 to present day. NCEI data are reported in local time zone.",
+                     "gauge stations. Stations are identified by their Station ID which includes the type of "
+                     "station and the station number. Some stations have been recording data as far back as "
+                     "1901 to present day. NCEI data are reported in local time zone.",
         "NLDAS Wind": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH "
-                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
-                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
-                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
-                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
-                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+                      "data and satellite data from CMORPH "
+                      "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                      "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                      "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                      "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                      "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT). Wind data are "
+                      "available as two components: 10-m above ground zonal and 10-m above ground meridional. Wind "
+                      "speed and direction are calculated as Sqrt(zonal^2 + meridional^2) and  180 + (180 / pi) * "
+                      "tan(zonal/meridional), respectively",
         "GLDAS Wind": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide wind and other meteorological "
-                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+                      "ground-based observational data to provide wind and other meteorological "
+                      "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                      "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                      "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "
                                  "by default daily, and 'monthly'. Aggregated wind data are the averages over these "
@@ -66,24 +69,24 @@ class Wind:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, and ncei."],
-                           ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
-                            "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
-                           ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
-                            "<div style='text-align:center;'>Data Availability</div><div>"
-                            "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
-                            "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
-                            "</div>", "rowspan=2"
-                           ],
-                           ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-                           ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
-                           ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
-                           ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, and gldas time-series can be returned in local time."],
-                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas, and trmm."],
-                           ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
+        ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, and ncei."],
+        ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
+         "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+         "<div style='text-align:center;'>Data Availability</div><div>"
+         "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
+         "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
+         "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
+         "</div>", "rowspan=2"
+         ],
+        ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
+        ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, and gldas time-series can be returned in local time."],
+        ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas, and trmm."],
+        ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]
 
     data_format = [
@@ -112,14 +115,14 @@ class Wind:
     # datatype and description.
     output_object = [
         ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                          "either for a workflow API or other relevent dataset."],
+                              "either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                               "as HMS metadata."],
+                                   "as HMS metadata."],
         ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                           "and value is a list of values for the source/dataset."]
+                               "and value is a list of values for the source/dataset."]
     ]
-    
+
     # HTTP API endpoint
     http_API = [
         ["POST", "/hms/rest/api/v3/meteorology/wind/"]

@@ -34,7 +34,7 @@ class Evapotranspiration:
                  "<td>hours</td><td>Output</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
                  "<td>Output</td></tr></table>",
         "Hargreaves": "The Hargreaves algorithm calculates Potential Evapotranspiration using temperature data obtained from "
-                 "NLDAS, GLDAS, or Daymet. The following equations are used for the calculation of Hargreaves PET, where H<sub>0</sub> is the extraterrestrial radiation in MJ m<sup>-2</sup> d<sup>-1</sup> and T<sub>mn</sub>, T<sub>mx</sub>, T<sub>av</sub> are the minimum, maximum, and average daily temperatures in celsius: <img src='/static_qed/hms/images/hargreaves.png' alt='Hamon equations' style=''> The following table shows all parameters used and produced by the algorithm along "
+                 "NLDAS, GLDAS, or Daymet. The following equations are used for the calculation of Hargreaves PET, where H<sub>0</sub> is the extraterrestrial radiation in MJ m<sup>-2</sup> d<sup>-1</sup> and T<sub>mn</sub>, T<sub>mx</sub>, T<sub>av</sub> are the minimum, maximum, and average daily temperatures in celsius: <img src='/static_qed/hms/images/hargreaves.PNG' alt='Hargreaves equations' style=''> The following table shows all parameters used and produced by the algorithm along "
                  "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
                  "<tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td>"
                  "<td>MJ m<sup>-2</sup> d<sup>-1</sup></td><td>Input</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
@@ -42,7 +42,7 @@ class Evapotranspiration:
         "Penman": "The Penman algorithm calculates Potential Evapotranspiration using temperature, solar radiation, "
                   "specific humidity, and wind speed data obtained from NLDAS or GLDAS. Note that the Penman algorithm"
                   " also requires pressure data, which is only available from GLDAS, so GLDAS pressure data is used "
-                  "regardless of the chosen data source. The images below show the main Penman ET equation as well as the equations used to calculate the individual parameters: <img src='/static_qed/hms/images/Penman.png' alt='Penman equations' style=''><br><img src='/static_qed/hms/images/penmansub.png' alt='Penman subequations' style=''><br> where &Delta; is the slope of the saturation vapor pressure-temperature curve (kPa &deg;C<sup>-1</sup>), H<sub>net</sub> is the net radiation (MJ m<sup>-2</sup> d<sup>-1</sup>), G is the heat flux density (MJ m<sup>-2</sup> d<sup>-1</sup>), &rho;<sub>air</sub> is the air density (kg m<sup>-3</sup>), c<sub>p</sub> is the specific heat (MJ kg<sup>-1</sup> &deg;C<sup>-1</sup>), e<sup>0</sup><sub>z</sub> is the saturation vapor pressure (kPa), e<sub>z</sub> is the water vapor pressure (kPa), &gamma; is the psychrometric constant (kPa &deg;C<sup>-1</sup>), r<sub>c</sub> is the plant canopy resistance (sm<sup>-1</sup>), r<sub>a</sub> is the diffusion resistance (sm<sup>-1</sup>), and T<sub>mean</sub> is the average daily temperature (&deg;C). The following table shows all parameters used and produced by the algorithm along with their units:"
+                  "regardless of the chosen data source. The images below show the main Penman ET equation as well as the equations used to calculate the individual parameters: <img src='/static_qed/hms/images/penman.png' alt='Penman equations' style=''><br><img src='/static_qed/hms/images/penmansub.PNG' alt='Penman subequations' style=''><br> where &Delta; is the slope of the saturation vapor pressure-temperature curve (kPa &deg;C<sup>-1</sup>), H<sub>net</sub> is the net radiation (MJ m<sup>-2</sup> d<sup>-1</sup>), G is the heat flux density (MJ m<sup>-2</sup> d<sup>-1</sup>), &rho;<sub>air</sub> is the air density (kg m<sup>-3</sup>), c<sub>p</sub> is the specific heat (MJ kg<sup>-1</sup> &deg;C<sup>-1</sup>), e<sup>0</sup><sub>z</sub> is the saturation vapor pressure (kPa), e<sub>z</sub> is the water vapor pressure (kPa), &gamma; is the psychrometric constant (kPa &deg;C<sup>-1</sup>), r<sub>c</sub> is the plant canopy resistance (sm<sup>-1</sup>), r<sub>a</sub> is the diffusion resistance (sm<sup>-1</sup>), and T<sub>mean</sub> is the average daily temperature (&deg;C). The following table shows all parameters used and produced by the algorithm along with their units:"
                   "</p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th>"
                   "<th>Type</th></tr><tr><td>Elevation (Derived from Lat/Long)</td><td>m</td><td>Input</td></tr><tr>"
                   "<td>Albedo Coefficient</td><td>Double</td><td>Input</td></tr><tr><td>Min/Max/Mean Temperature</td>"
@@ -78,7 +78,7 @@ class Evapotranspiration:
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
         ["Source", "Drop-down list", "Time-series data source",
-         "Valid sources: nldas, gldas, daymet"],
+         "Valid sources: nldas, gldas, daymet, hamon, penmandaily, hargreaves"],
         ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
          "<div style='text-align:center;'>Data Availability</div><div>"
          "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
@@ -87,8 +87,8 @@ class Evapotranspiration:
          "</div>", "rowspan=2"
          ],
         ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-        ["Algorithm", "Drop-down list",
-         "The evapotranspiration algorithm using the source for precipitation (PLACEHOLDER).", "(PLACEHOLDER)"],
+        ["Weather Data Source", "Drop-down list",
+         "Weather time-series data source", "Used only when selected Algorithm is not nldas or gldas. Valid options:nldas, gldas, daymet"],
         ["Location Option", "Drop-down list", "Location of interest options.",
          "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
         ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575",
@@ -98,9 +98,9 @@ class Evapotranspiration:
         ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.",
          "Used only when 'catchment Centroid' is selected for 'Location Option'."],
         ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.",
-         "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
+         "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only nldas and gldas time-series can be returned in local time."],
         ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.",
-         "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas, and trmm."],
+         "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas."],
         ["Output Date Format", "String", "Format of the returned numeric values.",
          "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]

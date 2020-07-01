@@ -24,7 +24,22 @@ class PrecipExtract:
     algorithms = {
         "Precipitation Data Extraction Algorithms": "This workflow will collect precipitation data from a variety of data sources, including NCEI, NLDAS, GLDAS, and TRMM. This workflow presents relevant metadata, a time series graph, the Pearson Correlation Matrix, and a table of statistics calculated on the datasets.",
         "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days with missing data will be indicated in the output time series with values of -9999. However, days with missing data will be excluded for all datasets when calculating statistics.",
-        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI Stations can be found here.</a> The Station ID, Name, Location, and Dates can be found by clicking on the map icon. Some stations may not show up until the map is zoomed into that location. It is recommended that you use NCEI Stations that support the 'Normals Daily' Precipitation Dataset, although stations that support the 'Precipitation Hourly' dataset will work as well."
+        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI Stations can be found here.</a> The Station ID, Name, Location, and Dates can be found by clicking on the map icon. Some stations may not show up until the map is zoomed into that location. It is recommended that you use NCEI Stations that support the 'Normals Daily' Precipitation Dataset, although stations that support the 'Precipitation Hourly' dataset will work as well.",
+        "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
+                               "data and satellite data from CMORPH "
+                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+                               "ground-based observational data to provide precipitation and other meteorological "
+                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
+                              "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
+                              "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -45,7 +60,7 @@ class PrecipExtract:
     # description and any child elements.
     input_parameters = [
                            ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
-                            "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+                            "Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
                             "<div style='text-align:center;'>Data Availability</div><div>"
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."

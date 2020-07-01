@@ -16,7 +16,7 @@ class PrecipCompare:
                   "It should be noted that dates in time-series refer to local time-zone.  The algorithm coverts " \
                   "time-series from GMT to local time-zone (of NCEI station location) for NLDAS. GLDAS, and TRMM.  " \
                   "A uniform distribution of values is assumed within a time step for gridded data sources when " \
-                  "converting to local time zone. A temporal resolution of daily, weekly, or monthly can be chosen " \
+                  "converting to local time zone. A temporal resolution of daily, or monthly can be chosen " \
                   "for data requests. Summary statistics are provided for each of the four data sources. The time " \
                   "series of data downloaded for the time period and location can be downloaded as a CSV or JSON."
 
@@ -27,9 +27,9 @@ class PrecipCompare:
                                                " PRISM, depending on the user''s preference. This comparison presents"
                                                " relevant metadata, a time series graph, the Pearson''s Correlation"
                                                " Matrix, and a table of statistics performed on the datasets.'<br></br>"
-                                               "<p>The user can specify an NHDPlus COM ID (catchment) or NCEI Station"
-                                               " ID for data retrieval. If only a COM ID is provided, data from the"
-                                               " nearest NCEI Station will be used. If both a COM ID and NCEI Station"
+                                               "<p>The user can specify an NHDPlus COMID (catchment) or NCEI Station"
+                                               " ID for data retrieval. If only a COMID is provided, data from the"
+                                               " nearest NCEI Station will be used. If both a COMID and NCEI Station"
                                                " are provided, data from the specified NCEI Station will be used.</p>"
                                                " Data will be collected from January 1st of the specified start year"
                                                " through December 31st of the end year, and can be aggregated by"
@@ -51,12 +51,12 @@ class PrecipCompare:
                                       "that support the 'Normals Daily' Precipitation Dataset, although stations that "
                                       "support the 'Precipitation Hourly' dataset will work as well.",
         "Obtaining NHDPlus COM IDs": " <a href='https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c"
-                                     "26496ea52aab66a092593b'> A map of NHDPlus COM IDs can be found here.</a> To "
-                                     "find the COM ID for your region, expand the 'Surface Water Features' tab, and "
+                                     "26496ea52aab66a092593b'> A map of NHDPlus COMIDs can be found here.</a> To "
+                                     "find the COMID for your region, expand the 'Surface Water Features' tab, and "
                                      "check the box labeled 'Catchments'. Click on the map to highlight a region of "
                                      "interest, which will bring up a window on the map. Click the three dots on the "
                                      "bottom right of this window and select 'View' in Attribute Table. This will "
-                                     "bring up a table which contains the COM ID, which is labeled as 'FeatureI'D' "
+                                     "bring up a table which contains the COMID, which is labeled as 'FeatureID' "
                                      "This ID contains commas, which will need to be removed when used in "
                                      "Precipitation Comparison Version 2.0."
     }
@@ -79,6 +79,9 @@ class PrecipCompare:
     # description and any child elements.
     input_parameters = [
         ["NHDPlus COMID", "String", "NHDPlusV2.1 catchment COMID.","Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Weighted Spatial Average", "Checkbox", "Use weighted spatial average data instead of point source data.", "Spatially aggregate gridded data to NHDPlus catchment COMID."],
+        ["Use NCEI Station ID", "Checkbox", "Use NCEI station as point area of interest.",
+         "Finds NCEI station closest to catchment centroid with the best data coverage to use as point area of interest."],
         ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
         ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
          "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
