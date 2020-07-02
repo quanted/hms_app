@@ -43,7 +43,7 @@ class PrecipitationCompareFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-            ("daily", "daily"), ("weekly", "weekly"),
+            ("daily", "daily"),
             ("monthly", "monthly")),
         initial="daily"
     )

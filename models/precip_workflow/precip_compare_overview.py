@@ -81,7 +81,7 @@ class PrecipCompare:
         ["NHDPlus COMID", "String", "NHDPlusV2.1 catchment COMID.","Used only when 'catchment Centroid' is selected for 'Location Option'."],
         ["Weighted Spatial Average", "Checkbox", "Use weighted spatial average data instead of point source data.", "Spatially aggregate gridded data to NHDPlus catchment COMID."],
         ["Use NCEI Station ID", "Checkbox", "Use NCEI station as point area of interest.",
-         "Finds NCEI station closest to catchment centroid with the best data coverage to use as point area of interest."],
+         "Allows the use of a NCEI station ID as the specified area of interest."],
         ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
         ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
          "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
