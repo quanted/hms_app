@@ -16,7 +16,7 @@ class PrecipExtract:
                   "reformatted. It should be noted that dates in time-series refer to local time-zone. " \
                   "The algorithm converts time-series from GMT to local time-zone for NLDAS, GLDAS, and TRMM. " \
                   "A uniform distribution of values is assumed within a time step for gridded data sources when converting to local time zone. " \
-                  "A temporal resolution of daily, weekly, or monthly can be chosen for data requests. " \
+                  "A temporal resolution of daily or monthly can be chosen for data requests. " \
                   "Summary statistics are provided for each of the four data sources. The time series of data " \
                   "downloaded for the time period and location can be downloaded as a CSV or JSON."
 

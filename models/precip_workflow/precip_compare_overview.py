@@ -58,7 +58,22 @@ class PrecipCompare:
                                      "bottom right of this window and select 'View' in Attribute Table. This will "
                                      "bring up a table which contains the COMID, which is labeled as 'FeatureID' "
                                      "This ID contains commas, which will need to be removed when used in "
-                                     "Precipitation Comparison Version 2.0."
+                                     "Precipitation Comparison Version 2.0.",
+        "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
+                               "data and satellite data from CMORPH "
+                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+                               "ground-based observational data to provide precipitation and other meteorological "
+                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
+                              "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
+                              "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -81,19 +96,19 @@ class PrecipCompare:
         ["NHDPlus COMID", "String", "NHDPlusV2.1 catchment COMID.","Used only when 'catchment Centroid' is selected for 'Location Option'."],
         ["Weighted Spatial Average", "Checkbox", "Use weighted spatial average data instead of point source data.", "Spatially aggregate gridded data to NHDPlus catchment COMID."],
         ["Use NCEI Station ID", "Checkbox", "Use NCEI station as point area of interest.",
-         "Finds NCEI station closest to catchment centroid with the best data coverage to use as point area of interest."],
-        ["Sources", "List", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
+         "Allows the use of a NCEI station ID as the specified area of interest."],
+        ["Data Sources", "Checkboxes", "Gridded Data Sources", "Valid sources: nldas, gldas, and trmm"],
         ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
          "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
-        ["Start Year", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+        ["Start Year", "String", "Start year for the output time-series. e.g., 2010",
          "<div style='text-align:center;'>Data Availability</div><div>"
          "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
          "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
          "<br><b>ncei:</b> depends upon selected station"
          "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
          "</div>", "rowspan=2"],
-        ["End Year", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-        ["Temporal Resolution", "Selection", "Temporal resolution/timestep of the output time-series.", "Valid options: daily, monthly."],
+        ["End Year", "String", "End year for the output time-series. e.g., 2010", "", "style='display:none;'"],
+        ["Temporal Aggregation", "Selection", "Temporal aggregation level of the output time-series", "Valid options: Daily, Monthly, Annual, Extreme Precipitation Event. ‘5 Day total precip threshold’ means total precipitation for the previous five days and ‘Daily precip threshold’ means precipitation for the day being compared."],
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
