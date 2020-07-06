@@ -3,7 +3,7 @@ HMS Documentation module views
 """
 from django.template.loader import render_to_string
 
-header = 'HMS:  Documentation'
+header = 'HMS:  Publication'
 
 description = '<p>This is where you will find all manuscripts and presentations about HMS.</p>'\
               '<p><h3>Source Code:</h3></p>'\

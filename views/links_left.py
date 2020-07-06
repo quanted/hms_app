@@ -40,7 +40,7 @@ def ordered_list(model, submodel, page=None):
         ])),
         ('Utilities', OrderedDict([
             ('API Documentation', 'api_doc/'),
-            ('HMS Documentation', 'docs/')
+            ('HMS Publications', 'docs/')
         ]))
     ])
     return render_to_string(template_file,

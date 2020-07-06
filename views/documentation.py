@@ -17,7 +17,7 @@ def docs_page(request):
     :return: HttpResponse object.
     """
     model = 'documentation'
-    title = "HMS: Documentation"
+    title = docs.header
     description = docs.description
     html = default_pages.build_model_page(request, model, None, title, None, description)
     response = HttpResponse()
