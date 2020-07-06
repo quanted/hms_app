@@ -27,7 +27,7 @@ class Humidity:
                           "dew-point temperature data.  Relative humidity is calculated using a version of "
                           "the <a href='https://bmcnoldy.rsmas.miami.edu/Humidity.html' target='_blank'>"
                           "August-Roche-Magnus equation</a> as follows ): "
-                          "RH: =100*(EXP((17.625*TD)/(243.04+TD))/EXP((17.625*T)/(243.04+T)))  where, RH is % "
+                          "RH = 100*(EXP((17.625*TD)/(243.04+TD))/EXP((17.625*T)/(243.04+T))) where, RH is % "
                           "relative humidity, TD is dew-point temperature (celsius), and T is "
                           "air temperature (celsius).",
         "Temporal Aggregations": "Possible options include 'daily' and 'monthly'. Aggregated humidity data are "
