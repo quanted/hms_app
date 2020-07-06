@@ -37,9 +37,10 @@ class Wind:
                       "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                       "average time delay of four days for data retrieval. NLDAS has data coverage from "
                       "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT). Wind data are "
-                      "available as two components: 10-m above ground zonal and 10-m above ground meridional. Wind "
-                      "speed and direction are calculated as Sqrt(zonal^2 + meridional^2) and  180 + (180 / pi) * "
-                      "tan(zonal/meridional), respectively",
+                      "available as two components: 10-m above ground zonal and 10-m above ground meridional. "
+                      "Zonal direction is North-South and meridional direction is East-West. "
+                      "Wind speed is calculated as Sqrt(zonal<sup>2</sup> + meridional<sup>2</sup>). ",#"speed and direction are calculated as Sqrt(zonal^2 + meridional^2) and  180 + (180 / pi) * "
+                      #"tan(zonal/meridional), respectively",
         "GLDAS Wind": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
                       "ground-based observational data to provide wind and other meteorological "
                       "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
