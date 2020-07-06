@@ -23,8 +23,17 @@ class Humidity:
         "PRISM Humidity": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
                           "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
                           "resolution covering the contiguous United States. Data is available from 1981 to present."
-                          "PRISM data are reported in GMT (UTC).",
-        "Temporal Aggregations": "****************** Placeholder *********************"
+                          "PRISM data are reported in GMT (UTC). PRISM provides daily average temperature and "
+                          "dew-point temperature data.  Relative humidity is calculated using a version of "
+                          "the <a href='https://bmcnoldy.rsmas.miami.edu/Humidity.html' target='_blank'>"
+                          "August-Roche-Magnus equation</a> as follows ): "
+                          "RH: =100*(EXP((17.625*TD)/(243.04+TD))/EXP((17.625*T)/(243.04+T)))  where, RH is % "
+                          "relative humidity, TD is dew-point temperature (celsius), and T is "
+                          "air temperature (celsius).",
+        "Temporal Aggregations": "Possible options include 'daily' and 'monthly'. Aggregated humidity data are "
+                                 "the averages over these time periods and provided in the aggregated timeseries (Rh as well as dew-point temperature)."
+                                 " Monthly aggregations correspond to the calendar month, and require the entire "
+                                 "month to be specified in the date time span."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
