@@ -24,9 +24,9 @@ class PrecipCompare:
     algorithms = {
         "Precipitation Comparison Algorithms": "This workflow will collect precipitation data from a given NCEI Station"
                                                " and compare it to data obtained from NLDAS, GLDAS, Dayment, and/or"
-                                               " PRISM, depending on the user''s preference. This comparison presents"
-                                               " relevant metadata, a time series graph, the Pearson''s Correlation"
-                                               " Matrix, and a table of statistics performed on the datasets.'<br></br>"
+                                               " PRISM, depending on the user''s preference. The comparison presents"
+                                               " relevant metadata, a time series graph, the Pearson's Correlation"
+                                               " Matrix, Co-variance, GORE, and a table of statistics performed on each datasets.'<br></br>"
                                                "<p>The user can specify an NHDPlus COMID (catchment) or NCEI Station"
                                                " ID for data retrieval. If only a COMID is provided, data from the"
                                                " nearest NCEI Station will be used. If both a COMID and NCEI Station"
