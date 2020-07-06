@@ -4,12 +4,13 @@ HMS Meteorology module content
 
 header = 'HMS: Meteorology'
 
-description = 'HMS meteorological components include precipitation, air temperature, solar radiation and sun’s precise' \
-              ' position calculator. The components tap into national data sources and calculators to retrieve and' \
-              ' process data per user requirements. HMS meteorological components add value by performing operations' \
-              ' like localizing time series data in situations where the original source of data report time series in' \
-              ' Coordinated Universal Time (UTC), calculating spatially weighted average values time series for gridded' \
-              ' datasets, and temporal aggregations such as daily values from hourly data.'
+description = 'HMS meteorological components include precipitation, air temperature, solar radiation, humidity, ' \
+              'and wind. The components tap into national data sources and calculators to retrieve and process ' \
+              'data per user requirements. HMS meteorological components add value by performing operations like ' \
+              'localizing time series data in situations where the original source of data report time series in ' \
+              'Coordinated Universal Time (UTC), calculating spatially weighted average values time series for ' \
+              'gridded datasets,  temporal aggregations such as daily values from hourly data, and providing data ' \
+              'by NHDPlus catchments.'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
