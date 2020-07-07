@@ -7,12 +7,15 @@ HMS users can use the system components and workflows directly or build their ow
 </p>
 <h2>Structure of HMS web app</h2>
 <h3>Components</h3>
+<p>An HMS component is a module that encapsulates a set of related functions and data representing a physical process in hydrology or fate and transport of a contaminant in water.  HMS components are presented as web services, software libraries, and web forms.</p>
 <h4>Work Flows</h4>
+<p>An HMS workflow is an orchestrated pattern of executing components to simulate movement and storage of water and the consequential effects on fate and transport of contaminants in water.</p>
 <ul>
 <li>Precipitation Data Extraction</li>
 <li>Precipitation Comparison</li>
 </ul>
 <h4>Meteorology</h4>
+<p>An HMS workflow is an orchestrated pattern of executing components to simulate movement and storage of water and the consequential effects on fate and transport of contaminants in water.</p>
 <ul>
 <li>Humidity</li>
 <li>Precipitation</li>
@@ -22,6 +25,7 @@ HMS users can use the system components and workflows directly or build their ow
 <li>Wind</li>
 </ul>
 <h4>Hydrology</h4>
+<p>Hydrological components in HMS represent major physical processes affecting water quantity, storage, and flow.  </p>
 <ul>
 <li>Streamflow</li>
 <li>Evapotranspiration</li>
