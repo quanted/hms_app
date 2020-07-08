@@ -35,7 +35,7 @@ HMS users can use the system components and workflows directly or build their ow
 </ul>
 <h4>Hydrodynamics</h4>
 <ul>
-<li>Constant Volume</li><!--
+<li>Constant Volume Channel Routing</li><!--
 <li>Changing Volume</li>
 <li>Kinematic Wave</li> -->
 </ul>

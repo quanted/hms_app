@@ -19,7 +19,8 @@ def docs_page(request):
     model = 'documentation'
     title = docs.header
     description = docs.description
-    html = default_pages.build_model_page(request, model, None, title, None, description)
+    submodel = request.path.split("/")[2]
+    html = default_pages.build_model_page(request, model, submodel, title, None, description)
     response = HttpResponse()
     response.write(html)
     return response
