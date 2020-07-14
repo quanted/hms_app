@@ -14,11 +14,12 @@ def ordered_list(model, submodel, page=None):
     :param page: set to none
     :return: string containing html
     """
-    template_file = '03hms_links_left_drupal.html'
+    template_file = 'hms_links_left.html'
     link_dict = OrderedDict([
         ('Work Flows', OrderedDict([
             ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
-            ('Precipitation Comparison', 'workflow/precip_compare/')
+            ('Precipitation Comparison', 'workflow/precip_compare/'),
+            ('Time of Travel', 'workflow/time_of_travel/')
         ])),
         ('Meteorology', OrderedDict([
             ('Overview', 'meteorology/overview/'),
@@ -37,9 +38,11 @@ def ordered_list(model, submodel, page=None):
             ('Soil Moisture', 'hydrology/soilmoisture/'),
             ('Subsurface Flow', 'hydrology/subsurfaceflow/')
         ])),
-        ('Utilities', OrderedDict([
+        ('Documentation', OrderedDict([
             ('API Documentation', 'api_doc/'),
-            ('HMS Documentation', 'docs/')
+            ('Publications', 'docs/'),
+            ('Version History', 'version_history/'),
+            ('Help', 'help/')
         ]))
     ])
     return render_to_string(template_file,

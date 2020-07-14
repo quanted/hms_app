@@ -9,6 +9,10 @@ import os
 import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.hydrology.views as hydro
+import hms_app.models.hydrology.evapotranspiration_overview as evapo
+import hms_app.models.hydrology.surfacerunoff_overview as runoff
+import hms_app.models.hydrology.subsurfacerunoff_overview as subrunoff
+import hms_app.models.hydrology.soilmoisture_overview as soilmoisture
 
 
 submodel_list = ['overview', 'precipitation', 'evapotranspiration', 'soilmoisture',
@@ -23,7 +27,6 @@ def submodel_page(request, submodel, header='none'):
     :param header: Default set to none
     :return: HttpResponse object.
     """
-
     urlpath = request.path.split('/')
     model = 'hydrology'
     submodel = urlpath[urlpath.index(model) + 1]
@@ -54,7 +57,7 @@ def get_submodel_header(submodel):
     return hydro.header + " - " + submodelTitle
 
 
-def get_submodel_description(submodel):
+def get_submodel_description(base_url, submodel):
     """
     Gets the submodel description.
     :param submodel: Current submodel
@@ -62,16 +65,14 @@ def get_submodel_description(submodel):
     """
     if (submodel == "overview"):
         return hydro.description
-    elif submodel == "precipitation":
-        return hydro.precipitation_description
     elif (submodel == "subsurfaceflow"):
-        return hydro.subsurfaceflow_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "evapotranspiration"):
-        return hydro.evapotranspiration_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "soilmoisture"):
-        return hydro.soilmoisture_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "surfacerunoff"):
-        return hydro.surfacerunoff_description
+        return build_overview_page(base_url, submodel)
     else:
         return hydro.unknown_description
 
@@ -118,3 +119,30 @@ def get_model_input_module(model):
     model_module_location = 'hms_app.models.' + model + '.' + model + '_inputs'
     model_input_module = importlib.import_module(model_module_location)
     return model_input_module
+
+def build_overview_page(base_url, submodel):
+    details = None
+    if submodel == "evapotranspiration":
+        details = evapo.Evapotranspiration
+    elif submodel == "surfacerunoff":
+        details = runoff.SurfaceRunoff
+    elif submodel == "subsurfaceflow":
+        details = subrunoff.SubsurfaceRunoff
+    elif submodel == "soilmoisture":
+        details = soilmoisture.SoilMoisture
+    html = render_to_string('hms_submodel_overview.html', {
+        'MODEL': 'meteorology',
+        'SUBMODEL': submodel,
+        'DESCRIPTION': details.description,
+        'FORMATS': details.data_format,
+        'VERSION': details.version,
+        'CAPABILITIES': details.capabilities,
+        'SCENARIOS': details.usage,
+        'SAMPLECODE': details.samples,
+        'INPUTS': details.input_parameters,
+        'OUTPUTS': details.output_object,
+        'API': details.http_API,
+        'BASEURL': base_url,
+        'CHANGELOG': details.changelog
+    })
+    return html

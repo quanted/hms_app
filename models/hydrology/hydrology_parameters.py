@@ -6,7 +6,8 @@ from django import forms
 
 # Sources for Precipitation
 PRECIP_SOURCE_OPTIONS = (
-('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'), ('wgen', 'wgen'), ('prism', 'prism'), ('ncdc', 'ncdc'))
+    ('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet'),
+    ('prism', 'prism'), ('ncei', 'ncei'), ('trmm', 'trmm'))
 
 # Standard List of sources
 STANDARD_SOURCE_OPTIONS = (('nldas', 'nldas'), ('gldas', 'gldas'))
@@ -49,11 +50,20 @@ class HydrologyFormInput(forms.Form):
         input_formats=DATE_INPUT_FORMATS,
         initial='2010-12-31'
     )
-    # spatial_input = forms.ChoiceField(
-    #     label='Spatial Input',
-    #     choices=(('coordinates', 'coordinates'), ('geojson', 'geojson'), ('geojson_file', 'geojson file')),
-    #     initial='coordinates'
-    # )
+    area_of_interest = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Type of area of interest selection option'
+        }),
+        label='Area of Interest Options',
+        choices=(("Latitude/Longitude", "Latitude/Longitude"), ("Catchment Centroid", "Catchment Centroid")),
+        initial="Latitude/Longitude"
+    )
+    catchment_comid = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NHDPlus V2.1 Catchment COMID'
+        }),
+        label="Catchment COMID"
+    )
     latitude = forms.DecimalField(
         widget=forms.NumberInput(attrs={
             'title': 'Latitude value for area of interest.'
@@ -70,14 +80,6 @@ class HydrologyFormInput(forms.Form):
         initial=-83.356893,
         required=False
     )
-    geometrymetadata = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'title': 'Metadata for the area of interest. Provide key-value "," separated list using ":" to separate key'
-                     ' and value.',
-        }),
-        label='Geometry Metadata',
-        required=False
-    )
     timelocalized = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Set date/time timezone to local, specified by latitude and longitude values, or to GMT.'
@@ -92,19 +94,10 @@ class HydrologyFormInput(forms.Form):
         }),
         label='Temporal Resolution',
         choices=(
-            ("hourly", "hourly"), ("3hourly", "3hourly"),
-            ("daily", "daily"), ("weekly", "weekly"), ("monthly", "monthly")
+            ("hourly", "hourly"), ("3hourly", "3hourly"), ("daily", "daily"), ("monthly", "monthly")
         ),
         initial="default"
     )
-    # datetimeformat = forms.CharField(
-    #     widget=forms.TextInput(attrs={
-    #         'title': 'Valid date format strings can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
-    #                  'base-types/custom-date-and-time-format-strings'
-    #     }),
-    #     label='Output Date Format',
-    #     initial="yyyy-MM-dd HH"
-    # )
     outputformat = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Valid data format string can be found here https://docs.microsoft.com/en-us/dotnet/standard/'
@@ -121,7 +114,32 @@ class SubsurfaceflowFormInput(HydrologyFormInput):
     Input form fields for subsurface flow data.
     default fields taken from HydrologyFormInput
     """
-
+    source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Algorithm of the dataset.'
+        }),
+        label='Algorithm',
+        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('curvenumber', 'Curve Number')),
+        initial='nlgdas'
+    )
+    precip_source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Data source for the precipitation data.'
+        }),
+        label='Precipitation Data Source',
+        choices=PRECIP_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
+    stationID = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NCEI station ID.'
+        }
+        ),
+        label='NCEI StationID',
+        initial='GHCND:USW00013874'
+    )
+    field_order = ['source', 'precip_source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude',
+                   'catchment_comid', 'stationID', 'timelocalized', 'temporalresolution', 'outputformat']
 
 class MonthlyWidget(forms.MultiWidget):
     def __init__(self, attrs=None):
@@ -189,7 +207,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
         widget=forms.Select(attrs={
             'title': 'Evapotranspiration data source.'
         }),
-        label='Source',
+        label='Weather Data Source',
         choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet')),
         initial='NLDAS'
     )
@@ -209,14 +227,14 @@ class EvapotranspirationFormInput(HydrologyFormInput):
         label='Custom data file upload (.csv)',
         required=False
     )
-    stationID = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'title': 'NCDC station ID.'
-        }
-        ),
-        label='NCDC StationID',
-        initial='GHCND:USW00013874'
-    )
+    # stationID = forms.CharField(
+    #     widget=forms.TextInput(attrs={
+    #         'title': 'NCDC station ID.'
+    #     }
+    #     ),
+    #     label='NCDC StationID',
+    #     initial='GHCND:USW00013874'
+    # )
     albedo = forms.DecimalField(
         widget=forms.NumberInput(attrs={
             'title': 'Albedo coefficient.'
@@ -324,6 +342,8 @@ class EvapotranspirationFormInput(HydrologyFormInput):
     )
     leafarea = Monthly(label="Monthly Leaf Area Indices", required=False)
     airtemps = Monthly(label="Monthly Air Temperature Coefficients", required=False)
+    field_order = ['algorithm', 'source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude', "catchment_comid",
+                   'timelocalized', 'temporalresolution', 'outputformat']
 
 
 class PrecipitationFormInput(HydrologyFormInput):
@@ -374,12 +394,30 @@ class SurfacerunoffFormInput(HydrologyFormInput):
     """
     source = forms.ChoiceField(
         widget=forms.Select(attrs={
-            'title': 'Data source of the dataset.'
+            'title': 'Algorithm of the dataset.'
         }),
-        label='Source',
+        label='Algorithm',
         choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('curvenumber', 'Curve Number')),
-        initial='nldas'
+        initial='nlgdas'
     )
+    precip_source = forms.ChoiceField(
+        widget=forms.Select(attrs={
+            'title': 'Data source for the precipitation data.'
+        }),
+        label='Precipitation Data Source',
+        choices=PRECIP_SOURCE_OPTIONS,
+        initial='NLDAS'
+    )
+    stationID = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'title': 'NCEI station ID.'
+        }
+        ),
+        label='NCEI StationID',
+        initial='GHCND:USW00013874'
+    )
+    field_order = ['source', 'precip_source', 'startDate', 'endDate', 'area_of_interest', 'latitude', 'longitude',
+                   'catchment_comid', 'stationID', 'timelocalized', 'temporalresolution', 'outputformat']
 
 
 class TemperatureFormInput(HydrologyFormInput):

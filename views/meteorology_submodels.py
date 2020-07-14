@@ -10,8 +10,14 @@ import importlib
 import hms_app.views.links_left as links_left
 import hms_app.models.meteorology.views as meteor
 import hms_app.models.meteorology.precipitation_overview as precip
+import hms_app.models.meteorology.temperature_overview as temp
+import hms_app.models.meteorology.wind_overview as wind
+import hms_app.models.meteorology.humidity_overview as humidity
+import hms_app.models.meteorology.radiation_overview as radiation
+import hms_app.models.meteorology.solarcalculator_overview as solar
 
-submodel_list = ['overview', 'precipitation', 'temperature', 'solarcalculator']
+
+submodel_list = ['overview', 'humidity', 'precipitation', 'temperature', 'wind', 'solarcalculator']
 
 @ensure_csrf_cookie
 def submodel_page(request, submodel, header='none'):
@@ -66,19 +72,19 @@ def get_submodel_description(base_url, submodel):
     :return: submodel description as a string
     """
     if submodel == "solarcalculator":
-        return meteor.solarcalculator_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "precipitation"):
         return build_overview_page(base_url, submodel)
     elif (submodel == "overview"):
         return meteor.description
     elif (submodel == "temperature"):
-        return meteor.temperature_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "wind"):
-        return meteor.wind_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "radiation"):
-        return meteor.radiation_description
+        return build_overview_page(base_url, submodel)
     elif (submodel == "humidity"):
-        return meteor.humidity_description
+        return build_overview_page(base_url, submodel)
     else:
         return ''
 
@@ -91,6 +97,16 @@ def get_submodel_algorithm(submodel):
     """
     if submodel == "precipitation":
         return precip.Precipitation.algorithms
+    elif submodel == "temperature":
+        return temp.Temperature.algorithms
+    elif submodel == "wind":
+        return wind.Wind.algorithms
+    elif submodel == "humidity":
+        return humidity.Humidity.algorithms
+    elif submodel == "radiation":
+        return radiation.Radiation.algorithms
+    elif submodel == "solarcalculator":
+        return solar.SolarCalculator.algorithms
     else:
         return {}
 
@@ -143,6 +159,16 @@ def build_overview_page(base_url, submodel):
     details = None
     if submodel == "precipitation":
         details = precip.Precipitation
+    elif submodel == "temperature":
+        details = temp.Temperature
+    elif submodel == "wind":
+        details = wind.Wind
+    elif submodel == "humidity":
+        details = humidity.Humidity
+    elif submodel == "radiation":
+        details = radiation.Radiation
+    elif submodel == "solarcalculator":
+        details = solar.SolarCalculator
     html = render_to_string('hms_submodel_overview.html', {
         'MODEL': 'meteorology',
         'SUBMODEL': submodel,

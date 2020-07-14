@@ -4,13 +4,13 @@ HMS Hydrology module content
 
 header = 'HMS: Hydrology'
 
-description = "<p>The hydrological cycle is the largest movement of any substance on Earth's surface with most of the" \
-              " movement of water occurring through precipitation and evaporation. Controlled by the sun's radiation," \
-              " water is evaporated from the ocean and land surface where it moves with the winds in the atmosphere" \
-              " and condenses into clouds" \
-                " to fall back down to Earth's surface as precipitation flowing toward the oceans and completing the" \
-              " global hydrological cycle. All components of the hydrological cycle follow a water balance equation" \
-              " which provides a basic framework for this model.</p>" \
+description = "<p>HMS hydrology components include evapotranspiration, surface runoff, subsurface flow, " \
+              "soil moisture, and stream flow.  The components tap into national data sources and HMS " \
+              "calculators to retrieve and process data per user requirements. HMS hydrology components " \
+              "add value by performing operations like localizing time series data in situations where the " \
+              "original source of data report time series in Coordinated Universal Time (UTC), calculating " \
+              "spatially weighted average values time series for gridded datasets,  temporal aggregations " \
+              "such as daily values from hourly data, and providing data by NHDPlus catchments.</p>" \
                 '<img src="/static_qed/hms/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
 
 unknown_description = '<p>There is nothing for you here!</p>'

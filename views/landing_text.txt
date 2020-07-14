@@ -1,19 +1,21 @@
 <p>
-Hydrologic Micro Services, HMS, is a watershed modeling system comprised of hydrology, erosion, and contaminant fate
-and transport components. Data preparation is included with automated data downloads from national and local data sources and pre-processing data for consumption by models.
-By tapping into the strengths of the different approaches taken by different models, HMS can link air and water models together to address more complex scenarios.
-
 Hydrologic Micro Services, HMS, is a watershed modeling system comprised of data provisioning and modeling components and workflows to facilitate environmental modeling.
-The components are available as <a href="https://qedinternal.epa.gov/hms/api_doc/">web services</a>, <a href="https://github.com/quanted/hms">desktop libraries</a>, and through a <a href="https://qedinternal.epa.gov/hms/api_doc/">web-based graphical user interface</a>.
+The components are available as <a href="/hms/api_doc/">web services</a>, <a href="https://github.com/quanted/hms" target="_blank">desktop libraries</a>, and through a <a href="/hms/">web-based graphical user interface</a>.
 The target users for HMS are hydrological and water quality modelers and analysts.
 HMS users can use the system components and workflows directly or build their own workflows by linking the components.
 
 </p>
 <h2>Structure of HMS web app</h2>
 <h3>Components</h3>
-
+<p>An HMS component is a module that encapsulates a set of related functions and data representing a physical process in hydrology or fate and transport of a contaminant in water.  HMS components are presented as web services, software libraries, and web forms.</p>
+<h4>Work Flows</h4>
+<p>An HMS workflow is an orchestrated pattern of executing components to simulate movement and storage of water and the consequential effects on fate and transport of contaminants in water.</p>
 <ul>
-<li><h4>Meteorology</h4></li>
+<li>Precipitation Data Extraction</li>
+<li>Precipitation Comparison</li>
+</ul>
+<h4>Meteorology</h4>
+<p>An HMS workflow is an orchestrated pattern of executing components to simulate movement and storage of water and the consequential effects on fate and transport of contaminants in water.</p>
 <ul>
 <li>Humidity</li>
 <li>Precipitation</li>
@@ -22,9 +24,8 @@ HMS users can use the system components and workflows directly or build their ow
 <li>Temperature</li>
 <li>Wind</li>
 </ul>
-</ul>
-<ul>
-<li><h4>Hydrology</h4></li>
+<h4>Hydrology</h4>
+<p>Hydrological components in HMS represent major physical processes affecting water quantity, storage, and flow.  </p>
 <ul>
 <li>Streamflow</li>
 <li>Evapotranspiration</li>
@@ -32,16 +33,13 @@ HMS users can use the system components and workflows directly or build their ow
 <li>Soil Moisture</li>
 <li>Subsurface Flow</li>
 </ul>
-</ul>
+<h4>Hydrodynamics</h4>
 <ul>
-<li><h4>Hydrodynamics</h4></li>
-<ul>
-<li>Overview</li>
-<li>Constant Volume</li>
+<li>Constant Volume Channel Routing</li><!--
 <li>Changing Volume</li>
-<li>Kinematic Wave</li>
+<li>Kinematic Wave</li> -->
 </ul>
-</ul>
+<!--
 <ul>
 <li><h4>Watershed Delineation</h4></li>
 <li><h4>Water Quality</h4></li>
@@ -55,16 +53,9 @@ HMS users can use the system components and workflows directly or build their ow
 <li>Sediment</li>
 <li>Temperature</li>
 </ul>
-</ul>
-<h3>Utilities</h3>
+</ul> -->
+<h4>Utilities</h4>
 <ul>
-<li><h4>API Documentation</h4></li>
-<li><h4>HMS Documentation</h4></li>
+<li>API Documentation</li>
+<li>HMS Publications</li>
 </ul>
-<h3>Work Flows</h3>
-<ul>
-<li><h4>Precipitation Data Extraction</h4></li>
-<li><h4>Precipitation Comparison</h4></li>
-</ul>
-
-

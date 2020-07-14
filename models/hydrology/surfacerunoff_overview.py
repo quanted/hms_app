@@ -1,76 +1,46 @@
 """
-Precipitation Details
+SurfaceRunoff Details
 """
 
 
-class Precipitation:
+class SurfaceRunoff:
 
     # Current module version
     version = 0.1
 
     # HMS module description
-    description = "Precipitation is one of the main processes in the global hydrological cycle. Precipitation is highly variable and influences vegetation, droughts, floods, and the movement of nutrients, sediment, minerals, chemicals and other contaminants. In agriculture and urban areas, precipitation is the driver in contaminant and nutrient transport in water systems due to runoff. Precipitation data is an integral input for many watershed, air, erosion, and agricultural models as well as climate predicting projects. The data can be used in applications such as determining flood/drought conditions, hydrologic transportation of contaminants, best management practices, and regulations. Precipitation data is generated through direct observation as well as modeling.  Click on the “Data Algorithms” tab to view details of precipitation data available through HMS.  Input and output parameter descriptions are available below in the “Input Paraments” and “output Parameters” panels. Precipitation data request can be submitted using one of the following two methods:" \
-                  "</br></br>" \
-                  "<div style='margin-left:2em; text-align:left; margin-top:-1em;'>" \
-                  "1. Click on the “Data Request” tab on this page, fill input parameter values, and then click on the “Submit” button. A successful submit makes “Output” tab active and the user is provided a data request task ID. It is recommended that the user copy the task ID. The user has the option to wait until output data is displayed on the tab. For longer running data requests the user has the option to copy the task ID and leave the page. The user can come back later, click on the “Retrieve Data” tab, enter the task ID, and retrieve output data.  Outputs are cached for 24 hours." \
-                  "</div>." \
-                  "<div style='margin-left: 2em; text-align:left; margin-top:-1em;'>" \
-                  "2. Programmatically access RESTful API. Please navigate to documentation on the “Web Service Details” and “Code Samples” panels on this page.  Swagger implementation can be accessed by clicking on the “API Documentation” node on the left pane and then navigating to the “WSPrecipitation” service." \
-                  "</div>"
+    description = "<p>Surface runoff is classified as precipitation that does not infiltrate into the soil" \
+                            " and runs across the surface into streams, rivers, and lakes. By returning excess" \
+                            " precipitation to the oceans and controlling how much water flows into the stream" \
+                            " systems, runoff plays an important role in balancing the hydrological cycle. Surface" \
+                            " runoff is influenced by soil properties, land cover, hillslope, and storm duration and" \
+                            " intensity. Runoff is a major transporter of chemicals, pesticides, and sediments." \
+                            " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
+                            " potential source of contamination of surface waters and a nonpoint source of" \
+                            " pollution.</p>"
 
     # Data source algorithms and brief description
     algorithms = {
-        "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'> A map of NCEI"
-                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
-                                      "be found by clicking on the map icon. Some stations may not show up until the "
-                                      "map is zoomed into that location. It is recommended that you use NCEI Stations "
-                                      "that support the 'Normals Daily' Precipitation Dataset, although stations that "
-                                      "support the 'Precipitation Hourly' dataset will work as well.",
-        "Handling Missing Data": "Occasionally, some NCEI Stations will have periods of missing or invalid data. Days"
-                                 " with missing data will be indicated in the output time series with values of -9999."
-                                 " However, days with missing data will be excluded for all datasets when calculating"
-                                 " statistics. For extreme event aggregation, missing data will be replaced by the mean"
-                                 " of the other datasets, or with 0 if the mean is negative.",
-        "NCEI Precipitation": "The National Climatic Data Center (NCEI) provides precipitation data recorded at rain "
-                              "gauge stations. Stations are identified by their Station ID which includes the type of "
-                              "station and the station number. Some stations have been recording data as far back as "
-                              "1901 to present day. NCEI data are reported in local time zone.",
-        "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
+        "NLDAS Surface Runoff": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
                                "data and satellite data from CMORPH "
                                "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                                "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                                "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                                "average time delay of four days for data retrieval. NLDAS has data coverage from "
                                "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide precipitation and other meteorological "
+        "GLDAS Surface Runoff": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+                               "ground-based observational data to provide surface runoff and other hydrology "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "DAYMET Precipitation": "DAYMET is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
-                                "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
-                                "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
-                                "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
-                                " discards values for December 31 from leap years to maintain a 365-day year. DAYMET data are reported in UTC (GMT).",
-        "PRISM Precipitation": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
-                               "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
-                               "resolution covering the contiguous United States. Data is available from 1981 to present."
-                               "PRISM data are reported in GMT (UTC).",
-        # "WGEN Precipitation": "WGEN is a stochastic weather generator that statistically simulates precipitation. WGEN "
-        #                       "uses a Markov Chain Model to determine the probability of precipitation occurrence. The "
-        #                       "Markov Chain Model determines precipitation by finding  the probability of a wet day "
-        #                       "following a dry dat. Then an equation using 20-year mean daily rainfall, standard deviation of "
-        #                       "daily rainfall, and skew coefficients calculated from DAYMET precipitation time-series"
-        #                       "give the amount of rainfall on a given wet day. WGEN data are reported in GMT (UTC).",
-        # "NWM Precipitation": "The National Water Model simulates ovserved and forecast data for hydrologic modeling. "
-        #                       "Data is available on 1km and 250m grids that provide coverage over various lookback ranges, "
-        #                       "varying from 3 hours to 30 days depending on the dataset.",
-        "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
-                              "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
-                              "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
+        "Curve Number": "The SCS Curve number is an empirical method for"
+                            " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
+                            " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff."
+                            " This empirical method assumes the actual runoff to potential runoff is equal to the"
+                            " ratio of actual to potential retention.",
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "
-                                 "by default daily, and 'monthly'. Aggregated precipitation data are the totals over these "
+                                 "by default daily, and 'monthly'. Aggregated surface runoff data are the totals over these "
                                  "time periods and provided in the aggregated timeseries. Monthly aggregations correspond to the calendar month,"
                                  " and require the entire month to be specified in the date time span."
     }
@@ -92,7 +62,8 @@ class Precipitation:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Source", "Drop-down list", "Time-series data source", "Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
+                           ["Algorithm", "Drop-down list", "Method of surface runoff calculation", "Valid sources: nldas, gldas, Curve Number"],
+                           ["Source", "Drop-down list", "Time-series data source", "Used only when “Curve Number” is selected for “Algorithm”. Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
                            ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
                             "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
                            ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
@@ -100,7 +71,7 @@ class Precipitation:
                             "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
                             "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
                             "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
-                            "<br><b>ncei:</b> depends upon selected station. By default, 'GHCND' stations are provided at daily timesteps, 'COOP' stations are povided at hourly timesteps."
+                            "<br><b>ncei:</b> depends upon selected station"
                             "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
                             "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
                             "</div>", "rowspan=2"
@@ -151,7 +122,7 @@ class Precipitation:
     
     # HTTP API endpoint
     http_API = [
-        ["POST", "/hms/rest/api/v3/meteorology/precipitation/"]
+        ["POST", "/hms/rest/api/v3/hydrology/surfacerunoff/"]
     ]
 
     # Changelog is provided as a list of lists, where each list contains 3 elements: title, date, and a list of changes.

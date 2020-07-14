@@ -27,8 +27,8 @@ def hms_landing_page(request):
         'DISCLAIMER': disclaimer_text
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='hms', submodel=None)
-    page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
-    page_text = page_text_file.read()
+    # page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
+    page_text = render_to_string("hms_landing_body.html")
 
     html += render_to_string('05hms_body_start.html', {
         'TITLE': "HMS Introduction",
