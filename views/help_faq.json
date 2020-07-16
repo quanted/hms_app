@@ -1,0 +1,4 @@
+{
+  "What is HMS?": "Hydrologic Micro Services, HMS, is a watershed modeling system comprised of data provisioning and modeling components and workflows to facilitate environmental modeling.",
+  "How do I use HMS?": "The components can be accessed through the web form interface or directly through the web API, request details are provided through the <a href='/hms/api_doc/' target='_blank'>Swagger OpenAPI Documentation</a>."
+}
