@@ -17,8 +17,10 @@ def ordered_list(model, submodel, page=None):
     template_file = 'hms_links_left.html'
     link_dict = OrderedDict([
         ('Work Flows', OrderedDict([
+            ('Overview', 'workflow/overview/'),
             ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
             ('Precipitation Comparison', 'workflow/precip_compare/'),
+            ('Streamflow', 'workflow/streamflow/'),
             ('Time of Travel', 'workflow/time_of_travel/')
         ])),
         ('Meteorology', OrderedDict([
@@ -32,7 +34,6 @@ def ordered_list(model, submodel, page=None):
         ])),
         ('Hydrology', OrderedDict([
             ('Overview', 'hydrology/overview/'),
-            ('Streamflow', 'hydrology/streamflow/'),
             ('Evapotranspiration', 'hydrology/evapotranspiration/'),
             ('Surface Runoff', 'hydrology/surfacerunoff/'),
             ('Soil Moisture', 'hydrology/soilmoisture/'),
