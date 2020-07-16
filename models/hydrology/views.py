@@ -4,13 +4,13 @@ HMS Hydrology module content
 
 header = 'HMS: Hydrology'
 
-description = "<p>HMS hydrology components include evapotranspiration, surface runoff, subsurface flow, " \
-              "soil moisture, and stream flow.  The components tap into national data sources and HMS " \
-              "calculators to retrieve and process data per user requirements. HMS hydrology components " \
-              "add value by performing operations like localizing time series data in situations where the " \
-              "original source of data report time series in Coordinated Universal Time (UTC), calculating " \
-              "spatially weighted average values time series for gridded datasets,  temporal aggregations " \
-              "such as daily values from hourly data, and providing data by NHDPlus catchments.</p>" \
+description = "<p>HMS hydrology components include evapotranspiration, soil moisture, surface runoff, and subsurface " \
+              "flow. The components tap into national data sources as well as apply algorithms to simulate underlying " \
+              "physical processes. Data retrieved from national sources are enhanced by performing operations like " \
+              "localizing time series data in situations where the original source of data report time series in " \
+              "Coordinated Universal Time (UTC), calculating spatially weighted average values time series for " \
+              "NHDPlus catchments from gridded datasets, locating weather station closest to a point location or " \
+              "NHDPlus catchment centroid, and temporal aggregations such as daily values from hourly data.</p>" \
                 '<img src="/static_qed/hms/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
 
 unknown_description = '<p>There is nothing for you here!</p>'

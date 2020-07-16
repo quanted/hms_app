@@ -9,16 +9,29 @@ class PrecipCompare:
     version = 0.1
 
     # HMS module description
-    description = "This workflow automatically extracts precipitation data from four national sources and compiles " \
-                  "data into a consistent format. The workflow requires the user to select an NCEI station. " \
-                  "Data from the user selected NCEI Station along with data from three gridded data sources " \
-                  "(NLDAS, GLDAS, and TRMM) at the same location and time period are downloaded and reformatted.  " \
-                  "It should be noted that dates in time-series refer to local time-zone.  The algorithm coverts " \
-                  "time-series from GMT to local time-zone (of NCEI station location) for NLDAS. GLDAS, and TRMM.  " \
-                  "A uniform distribution of values is assumed within a time step for gridded data sources when " \
-                  "converting to local time zone. A temporal resolution of daily, or monthly can be chosen " \
-                  "for data requests. Summary statistics are provided for each of the four data sources. The time " \
-                  "series of data downloaded for the time period and location can be downloaded as a CSV or JSON."
+    description = "This workflow automatically retrieves and compares precipitation time-series data from up to four " \
+                  "national sources.  NCIE station data are compared with data from a user selected subset of gridded " \
+                  "data sources.  The three gridded data sources available for selection are NLDAS, GLDAS, and TRMM. " \
+                  "The workflow underneath uses HMS Precipitation Data Extraction workflow to retrieve and format " \
+                  "precipitation data.<br \> " \
+                  "Location can be specified as NHDPlus COMID or NCEI station ID.  If NCEI station is selected as the " \
+                  "location, then data from the user supplied Station ID are compared with user selected gridded " \
+                  "data sources at the location of the NCEI station. The workflow provides the option of spatial " \
+                  "aggregation of gridded precipitation data when NHDPlus COMID is selected as the location.  " \
+                  "Percentage of each grid cell covering the COMID catchment is calculated and used in averaging of " \
+                  "the data for the catchment.  The workflow also lets the user specify an NCEI station ID when " \
+                  "NHDPlus COMID is selected as the location.  If the user opts not to specify an NCEI station ID, " \
+                  "then the workflow finds and uses the NCEI station closest to the NHDPlus COMID catchment centroid.  " \
+                  "When NHDPlus COMID is selected it should be noted that the NCEI station used in comparison may not " \
+                  "lie in the same time zone as the COMID catchment and that the workflow doesn’t account for the " \
+                  "incompatibility of time zones.<br \>" \
+                  "The workflow converts time-series from GMT to local time-zone for NLDAS, GLDAS, and TRMM to " \
+                  "compare with NCIE time-series which is in local time. A uniform distribution of values is " \
+                  "assumed within a time step for gridded data sources when converting to local time zone. " \
+                  "A temporal resolution of daily, monthly, annual or user specified extreme precipitation event can " \
+                  "be chosen for comparison. Summary statistics are provided for each of the data sources along with " \
+                  "statistics comparing gridded sources with NCEI. The time series of data downloaded for the time " \
+                  "period and location can be downloaded as a CSV or JSON."
 
     # Data source algorithms and brief description
     algorithms = {

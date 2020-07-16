@@ -6,6 +6,7 @@ from . import meteorology_submodels as met_submodels
 from . import meteorology_submodels_algorithms as met_submodel_algor
 from . import hydrology_submodels as hydro_submodels
 from . import hydrology_submodels_algorithms as hydro_submodel_algor
+from . import workflow_overview as wo
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from .default_pages import build_model_page, error_404_page
@@ -36,7 +37,11 @@ def component_page(request, model=None, submodel=None):
     import_block = None
     p = request.scheme + "://" + request.get_host()
 
-    if model == "meteorology":
+    if model == "workflow":
+        input_block = None
+        algorithm = None
+        description = wo.Workflow.description
+    elif model == "meteorology":
         description = met_submodels.get_submodel_description(p, submodel)
         if submodel == "overview":
             input_block = None
