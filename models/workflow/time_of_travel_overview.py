@@ -9,11 +9,11 @@ class TimeOfTravel:
     version = 0.1
 
     # HMS module description
-    description = "Placeholder Description"
+    description = "This workflow calculates the time of travel for a contaminant through a network of streams based on the velocity and flow through the network. The workflow requires the user to select which stream segments the network starts and ends on. Because this workflow is a forecast tool, the time span for the workflow consists of an 18 hour time span starting from the current local time. The connected stream network is automatically generated based on the input streams, and flow data for the network can either be provided by the user or retrieved from the National Water Model data source. The resulting time series of data can be downloaded as a CSV or JSON, either per catchment or as one combined time series."
 
     # Data source algorithms and brief description
     algorithms = {
-        "Algorithm #1": ""
+        "National Water Model": "The National Water Model provides gridded forecast data at one-hour time steps covering 18 hours past the current hour covering the conterminous U.S. on a 1-km grid. National Water Model data are reported in UTC (GMT)."
     }
 
     # Capabilities are provided as a list of capability descriptions, all html formatting must be included
@@ -33,10 +33,21 @@ class TimeOfTravel:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010"],
-        ["End Date", "String", "End date for the output timeseries. e.g., 12/31/2010"],
-        ["Start COMID", "Number", "COMID for the starting NHD stream catchment."],
-        ["End COMID", "Number", "COMID for the ending NHD stream catchment."]
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+                            "<div style='text-align:center;'>Data Availability</div><div>"
+                            "<br><b>nwm:</b> hourly forecast data (18hr timeseries generated from the present time); Conterminous U.S. @ 1-km resolution."
+                            "</div>", "rowspan=4"
+                           ],
+        ["Start Hour", "Number", "Start hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
+        ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["End Hour", "Number", "End hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
+        ["Start COMID", "Number", "COMID for the starting NHD stream catchment.",
+                            "Output time-series is returned for each catchment in the connected network between the two selected NHDPlusV2.1 catchments."
+                            "</div>", "rowspan=2"
+                           ],
+        ["End COMID", "Number", "COMID for the ending NHD stream catchment.", "", "style='display:none;'"],
+        ["Source of Contaminant Inflow Data", "Drop-down list", "Contaminant Inflow data source", "Valid sources: National Water Model, Input Table"],
+        ["Contaminant Inflow", "Number", "Amount of contaminant inflow present at the given timestep in cubic meters per second.", "Used only when 'Input Table' is selected for 'Source of Contaminant Inflow Data'."]
     ]
 
     # Output return object are provided as a list of lists, each list containing 3 elements: column,
