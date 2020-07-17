@@ -1,7 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.urls import path, re_path
 from .views import landing, watershed_map, workflow_setup
-from .views import precip_compare_setup, api_doc, documentation, hms_model_router, contact, default_pages
+from .views import precip_compare_setup, api_doc, documentation, hms_model_router, contact, default_pages, help_page, version_history
 from . import hms_rest_api
 
 urlpatterns = [
@@ -18,8 +18,8 @@ urlpatterns = [
     path('docs/', documentation.docs_page),
     path('contact/', contact.contact_page),
     path('contact/comment/', contact.handle_contact_post),
-    path('version_history/', default_pages.error_404_page),
-    path('help/', default_pages.error_404_page),
+    path('version_history/', version_history.versions_page),
+    path('help/', help_page.help_page),
 
     path('api_doc/', api_doc.create_swagger_docs),
     path('api_doc/swagger/', api_doc.get_swagger_json),

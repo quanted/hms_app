@@ -1,0 +1,6 @@
+{
+  "What is HMS?": "Hydrologic Micro Services, HMS, is a watershed modeling system comprised of data provisioning and modeling components and workflows to facilitate environmental modeling.",
+  "How do I use HMS?": "The components can be accessed through the web form interface or directly through the web API, request details are provided through the <a href='/hms/api_doc/' target='_blank'>Swagger OpenAPI Documentation</a>.",
+  "Who are the intended users for HMS?": "The target users are hydrological and water quality modelers and analysts.",
+  "Can I build my own custom workflow within the HMS website?": "HMS users can use the system components and workflows directly or build their own workflows by linking the components. Workflows can be either desktop or web-based applications outside HMS web site. Workflows on HMS web site are simple and mostly serve the purpose of demonstration. Only HMS web site developers can build workflows on HMS web site."
+}
