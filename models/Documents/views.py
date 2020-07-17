@@ -18,4 +18,5 @@ description = '<p>This is where you will find all EPA reports, manuscripts, pres
               '<ul><li><a href="https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=339606" target="_blank">EPA Report: A survey of Precipitation Data for Environmental Modeling</a></li></ul>'\
               '<ul><li><a href="https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=339328" target="_blank">EPA Report: An Overview of Rainfall-Runoff Model Types</a></li></ul>' \
               '<ul><li><a href="https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=342907" target="_blank">EPA Report: Flow Routing Techniques for Environmental Modeling</a></li></ul>' \
+              '<ul><li><a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Poster: Curve Number(CN) Development using Normalized Difference Vegetation Index</a></li></ul>' \
     #add in iEMSs website that tracks downloads
