@@ -34,11 +34,17 @@ class SurfaceRunoff:
                                 "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                 "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                 "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "Curve Number": "The SCS Curve number is an empirical method for"
-                        " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
-                        " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff."
-                        " This empirical method assumes the actual runoff to potential runoff is equal to the"
-                        " ratio of actual to potential retention.",
+        "Curve Number": 'Curve Number algorithm in HMS is implemented using Normalized Difference Vegetation Index '
+                        '(NDVI). 16-day interval NDVI satellite data from MODIS '
+                        '(<a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php" target="_blank">'
+                        'https://modis.gsfc.nasa.gov/data/dataprod/mod13.php</a>) at 250 meter resolution for the '
+                        'period of 2001-2018 along with soil hydrological group data was used to calculate CN for each '
+                        'NHDPlus catchment. The CN calculation methodology was based on an earlier published study '
+                        '(<a href="https://www.sciencedirect.com/science/article/pii/S0301479718315433" target="_blank"> '
+                        'https://www.sciencedirect.com/science/article/pii/S0301479718315433</a>). More details on the '
+                        'HMS CN calculation methodology are available at '
+                        '(<a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve '
+                        'Number Development using Normalized Difference Vegetation Index</a>).',
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "
                                  "by default daily, and 'monthly'. Aggregated surface runoff data are the totals over these "
