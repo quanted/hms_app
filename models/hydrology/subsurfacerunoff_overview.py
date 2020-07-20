@@ -14,14 +14,15 @@ class SubsurfaceRunoff:
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Surface Baseflow": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                                  "data and satellite data from CMORPH "
+        "NLDAS Surface Baseflow": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                                  "Data Assimilation System (NLDAS)</a> combines North American radar data and satellite data from CMORPH "
                                   "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                                   "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                                   "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                                   "average time delay of four days for data retrieval. NLDAS has data coverage from "
                                   "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Surface Baseflow": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+        "GLDAS Surface Baseflow": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                                  "Assimilation System (GLDAS)</a> combines satellite data and "
                                   "ground-based observational data to provide baseflow and other hydrologic "
                                   "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                   "data coverage from January 1, 2000 to present, with an average time delay of one month "
