@@ -20,9 +20,10 @@ class Humidity:
 
     # Data source algorithms and brief description
     algorithms = {
-        "PRISM Humidity": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
-                          "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
-                          "resolution covering the contiguous United States. Data is available from 1981 to present."
+        "PRISM Humidity": "The <a href='https://prism.oregonstate.edu/' target='_blank'>Parameter-elevation Relationship "
+                          "on Independent Slopes Model (PRISM)</a> is a combined dataset consisting of ground gauge "
+                          "station and RADAR products. The data is on a 4km grid resolution covering the contiguous "
+                          "United States. Data is available from 1981 to present."
                           "PRISM data are reported in GMT (UTC). PRISM provides daily average temperature and "
                           "dew-point temperature data.  Relative humidity is calculated using a version of "
                           "the <a href='https://bmcnoldy.rsmas.miami.edu/Humidity.html' target='_blank'>"

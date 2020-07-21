@@ -10,34 +10,41 @@ class SurfaceRunoff:
 
     # HMS module description
     description = "<p>Surface runoff is classified as precipitation that does not infiltrate into the soil" \
-                            " and runs across the surface into streams, rivers, and lakes. By returning excess" \
-                            " precipitation to the oceans and controlling how much water flows into the stream" \
-                            " systems, runoff plays an important role in balancing the hydrological cycle. Surface" \
-                            " runoff is influenced by soil properties, land cover, hillslope, and storm duration and" \
-                            " intensity. Runoff is a major transporter of chemicals, pesticides, and sediments." \
-                            " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
-                            " potential source of contamination of surface waters and a nonpoint source of" \
-                            " pollution.</p>"
+                  " and runs across the surface into streams, rivers, and lakes. By returning excess" \
+                  " precipitation to the oceans and controlling how much water flows into the stream" \
+                  " systems, runoff plays an important role in balancing the hydrological cycle. Surface" \
+                  " runoff is influenced by soil properties, land cover, hillslope, and storm duration and" \
+                  " intensity. Runoff is a major transporter of chemicals, pesticides, and sediments." \
+                  " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
+                  " potential source of contamination of surface waters and a nonpoint source of" \
+                  " pollution.</p>"
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Surface Runoff": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH "
-                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
-                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
-                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
-                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
-                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Surface Runoff": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide surface runoff and other hydrology "
-                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "Curve Number": "The SCS Curve number is an empirical method for"
-                            " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
-                            " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff."
-                            " This empirical method assumes the actual runoff to potential runoff is equal to the"
-                            " ratio of actual to potential retention.",
+        "NLDAS Surface Runoff": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                                "Data Assimilation System (NLDAS)</a> combines North American radar data and satellite data from CMORPH "
+                                "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                                "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                                "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                                "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                                "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+        "GLDAS Surface Runoff": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                                "Assimilation System (GLDAS)</a> combines satellite data and "
+                                "ground-based observational data to provide surface runoff and other hydrology "
+                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "Curve Number": 'Curve Number algorithm in HMS is implemented using Normalized Difference Vegetation Index '
+                        '(NDVI). 16-day interval NDVI satellite data from MODIS '
+                        '(<a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php" target="_blank">'
+                        'https://modis.gsfc.nasa.gov/data/dataprod/mod13.php</a>) at 250 meter resolution for the '
+                        'period of 2001-2018 along with soil hydrological group data was used to calculate CN for each '
+                        'NHDPlus catchment. The CN calculation methodology was based on an earlier published study '
+                        '(<a href="https://www.sciencedirect.com/science/article/pii/S0301479718315433" target="_blank"> '
+                        'https://www.sciencedirect.com/science/article/pii/S0301479718315433</a>). More details on the '
+                        'HMS CN calculation methodology are available at '
+                        '(<a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve '
+                        'Number Development using Normalized Difference Vegetation Index</a>).',
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "
                                  "by default daily, and 'monthly'. Aggregated surface runoff data are the totals over these "
@@ -62,28 +69,28 @@ class SurfaceRunoff:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-                           ["Algorithm", "Drop-down list", "Method of surface runoff calculation", "Valid sources: nldas, gldas, Curve Number"],
-                           ["Source", "Drop-down list", "Time-series data source", "Used only when “Curve Number” is selected for “Algorithm”. Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
-                           ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
-                            "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
-                           ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
-                            "<div style='text-align:center;'>Data Availability</div><div>"
-                            "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
-                            "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
-                            "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
-                            "<br><b>ncei:</b> depends upon selected station"
-                            "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
-                            "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
-                            "</div>", "rowspan=2"
-                           ],
-                           ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-                           ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
-                           ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
-                           ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
-                           ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
-                           ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas, and trmm."],
-                           ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
+        ["Algorithm", "Drop-down list", "Method of surface runoff calculation", "Valid sources: nldas, gldas, Curve Number"],
+        ["Source", "Drop-down list", "Time-series data source", "Used only when “Curve Number” is selected for “Algorithm”. Valid sources: nldas, gldas, daymet, ncei, prism, trmm"],
+        ["NCEI Station ID", "String", "NOAA NCEI station identification number e.g. GHCND:USW00013874",
+         "Used only when “ncei” is selected for “Source”.  Station identifiers can be obtained from NOAA’s tool at <a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation' target='_blank'>https://www.ncdc.noaa.gov/cdo-web/datatools/findstation</a>"],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+         "<div style='text-align:center;'>Data Availability</div><div>"
+         "<br><b>nldas:</b> hourly 1/1/1979 – Present (~4-day lag); North America @ 0.125 deg resolution."
+         "<br><b>gldas:</b> 3-hourly 1/1/2000-Present (~1-month lag); Global @ 0.250 deg resolution."
+         "<br><b>daymet:</b> daily 1/1/1980-Present (~1-year lag); North America @ 1-km resolution."
+         "<br><b>ncei:</b> depends upon selected station"
+         "<br><b>prism:</b> daily 1/1/1981-Present (~6-month lag); Conterminous U.S. @ 4-km resolution."
+         "<br><b>trmm:</b> daily 12/31/1997-11/30/2019; Global 50 deg South and 50 deg North latitudes @.250 deg resolution."
+         "</div>", "rowspan=2"
+         ],
+        ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        ["Location Option", "Drop-down list", "Location of interest options.", "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
+        ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Longitude", "Number", "Longitude coordinate for the output timeseries. e.g., -83.356893", "Used only when 'Latitude/Longitude' is selected for 'Location Option'."],
+        ["Catchment COMID", "String", "NHDPlusV2.1 catchment COMID.", "Used only when 'catchment Centroid' is selected for 'Location Option'."],
+        ["Local Time", "Drop-down list", "Time zone for the timestamp in output time-series.", "Valid options: yes, GMT. All data sources can be returned in Greenwich Mean Time (GMT) but only ncei, nldas, gldas, and trmm time-series can be returned in local time."],
+        ["Temporal Resolution", "Drop-down list", "Temporal resolution/timestep of the output time-series.", "Valid options: hourly, 3-hourly, daily, monthly. Daily and Monthly resolution is available for all data sources.  Hourly resolution is available only for nldas.  3-hourly resolution is available for gldas, and trmm."],
+        ["Output Date Format", "String", "Format of the returned numeric values.", "Valid options: E E0, E1, E2, E3, e, e0, e1, e2, e3, F, F0, F1, F2, F3, G, G0, G1, G2, G3, N, N0, N1, N2, N3, R.  Details are available in the table below."],
     ]
 
     data_format = [
@@ -112,14 +119,14 @@ class SurfaceRunoff:
     # datatype and description.
     output_object = [
         ["dataset", "String", "Primary dataset of the requested timeseries. Some API calls return more than one dataset, "
-                          "either for a workflow API or other relevent dataset."],
+                              "either for a workflow API or other relevent dataset."],
         ["dataSource", "String", "Primary source of the requested timeseries."],
         ["metaData", "Dictionary", "Metadata for the output timeseries, includes metadata from the source as well "
-                               "as HMS metadata."],
+                                   "as HMS metadata."],
         ["data", "Dictionary", "Output timeseries data is returned as a dictionary, where the key is the datetime stamp "
-                           "and value is a list of values for the source/dataset."]
+                               "and value is a list of values for the source/dataset."]
     ]
-    
+
     # HTTP API endpoint
     http_API = [
         ["POST", "/hms/rest/api/v3/hydrology/surfacerunoff/"]

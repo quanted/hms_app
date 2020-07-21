@@ -14,26 +14,33 @@ class SubsurfaceRunoff:
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Surface Baseflow": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                                  "data and satellite data from CMORPH "
+        "NLDAS Surface Baseflow": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                                  "Data Assimilation System (NLDAS)</a> combines North American radar data and satellite data from CMORPH "
                                   "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                                   "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                                   "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                                   "average time delay of four days for data retrieval. NLDAS has data coverage from "
                                   "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Surface Baseflow": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+        "GLDAS Surface Baseflow": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                                  "Assimilation System (GLDAS)</a> combines satellite data and "
                                   "ground-based observational data to provide baseflow and other hydrologic "
                                   "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                   "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                   "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "Curve Number": "The SCS Curve number is an empirical method for"
-                        " calculating runoff. The curve number depends on the soil hydrologic group, rainfall"
-                        " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff."
-                        " This empirical method assumes the actual runoff to potential runoff is equal to the"
-                        " ratio of actual to potential retention. subsurface flow is calculated as a percentage "
-                        "of surface runoff calculated by Curve Number.  "
-                        "<a href='https://www.epa.gov/national-aquatic-resource-surveys/streamcat' target='_blank'>"
-                        "StreamCat</a> is used to determine percentage of subsurface flow.",
+        "Curve Number": 'Curve Number algorithm in HMS is implemented using Normalized Difference Vegetation Index '
+                        '(NDVI). 16-day interval NDVI satellite data from MODIS '
+                        '(<a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php" target="_blank">'
+                        'https://modis.gsfc.nasa.gov/data/dataprod/mod13.php</a>) at 250 meter resolution for the '
+                        'period of 2001-2018 along with soil hydrological group data was used to calculate CN for each '
+                        'NHDPlus catchment. The CN calculation methodology was based on an earlier published study '
+                        '(<a href="https://www.sciencedirect.com/science/article/pii/S0301479718315433" target="_blank"> '
+                        'https://www.sciencedirect.com/science/article/pii/S0301479718315433</a>). More details on the '
+                        'HMS CN calculation methodology are available at '
+                        '(<a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve '
+                        'Number Development using Normalized Difference Vegetation Index</a>). CN Subsurface flow '
+                        'is calculated as a percentage of surface runoff calculated by Curve Number. '
+                        '<a href="https://www.epa.gov/national-aquatic-resource-surveys/streamcat" target="_blank">'
+                        'StreamCat</a> is used to determine percentage of subsurface flow.',
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "
                                  "by default daily, and 'monthly'. Aggregated surface baseflow data are the totals over these "

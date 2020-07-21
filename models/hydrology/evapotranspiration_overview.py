@@ -15,18 +15,20 @@ class Evapotranspiration:
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Evapotranspiration": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH "
-                               "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
-                               "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
-                               "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
-                               "average time delay of four days for data retrieval. NLDAS has data coverage from "
-                               "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Evapotranspiration": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide evapotranspiration and other meteorological "
-                               "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
-                               "data coverage from January 1, 2000 to present, with an average time delay of one month "
-                               "for data retrieval. GLDAS data are reported in UTC (GMT).",
+        "NLDAS Evapotranspiration": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                                    "Data Assimilation System (NLDAS)</a> combines North American radar "
+                                    "data and satellite data from CMORPH "
+                                    "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+                                    "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
+                                    "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
+                                    "average time delay of four days for data retrieval. NLDAS has data coverage from "
+                                    "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
+        "GLDAS Evapotranspiration": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                                    "Assimilation System (GLDAS)</a> combines satellite data and "
+                                    "ground-based observational data to provide evapotranspiration and other meteorological "
+                                    "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
+                                    "data coverage from January 1, 2000 to present, with an average time delay of one month "
+                                    "for data retrieval. GLDAS data are reported in UTC (GMT).",
         "Hamon": "The Hamon algorithm calculates Potential Evapotranspiration using temperature data obtained from "
                  "NLDAS or GLDAS. The following equations are used for the calculation of Hamon PET, where H is the number of daylight hours and T<sub>mean</sub> is the average daily temperature: <img src='/static_qed/hms/images/Hamon.png' alt='Hamon equations' style=''> The following table shows all parameters used and produced by the algorithm along "
                  "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
@@ -34,11 +36,11 @@ class Evapotranspiration:
                  "<td>hours</td><td>Output</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
                  "<td>Output</td></tr></table>",
         "Hargreaves": "The Hargreaves algorithm calculates Potential Evapotranspiration using temperature data obtained from "
-                 "NLDAS, GLDAS, or Daymet. The following equations are used for the calculation of Hargreaves PET, where H<sub>0</sub> is the extraterrestrial radiation in MJ m<sup>-2</sup> d<sup>-1</sup> and T<sub>mn</sub>, T<sub>mx</sub>, T<sub>av</sub> are the minimum, maximum, and average daily temperatures in celsius: <img src='/static_qed/hms/images/hargreaves.PNG' alt='Hargreaves equations' style=''> The following table shows all parameters used and produced by the algorithm along "
-                 "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
-                 "<tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td>"
-                 "<td>MJ m<sup>-2</sup> d<sup>-1</sup></td><td>Input</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
-                 "<td>Output</td></tr></table>",
+                      "NLDAS, GLDAS, or Daymet. The following equations are used for the calculation of Hargreaves PET, where H<sub>0</sub> is the extraterrestrial radiation in MJ m<sup>-2</sup> d<sup>-1</sup> and T<sub>mn</sub>, T<sub>mx</sub>, T<sub>av</sub> are the minimum, maximum, and average daily temperatures in celsius: <img src='/static_qed/hms/images/hargreaves.PNG' alt='Hargreaves equations' style=''> The following table shows all parameters used and produced by the algorithm along "
+                      "with their units:<br></p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th><th>Type</th></tr>"
+                      "<tr><td>Min/Max/Mean Temperature</td><td>Celsius</td><td>Input</td></tr><tr><td>Mean Solar Radiation</td>"
+                      "<td>MJ m<sup>-2</sup> d<sup>-1</sup></td><td>Input</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
+                      "<td>Output</td></tr></table>",
         "Penman": "The Penman algorithm calculates Potential Evapotranspiration using temperature, solar radiation, "
                   "specific humidity, and wind speed data obtained from NLDAS or GLDAS. Note that the Penman algorithm"
                   " also requires pressure data, which is only available from GLDAS, so GLDAS pressure data is used "

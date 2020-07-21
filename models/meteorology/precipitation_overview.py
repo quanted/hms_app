@@ -31,29 +31,34 @@ class Precipitation:
                                  " However, days with missing data will be excluded for all datasets when calculating"
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
-        "NCEI Precipitation": "The National Climatic Data Center (NCEI) provides precipitation data recorded at rain "
-                              "gauge stations. Stations are identified by their Station ID which includes the type of "
+        "NCEI Precipitation": "The <a href='https://www.ncdc.noaa.gov/' target='_blank'>National Climatic Data Center "
+                              "(NCEI)</a> provides precipitation data recorded at rain gauge stations. Stations are "
+                              "identified by their Station ID which includes the type of "
                               "station and the station number. Some stations have been recording data as far back as "
                               "1901 to present day. NCEI data are reported in local time zone.",
-        "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
+        "NLDAS Precipitation": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land Data "
+                               "Assimilation System (NLDAS)</a> combines North American radar "
                                "data and satellite data from CMORPH "
                                "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                                "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                                "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                                "average time delay of four days for data retrieval. NLDAS has data coverage from "
                                "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
+        "GLDAS Precipitation": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                               "Assimilation System (GLDAS)</a> combines satellite data and "
                                "ground-based observational data to provide precipitation and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "DAYMET Precipitation": "DAYMET is a daily dataset of rain gauge data that has been interpolated and extrapolated. "
+        "DAYMET Precipitation": "<a href='https://daymet.ornl.gov/' target='_blank'>DAYMET</a> is a daily dataset of "
+                                "rain gauge data that has been interpolated and extrapolated. "
                                 "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
                                 "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
                                 "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
                                 " discards values for December 31 from leap years to maintain a 365-day year. DAYMET data are reported in UTC (GMT).",
-        "PRISM Precipitation": "The Parameter-elevation Relationship on Independent Slopes Model (PRISM) is a combined "
-                               "dataset consisting of ground gauge station and RADAR products. The data is on a 4km grid "
+        "PRISM Precipitation": "The <a href='https://prism.oregonstate.edu/' target='_blank'>Parameter-elevation "
+                               "Relationship on Independent Slopes Model (PRISM)</a> is a combined dataset consisting "
+                               "of ground gauge station and RADAR products. The data is on a 4km grid "
                                "resolution covering the contiguous United States. Data is available from 1981 to present."
                                "PRISM data are reported in GMT (UTC).",
         # "WGEN Precipitation": "WGEN is a stochastic weather generator that statistically simulates precipitation. WGEN "
@@ -65,8 +70,9 @@ class Precipitation:
         # "NWM Precipitation": "The National Water Model simulates ovserved and forecast data for hydrologic modeling. "
         #                       "Data is available on 1km and 250m grids that provide coverage over various lookback ranges, "
         #                       "varying from 3 hours to 30 days depending on the dataset.",
-        "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
-                              "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
+        "TRMM Precipitation": "The <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission' "
+                              "target='_blank'>Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
+                              "(TRMM)</a> provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
                               "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
         "Temporal Aggregations": "The available temporal aggregations are dependent upon the native timestep size of the"
                                  " data source. Possible options include 'daily', for those sources which are not "

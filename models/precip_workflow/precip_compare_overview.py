@@ -72,20 +72,22 @@ class PrecipCompare:
                                      "bring up a table which contains the COMID, which is labeled as 'FeatureID' "
                                      "This ID contains commas, which will need to be removed when used in "
                                      "Precipitation Comparison Version 2.0.",
-        "NLDAS Precipitation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                               "data and satellite data from CMORPH "
+        "NLDAS Precipitation": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                               "Data Assimilation System (NLDAS)</a> combines North American radar data and satellite data from CMORPH "
                                "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                                "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                                "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                                "average time delay of four days for data retrieval. NLDAS has data coverage from "
                                "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT).",
-        "GLDAS Precipitation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                               "ground-based observational data to provide precipitation and other meteorological "
+        "GLDAS Precipitation": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                               "Assimilation System (GLDAS)</a> combines satellite data and ground-based observational "
+                               "data to provide precipitation and other meteorological "
                                "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                                "data coverage from January 1, 2000 to present, with an average time delay of one month "
                                "for data retrieval. GLDAS data are reported in UTC (GMT).",
-        "TRMM Precipitation": "The Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis Algorithm "
-                              "provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
+        "TRMM Precipitation": "The <a href='https://climatedataguide.ucar.edu/climate-data/trmm-tropical-rainfall-measuring-mission' "
+                              "target='_blank'>Tropical Rainfall Measuring Mission Multi-Satellite Precipitation Analysis "
+                              "Algorithm (TRMM)</a> provides precipitation estimates in specified TRMM regions from 1998 to 2019. The data is "
                               "presented in 3-hourly timesteps over a 0.25-degree spatial grid. TRMM data are reported in UTC (GMT).",
     }
 

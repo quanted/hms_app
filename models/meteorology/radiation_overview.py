@@ -18,21 +18,23 @@ class Radiation:
 
     # Data source algorithms and brief description
     algorithms = {
-        "NLDAS Radiation": "The North American Land Data Assimilation System (NLDAS) combines North American radar "
-                           "data and satellite data from CMORPH "
-                           "(<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
+        "NLDAS Radiation": "The <a href='https://ldas.gsfc.nasa.gov/nldas' target='_blank'>North American Land "
+                           "Data Assimilation System (NLDAS)</a> combines North American radar data and satellite data "
+                           "from CMORPH (<a href='https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html' "
                            "target='_blank'>https://www.cpc.ncep.noaa.gov/products/janowiak/cmorph_description.html</a>). "
                            "NLDAS has a one-hour time step on a 0.125-degree grid of North America, with an "
                            "average time delay of four days for data retrieval. NLDAS has data coverage from "
                            "January 1, 1979 to the present. NLDAS data are reported in UTC (GMT). Temporal aggregations "
                            "are provided as averages calculated from smaller timesteps.",
-        "GLDAS Radiation": "The Global Land Data Assimilation System (GLDAS) combines satellite data and "
-                           "ground-based observational data to provide radiation and other meteorological "
+        "GLDAS Radiation": "The <a href='https://ldas.gsfc.nasa.gov/gldas' target='_blank'>Global Land Data "
+                           "Assimilation System (GLDAS)</a> combines satellite data and ground-based observational "
+                           "data to provide radiation and other meteorological "
                            "parameters. GLDAS has a three-hour time step on a global 0.25-degree grid. GLDAS-2.1 provides "
                            "data coverage from January 1, 2000 to present, with an average time delay of one month "
                            "for data retrieval. GLDAS data are reported in UTC (GMT). Temporal aggregations "
                            "are provided as averages calculated from smaller timesteps.",
-        "DAYMET Radiation": "DAYMET is a daily dataset of radiation data that has been interpolated and extrapolated. "
+        "DAYMET Radiation": "<a href='https://daymet.ornl.gov/' target='_blank'>DAYMET</a> is a daily dataset of "
+                            "radiation data that has been interpolated and extrapolated. "
                             "DAYMET uses ground station data with their model algorithm to produce gridded estimates "
                             "of daily weather parameters. The interpolated spatial resolution is about a 0.009-degree "
                             "grid over North America. Data is accessible since 1980 to the latest full year. DAYMET"
