@@ -78,7 +78,7 @@ def flask_proxy(request, flask_url):
         raise Http404
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "GET"])
 def flask_proxy_v3(request, model):
     if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
         proxy_url = "http://localhost:7777" + "/hms/proxy/" + model

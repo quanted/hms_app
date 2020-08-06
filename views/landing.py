@@ -8,11 +8,14 @@ import hms_app.views.links_left as links_left
 import os
 from django.conf import settings
 
+external_sources = ["nldas", "gldas", "ncei", "daymet", "prism", "trmm"]
+
 
 def hms_landing_page(request):
     page_title = "HMS: Hydrologic Micro Services"
     keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
     imports = render_to_string('hms_default_imports.html')
+    imports += render_to_string('hms_landing_imports.html')
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
@@ -28,7 +31,9 @@ def hms_landing_page(request):
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='hms', submodel=None)
     # page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
-    page_text = render_to_string("hms_landing_body.html")
+    page_text = render_to_string("hms_landing_body.html", {
+        'SOURCE_LIST': external_sources
+    })
 
     html += render_to_string('05hms_body_start.html', {
         'TITLE': "HMS Introduction",
