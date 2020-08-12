@@ -208,7 +208,7 @@ class EvapotranspirationFormInput(HydrologyFormInput):
             'title': 'Evapotranspiration data source.'
         }),
         label='Weather Data Source',
-        choices=(('nldas', 'nldas'), ('gldas', 'gldas'), ('daymet', 'daymet')),
+        choices=(('nldas', 'nldas'), ('daymet', 'daymet')),
         initial='NLDAS'
     )
     algorithm = forms.ChoiceField(

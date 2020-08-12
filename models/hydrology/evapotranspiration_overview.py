@@ -42,7 +42,7 @@ class Evapotranspiration:
                       "<td>MJ m<sup>-2</sup> d<sup>-1</sup></td><td>Input</td></tr><tr><td>Potential Evapotranspiration</td><td>in/day</td>"
                       "<td>Output</td></tr></table>",
         "Penman": "The Penman algorithm calculates Potential Evapotranspiration using temperature, solar radiation, "
-                  "specific humidity, and wind speed data obtained from NLDAS or GLDAS. Note that the Penman algorithm"
+                  "specific humidity, and wind speed data obtained from NLDAS. Note that the Penman algorithm"
                   " also requires pressure data, which is only available from GLDAS, so GLDAS pressure data is used "
                   "regardless of the chosen data source. The images below show the main Penman ET equation as well as the equations used to calculate the individual parameters: <img src='/static_qed/hms/images/penman.png' alt='Penman equations' style=''><br><img src='/static_qed/hms/images/penmansub.PNG' alt='Penman subequations' style=''><br> where &Delta; is the slope of the saturation vapor pressure-temperature curve (kPa &deg;C<sup>-1</sup>), H<sub>net</sub> is the net radiation (MJ m<sup>-2</sup> d<sup>-1</sup>), G is the heat flux density (MJ m<sup>-2</sup> d<sup>-1</sup>), &rho;<sub>air</sub> is the air density (kg m<sup>-3</sup>), c<sub>p</sub> is the specific heat (MJ kg<sup>-1</sup> &deg;C<sup>-1</sup>), e<sup>0</sup><sub>z</sub> is the saturation vapor pressure (kPa), e<sub>z</sub> is the water vapor pressure (kPa), &gamma; is the psychrometric constant (kPa &deg;C<sup>-1</sup>), r<sub>c</sub> is the plant canopy resistance (sm<sup>-1</sup>), r<sub>a</sub> is the diffusion resistance (sm<sup>-1</sup>), and T<sub>mean</sub> is the average daily temperature (&deg;C). The following table shows all parameters used and produced by the algorithm along with their units:"
                   "</p><table><tr><th><b>Parameter</b></th><th><b>Units</b></th>"
@@ -90,7 +90,7 @@ class Evapotranspiration:
          ],
         ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
         ["Weather Data Source", "Drop-down list",
-         "Weather time-series data source", "Used only when selected Algorithm is not nldas or gldas. Valid options:nldas, gldas, daymet"],
+         "Weather time-series data source", "Used only when selected Algorithm is not nldas or gldas. Valid options:nldas, daymet"],
         ["Location Option", "Drop-down list", "Location of interest options.",
          "Valid options: Latitude/Longitude, Catchment Centroid. Output time-series is returned for the latitude/longitude at the centroid of the NHDPlusV2.1 catchment when 'catchment (COMID)' is selected."],
         ["Latitude", "Number", "Latitude coordinate for the output timeseries. e.g., 33.925575",
