@@ -80,6 +80,7 @@ def ordered_list(model, submodel, page=None):
             ]))
         ])
     return render_to_string(template_file,
+
                             {
                                 'LINK_DICT': link_dict,
                                 'MODEL': model,
