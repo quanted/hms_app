@@ -24,7 +24,7 @@ class Temperature:
                                  " with missing data will be indicated in the output time series with values of -9999."
                                  " However, days with missing data will be excluded for all datasets when calculating"
                                  " statistics. ",
-        "NCEI Temperature": "<a href='https://www.ncdc.noaa.gov/' target='_blank'>National Climatic Data Center "
+        "NCEI Temperature": "<a href='https://www.ncdc.noaa.gov/' target='_blank'>National Centers for Environmental Information "
                             "(NCEI)</a> provides temperature data recorded at gauge stations. Stations "
                             "are identified by their Station ID which includes the type of "
                             "station and the station number. Some stations have been recording data as far back as "

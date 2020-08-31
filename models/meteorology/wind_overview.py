@@ -26,7 +26,7 @@ class Wind:
                                  " However, days with missing data will be excluded for all datasets when calculating"
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
-        "NCEI Wind": "The <a href='https://www.ncdc.noaa.gov/' target='_blank'>National Climatic Data Center "
+        "NCEI Wind": "The <a href='https://www.ncdc.noaa.gov/' target='_blank'>National Centers for Environmental Information "
                      "(NCEI)</a> provides wind data recorded at rain gauge stations. Stations are identified "
                      "by their Station ID which includes the type of "
                      "station and the station number. Some stations have been recording data as far back as "
