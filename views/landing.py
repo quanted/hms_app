@@ -19,14 +19,14 @@ def hms_landing_page(request):
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    notpublic = True
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': page_title,
         'URL': str(request.get_host) + request.path,
         'KEYWORDS': keywords,
         'IMPORTS': imports,
-        'NOTPUBLIC': notpublic,
+        'NOTPUBLIC': not ispublic,
         'DISCLAIMER': disclaimer_text
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='hms', submodel=None)
