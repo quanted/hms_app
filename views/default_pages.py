@@ -28,14 +28,15 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    notpublic = True if request.path not in public_modules else False
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    # notpublic = True if request.path not in public_modules else False
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
         'URL': str(request.get_host) + request.path,
         'KEYWORDS': keywords,
         'IMPORTS': imports,
-        'NOTPUBLIC': notpublic,
+        'NOTPUBLIC': not ispublic,
         'DISCLAIMER': disclaimer_text
     })
     html += links_left.ordered_list(model=model, submodel=submodel)
