@@ -58,6 +58,169 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
     return html
 
 
+def build_overview_page(request, model, submodule, title=None, import_block=None, description=None):
+    """
+    Compiles model/submodule overview page for hms
+    :param request:
+    :param model:
+    :param submodule:
+    :param title:
+    :param import_block:
+    :param description:
+    :return:
+    """
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA" + model + "," + submodule
+    imports = render_to_string('hms_default_imports.html')
+    if import_block is not None:
+        imports += import_block
+
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Hydrologic Micro Services",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports,
+        'NOTPUBLIC': not ispublic,
+        'DISCLAIMER': disclaimer_text
+    })
+    html += links_left.ordered_list(model=model, submodel=submodule)
+    html += render_to_string('hms_submodule_overview_r01.html', {
+        'TITLE': title,
+        'MODEL': model,
+        'SUBMODEL': submodule,
+        'DESCRIPTION': description,
+    })
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
+def build_input_page(request, model, submodule, title=None, import_block=None, input_block=None):
+    """
+    Compiles model/submodule data request page for hms
+    :param request:
+    :param model:
+    :param submodule:
+    :param title:
+    :param import_block:
+    :param description:
+    :return:
+    """
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA" + model + "," + submodule
+    imports = render_to_string('hms_default_imports.html')
+    if import_block is not None:
+        imports += import_block
+
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Hydrologic Micro Services",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports,
+        'NOTPUBLIC': not ispublic,
+        'DISCLAIMER': disclaimer_text
+    })
+    html += links_left.ordered_list(model=model, submodel=submodule)
+    html += render_to_string('hms_submodule_data_request_r01.html', {
+        'TITLE': title,
+        'MODEL': model,
+        'SUBMODEL': submodule,
+        'INPUT_FORM': input_block,
+    })
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
+def build_algorithms_page(request, model, submodule, title=None, import_block=None, algorithms=None):
+    """
+    Compiles model/submodule algorithms page for hms
+    :param request:
+    :param model:
+    :param submodule:
+    :param title:
+    :param import_block:
+    :param description:
+    :return:
+    """
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA" + model + "," + submodule
+    imports = render_to_string('hms_default_imports.html')
+    if import_block is not None:
+        imports += import_block
+
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Hydrologic Micro Services",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports,
+        'NOTPUBLIC': not ispublic,
+        'DISCLAIMER': disclaimer_text
+    })
+    html += links_left.ordered_list(model=model, submodel=submodule)
+    html += render_to_string('hms_submodule_algorithms_r01.html', {
+        'TITLE': title,
+        'MODEL': model,
+        'SUBMODEL': submodule,
+        'ALGORITHMS': algorithms,
+    })
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+def build_output_page(request, model, submodule, title=None, import_block=None, task_id=None):
+    """
+    Compiles model/submodule data request page for hms
+    :param request:
+    :param model:
+    :param submodule:
+    :param title:
+    :param import_block:
+    :param description:
+    :return:
+    """
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA" + model + "," + submodule
+    imports = render_to_string('hms_default_imports.html')
+    if import_block is not None:
+        imports += import_block
+
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': "HMS: Hydrologic Micro Services",
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports,
+        'NOTPUBLIC': not ispublic,
+        'DISCLAIMER': disclaimer_text
+    })
+    html += links_left.ordered_list(model=model, submodel=submodule)
+    html += render_to_string('hms_submodule_output_r01.html', {
+        'TITLE': title,
+        'MODEL': model,
+        'SUBMODEL': submodule,
+        'TASK_ID': task_id,
+    })
+    html += render_to_string('06hms_body_end.html')
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    return html
+
+
 def build_map_model_page(request, model, submodel, title=None, import_block=None, description=None, input_block=None, algorithms=None):
     """
     Compiles model/submodel map page for hms
