@@ -7,7 +7,8 @@ from . import hydrology_submodels as hydro_submodels
 from . import hydrology_submodels_algorithms as hydro_submodel_algor
 import hms_app.models.precip_workflow.precip_compare_overview as precip_compare
 import hms_app.models.precip_workflow.precip_extraction_overview as precip_extract
-from hms_app.models.precip_workflow import precip_compare_parameters as pcp
+import hms_app.models.precip_workflow.precip_compare_parameters as pcp
+import hms_app.models.workflow.streamflow_overview as streamflow
 from . import precip_compare_setup
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -41,8 +42,12 @@ def get_overview(request, model=None, submodule=None):
         import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
         description = hydro_submodels.get_submodel_description(p, submodule)
     elif model == "workflow":
-        import_block = render_to_string("workflow/precip_workflow_imports.html", {'SUBMODEL': submodule})
-        description = precip_compare_setup.build_overview_page(p, submodule)
+        if submodule == "streamflow":
+            import_block = render_to_string('workflow/hms_workflow_imports.html')
+            description = streamflow.Streamflow.description
+        else:
+            import_block = render_to_string("workflow/precip_workflow_imports.html", {'SUBMODEL': submodule})
+            description = precip_compare_setup.build_overview_page(p, submodule)
     else:
         return error_404_page(request)
     html = build_overview_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, description=description)
@@ -86,6 +91,9 @@ def get_data_request(request, model=None, submodule=None):
             input_form = pcp.PrecipitationCompareFormInput()
             input = render_to_string('04hms_input_form.html', {'FORM': input_form})
             input_block = render_to_string('04hms_precipcompare_input.html', {'INPUT': input})
+        elif submodule == "streamflow":
+            import_block = render_to_string('workflow/hms_workflow_imports.html')
+            input_block = render_to_string('workflow/hms_workflow_input_body.html')
         else:
             return error_404_page(request)
     else:
@@ -126,6 +134,10 @@ def get_algorithms(request, model=None, submodule=None):
         elif submodule == "precip_data_extraction":
             algorithms = render_to_string('hms_submodel_algorithms.html',
                                          {"ALGORITHMS": precip_extract.PrecipExtract.algorithms})
+        elif submodule == "streamflow":
+            import_block = render_to_string('workflow/hms_workflow_imports.html')
+            algorithms = render_to_string('hms_submodel_algorithms.html',
+                                          {"ALGORITHMS":  streamflow.Streamflow.algorithms})
         else:
             return error_404_page(request)
     else:
@@ -134,6 +146,7 @@ def get_algorithms(request, model=None, submodule=None):
     response = HttpResponse()
     response.write(html)
     return response
+
 
 def get_output_request(request, model=None, submodule=None, task_id=None):
     """
@@ -149,11 +162,17 @@ def get_output_request(request, model=None, submodule=None, task_id=None):
     print("hms page request, model: " + model + "; submodule: " + submodule)
 
     title = "{} - {}".format(model.capitalize(), submodule.replace("_", " ").capitalize())
+    output_block = None
+    advanced = False
     if model == "workflow":
         import_block = render_to_string("workflow/precip_workflow_imports.html", {'SUBMODEL': submodule})
+        if submodule == "streamflow":
+            import_block = render_to_string('workflow/hms_workflow_imports.html')
+            output_block = render_to_string("workflow/hms_workflow_output_body.html")
+            advanced = True
     else:
         import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
-    html = build_output_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, task_id=task_id)
+    html = build_output_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, task_id=task_id, output_block=output_block, advanced=advanced)
     response = HttpResponse()
     response.write(html)
     return response

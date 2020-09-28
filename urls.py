@@ -13,7 +13,7 @@ urlpatterns = [
 
     # path('workflow/precip_compare/', precip_compare_setup.precip_compare_page),
     # path('workflow/precip_data_extraction/', precip_compare_setup.precip_extraction_page),
-    path('workflow/streamflow/', watershed_map.hms_workflow_page),
+    # path('workflow/streamflow/', watershed_map.hms_workflow_page),
 
     path('docs/', documentation.docs_page),
     path('contact/', contact.contact_page),

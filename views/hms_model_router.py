@@ -40,6 +40,7 @@ def component_page(request, model=None, submodel=None):
     if model == "workflow":
         input_block = None
         algorithm = None
+        title = "{}".format(model.capitalize())
         description = wo.Workflow.description
     elif model == "meteorology":
         description = met_submodels.get_submodel_description(p, submodel)
