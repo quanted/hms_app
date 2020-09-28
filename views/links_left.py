@@ -18,6 +18,13 @@ def ordered_list(model, submodel, page=None):
     template_file = 'hms_links_left.html'
     # current_env = os.environ.get("ENV_NAME")
     link_dict = OrderedDict([
+        ('Documentation', OrderedDict([
+            ('Documentation', 'header'),
+            ('Publications', 'docs/'),
+            ('Version History', 'version_history/'),
+            ('Help', 'help/'),
+            ('OpenAPI', 'api_doc/')
+        ])),
         ('Work Flows', OrderedDict([
             ('Work Flows', 'workflow/overview/'),
             ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
@@ -38,12 +45,6 @@ def ordered_list(model, submodel, page=None):
             ('Surface Runoff', 'hydrology/surfacerunoff/'),
             ('Soil Moisture', 'hydrology/soilmoisture/'),
             ('Subsurface Flow', 'hydrology/subsurfaceflow/')
-        ])),
-        ('Documentation', OrderedDict([
-            ('Documentation', 'api_doc/'),
-            ('Publications', 'docs/'),
-            ('Version History', 'version_history/'),
-            ('Help', 'help/')
         ]))
     ])
     return render_to_string(template_file,
