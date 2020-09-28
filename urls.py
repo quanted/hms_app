@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('api_doc/', api_doc.create_swagger_docs),
     path('api_doc/swagger/', api_doc.get_swagger_json),
-    path('<slug:model>/', hms_model_router.component_page),
+    # path('<slug:model>/', hms_model_router.component_page),
 
     re_path('rest/api/v2/(?P<flask_url>.*?)/?$', hms_rest_api.flask_proxy),
     re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),

@@ -58,7 +58,7 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
     return html
 
 
-def build_overview_page(request, model, submodule, title=None, import_block=None, description=None, links_left=None):
+def build_overview_page(request, model, submodule, title=None, import_block=None, description=None, links_left=None, top=False):
     """
     Compiles model/submodule overview page for hms
     :param request:
@@ -90,12 +90,18 @@ def build_overview_page(request, model, submodule, title=None, import_block=None
         html += links_left
     else:
         html += ll.ordered_list(model=model, submodel=submodule)
-    html += render_to_string('hms_submodule_overview_r01.html', {
-        'TITLE': title,
-        'MODEL': model,
-        'SUBMODEL': submodule,
-        'DESCRIPTION': description,
-    })
+    if top:
+        html += render_to_string("hms_module_overview_r01.html", {
+            "TITLE": title,
+            "DESCRIPTION": description
+        })
+    else:
+        html += render_to_string('hms_submodule_overview_r01.html', {
+            'TITLE': title,
+            'MODEL': model,
+            'SUBMODEL': submodule,
+            'DESCRIPTION': description,
+        })
     html += render_to_string('06hms_body_end.html')
     html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
     html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer

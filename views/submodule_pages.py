@@ -8,6 +8,7 @@ from . import hydrology_submodels_algorithms as hydro_submodel_algor
 import hms_app.models.precip_workflow.precip_compare_overview as precip_compare
 import hms_app.models.precip_workflow.precip_extraction_overview as precip_extract
 import hms_app.models.precip_workflow.precip_compare_parameters as pcp
+import hms_app.models.workflow.workflow_overview as workflow
 import hms_app.models.workflow.streamflow_overview as streamflow
 from . import precip_compare_setup
 from django.http import HttpResponse
@@ -35,22 +36,30 @@ def get_overview(request, model=None, submodule=None):
 
     title = "{} - {}".format(model.capitalize(), submodule.replace("_", " ").capitalize())
     p = request.scheme + "://" + request.get_host()
+    import_block = None
+    top = False
+    if submodule == "overview":
+        top = True
     if model == "meteorology":
-        import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
+        if submodule != "overview":
+            import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
         description = met_submodels.get_submodel_description(p, submodule)
     elif model == "hydrology":
-        import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
+        if submodule != "overview":
+            import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
         description = hydro_submodels.get_submodel_description(p, submodule)
     elif model == "workflow":
         if submodule == "streamflow":
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             description = streamflow.Streamflow.description
+        elif submodule == "overview":
+            description = workflow.Workflow.description
         else:
             import_block = render_to_string("workflow/precip_workflow_imports.html", {'SUBMODEL': submodule})
             description = precip_compare_setup.build_overview_page(p, submodule)
     else:
         return error_404_page(request)
-    html = build_overview_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, description=description)
+    html = build_overview_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, description=description, top=top)
     response = HttpResponse()
     response.write(html)
     return response
