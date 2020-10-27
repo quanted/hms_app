@@ -13,18 +13,24 @@ class PrecipCompare:
                   "national sources.  NCIE station data are compared with data from a user selected subset of gridded " \
                   "data sources.  The three gridded data sources available for selection are NLDAS, GLDAS, and TRMM. " \
                   "The workflow underneath uses HMS Precipitation Data Extraction workflow to retrieve and format " \
-                  "precipitation data.<br \> " \
+                  "precipitation data.<br \><br \> " \
+                  "The workflow produces summary statistics for each of the data sources along with statistics comparing " \
+                  "gridded sources with NCEI. The time series of data downloaded for the time period and location can " \
+                  "be downloaded as a CSV or JSON.<br \><br \>" \
+                  "<h4>Selecting an Area of Interest</h4>" \
                   "Location can be specified as NHDPlus COMID or NCEI station ID.  If NCEI station is selected as the " \
                   "location, then data from the user supplied Station ID are compared with user selected gridded " \
                   "data sources at the location of the NCEI station. The workflow provides the option of spatial " \
                   "aggregation of gridded precipitation data when NHDPlus COMID is selected as the location.  " \
                   "Percentage of each grid cell covering the COMID catchment is calculated and used in averaging of " \
-                  "the data for the catchment.  The workflow also lets the user specify an NCEI station ID when " \
+                  "the data for the catchment.<br \><br \>" \
+                  "The workflow also lets the user specify an NCEI station ID when " \
                   "NHDPlus COMID is selected as the location.  If the user opts not to specify an NCEI station ID, " \
                   "then the workflow finds and uses the NCEI station closest to the NHDPlus COMID catchment centroid.  " \
                   "When NHDPlus COMID is selected it should be noted that the NCEI station used in comparison may not " \
                   "lie in the same time zone as the COMID catchment and that the workflow doesn’t account for the " \
                   "incompatibility of time zones.<br \>" \
+                  "<h4>Timezone of the time-series</h4>" \
                   "The workflow converts time-series from GMT to local time-zone for NLDAS, GLDAS, and TRMM to " \
                   "compare with NCIE time-series which is in local time. A uniform distribution of values is " \
                   "assumed within a time step for gridded data sources when converting to local time zone. " \
@@ -36,10 +42,10 @@ class PrecipCompare:
     # Data source algorithms and brief description
     algorithms = {
         "Precipitation Comparison Algorithms": "This workflow will collect precipitation data from a given NCEI Station"
-                                               " and compare it to data obtained from NLDAS, GLDAS, Dayment, and/or"
-                                               " PRISM, depending on the user''s preference. The comparison presents"
+                                               " and compare it to data obtained from NLDAS, GLDAS, and/or"
+                                               " TRMM, depending on the user''s preference. The comparison presents"
                                                " relevant metadata, a time series graph, the Pearson's Correlation"
-                                               " Matrix, Co-variance, GORE, and a table of statistics performed on each datasets.'<br></br>"
+                                               " Matrix, Co-variance, GORE, and a table of statistics performed on each dataset.'<br></br>"
                                                "<p>The user can specify an NHDPlus COMID (catchment) or NCEI Station"
                                                " ID for data retrieval. If only a COMID is provided, data from the"
                                                " nearest NCEI Station will be used. If both a COMID and NCEI Station"
@@ -58,7 +64,7 @@ class PrecipCompare:
                                  " statistics. For extreme event aggregation, missing data will be replaced by the mean"
                                  " of the other datasets, or with 0 if the mean is negative.",
         "Obtaining NCEI Station IDs": "<a href='https://www.ncdc.noaa.gov/cdo-web/datatools/findstation'> A map of NCEI"
-                                      " Stations can be found here.</a> The Station ID, Name, Location, and Dates can "
+                                      " Stations can be found here.</a> <a class=\"exit-disclaimer\" href=\"https://epa.gov/home/exit-epa\" title=\"EPA's External Link Disclaimer\">Exit</a> The Station ID, Name, Location, and Dates can "
                                       "be found by clicking on the map icon. Some stations may not show up until the "
                                       "map is zoomed into that location. It is recommended that you use NCEI Stations "
                                       "that support the 'Normals Daily' Precipitation Dataset, although stations that "
