@@ -16,7 +16,7 @@ class PrecipCompare:
                   "precipitation data.<br \><br \> " \
                   "The workflow produces summary statistics for each of the data sources along with statistics comparing " \
                   "gridded sources with NCEI. The time series of data downloaded for the time period and location can " \
-                  "be downloaded as a CSV or JSON.<br \><br \>" \
+                  "be downloaded as a CSV or JSON.<br \>" \
                   "<h4>Selecting an Area of Interest</h4>" \
                   "Location can be specified as NHDPlus COMID or NCEI station ID.  If NCEI station is selected as the " \
                   "location, then data from the user supplied Station ID are compared with user selected gridded " \
@@ -30,7 +30,7 @@ class PrecipCompare:
                   "When NHDPlus COMID is selected it should be noted that the NCEI station used in comparison may not " \
                   "lie in the same time zone as the COMID catchment and that the workflow doesn’t account for the " \
                   "incompatibility of time zones.<br \>" \
-                  "<h4>Timezone of the time-series</h4>" \
+                  "<h4>Timezone of the Time-Series</h4>" \
                   "The workflow converts time-series from GMT to local time-zone for NLDAS, GLDAS, and TRMM to " \
                   "compare with NCIE time-series which is in local time. A uniform distribution of values is " \
                   "assumed within a time step for gridded data sources when converting to local time zone. " \
