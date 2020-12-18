@@ -48,6 +48,7 @@ def pass_through_proxy(request, module):
         hms_request = requests.request("post", proxy_url, json=data, timeout=120)
         return HttpResponse(hms_request, content_type="application/json")
     elif method == "GET":
+        proxy_url += "?" + request.GET.urlencode()
         hms_request = requests.request("get", proxy_url, timeout=120)
         return HttpResponse(hms_request, content_type="application/json")
     else:
