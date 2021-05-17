@@ -12,7 +12,7 @@ REST endpoints for HMS django frontend and proxy functions
 """
 
 request_header = {"User-Agent": "Mozilla/5.0"}
-
+timeout = 300
 
 @require_GET
 def delineate_watershed(request):
@@ -45,11 +45,11 @@ def pass_through_proxy(request, module):
                     "POST Data ERROR": "POST request body was not valid or the type specified was not json. Error message: " + str(e)
                 }
             )
-        hms_request = requests.request("post", proxy_url, json=data, timeout=120)
+        hms_request = requests.request("post", proxy_url, json=data, timeout=timeout)
         return HttpResponse(hms_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
-        hms_request = requests.request("get", proxy_url, timeout=120)
+        hms_request = requests.request("get", proxy_url, timeout=timeout)
         return HttpResponse(hms_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
@@ -68,11 +68,11 @@ def flask_proxy(request, flask_url):
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, data=request.POST, timeout=120)
+        flask_request = requests.request("post", proxy_url, data=request.POST, timeout=timeout)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
-        flask_request = requests.request("get", proxy_url, timeout=120)
+        flask_request = requests.request("get", proxy_url, timeout=timeout)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
@@ -97,7 +97,7 @@ def flask_proxy_v3(request, model):
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, json=data, timeout=120, headers=request_header)
+        flask_request = requests.request("post", proxy_url, json=data, timeout=timeout, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
