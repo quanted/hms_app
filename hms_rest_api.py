@@ -1,5 +1,5 @@
 from json import JSONDecodeError
-from django.http import HttpResponse, Http404, JsonResponse
+from django.http import HttpResponse, Http404, JsonResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -53,7 +53,7 @@ def pass_through_proxy(request, module):
         return HttpResponse(hms_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
-        raise Http404
+        raise HttpResponseNotAllowed
 
 
 @csrf_exempt
@@ -67,8 +67,15 @@ def flask_proxy(request, flask_url):
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
+        if len(request.POST) == 0:
+            try:
+                data = json.loads(request.body)
+            except JSONDecodeError:
+                return HttpResponseBadRequest
+        else:
+            data = request.POST
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, data=request.POST, timeout=timeout)
+        flask_request = requests.request("post", proxy_url, json=data, timeout=timeout)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
@@ -76,7 +83,7 @@ def flask_proxy(request, flask_url):
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
-        raise Http404
+        raise HttpResponseNotAllowed
 
 @csrf_exempt
 @require_http_methods(["POST", "GET"])
@@ -93,7 +100,7 @@ def flask_proxy_v3(request, model):
             try:
                 data = json.loads(request.body)
             except JSONDecodeError:
-                return Http404
+                return HttpResponseBadRequest
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
@@ -101,4 +108,4 @@ def flask_proxy_v3(request, model):
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
-        raise Http404
+        raise HttpResponseNotAllowed
