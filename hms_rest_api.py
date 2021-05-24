@@ -69,13 +69,13 @@ def flask_proxy(request, flask_url):
     if method == "POST":
         if len(request.POST) == 0:
             try:
-                data = json.loads(request.body)
+                data = json.loads(request.body.decode("utf-8"))
             except JSONDecodeError:
                 return HttpResponseBadRequest
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
-        flask_request = requests.request("post", proxy_url, json=data, timeout=timeout)
+        flask_request = requests.request("post", proxy_url, json=data, timeout=timeout, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
