@@ -1,6 +1,7 @@
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.urls import path, re_path
-from .views import landing, watershed_map, workflow_setup
+from .views import landing, watershed_map, workflow_setup, webapp
+from django.contrib.staticfiles.views import serve
 from .views import precip_compare_setup, api_doc, documentation, hms_model_router, contact, default_pages, help_page, version_history, submodule_pages
 from . import hms_rest_api
 
@@ -35,6 +36,11 @@ urlpatterns = [
     path('<slug:model>/<slug:submodule>/output_data/', submodule_pages.get_output_request),
     path('<slug:model>/<slug:submodule>/output_data/<slug:task_id>/', submodule_pages.get_output_request),
     path('<slug:model>/<slug:submodule>/algorithms/', submodule_pages.get_algorithms),
+
+    re_path(r'^([A-Za-z]*)$', webapp),
+    re_path(r'^(?P<path>.*)$', serve),
+    re_path(r'^assets/(?P<path>.*)$', serve),
+    re_path(r'^leaflet/(?P<path>.*)$', serve),
 ]
 
 # 404 Error view (file not found)
