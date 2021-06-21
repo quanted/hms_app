@@ -37,10 +37,8 @@ urlpatterns = [
     path('<slug:model>/<slug:submodule>/output_data/<slug:task_id>/', submodule_pages.get_output_request),
     path('<slug:model>/<slug:submodule>/algorithms/', submodule_pages.get_algorithms),
 
-    re_path(r'^([A-Za-z]*)$', webapp),
-    re_path(r'^(?P<path>.*)$', serve),
-    re_path(r'^assets/(?P<path>.*)$', serve),
-    re_path(r'^leaflet/(?P<path>.*)$', serve),
+    path('webapp/', webapp.webapp_view),
+    re_path(r'^webapp/([A-Za-z]*)/$', webapp.webapp_view),
 ]
 
 # 404 Error view (file not found)
