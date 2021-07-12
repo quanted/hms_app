@@ -16,7 +16,7 @@ description = "<p>HMS hydrology components include evapotranspiration, soil mois
 unknown_description = '<p>There is nothing for you here!</p>'
 
 subsurfaceflow_description = "<p>Subsurface flow is the flow of water beneath the Earth's surface in both the" \
-                             " unsaturated and saturated zones. </p>" \
+                             " unsaturated and saturated zones. </p>"
 
 precipitation_description = "<p>Precipitation description placeholder... </p>"
 
@@ -40,7 +40,7 @@ surfacerunoff_description = "<p>Surface runoff is classified as precipitation th
                             " intensity. Runoff is a major transporter of chemicals, pesticides, and sediments." \
                             " Runoff affects flooding, erosion, chemical concentrations, and can be classified as a" \
                             " potential source of contamination of surface waters and a nonpoint source of" \
-                            " pollution.</p>" \
+                            " pollution.</p>"
 
 
 subsurfaceflow_algorithm_description = "<p>The subsurface flow algorithm goes here"
@@ -63,4 +63,4 @@ surfacerunoff_algorithm_description = "<p><b>NLDAS/GLDAS Surface Runoff:</b> Use
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall" \
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff." \
                             " This empirical method assumes the actual runoff to potential runoff is equal to the" \
-                            " ratio of actual to potential retention. </p>" \
+                            " ratio of actual to potential retention. </p>"

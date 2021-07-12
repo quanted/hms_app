@@ -49,7 +49,7 @@ def pass_through_proxy(request, module):
         return HttpResponse(hms_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
-        hms_request = requests.request("get", proxy_url, timeout=timeout)
+        hms_request = requests.request("get", proxy_url, timeout=timeout, )
         return HttpResponse(hms_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
@@ -69,12 +69,18 @@ def flask_proxy(request, flask_url):
     if method == "POST":
         if len(request.POST) == 0:
             try:
-                data = json.loads(request.body.decode("utf-8"))
-            except JSONDecodeError:
-                return HttpResponseBadRequest
+                request_body = (request.body.decode("utf-8")).replace('\t', '').replace('\r\n', '')
+                # print(f"TYPE1: {type(request_body)}")
+                if type(request_body) == str:
+                    data = json.loads(request_body)
+                else:
+                    data = request_body
+            except JSONDecodeError as e:
+                return HttpResponseBadRequest(content=f"{e}".encode("utf-8"))
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
+        # print(f"TYPE2: {type(data)}")
         flask_request = requests.request("post", proxy_url, json=data, timeout=timeout, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
@@ -100,7 +106,7 @@ def flask_proxy_v3(request, model):
             try:
                 data = json.loads(request.body)
             except JSONDecodeError:
-                return HttpResponseBadRequest
+                return HttpResponseBadRequest()
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
