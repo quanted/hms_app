@@ -57,7 +57,7 @@ def pass_through_proxy(request, module):
 
 
 @csrf_exempt
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["GET", "POST", "DELETE"])
 def flask_proxy(request, flask_url):
     if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
         proxy_url = "http://localhost:7777" + "/" + flask_url
@@ -86,6 +86,10 @@ def flask_proxy(request, flask_url):
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
         flask_request = requests.request("get", proxy_url, timeout=timeout)
+        return HttpResponse(flask_request, content_type="application/json")
+    elif method == "DELETE":
+        proxy_url += "/?" + request.GET.urlencode()
+        flask_request = requests.request("delete", proxy_url, timeout=timeout)
         return HttpResponse(flask_request, content_type="application/json")
     else:
         print("Django to Flask proxy url invalid.")
