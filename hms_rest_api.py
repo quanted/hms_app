@@ -86,7 +86,12 @@ def flask_proxy(request, flask_url):
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
         flask_request = requests.request("get", proxy_url, timeout=timeout)
-        return HttpResponse(flask_request, content_type="application/json")
+        headers = flask_request.headers
+        del headers["Content-Type"]
+        response_type = flask_request.headers.get('content-type')
+        if not response_type:
+            response_type = "application/json"
+        return HttpResponse(flask_request, content_type=response_type, headers=headers)
     elif method == "DELETE":
         proxy_url += "/?" + request.GET.urlencode()
         flask_request = requests.request("delete", proxy_url, timeout=timeout)
