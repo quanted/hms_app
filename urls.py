@@ -30,15 +30,16 @@ urlpatterns = [
     re_path('rest/api/v3/(?P<model>.*?)/?$', hms_rest_api.flask_proxy_v3),
     re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
+    path('webapp/', webapp.webapp_view),
+    path('webapp/home/', webapp.redirect_view),
+    # re_path(r'^webapp/([A-Za-z]*)/$', webapp.webapp_view),
+
     path('<slug:model>/<slug:submodule>/', submodule_pages.get_overview),
     path('<slug:model>/<slug:submodule>/overview/', submodule_pages.get_overview),
     path('<slug:model>/<slug:submodule>/data_request/', submodule_pages.get_data_request),
     path('<slug:model>/<slug:submodule>/output_data/', submodule_pages.get_output_request),
     path('<slug:model>/<slug:submodule>/output_data/<slug:task_id>/', submodule_pages.get_output_request),
     path('<slug:model>/<slug:submodule>/algorithms/', submodule_pages.get_algorithms),
-
-    path('webapp/', webapp.webapp_view),
-    re_path(r'^webapp/([A-Za-z]*)/$', webapp.webapp_view),
 ]
 
 # 404 Error view (file not found)
