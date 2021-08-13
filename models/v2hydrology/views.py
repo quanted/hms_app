@@ -65,4 +65,4 @@ surfacerunoff_algorithm_description = "<p><b>NLDAS/GLDAS Surface Runoff:</b> Use
                             " calculating runoff. The curve number depends on the soil hydrologic group, rainfall" \
                             " amounts, and land cover to compute a nonlinear relationship between rainfall and runoff." \
                             " This empirical method assumes the actual runoff to potential runoff is equal to the" \
-                            " ratio of actual to potential retention. </p>" \
+                            " ratio of actual to potential retention. </p>"
