@@ -31,7 +31,7 @@ urlpatterns = [
     re_path('rest/api/(?P<module>.*?)/?$', hms_rest_api.pass_through_proxy),
 
     path('webapp/', webapp.webapp_view),
-    path('webapp/home/', webapp.redirect_view),
+    re_path(r'^webapp/.*$', webapp.redirect_view),
     # re_path(r'^webapp/([A-Za-z]*)/$', webapp.webapp_view),
 
     path('<slug:model>/<slug:submodule>/', submodule_pages.get_overview),
