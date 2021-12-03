@@ -17,37 +17,71 @@ def ordered_list(model, submodel, page=None):
     """
     template_file = 'hms_links_left.html'
     # current_env = os.environ.get("ENV_NAME")
-    link_dict = OrderedDict([
-        ('Documentation', OrderedDict([
-            ('Documentation', 'header'),
-            ('Publications', 'docs/'),
-            ('Version History', 'version_history/'),
-            ('Help', 'help/'),
-            ('OpenAPI', 'api_doc/')
-        ])),
-        ('Work Flows', OrderedDict([
-            ('Work Flows', 'workflow/overview/'),
-            ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
-            ('Precipitation Comparison', 'workflow/precip_compare/'),
-            ('Streamflow', 'workflow/streamflow/'),
-            ('Water Quality', 'webapp/')
-        ])),
-        ('Meteorology', OrderedDict([
-            ('Meteorology', 'meteorology/overview/'),
-            ('Humidity', 'meteorology/humidity/'),
-            ('Precipitation', 'meteorology/precipitation/'),
-            ('Radiation', 'meteorology/radiation/'),
-            ('Temperature', 'meteorology/temperature/'),
-            ('Wind', 'meteorology/wind/'),
-        ])),
-        ('Hydrology', OrderedDict([
-            ('Hydrology', 'hydrology/overview/'),
-            ('Evapotranspiration', 'hydrology/evapotranspiration/'),
-            ('Surface Runoff', 'hydrology/surfacerunoff/'),
-            ('Soil Moisture', 'hydrology/soilmoisture/'),
-            ('Subsurface Flow', 'hydrology/subsurfaceflow/')
-        ]))
-    ])
+
+    if os.environ.get('HMS_AQUATOX_WEBAPP') == "True":
+        link_dict = OrderedDict([
+            ('Documentation', OrderedDict([
+                ('Documentation', 'header'),
+                ('Publications', 'docs/'),
+                ('Version History', 'version_history/'),
+                ('Help', 'help/'),
+                ('OpenAPI', 'api_doc/')
+            ])),
+            ('Work Flows', OrderedDict([
+                ('Work Flows', 'workflow/overview/'),
+                ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
+                ('Precipitation Comparison', 'workflow/precip_compare/'),
+                ('Streamflow', 'workflow/streamflow/'),
+                ('Water Quality', 'webapp/')
+            ])),
+            ('Meteorology', OrderedDict([
+                ('Meteorology', 'meteorology/overview/'),
+                ('Humidity', 'meteorology/humidity/'),
+                ('Precipitation', 'meteorology/precipitation/'),
+                ('Radiation', 'meteorology/radiation/'),
+                ('Temperature', 'meteorology/temperature/'),
+                ('Wind', 'meteorology/wind/'),
+            ])),
+            ('Hydrology', OrderedDict([
+                ('Hydrology', 'hydrology/overview/'),
+                ('Evapotranspiration', 'hydrology/evapotranspiration/'),
+                ('Surface Runoff', 'hydrology/surfacerunoff/'),
+                ('Soil Moisture', 'hydrology/soilmoisture/'),
+                ('Subsurface Flow', 'hydrology/subsurfaceflow/')
+            ]))
+        ])
+    else:
+            link_dict = OrderedDict([
+            ('Documentation', OrderedDict([
+                ('Documentation', 'header'),
+                ('Publications', 'docs/'),
+                ('Version History', 'version_history/'),
+                ('Help', 'help/'),
+                ('OpenAPI', 'api_doc/')
+            ])),
+            ('Work Flows', OrderedDict([
+                ('Work Flows', 'workflow/overview/'),
+                ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
+                ('Precipitation Comparison', 'workflow/precip_compare/'),
+                ('Streamflow', 'workflow/streamflow/')
+                #('Water Quality', 'webapp/')
+            ])),
+            ('Meteorology', OrderedDict([
+                ('Meteorology', 'meteorology/overview/'),
+                ('Humidity', 'meteorology/humidity/'),
+                ('Precipitation', 'meteorology/precipitation/'),
+                ('Radiation', 'meteorology/radiation/'),
+                ('Temperature', 'meteorology/temperature/'),
+                ('Wind', 'meteorology/wind/'),
+            ])),
+            ('Hydrology', OrderedDict([
+                ('Hydrology', 'hydrology/overview/'),
+                ('Evapotranspiration', 'hydrology/evapotranspiration/'),
+                ('Surface Runoff', 'hydrology/surfacerunoff/'),
+                ('Soil Moisture', 'hydrology/soilmoisture/'),
+                ('Subsurface Flow', 'hydrology/subsurfaceflow/')
+            ]))
+        ])
     return render_to_string(template_file,
 
                             {
