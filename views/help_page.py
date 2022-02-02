@@ -23,7 +23,7 @@ def help_page(request):
         'DISCLAIMER': None
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='documentation', submodel='help')
-    faq_path = os.path.join(os.environ['PROJECT_PATH'], 'hms_app', 'views', 'help_faq.json')
+    faq_path = os.path.join(os.environ['PROJECT_PATH'], 'views', 'help_faq.json')
     with open(faq_path) as f:
         faq = json.load(f)
     page_text = render_to_string("04hms_help_body.html", {'FAQ': faq}, request=request)

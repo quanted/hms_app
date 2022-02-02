@@ -1,0 +1,109 @@
+<div class="toc">
+    <p class="toc_p">
+        This page contains detailed information for the {{ MODEL|lower }} {{ SUBMODEL|lower }} component.
+        <br><br>
+        On this page:
+    </p>
+    <ul class="toc_ul">
+        <li class="toc_li"><a href="#description">Description</a></li>
+        <li class="toc_li"><a href="#input_parameters">Input parameters</a></li>
+        <li class="toc_li"><a href="#output_parameters">Output parameters</a></li>
+        <li class="toc_li"><a href="#web_services">Web services details</a></li>
+        <li class="toc_li"><a href="#samples">Code samples</a></li>
+    </ul>
+</div>
+<div id="overview_block">
+    <h3 class="overview_subtab" id="description">Description</h3>
+    <div class="overview_subblock overview_description">
+        <div class="description_subblock">{{ DESCRIPTION | safe }}</div>
+        <div style="display: none;">
+        <h4>Capabilities</h4>
+        <p>Version - {{ VERSION }}</p>
+        <ol>
+            {% for cap in CAPABILITIES %}
+                <li>{{ cap }}</li>
+            {% endfor %}
+         </ol>
+        </div>
+    </div>
+    <h3 class="overview_subtab" id="input_parameters">Input Parameters</h3>
+    <div class="overview_subblock overview_inputs">
+        Attributes of the HMS {{ SUBMODEL }} input object
+        <table>
+            <tbody>
+            <tr><th>Parameter</th><th>DataType</th><th>Description</th><th>Comments</th></tr>
+            {% for i in INPUTS %}
+                <tr><td>{{ i.0 }}</td><td>{{ i.1 }}</td><td>{{ i.2 |safe }}</td><td {{ i.4|safe }}>{{ i.3 |safe }}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {% if FORMATS %}
+            Output Data Format Options
+            <table>
+                <tbody>
+                <tr><th>Format Specifier</th><th>Name</th><th>Example</th></tr>
+                {% for f in FORMATS %}
+                    <tr><td>{{ f.0 }}</td><td>{{ f.1|safe }}</td><td>{{ f.2 |safe }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <h3 class="overview_subtab" id="output_parameters">Output Parameters</h3>
+    <div class="overview_subblock overview_output">
+        Attributes of the HMS {{ SUBMODEL }} output object
+        <table>
+            <tbody>
+            <tr><th>Column</th><th>DataType</th><th>Description</th></tr>
+            {% for o in OUTPUTS %}
+                <tr><td>{{ o.0 }}</td><td>{{ o.1 }}</td><td>{{ o.2 }}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <h3 class="overview_subtab" id="web_services">Web Service Details</h3>
+    <div class="overview_subblock overview_details">
+        <h4>Swagger UI</h4>
+        <div style="font-size: smaller;"><a href="{{ BASEURL }}/hms/api_doc/#/WS{{ SUBMODEL|title }}/post_api_{{ MODEL }}_{{ SUBMODEL }}">{{ BASEURL }}/hms/api_doc/#/WS{{ SUBMODEL|title }}/post_api_{{ MODEL }}_{{ SUBMODEL }}</a></div>
+        <br>
+        <h4>HTTP API</h4>
+        <table>
+            <tbody>
+                <tr><th>Method</th><th>URL</th></tr>
+                {% for a in API %}
+                    <tr><td>{{ a.0 }}</td><td>{{ BASEURL }}{{ a.1 }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4>Change Log</h4>
+        {% for log in CHANGELOG %}
+            <p>{{ log.0 }} : {{ log.1 }}</p>
+                <ol>
+                {% for item in log.2 %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ol>
+        {% endfor %}
+    </div>
+    <h3 class="overview_subtab" id="samples">Code Samples</h3>
+    <div class="overview_subblock overview_scenarios">
+        <div style="display:none;">
+            {% for scen, v in SCENARIOS.items %}
+                <h4>{{ scen }}</h4>
+                <p>{{ v.0 }}</p>
+                <p>{{ v.1 }}</p>
+                <p>{{ v.2 }}</p>
+            {% endfor %}
+        </div>
+        <h4>Sample code for accessing API</h4>
+        <ul>
+            {% for sample, url in SAMPLECODE.items %}
+                <li><a href="{{ url }}" target="_blank">HMS API Sample code - {{ sample }}</a></li>
+            {% endfor %}
+        </ul>
+        <ul class="github_link">
+            <li><a href="https://github.com/quanted/hms_api_samples" target="_blank">Download sample code from Github</a></li>
+        </ul>
+    </div>
+</div>

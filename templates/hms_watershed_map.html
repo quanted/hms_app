@@ -1,0 +1,324 @@
+<style>
+    #map {
+        width: 100%;
+        height: 850px;
+    }
+
+    #basemaps-wrapper {
+        background: white;
+        padding: 10px;
+        width: 100%;
+    }
+
+    {#remove all EPA css transitions for leaflet map#}
+    * {
+        -o-transition-property: none !important;
+        -moz-transition-property: none !important;
+        -ms-transition-property: none !important;
+        -webkit-transition-property: none !important;
+        transition-property: none !important;
+    }
+
+    .box > .pane-content {
+        padding: 0 !important;
+    }
+
+</style>
+
+<head>
+    <!-- jquery -->
+    {#    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>#}
+
+    <!-- local imports -->
+    <link rel="stylesheet" href="/static_qed/hms/css/leaflet.css"/>
+    <script src="/static_qed/hms/js/leaflet.js"></script>
+    <script src="/static_qed/hms/js/waterslayer.js"></script>
+
+    <!-- esri imports -->
+    <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.4/dist/esri-leaflet-geocoder.css">
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.4"></script>
+
+    <!-- datatables import -->
+    {#    <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">#}
+    {#    <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>#}
+
+
+    <!-- Experimental -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+</head>
+<body>
+<div class="panel-display panel-1col clearfix">
+    <div class="panel-panel panel-col">
+
+        {#             <p>A watershed is an area of land that captures rainfall and other precipitation and funnels it to a common outlet.#}
+        {#         A comprehensive hierarchical system of Hydrologic Unit Codes (HUCs) was developed by the U.S. Geological Survey#}
+        {#         to catalog watersheds in the United States.</p>#}
+
+        {#    <script src="/static_qed/pisces/scripts/huc250k_4326.js"></script>#}
+
+        <!--- content div -->
+        <div class="col-md-10">
+            <div class="box multi news">
+                <div class="pane-content" id="mapDiv">
+                    {#              <p><strong>Click the map</strong> to select a HUC area of interest.</p>#}
+                    {#                <p id="currentHUC"><strong>Current HUC Layer</strong></p>#}
+                    {#                <!-- leaflet map div -->#}
+                    {#                <div id="map"></div>#}
+                    {#                <!-- basemap wrapper -->#}
+                    {#                <div id="basemaps-wrapper" class="leaflet-bar">#}
+                    {#                  <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps)">#}
+                    {#                    <option value="Imagery">Imagery</option>#}
+                    {#                    <option value="Topographic">Topographic</option>#}
+                    {#                    <option value="Streets">Streets</option>#}
+                    {#                    <option value="NationalGeographic">National Geographic</option>#}
+                    {#                    <option value="ShadedRelief">Shaded Relief</option>#}
+                    {#                  </select>#}
+                    {#                </div>#}
+                    {#                <table class="pane-content">#}
+                    {#                    <tr><td>HUC #: </td><td id="hucNumber"></td></tr>#}
+                    {#                    <tr><td>HUC Name: </td><td id="hucName"></td></tr>#}
+                    {#                    <tr><td>HUC sqkm: </td><td id="hucArea"></td></tr>#}
+                    {#                </table>#}
+                    {#                <br>#}
+
+                    <div id="map"></div>
+                    <!-- basemap wrapper -->
+                    <div id="basemaps-wrapper" class="leaflet-bar">
+                        <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps)">
+                            <option value="Imagery">Imagery</option>
+                            <option value="Topographic">Topographic</option>
+                            <option value="Streets">Streets</option>
+                            <option value="NationalGeographic">National Geographic</option>
+                            <option value="ShadedRelief">Shaded Relief</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+
+                // initialize the map
+                var map = L.map('map', {renderer: L.svg({padding: 100})}).setView([39.69, -100.52], 5);
+                var currentHucLayer = huc_basemaps.HUC2;       // raster HUC
+                var selectedHuc = null;
+                L.esri.basemapLayer('Imagery').addTo(map);
+
+                //on map click, pop-up lat long info
+                var popup = L.popup();
+
+                function onMapClick(e) {
+                    GetHuc(e.latlng.lat, e.latlng.lng);
+                }
+
+                map.addLayer(currentHucLayer);
+
+                map.on('click', onMapClick);
+                map.on('zoomend', updateHucLayer);       // raster HUC
+
+                //style HUC 8 polygons
+                var hucStyle = {
+                    fillColor: '#6baed6',
+                    weight: .5,
+                    opacity: 0.9,
+                    color: 'white',
+                    fillOpacity: 0.5
+                };
+
+                var layerESRI = L.esri.basemapLayer('Imagery');
+                var layerLabels;
+
+                //basemap selection toolbar cont.
+                function setBasemap(basemap) {
+                    if (layerESRI) {
+                        map.removeLayer(layerESRI);
+                        map.removeLayer(currentHucLayer);      // raster HUC
+                    }
+                    layerESRI = L.esri.basemapLayer(basemap);
+                    map.addLayer(layerESRI);
+                    map.addLayer(currentHucLayer);      // raster HUC
+                    if (layerLabels) {
+                        map.removeLayer(layerLabels);
+                    }
+                    if (basemap === 'ShadedRelief' || basemap === 'Imagery' || basemap === 'Terrain') {
+                        layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+                        map.addLayer(layerLabels);
+                    }
+                }
+
+                //basemap selection toolbar cont.
+                function changeBasemap(basemaps) {
+                    var basemap = basemaps.value;
+                    setBasemap(basemap);
+                }
+
+                // Handling raster HUC data
+                function updateHucLayer() {
+                    var bounds = map.getBounds();
+                    var zoomLvl = map.getZoom();
+                    {#                    var bbox = bounds._southWest.lng + "," + bounds._southWest.lat + "," + bounds._northEast.lng + "," + bounds._northEast.lat;#}
+                    map.removeLayer(currentHucLayer);
+                    switch (true) {
+                        case (zoomLvl < 5):
+                            currentHucLayer = huc_basemaps.HUC2;
+                            $('#currentHUC').html("<strong>Viewing HUC2 layer</strong>");
+                            break;
+                        case (zoomLvl >= 5 && zoomLvl < 6):
+                            currentHucLayer = huc_basemaps.HUC4;
+                            $('#currentHUC').html("<strong>Viewing HUC4 layer</strong>");
+                            break;
+                        case (zoomLvl >= 6 && zoomLvl < 7):
+                            currentHucLayer = huc_basemaps.HUC6;
+                            $('#currentHUC').html("<strong>Viewing HUC6 layer</strong>");
+                            break;
+                        case (zoomLvl >= 7 && zoomLvl < 9):
+                            currentHucLayer = huc_basemaps.HUC8;
+                            $('#currentHUC').html("<strong>Viewing HUC8 layer</strong>");
+                            break;
+                        case (zoomLvl >= 9 && zoomLvl < 10):
+                            currentHucLayer = huc_basemaps.HUC10;
+                            $('#currentHUC').html("<strong>Viewing HUC10 layer</strong>");
+                            break;
+                        case (zoomLvl >= 10):
+                            currentHucLayer = huc_basemaps.HUC12;
+                            $('#currentHUC').html("<strong>Viewing HUC12 layer</strong>");
+                            break;
+                        default:
+                            currentHucLayer = huc_basemaps.HUC8;
+                            $('#currentHUC').html("<strong>Viewing HUC8 layer</strong>");
+                            break;
+                    }
+                    map.addLayer(currentHucLayer);
+                }
+
+                function GetHuc(latitude, longitude) {
+                    var zoomLvl = map.getZoom();
+                    var hucLvl;
+                    switch (true) {
+                        case (zoomLvl < 5):
+                            hucLvl = 5;     // HUC2
+                            break;
+                        case (zoomLvl >= 5 && zoomLvl < 6):
+                            hucLvl = 4;     // HUC4
+                            break;
+                        case (zoomLvl >= 6 && zoomLvl < 7):
+                            hucLvl = 3;     // HUC6
+                            break;
+                        case (zoomLvl >= 7 && zoomLvl < 9):
+                            hucLvl = 2;     // HUC8
+                            break;
+                        case (zoomLvl >= 9 && zoomLvl < 10):
+                            hucLvl = 1;     // HUC10
+                            break;
+                        case (zoomLvl >= 10):
+                            hucLvl = 0;     // HUC12
+                            break;
+                        default:
+                            hucLvl = 2;     //HUC8
+                            break;
+                    }
+                    var tempHuc = (12 - hucLvl * 2);
+                    var hucURL = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/" +
+                        hucLvl + "/query?geometry=%7B%22x%22+%3A+" + longitude + "%2C+%22y%22+%3A+" + latitude +
+                        "%2C+%22spatialReference%22+%3A+%7B%22wkid%22+%3A+4326%7D%7D&geometryType=esriGeometryPoint&" +
+                        "inSR=%7B%22wkid%22+%3A+4326%7D&spatialRel=esriSpatialRelWithin&outFields=HUC_" + tempHuc +
+                        "%2C+STATES%2C+Shape%2C+AREA_SQKM%2C+HU_" + tempHuc + "_NAME&" +
+                        "returnGeometry=true&returnTrueCurves=false&outSR=%7B%22wkid%22+%3A+4326%7D&returnIdsOnly=false&" +
+                        "returnCountOnly=false&returnZ=false&returnM=false&returnDistinctValues=false&returnExtentsOnly=false&f=pjson";
+                    $.ajax({
+                        url: hucURL,
+                        method: 'GET',
+                        success: function (result_huc) {
+                            if (selectedHuc !== null) {
+                                map.removeLayer(selectedHuc);
+                            }
+                            // Convert HUC json data to valid geojson.
+                            var huc_data = JSON.parse(result_huc.replace("rings", "coordinates"));
+                            huc_data["type"] = "FeatureCollection";
+                            huc_data["features"][0]["type"] = "Feature";
+                            huc_data["features"][0]["properties"] = {};
+                            huc_data["features"][0]["geometry"]["type"] = "Polygon";
+                            selectedHuc = L.geoJSON(huc_data, {style: hucStyle}).addTo(map);
+                            $('#hucNumber').html(huc_data["features"][0]["attributes"]["HUC_" + tempHuc]);
+                            $('#hucName').html(huc_data["features"][0]["attributes"]["HU_" + tempHuc + "_NAME"]);
+                            $('#hucArea').html(huc_data["features"][0]["attributes"]["AREA_SQKM"]);
+                            map.fitBounds(selectedHuc.getBounds());
+                            getRiver(latitude, longitude);
+                        },
+                        error: function () {
+                            $('#hucNumber').html("ERROR: Unable to download data for selected HUC");
+                        }
+                    })
+                }
+
+                function getRiver(latitude, longitude) {
+                    var url = "https://ofmpub.epa.gov/waters10/PointIndexing.Service";
+                    var ptIndexParams = {
+                        'pGeometry': 'POINT(' + longitude + ' ' + latitude + ')'
+                        , 'pGeometryMod': 'WKT,SRSNAME=urn:ogc:def:crs:OGC::CRS84'
+                        , 'pPointIndexingMethod': 'DISTANCE'
+                        , 'pPointIndexingMaxDist': 25
+                        , 'pOutputPathFlag': 'TRUE'
+                        , 'pReturnFlowlineGeomFlag': 'TRUE'
+                        , 'optOutCS': 'SRSNAME=urn:ogc:def:crs:OGC::CRS84'
+                        , 'optOutPrettyPrint': 0
+                    };
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        jsonp: true,
+                        data: ptIndexParams,
+                        async: false,
+                        success: function (data, status, jqXHR) {
+                            var streamData = JSON.parse(data);
+                            delineateWatershed(streamData.output.start_point.coordinates[0], streamData.output.start_point.coordinates[1]);
+                            return data;
+                        },
+                        error: function (jqXHR, status) {
+                            $('#comId').html("Error attempting to get river data.");
+                            return null;
+                        }
+                    });
+
+                }
+
+                function delineateWatershed(latitude, longitude) {
+                    var url = "http://127.0.0.1:8000/hms/rest/watershed_delineation?latitude=" + latitude + "&longitude=" + longitude;
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        jsonp: true,
+                        async: false,
+                        success: function (data, status, jqXHR) {
+                            L.geoJSON(data.featurecollection[0], {
+                                style: {
+                                    fillColor: '#7F203A',
+                                    weight: .5,
+                                    opacity: 0.9,
+                                    color: 'white',
+                                    fillOpacity: 0.5
+                                }
+                            }).addTo(map);
+                            return null;
+                        },
+                        error: function (jqXHR, status) {
+                            return null;
+                        }
+                    });
+                }
+            });
+
+
+        </script>
+
+    </div>
+</div>
+
+</body>
+</html>

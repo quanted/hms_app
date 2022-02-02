@@ -1,0 +1,192 @@
+<div id="huc_map_block">
+    <span class="close_button" onclick="toggleHucMap(); return false;">x</span>
+    <h5>HUC Selection Map</h5>
+    <div id="current_huc_level"> - Currently viewing HUC 2 boundaries</div>
+    <div id="huc_map_div"></div>
+    <div id="basemaps-wrapper" class="leaflet-bar">
+        <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps);" title="Base Map">
+            <option value="Topographic">Topographic</option>
+            <option value="Imagery">Imagery</option>
+            <option value="Streets">Streets</option>
+            <option value="NationalGeographic">National Geographic</option>
+            <option value="ShadedRelief">Shaded Relief</option>
+        </select>
+    </div>
+</div>
+<div id="workflow_inputs_block">
+    <div id="input_block" class="single_tab">
+        <div id="input_buttons_block" class="main_block">
+            <h3>Input Selection for Stream Flow</h3>
+            <div class="input_row">
+                <div id="spatial_input_button" class="workflow_input">
+                    <h5>Spatial Input</h5>
+                </div>
+                <div id="temporal_input_button" class="workflow_input">
+                    <h5>Temporal Input</h5>
+                </div>
+                <div id="runoff_algorithm_input_button" class="workflow_input">
+                    <h5>Runoff Algorithm Input</h5>
+                </div>
+                <div id="precip_source_input_button" class="workflow_input blocked">
+                    <h5>Precipitation Source Input</h5>
+                </div>
+                <div id="stream_algorithm_input_button" class="workflow_input">
+                    <h5>Stream Hydrology Algorithm Input</h5>
+                </div>
+            </div>
+        </div>
+        <div id="input_block" class="main_block">
+            <div id="spatial_input" class="input_fields">
+                <span class="close_button" onclick="toggleSpatialInputs(); return false;">x</span>
+                {#                <h5>Spatial Input Options</h5>#}
+                {#                <br>#}
+                <label for="spatial_type">Input Type:</label>
+                <select id="spatial_type" title="Select the type of spatial input for the workflow."
+                        onchange="spatialTypeSelect(); return false;">
+                    <option disabled selected value>select type</option>
+                    <option value="hucid">HUC ID</option>
+                    <option value="comid">COMID</option>
+                </select>
+                <br>
+                <div id="spatial_type_huc" class="spatial_type_block">
+                    <br>
+                    <label for="huc_id">HUC ID:</label>
+                    <input type="text" id="huc_id" title="Please provide a HUC 8 or HUC 12 ID.">
+                    <button id="huc_map_button" type="button" onclick="openHucMap(); return false;"
+                            title="Open map to select or view HUC.">Map
+                    </button>
+                </div>
+                <div id="spatial_type_comid" class="spatial_type_block">
+                    <br>
+                    <label for="comid">COMID:</label>
+                    <input type="text" id="comid" title="Please provide a stream/catchment comid.">
+                    <div id="comid_choice_div">
+                        <input type="radio" name="comid_choice" value="single" checked>Single<br>
+                        <input type="radio" name="comid_choice" value="multiple" disabled>Multiple
+                    </div>
+                    <button id="huc_map_button" type="button" onclick="openHucMap(); return false;"
+                            title="Open map to select or view HUC/Stream Segment.">Map
+                    </button>
+                </div>
+                <br>
+                <br>
+                <button id="add_spatial_input" class="blocked" type="button" onclick="addSpatialInput(); return false;"
+                        title="Add input to selected input list.">
+                    Add
+                </button>
+            </div>
+            <div id="temporal_input" class="input_fields">
+                <span class="close_button" onclick="toggleTemporalInputs(); return false;">x</span>
+                {#                <h5>Temporal Input Options</h5>#}
+                {#                <br>#}
+                <label for="start_datepicker">Start Date:</label>
+                <input type="text" id="start_datepicker">
+                <br><br>
+                <label for="end_datepicker">End Date:</label>
+                <input type="text" id="end_datepicker">
+                <br>
+                <br>
+                <label for="timestep">Timestep:</label>
+                <select id="timestep" title="Please select a timestep for your workflow model.">
+                    <option value="daily">Daily</option>
+                </select>
+                <br>
+                <br>
+                <button id="add_temporal_input" type="button" onclick="addTemporalInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="runoff_input" class="input_fields">
+                <span class="close_button" onclick="toggleRunoffInputs(); return false;">x</span>
+                {#                <h5>Runoff Input Options</h5>#}
+                {#                <br>#}
+                <label for="runoff_select">Data Source:</label>
+                <select id="runoff_select" title="Please select a surface runoff data source or algorithm.">
+                    <option selected value="nldas">NLDAS</option>
+                    <option value="gldas">GLDAS</option>
+                    <option value="curvenumber">Curve Number</option>
+                </select>
+                <br>
+                <br>
+                <button id="add_runoff_input" type="button" onclick="addRunoffInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="precip_input" class="input_fields">
+                <span class="close_button" onclick="togglePrecipInputs(); return false;">x</span>
+                {#                <h5>Precipitation Input for Runoff Calculation</h5>#}
+                {#                <br>#}
+                <label for="precip_select">Data Source:</label>
+                <select id="precip_select"
+                        title="Please select the precipiation data source or algorithm for use with your selected runoff algorithm.">
+                    <option selected value="nldas">NLDAS</option>
+                    <option value="gldas">GLDAS</option>
+                    <option value="daymet">Daymet</option>
+{#                    <option value="ncei">NCEI</option>#}
+                    <option value="prism">PRISM</option>
+{#                    <option value="wgen">WGEN</option>#}
+{#                    <option value="nwm">NWM</option>#}
+                </select>
+                <br>
+                <br>
+                <button id="add_precip_input" type="button" onclick="addPrecipInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="stream_input" class="input_fields">
+                <span class="close_button" onclick="toggleStreamInputs(); return false;">x</span>
+                {#                <h5>Stream Hydrology Input Options</h5>#}
+                {#                <br>#}
+                <label for="stream_algorithm_select">Stream Hydrology Algorithm:</label>
+                <select id="stream_algorithm_select" title="Please select a stream algorithm for your workflow model.">
+                    <option selected value="constantvolume">Constant Volume</option>
+                    <option value="changingvolume" disabled>Changing Volume</option>
+                    <option value="kinematicwave" disabled>Kinematic Wave</option>
+{#                    <option value="nwm">National Water Model</option>#}
+                </select>
+                <br>
+                <br>
+                <button id="add_stream_input" type="button" onclick="addStreamInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+        </div>
+        <div id="notifications" class="main_block">
+        </div>
+        <div id="selected_inputs_block" class="main_block">
+            <h3>Inputs for Workflow</h3>
+            <div id="selected_input_table_block">
+                <div class="selected_input_table">
+                    <div id="selected_input_table_header" class="selected_input table_row">
+                        <div id="selected_input_key_column" class="input_column_0">Input Key</div>
+                        <div id="selected_input_value_column" class="input_column_1">Input Value</div>
+                    </div>
+                    <div id="selected_spatial_input" class="selected_input table_row">
+                    </div>
+                    <div id="selected_startdate_input" class="selected_input table_row"></div>
+                    <div id="selected_enddate_input" class="selected_input table_row"></div>
+                    <div id="selected_timestep_input" class="selected_input table_row"></div>
+                    <div id="selected_runoff_input" class="selected_input table_row"></div>
+                    <div id="selected_precip_input" class="selected_input table_row"></div>
+                    <div id="selected_stream_input" class="selected_input table_row"></div>
+                </div>
+            </div>
+            <button type="button" id="submit_workflow" class="blocked" onclick="submitWorkflowJob(); return false;">
+                Submit Job
+            </button>
+        </div>
+    </div>
+{#    <div id="data_block" class="single_tab">#}
+{#        <div id="data_tab_task_id">#}
+{#            <h4>Get data from previous task</h4>#}
+{#            <label for="previous_task_id">Task ID:</label>#}
+{#            <input id="previous_task_id" type="text">#}
+{#            <button id="get_previous_data" onclick="getPreviousData();">Get Data</button>#}
+{#        </div>#}
+{#        <br>#}
+{#            <div id="previous_tasks" style="display:none;">#}
+{#                <h4>Recently submitted tasks by ID (ordered by most recent)</h4>#}
+{#                <ul id="previous_tasks_list"></ul>#}
+{#            </div>#}
+{#    </div>#}
+</div>

@@ -1,0 +1,16 @@
+<!--start 05hms_body_start.html-->
+<div id="main-column" class="main-column clearfix" style="width: 98%;">
+    <div id="load_page"><span id="load_message"></span></div>
+    <h2 class="page-title">{{ TITLE }}</h2>
+    <div id="component_tabs">
+        <ul class="subpage_block">
+            <li class="subpage_link active_page"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/overview/" id="overview_link" title="{{ SUBMODEL }} Overview">Overview</a></li>
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/data_request/" id="data_request_link" title="{{ SUBMODEL }} Data Request">Data Request</a></li>
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/output_data/" id="output_link" title="Data Output">Output Data</a></li>
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/algorithms/" id="algorithms_link" title="Data Algorithms">Data Algorithms</a></li>
+        </ul>
+        <div id="overview_tab" class="single_tab">
+            {{ DESCRIPTION|safe }}
+        </div>
+    </div>
+    <!--end 05hms_body_start.html-->

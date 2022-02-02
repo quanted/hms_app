@@ -1,0 +1,125 @@
+<!--start 05hms_body_start.html-->
+<div id="main-column" class="main-column clearfix" style="width: 98%;">
+    <div id="load_page"><span id="load_message"></span></div>
+    <h2 class="page-title">{{ TITLE }}</h2>
+    <div id="component_tabs">
+        <ul>
+            <li><a href="#overview_tab" id="overview_tab_link" title="Overview Tab">Overview</a></li>
+            <li><a href="#data_request_tab" id="data_request_link" title="Data Request Tab">Data Request</a></li>
+            <li><a href="#output_tab" id="output_link" title="Data Output Tab">Output Data</a></li>
+            <li><a href="#data_retrieve_tab" id="data_retrieve_link" title="Retrieve Data Tab" tabindex="4">Retrieve Data</a></li>
+            <li><a href="#algorithms_tab" id="algorithms_link" title="Data Algorithms Tab" tabindex="5">Data Algorithms</a></li>
+        </ul>
+        <div id="overview_tab" class="single_tab">
+            {{ DESCRIPTION|safe }}
+        </div>
+        <div id="data_request_tab" class="single_tab">
+            <div id="map_loader">
+                <div class="map_spinner"></div>
+                <div class="map_loader"></div>
+            </div>
+            <div id="map" class="mapNoTransition"></div>
+            <div id="basemaps-wrapper" class="leaflet-bar">
+                <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps);" title="Base Map">
+                    <option value="Imagery">Imagery</option>
+                    <option value="Streets">Streets</option>
+                    <option value="NationalGeographic">National Geographic</option>
+                    <option value="ShadedRelief">Shaded Relief</option>
+                </select>
+            </div>
+            {{ INPUT_FORM|safe }}
+            <div id="error_block"></div>
+        </div>
+        <div id="output_tab" style="display:none" class="single_tab">
+            <div id="output_loading">
+                <div id="loading_msg"></div>
+                <div id="loader">
+                </div>
+            </div>
+            <div id="output_window">
+                <div id="output_title"></div>
+                <div id="output_center_top">
+                    <div id="output_map"></div>
+                    <div id="output_comids">
+                        <h4>Catchment List</h4>
+                        <div id="output_comid_list"></div>
+                    </div>
+                </div>
+                <div id="output_info" style="display:none;">
+                    <h4>Selected Catchment Details</h4>
+                    <div id="output_info_div"></div>
+                </div>
+                <div id="output_center_bottom" style="display:none">
+                    <ul>
+                        <li><a href="#output_graph_div">Time Series Graph</a></li>
+                        <li><a href="#output_table_div">Time Series Table</a></li>
+                    </ul>
+                    <div id="output_graph_div">
+                        <h4>Data Plot for Catchment</h4>
+                        <div id="output_graph"></div>
+                    </div>
+                    <div id="output_table_div">
+                        <h4>Time Series Data for Catchment</h4>
+                        <div id="output_table"></div>
+                    </div>
+                </div>
+                <div id="output_export">
+                    <h4>Download Task Data</h4>
+                    <button type="button" id="export_json_all" onclick="exportAllDataToJSON(); return false;">
+                        Export All to JSON
+                    </button>
+                    <button type="button" id="export_csv_all" onclick="exportAllDataToCSV(); return false;">
+                        Export All to CSV
+                    </button>
+                    <button type="button" id="export_json_catchment" onclick="exportCatchmentDataToJSON(); return false;">
+                        Export Catchment to JSON
+                    </button>
+                    <button type="button" id="export_csv_catchment" onclick="exportCatchmentDataToCSV(); return false;">
+                        Export Catchment to CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+            <div id="output_loading">
+                <div id="loading_msg"></div>
+                <div id="loader">
+                </div>
+            </div>
+            <div id="output_data_block">
+                <div id="output_title"></div>
+                <div id="output_metadata_block">
+                    <h3 id="output_metadata_title" class="output_title"></h3>
+                    <div id="output_metadata"></div>
+                </div>
+                <div id="output_data_block_table">
+                    <h3 id="output_data_title" class="output_title"></h3>
+                    <div id="output_data_save_block">
+                        <div id="output_data_save_json"><a id="output_json_download"
+                                                           onclick="exportDataToJSON(); return false;">Export JSON</a>
+                        </div>
+                        <div id="output_data_save_csv"><a id="output_csv_download"
+                                                          onclick="exportDataToCSV(); return false;">Export CSV</a>
+                        </div>
+                    </div>
+                    <div id="output_data"></div>
+                </div>
+            </div>
+            <div id="data_retrieve_tab" class="single_tab">
+                <div id="data_tab_task_id">
+                    <h4>Get data from previous task</h4>
+                    <label for="previous_task_id">Task ID:</label>
+                    <input id="previous_task_id" type="text">
+                    <button id="get_previous_data" onclick="getPreviousData();">Get Data</button>
+                </div>
+                <br>
+                <div id="previous_tasks" style="display:none;">
+                    <h4>Recently submitted tasks (by ID)</h4>
+                    <ul id="previous_tasks_list"></ul>
+                </div>
+            </div>
+            <div id="algorithms_tab" class="single_tab">
+                {{ ALGORITHMS|safe }}
+            </div>
+        </div>
+    </div>
+    <!--end 05hms_body_start.html-->

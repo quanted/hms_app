@@ -1,0 +1,91 @@
+<!--start 05hms_body_start.html-->
+<div id="main-column" class="main-column clearfix" style="width: 98%;">
+    <div id="load_page"><span id="load_message"></span></div>
+    <h2 class="page-title">{{ TITLE }}</h2>
+    <div id="component_tabs">
+        <ul class="subpage_block">
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/overview/" id="overview_link" title="{{ SUBMODEL }} Overview">Overview</a></li>
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/data_request/" id="data_request_link" title="{{ SUBMODEL }} Data Request">Data Request</a></li>
+            <li class="subpage_link active_page"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/output_data/" id="output_link" title="Data Output">Output Data</a></li>
+            <li class="subpage_link"><a href="/hms/{{ MODEL }}/{{ SUBMODEL}}/algorithms/" id="algorithms_link" title="Data Algorithms">Data Algorithms</a></li>
+        </ul>
+        <div id="output_tab" class="single_tab">
+            <div id="output_loading">
+                <div id="loading_msg"></div>
+                <div id="loader_box">
+                    <div id="loader"></div>
+                </div>
+            </div>
+            <span id="task_id" style="display:none;">{{ TASK_ID }}</span>
+            <span id="page_url" style="display:none;">{{ URL }}</span>
+            {% if ADVANCED %}
+                {{ OUTPUT }}
+            {% else %}
+            <div id="output_data_block">
+                <div id="output_title"></div>
+                <div id="output_metadata_block">
+                    <h3 id="output_metadata_title" class="output_title"></h3>
+                    <div id="output_metadata"></div>
+                </div>
+                <div id="output_data_block_table">
+                    <h3 id="output_data_title" class="output_title"></h3>
+                    <div id="output_data_save_block">
+                        <div id="output_data_save_json"><a id="output_json_download"
+                                                           onclick="exportDataToJSON(); return false;">Export JSON</a>
+                        </div>
+                        <div id="output_data_save_csv"><a id="output_csv_download"
+                                                          onclick="exportDataToCSV(); return false;">Export CSV</a>
+                        </div>
+                    </div>
+                    <div id="output_data"></div>
+                </div>
+                <div class="workflow_output" style="display:none;">
+                    <div id="output_center_top">
+                        <div id="output_map"></div>
+                        <div id="output_comids">
+                            <h4>Catchment List</h4>
+                            <div id="output_comid_list"></div>
+                        </div>
+                    </div>
+                    <div id="output_info" style="display:none;">
+                        <h4>Selected Catchment Details</h4>
+                        <div id="output_info_div"></div>
+                    </div>
+                    <div id="output_center_bottom" style="display:none">
+                        <ul>
+                            <li><a href="#output_graph_div">Time Series Graph</a></li>
+                            <li><a href="#output_table_div">Time Series Table</a></li>
+                        </ul>
+                        <div id="output_graph_div">
+                            <h4>Data Plot for Catchment</h4>
+                            <div id="output_graph"></div>
+                        </div>
+                        <div id="output_table_div">
+                            <h4>Time Series Data for Catchment</h4>
+                            <div id="output_table"></div>
+                        </div>
+                    </div>
+                    <div id="output_export">
+                        <h4>Download Task Data</h4>
+                        <button type="button" id="export_json_all" onclick="exportAllDataToJSON(); return false;">
+                            Export All to JSON
+                        </button>
+                        <button type="button" id="export_csv_all" onclick="exportAllDataToCSV(); return false;">
+                            Export All to CSV
+                        </button>
+                        <button type="button" id="export_json_catchment" onclick="exportCatchmentDataToJSON(); return false;">
+                            Export Catchment to JSON
+                        </button>
+                        <button type="button" id="export_csv_catchment" onclick="exportCatchmentDataToCSV(); return false;">
+                            Export Catchment to CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <span id="model_name" style="display:none;">{{ MODEL }}</span>
+            <span id="submodule_name" style="display:none;">{{ SUBMODEL }}</span>
+        </div>
+    </div>
+</div>
+<!--end 05hms_body_start.html-->

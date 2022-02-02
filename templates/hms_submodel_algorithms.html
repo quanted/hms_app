@@ -1,0 +1,9 @@
+<div id="submodel_algorithms">
+    {% for title, descrip in ALGORITHMS.items %}
+        <div class="submodel_algorithm_block">
+            <h4 style="text-align:center;">{{ title }}</h4>
+            <div>{{ descrip | safe }}</div>
+            <br>
+        </div>
+    {% endfor %}
+</div>

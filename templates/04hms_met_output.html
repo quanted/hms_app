@@ -1,0 +1,34 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+
+    var data = {{ DATA|safe }};
+    var columns = {{ COLUMN_HEADERS|safe }};
+
+</script>
+
+<div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content" style="">
+        <div id="plots" class="pane-content">
+            <h3>{{ TITLE }} Charts</h3>
+            <div id="lineChartDiv"></div>
+            <div id="chartForm">
+                <form id="setChartAxies">
+                    <label for="x-Axis">X-Axis:</label>
+                    <select id="x-Axis"></select>
+                    <label for="y-Axis">Y-Axis:</label>
+                    <select multiple id="y-Axis"></select>
+                    <button id="updatePlot" onclick="return false;">Update Plot</button>
+                </form>
+            </div>
+        </div>
+        <div id="content" class="pane-content">
+            <h3>{{ TITLE }} Data</h3>
+            <div id="dataTableDiv" class="display table-style">
+                <div id="test-graph-1"></div>
+            </div>
+            <h3>{{ TITLE }} MetaData</h3>
+            <div id="metaTableDiv" class="display table-style">
+                <div id="test-graph-2"></div>
+            </div>
+

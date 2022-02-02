@@ -1,0 +1,40 @@
+<!--start 04hms_input_form-->
+{% if FORM.errors %}
+    {% for field in FORM %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong style="color: red">ERROR: {{ field.label }} - {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in FORM.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong style="color: red">ERROR: {{ field.label }} - {{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="input_table">
+    <div class="input_table_row table_header">
+        <div class="input_table_key">Input</div>
+        <div class="input_table_value">Value</div>
+{#        <div class="input_table_comment"></div>#}
+    </div>
+    {% for field in FORM %}
+        <div class="input_table_row">
+            <div class="input_table_key">{{ field.label_tag }}</div>
+            <div class="input_table_value">{{ field }}</div>
+{#            <div class="input_table_comment">{{ field.help_text }}</div>#}
+        </div>
+    {% endfor %}
+</div>
+<div class="input_disclaimer">Documentation for valid inputs can be found in the Overview and Data Algorithms tabs.</div>
+<div class="input_nav">
+    <div class="input_right">
+        <div class="submit_data_request_loader"></div>
+        <ul>
+            <li><input class="submit form-submit input_button submit_data_request" type="submit" value="Submit"/></li>
+        </ul>
+    </div>
+</div>
+<!--end 04hms_input_form-->

@@ -1,0 +1,81 @@
+<div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content" style="">
+        <div class="pane-content" id="collapsing-div">
+            <h4 class="sectionTitle">{{ SUBMODEL }} Data Inputs</h4>
+            <div id="inputDiv">
+                {#                <h4 class="sectionTitle">{{ SUBMODEL }} Data Inputs</h4>#}
+                <pre id="inputData_P">{{ INPUT_DATA }}</pre>
+            </div>
+            {% if SUBMODEL == "Photolysis" %}
+                <h4 class="sectionTitle">{{ SUBMODEL }} Data Graphs</h4>
+                <div id="graphDiv">
+                    <div id="graphDiv1"></div>
+                    <div id="graphDiv2"></div>
+                </div>
+            {% endif %}
+            <h4 class="sectionTitle">{{ SUBMODEL }} DT Day Data</h4>
+            <div id="tablesDiv">
+                {#                <h4 class="sectionTitle">{{ TITLE }} DT Day Data</h4>#}
+                <div id="dayTableDivInner">
+                    <table id="dayTable" class="display table-style">
+                        <thead>
+                        <tr>
+                            <th>Season</th>
+                            <th>Summary Items</th>
+                            <th>Solar Altitude</th>
+                            <th>Time of day (hours)</th>
+                            <th>Rate (sec**-1)</th>
+                            <th>Half-Life (hours)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if DAYTABLE %}
+                            {% for i in DAYTABLE %}
+                                <tr>
+                                    {% for key, value in i.items %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h4 class="sectionTitle">{{ SUBMODEL }} DT KL Data </h4>
+            <div id="klTableDiv">
+                {#                <h4>{{ TITLE }} DT KL Data </h4>#}
+                <div>
+                    <table id="klTable" class="display table-style">
+                        <thead>
+                        <tr>
+                            <th>Season</th>
+                            <th>Solar Altitude</th>
+                            <th>Depth (cm)</th>
+                            <th>Wavelength (nm)</th>
+                            <th>Ka-Lambda (sec^(-1)nm^(-1))</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if KLTABLE %}
+                            {% for i in KLTABLE %}
+                                <tr>
+                                    {% for key, value in i.items %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <li>No data returned. Error in processing data.</li>
+                        {% endif %}
+                        </tbody>
+                    </table>
+{#                    <button onclick="saveToJSON('{{ SUBMODEL }}')"#}
+{#                            style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export JSON#}
+{#                    </button>#}
+{#                    <button onclick="saveToCSV('{{ SUBMODEL }}')"#}
+{#                            style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export CSV#}
+{#                    </button>#}
+                </div>
+            </div>

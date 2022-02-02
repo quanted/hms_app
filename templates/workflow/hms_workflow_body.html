@@ -1,0 +1,311 @@
+<div id="load_page"><span id="load_message"></span></div>
+<div id="huc_map_block">
+    <span class="close_button" onclick="toggleHucMap(); return false;">x</span>
+    <h5>HUC Selection Map</h5>
+    <div id="current_huc_level"> - Currently viewing HUC 2 boundaries</div>
+    <div id="huc_map_div"></div>
+    <div id="basemaps-wrapper" class="leaflet-bar">
+        <select name="basemaps" id="basemaps" onChange="changeBasemap(basemaps);" title="Base Map">
+            <option value="Topographic">Topographic</option>
+            <option value="Imagery">Imagery</option>
+            <option value="Streets">Streets</option>
+            <option value="NationalGeographic">National Geographic</option>
+            <option value="ShadedRelief">Shaded Relief</option>
+        </select>
+    </div>
+</div>
+<div id="workflow_tabs">
+    <ul>
+        <li><a href="#workflow_info_tab">About Stream Flow</a></li>
+        <li><a href="#input_tab">Stream Flow Inputs</a></li>
+        <li><a href="#output_tab">Stream Flow Output</a></li>
+        <li><a href="#data_tab">Stream Flow Data</a></li>
+        <li><a href="#algorithm_tab">Stream Flow Algorithms</a></li>
+    </ul>
+    <div id="workflow_info_tab" style="display:none" class="single_tab">
+        <p id="workflow_info_p">
+            This workflow simulates the amount of water added to an ungauged stream system during precipitation events. The user
+            selects a stream network either by NHDPlus HUC ID or COMID then chooses a start and end date. A runoff
+            algorithm is selected from NLDAS, GLDAS or Curve Number (CN) to calculate the amount of surface and
+            subsurface runoff for each stream in the network. A precipitation source needs to be chosen from
+            NLDAS, GLDAS, DAYMET, or PRISM if CN is selected as the runoff algorithm. The final input
+            needed is a flow routing algorithm.  The only choice available is the constant volume algorithm.
+            Other algorithms such as changing volume and Kinematic wave algorithms will be implemented later.
+            The outputs include GMT based daily time-series of precipitation, surface runoff, subsurface flow,
+            and streamflow for each COMID in the network.
+            <img id="workflow_stream_img" src="/static_qed/hms/images/stream.jpg" alt="Some random placeholder stream">
+        </p>
+    </div>
+    <div id="input_tab" style="display:none" class="single_tab">
+        <div id="input_buttons_block" class="main_block">
+            <h3>Input Selection for Stream Flow</h3>
+            <div class="input_row">
+                <div id="spatial_input_button" class="workflow_input">
+                    <h5>Spatial Input</h5>
+                </div>
+                <div id="temporal_input_button" class="workflow_input">
+                    <h5>Temporal Input</h5>
+                </div>
+                <div id="runoff_algorithm_input_button" class="workflow_input">
+                    <h5>Runoff Algorithm Input</h5>
+                </div>
+                <div id="precip_source_input_button" class="workflow_input blocked">
+                    <h5>Precipitation Source Input</h5>
+                </div>
+                <div id="stream_algorithm_input_button" class="workflow_input">
+                    <h5>Stream Hydrology Algorithm Input</h5>
+                </div>
+            </div>
+        </div>
+        <div id="input_block" class="main_block">
+            <div id="spatial_input" class="input_fields">
+                <span class="close_button" onclick="toggleSpatialInputs(); return false;">x</span>
+                {#                <h5>Spatial Input Options</h5>#}
+                {#                <br>#}
+                <label for="spatial_type">Input Type:</label>
+                <select id="spatial_type" title="Select the type of spatial input for the workflow."
+                        onchange="spatialTypeSelect(); return false;">
+                    <option disabled selected value>select type</option>
+                    <option value="hucid">HUC ID</option>
+                    <option value="comid">COMID</option>
+                </select>
+                <br>
+                <div id="spatial_type_huc" class="spatial_type_block">
+                    <br>
+                    <label for="huc_id">HUC ID:</label>
+                    <input type="text" id="huc_id" title="Please provide a HUC 8 or HUC 12 ID.">
+                    <button id="huc_map_button" type="button" onclick="openHucMap(); return false;"
+                            title="Open map to select or view HUC.">Map
+                    </button>
+                </div>
+                <div id="spatial_type_comid" class="spatial_type_block">
+                    <br>
+                    <label for="comid">COMID:</label>
+                    <input type="text" id="comid" title="Please provide a stream/catchment comid.">
+                    <div id="comid_choice_div">
+                        <input type="radio" name="comid_choice" value="single" checked>Single<br>
+                        <input type="radio" name="comid_choice" value="multiple" disabled>Multiple
+                    </div>
+                    <button id="huc_map_button" type="button" onclick="openHucMap(); return false;"
+                            title="Open map to select or view HUC/Stream Segment.">Map
+                    </button>
+                </div>
+                <br>
+                <br>
+                <button id="add_spatial_input" class="blocked" type="button" onclick="addSpatialInput(); return false;"
+                        title="Add input to selected input list.">
+                    Add
+                </button>
+            </div>
+            <div id="temporal_input" class="input_fields">
+                <span class="close_button" onclick="toggleTemporalInputs(); return false;">x</span>
+                {#                <h5>Temporal Input Options</h5>#}
+                {#                <br>#}
+                <label for="start_datepicker">Start Date:</label>
+                <input type="text" id="start_datepicker">
+                <br><br>
+                <label for="end_datepicker">End Date:</label>
+                <input type="text" id="end_datepicker">
+                <br>
+                <br>
+                <label for="timestep">Timestep:</label>
+                <select id="timestep" title="Please select a timestep for your workflow model.">
+                    <option value="daily">Daily</option>
+                </select>
+                <br>
+                <br>
+                <button id="add_temporal_input" type="button" onclick="addTemporalInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="runoff_input" class="input_fields">
+                <span class="close_button" onclick="toggleRunoffInputs(); return false;">x</span>
+                {#                <h5>Runoff Input Options</h5>#}
+                {#                <br>#}
+                <label for="runoff_select">Data Source:</label>
+                <select id="runoff_select" title="Please select a surface runoff data source or algorithm.">
+                    <option selected value="nldas">NLDAS</option>
+                    <option value="gldas">GLDAS</option>
+                    <option value="curvenumber">Curve Number</option>
+                </select>
+                <br>
+                <br>
+                <button id="add_runoff_input" type="button" onclick="addRunoffInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="precip_input" class="input_fields">
+                <span class="close_button" onclick="togglePrecipInputs(); return false;">x</span>
+                {#                <h5>Precipitation Input for Runoff Calculation</h5>#}
+                {#                <br>#}
+                <label for="precip_select">Data Source:</label>
+                <select id="precip_select"
+                        title="Please select the precipiation data source or algorithm for use with your selected runoff algorithm.">
+                    <option selected value="nldas">NLDAS</option>
+                    <option value="gldas">GLDAS</option>
+                    <option value="daymet">Daymet</option>
+{#                    <option value="ncei">NCEI</option>#}
+                    <option value="prism">PRISM</option>
+{#                    <option value="wgen">WGEN</option>#}
+{#                    <option value="nwm">NWM</option>#}
+                </select>
+                <br>
+                <br>
+                <button id="add_precip_input" type="button" onclick="addPrecipInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+            <div id="stream_input" class="input_fields">
+                <span class="close_button" onclick="toggleStreamInputs(); return false;">x</span>
+                {#                <h5>Stream Hydrology Input Options</h5>#}
+                {#                <br>#}
+                <label for="stream_algorithm_select">Stream Hydrology Algorithm:</label>
+                <select id="stream_algorithm_select" title="Please select a stream algorithm for your workflow model.">
+                    <option selected value="constantvolume">Constant Volume</option>
+                    <option value="changingvolume" disabled>Changing Volume</option>
+                    <option value="kinematicwave" disabled>Kinematic Wave</option>
+{#                    <option value="nwm">National Water Model</option>#}
+                </select>
+                <br>
+                <br>
+                <button id="add_stream_input" type="button" onclick="addStreamInput(); return false;"
+                        title="Add input to selected input list.">Add
+                </button>
+            </div>
+        </div>
+        <div id="notifications" class="main_block">
+        </div>
+        <div id="selected_inputs_block" class="main_block">
+            <h3>Inputs for Workflow</h3>
+            <div id="selected_input_table_block">
+                <div class="selected_input_table">
+                    <div id="selected_input_table_header" class="selected_input table_row">
+                        <div id="selected_input_key_column" class="input_column_0">Input Key</div>
+                        <div id="selected_input_value_column" class="input_column_1">Input Value</div>
+                    </div>
+                    <div id="selected_spatial_input" class="selected_input table_row">
+                    </div>
+                    <div id="selected_startdate_input" class="selected_input table_row"></div>
+                    <div id="selected_enddate_input" class="selected_input table_row"></div>
+                    <div id="selected_timestep_input" class="selected_input table_row"></div>
+                    <div id="selected_runoff_input" class="selected_input table_row"></div>
+                    <div id="selected_precip_input" class="selected_input table_row"></div>
+                    <div id="selected_stream_input" class="selected_input table_row"></div>
+                </div>
+            </div>
+            <button type="button" id="submit_workflow" class="blocked" onclick="submitWorkflowJob(); return false;">
+                Submit Job
+            </button>
+        </div>
+    </div>
+    <div id="output_tab" style="display:none" class="single_tab">
+        <div id="output_loading">
+            <div id="loading_msg"></div>
+            <div id="loader">
+            </div>
+        </div>
+        <div id="output_window">
+            <div id="output_title"></div>
+            <div id="output_center_top">
+                <div id="output_map"></div>
+                <div id="output_comids">
+                    <h4>Catchment List</h4>
+                    <div id="output_comid_list"></div>
+                </div>
+            </div>
+            <div id="output_info" style="display:none;">
+                <h4>Selected Catchment Details</h4>
+                <div id="output_info_div"></div>
+            </div>
+            <div id="output_center_bottom" style="display:none">
+                <ul>
+                    <li><a href="#output_graph_div">Time Series Graph</a></li>
+                    <li><a href="#output_table_div">Time Series Table</a></li>
+                </ul>
+                <div id="output_graph_div">
+                    <h4>Data Plot for Catchment</h4>
+                    <div id="output_graph"></div>
+                </div>
+                <div id="output_table_div">
+                    <h4>Time Series Data for Catchment</h4>
+                    <div id="output_table"></div>
+                </div>
+            </div>
+            <div id="output_export">
+                <h4>Download Task Data</h4>
+                <button type="button" id="export_json_all" onclick="exportAllDataToJSON(); return false;">
+                    Export All to JSON
+                </button>
+                <button type="button" id="export_csv_all" onclick="exportAllDataToCSV(); return false;">
+                    Export All to CSV
+                </button>
+                <button type="button" id="export_json_catchment" onclick="exportCatchmentDataToJSON(); return false;">
+                    Export Catchment to JSON
+                </button>
+                <button type="button" id="export_csv_catchment" onclick="exportCatchmentDataToCSV(); return false;">
+                    Export Catchment to CSV
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="data_tab" style="display:none" class="single_tab">
+        <div id="data_tab_task_id">
+            <h4>Get data from previous task</h4>
+            <label for="previous_task_id">Task ID:</label>
+            <input id="previous_task_id" type="text">
+            <button id="get_previous_data" onclick="getPreviousData();">Get Data</button>
+        </div>
+        <br>
+            <div id="previous_tasks" style="display:none;">
+                <h4>Recently submitted tasks by ID (ordered by most recent)</h4>
+                <ul id="previous_tasks_list"></ul>
+            </div>
+    </div>
+    <div id="algorithm_tab" style="display:none" class="single_tab">
+        <p id="algorithm_info_p">
+            Currently, this workflow has three different stream flow algorithms: NLDAS, GLDAS, and Curve Number (CN).
+            To calculate Streamflow for each NHDPlus catchment in the selected stream network, data from 3 separate
+            datasets is downloaded simultaneously when NLDAS or GLDAS algorithm. Data for precipitation, surface
+            runoff, and subsurface flow is downloaded from the user-specified source in the GMT time-zone localization.
+            Only Precipitation data in GMT is downloaded when CN is selected. Data cannot be retrieved for the user's
+            local time-zone. <br><br>
+            Depending on the size of the specified timespan and area of interest, many requests to external servers
+            will need to be initiated in parallel. Occasionally, these servers will become overloaded by the volume
+            of these requests and return error codes. The streamflow workflow will attempt to retry failed requests
+            several times in a staggered manner. However, if they continue to fail, data for that particular segment
+            will be replaced with a -9999 value. <br><br>
+            The algorithm for calculating streamflow involves adding up the total flow (surface and subsurface) per
+            area of the stream, then checking for boundary conditions and adding in existing flow from upstream. The
+            workflow currently supports only the constant volume stream hydrology algorithm, but changing volume and
+            kinematic wave algorithms are being developed. <br><br>
+            Constant volume routing (
+            <a href="https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=342907" target="_blank">
+                https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=342907
+            </a>) is a simple method using only the continuity equation where flow going out of the segment is equal to
+            the flow going into the segment. Volume, velocity, and depth remain constant with changing flows in this
+            scheme. <br><br>
+            NLDAS uses Noah Land Surface Model L4 (
+            <a href="https://disc.gsfc.nasa.gov/datasets/NLDAS_NOAH0125_H_V002/summary" target="_blank">
+                https://disc.gsfc.nasa.gov/datasets/NLDAS_NOAH0125_H_V002/summary</a>) to calculate hourly surface and
+            subsurface runoff hourly at 0.125X0.125 degree resolution for North America.  GLDAS also uses Noah Land
+            Surface Model L4 (<a href="https://disc.gsfc.nasa.gov/datasets/GLDAS_NOAH025_3H_V2.1/summary" target="_blank">
+            https://disc.gsfc.nasa.gov/datasets/GLDAS_NOAH025_3H_V2.1/summary</a>) to calculate 3-hourly surface and
+            subsurface runoff at 0.25X0.25 degree resolution for most of the globe. HMS streamflow workflow downloads
+            NLDAS and GLDAS precipitation, surface runoff, and subsurface runoff data from
+            <a href="https://disc.gsfc.nasa.gov/information/tools?title=Hydrology%20Data%20Rods" target="_blank">
+                https://disc.gsfc.nasa.gov/information/tools?title=Hydrology%20Data%20Rods</a> and performs temporal
+            and flow aggregations and stream network flow routing. <br><br>
+            Curve Number algorithm in HMS is implemented using Normalized Difference Vegetation Index (NDVI).
+            16-day interval NDVI satellite data from MODIS
+            (<a href="https://modis.gsfc.nasa.gov/data/dataprod/mod13.php" target="_blank">
+            https://modis.gsfc.nasa.gov/data/dataprod/mod13.php</a>) at 250 meter resolution for the period of 2001-2018
+            along with soil hydrological group data was used to calculate CN for each NHDPlus catchment.
+            The CN calculation methodology was based on an earlier published study
+            (<a href="https://www.sciencedirect.com/science/article/pii/S0301479718315433" target="_blank">
+            https://www.sciencedirect.com/science/article/pii/S0301479718315433</a>).
+            More details on the HMS CN calculation methodology are available at
+            (<a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve Number Development using Normalized Difference Vegetation Index</a>).
+            CN algorithm in the streamflow workflow uses average curve number for the catchment being modeled.
+        </p>
+    </div>
+</div>

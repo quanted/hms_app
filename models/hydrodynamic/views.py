@@ -20,7 +20,7 @@ description = "<p>The movement of water through a surface water system connects 
               "user defined channel geometries.  </p>" \
               "<p>The <b>kinematic wave</b> option used both the continuity and momentum equations to translate a flood wave " \
               "through a system. This is a more complex model with many changing variables.  </p>"\
-              '<img src="/static_qed/hms/images/inputs_table.png" alt="Model Input Table" style="">'
+              '<img src="/hms/static/images/inputs_table.png" alt="Model Input Table" style="">'
 
 
 
@@ -72,7 +72,7 @@ constantvolume_algorithm_description = "<p>The constant volume option uses the c
                                        " outflow as the sum of inflows. Volume, velocity, width, and depth remain" \
                                        " constant in this model." \
                                        " \[Q_{out}= \sum Q_{in}\] </p>"\
-                                       '<img src="/static_qed/hms/images/constant.png" alt="Constant Volume Routing" style="">'
+                                       '<img src="/hms/static/images/constant.png" alt="Constant Volume Routing" style="">'
 
 changingvolume_algorithm_description = "<p> Using a discharge-water depth relationship; volume, velocity, area, and" \
                                        " depth are calculated for each change in flow depending on the geometry of" \
@@ -83,7 +83,7 @@ changingvolume_algorithm_description = "<p> Using a discharge-water depth relati
                                        " by the regression model using observed data. Y and c are used as inputs into" \
                                        " the model as the depth multiplier and exponent. Plotting the log of the equation" \
                                        " gives:\[log (d)=c*\log (Q) + \log (y)\]"\
-                                       '<img src="/static_qed/hms/images/flow_regression.png" alt="Depth Flow Regression" style="">'
+                                       '<img src="/hms/static/images/flow_regression.png" alt="Depth Flow Regression" style="">'
 
 kinematicwave_algorithm_description = "<p>  The full kinematic wave algorithm is derived from the Continuity, Momentum," \
                                       " and Manning's Equations. \[Q_{i, t+1}" \

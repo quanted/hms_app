@@ -11,7 +11,7 @@ description = "<p>The hydrological cycle is the largest movement of any substanc
                 " to fall back down to Earth's surface as precipitation flowing toward the oceans and completing the" \
               " global hydrological cycle. All components of the hydrological cycle follow a water balance equation" \
               " which provides a basic framework for this model.</p>" \
-                '<img src="/static_qed/hms/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
+                '<img src="/hms/static/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 

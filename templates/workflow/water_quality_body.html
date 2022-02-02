@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="no-js not-oldie" lang="en" dir="ltr">
+<head>
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <script src="{% static 'js/dygraph.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/dygraph.css' %}">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+            integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+            crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.1.3/dist/esri-leaflet.js"
+            integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
+            crossorigin=""></script>
+
+    <!-- Load Google charts api -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="{% static 'js/jszip.min.js' %}"></script>
+    <script src="{% static 'js/FileSaver.min.js' %}"></script>
+
+    <script src ="{% static 'js/workflow/CapeFear_NHDPlus_catchments.js' %}"></script>
+    <script src="{% static 'js/workflow/water_quality_workflow_page.js' %}"></script>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/standard_styling.css' %}">
+    <link rel="stylesheet" href="{% static 'css/workflow/wq_workflow_map.css' %}"/>
+    <script type="text/javascript" src="{% static 'js/browser_check.js' %}"></script>
+
+</head>
+<body>
+<div id="wq_body">
+    <div id="catchmentDetails">
+        <ul>
+            <li><a href="#input_tab">Input</a></li>
+            <li><a href="#output_tab">Output</a></li>
+            <li><a href="#download_tab">Download Data</a></li>
+        </ul>
+        <div id="input_tab">
+            <form id="submit_form" action="#">
+                <fieldset style="display:inline-flex;">
+                    <label for="source_select">Select dataset source: </label>
+                    <select name="source" id="source_select">
+                        <option selected="selected">nldas</option>
+                        <option>ncei</option>
+                        <option>nwm</option>
+                    </select>
+                    <br><br>
+                    <label for="minAmmonia">Minimum Ammonia (mg): </label>
+                    <input type="number" value="0" id="minAmmonia"><br>
+                    <label for="maxAmmonia">Maximum Ammonia (mg): </label>
+                    <input type="number" value="750000" id="maxAmmonia"><br><br>
+
+                    <label for="minNitrate">Minimum Nitrate (mg): </label>
+                    <input type="number" value="0" id="minNitrate"><br>
+                    <label for="maxNitrate">Maximum Nitrate (mg): </label>
+                    <input type="number" value="10000" id="maxNitrate"><br>
+                </fieldset>
+            </form>
+            <div id="input_submit"><button id="input_submit_button">Submit</button></div>
+            <br><br>
+            <form id="taskID_form" action="#">
+                <fieldset>
+                    <label for="input_taskID">Enter taskID: </label>
+                    <input type="text" id="input_taskID">
+                </fieldset>
+            </form>
+            <div id="taskID_submit"><button id="taskID_submit_button">Retrieve</button></div>
+            <br><br>
+            <div id="previous_tasks" style="display:none;">
+                <h4>Recently submitted tasks (by ID)</h4>
+                <ul id="previous_tasks_list"></ul>
+            </div>
+        </div>
+        <div id="output_tab">
+            <div id="loader"><div id="loader_message"></div></div>
+            <div id="details_div">
+                <div id="dataset"></div>
+                <div id="source"></div>
+                <div id="startDate"></div>
+                <div id="endDate"></div>
+            </div>
+            <div id="catchmentTable"></div>
+            <div id="catchmentData">
+                <div id="timeseriesTable"></div>
+                <div id="timeseriesGraph"></div>
+            </div>
+        </div>
+        <div id="download_tab">
+            <div id="dialog" title="File Download">
+                <div class="progress-label">Starting download...</div>
+                <div id="progressbar"></div>
+            </div>
+            <div id="download_buttons">
+                <button id="catchment_download">Download Catchment Data (CSV)</button>
+                <button id="aoi_download">Download All Data (CSV)</button>
+            </div>
+        </div>
+    </div>
+    <div id="catchmentMap">
+        <div id="mapid"></div>
+    </div>
+</div>
+</body>
+<footer>
+
+</footer>
+</html>

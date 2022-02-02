@@ -23,7 +23,7 @@ def versions_page(request):
         'DISCLAIMER': None
     })                                                                     # Default EPA header
     html += links_left.ordered_list(model='documentation', submodel='version_history')
-    vh_path = os.path.join(os.environ['PROJECT_PATH'], 'hms_app', 'views', 'version_history.json')
+    vh_path = os.path.join(os.environ['PROJECT_PATH'], 'views', 'version_history.json')
     with open(vh_path) as f:
         vh = json.load(f)
     page_text = render_to_string("04hms_version_history_body.html", {'VH': vh}, request=request)

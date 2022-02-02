@@ -36,7 +36,7 @@ class SubsurfaceRunoff:
                         '(<a href="https://www.sciencedirect.com/science/article/pii/S0301479718315433" target="_blank"> '
                         'https://www.sciencedirect.com/science/article/pii/S0301479718315433</a>). More details on the '
                         'HMS CN calculation methodology are available at '
-                        '(<a href="/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve '
+                        '(<a href="/hms/static/images/hms_cn_muche_poster_AGU_2019.pdf" target="_blank">Curve '
                         'Number Development using Normalized Difference Vegetation Index</a>). CN Subsurface flow '
                         'is calculated as a percentage of surface runoff calculated by Curve Number. '
                         '<a href="https://www.epa.gov/national-aquatic-resource-surveys/streamcat" target="_blank">'

@@ -1,0 +1,76 @@
+<div class="input_block_0">
+    <div class="input_location_block">
+        <span class="block_title">Location</span><br/>
+        <div class="location_input_row">
+            <input type="radio" name="primary_source" value="comid" id="source_comid" checked><label for="source_comid" class="source_label">NHDPlus COMID</label>
+            <input type="text" class="location_text_input" id="location_comid" value="22340297">
+            <a href="https://epa.maps.arcgis.com/apps/webappviewer/index.html?id=ada349b90c26496ea52aab66a092593b" class="location_input_link" target="_blank">Use Map to locate NHDPlus catchment</a>
+        </div>
+        <div class="location_input_row">
+            <input type="checkbox" id="comid_weighted_spatial_avg"><label class="location_checkbox_input" for="comid_weighted_spatial_avg">Use weighted spatial average</label>
+            <input type="checkbox" id="comid_ncdc_station" onclick="toggleNCEIInput()"><label class="location_checkbox_input" for="comid_ncdc_station">NCEI Station ID</label><a href="http://gis.ncdc.noaa.gov/map/viewer" class="location_input_link" target="_blank">Use Map to locate NCEI station</a>
+        </div>
+        <div class="location_input_row" id="location_input_comid_ncdc_block">
+            <label for="location_input_comid_ncdc">NCEI Station</label>
+            <input type="text" class="location_text_input" id="location_input_comid_ncdc" value="GHCND:USW00013874">
+        </div>
+        <div class="location_input_row">
+            <span class="notification">Note: Nearest (to the catchment centroid) NCEI Station will be used if NCEI station ID is not provided above.</span>
+        </div>
+        <div class="location_input_row">
+            <input type="radio" name="primary_source" value="ncdc" id="source_ncdc"><label for="source_ncdc" class="source_label">NCEI Station ID</label>
+            <input type="text" class="location_text_input" id="location_ncdc" value="GHCND:USW00013874"><a href="http://gis.ncdc.noaa.gov/map/viewer" class="location_input_link" target="_blank">Use Map to locate NCEI station</a>
+        </div>
+    </div>
+    <div class="temporal_location_block">
+        <span class="block_title">Temporal</span>
+        <div class="temporal_input_row">
+            <label for="temporal_start">Start Year</label><input id="temporal_start" type="text" class="temporal_text_input" value="2010">
+            <label for="temporal_end">End Year</label><input id="temporal_end" type="text" class="temporal_text_input" value="2012">
+        </div>
+        <div class="temporal_location_agg_block">
+            <span class="blue_notification">Temporal Aggregation (select one of the following)</span>
+            <div class="temporal_input_row_radio">
+                <input type="radio" name="aggregation" value="daily" id="agg_daily" checked><label for="agg_daily" class="agg_label">Daily</label>
+            </div>
+            <div class="temporal_input_row_radio">
+                <input type="radio" name="aggregation" value="monthly" id="agg_monthly"><label for="agg_monthly" class="agg_label">Monthly</label>
+            </div>
+            <div class="temporal_input_row_radio">
+                <input type="radio" name="aggregation" value="annual" id="agg_annual"><label for="agg_annual" class="agg_label">Annual</label>
+            </div>
+            <div class="temporal_input_row_ext">
+                <input type="radio" name="aggregation" value="extreme_5" id="agg_ex_5"><label for="agg_ex_5" class="agg_label">Extreme Precipitation Event</label>
+                <div class="temporal_input_row">
+                    <label for="extreme_5_total" class="extreme_label">5 Day total precip threshold (mm) >=</label><input class="location_text_input" type="text" id="extreme_5_total" size="6">
+                    <label for="extreme_5_daily" class="extreme_label">Daily precip threshold (mm) >=</label><input class="location_text_input" type="text" id="extreme_5_daily" size="6">
+                </div>
+            </div>
+{#            <div class="temporal_input_row_ext">#}
+{#                <input type="radio" name="aggregation" value="extreme_1" id="agg_ex_1"><label for="agg_ex_1" class="agg_label">Extreme Precipitation Event</label>#}
+{#                <div class="temporal_input_row">#}
+{#                    <input class="location_text_input" type="text" id="extreme_1_daily" size="6"><label for="extreme_1_daily">Daily precip threshold (mm)</label>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+    </div>
+    <div class="source_location_block">
+        <span class="block_title">Data Sources</span>
+        <span class="blue_notification">Select gridded data sources to be compared with observed data from NCEI weather station</span>
+        <div class="sources_input_row" id="source_list">
+            <input type="checkbox" id="source_nldas" value="nldas" checked><label class="source_input_label" for="source_nldas">NLDAS</label>
+            <input type="checkbox" id="source_gldas" value="gldas" checked><label class="source_input_label" for="source_gldas">GLDAS</label>
+            <input type="checkbox" id="source_trmm" value="trmm" checked><label class="source_input_label" for="source_trmm">TRMM</label>
+{#            <input type="checkbox" id="source_daymet" value="daymet"><label class="source_input_label" for="source_daymet">DAYMET</label>#}
+{#            <input type="checkbox" id="source_prism" value="prism"><label class="source_input_label" for="source_prism">PRISM</label>#}
+        </div>
+    </div>
+    <div class="input_nav">
+    <div class="input_right">
+        <div class="submit_data_request_loader"></div>
+        <ul>
+            <li><input class="submit form-submit input_button submit_data_request" type="submit" value="Submit"/></li>
+        </ul>
+    </div>
+</div>
+</div>

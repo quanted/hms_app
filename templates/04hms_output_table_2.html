@@ -1,0 +1,111 @@
+<div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content" style="">
+        <div class="pane-content">
+            <div id="statisticsChartDiv">
+                <h4>{{ TITLE }} Chart</h4>
+                <div style="padding: 0 !important;">
+                    <div class="chartContainer" id="chartContainerTop" style="display:none;margin:10px">
+                        <div style="margin-left: 5%;">{{ DATASET }}</div>
+                        <div class="chart" id="compareChart"></div>
+                        <button style="width: 90px;font-size: 9px;height: 35px;" type="button"
+                                title="Save chart as png image" name="Save as Image" id="saveChart">Save as Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="statisticsDiv" style="margin-top: 15px;">
+                <h4>{{ TITLE }} Statistics</h4>
+                <div>
+                    <div class="statisticsContainer" id="statisticsContainerTop" style="margin:10px;">
+                        <div class="stats" id="statsTable">
+                        <div>{{ LABEL }}</div>
+                            <table style="font-size: 12px;float: left;">
+                                <thead>
+                                <tr>
+                                    <th>Source</th>
+                                    <th>Average (mm)</th>
+                                    <th>Total (mm)</th>
+                                    <th>Std Deviation (mm)</th>
+                                    <th>R-Squared</th>
+                                    <th>GORE</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if STATS %}
+                                    {% for item in STATS %}
+                                        <tr>
+                                            <td>{{ item.0 }}</td>
+                                            <td>{{ item.1 }}</td>
+                                            <td>{{ item.2 }}</td>
+                                            <td>{{ item.3 }}</td>
+                                            <td>{{ item.4 }}</td>
+                                            <td>{{ item.5 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="metaTableDiv" style="margin-top: 15px;">
+                <h4>{{ TITLE }} Metadata</h4>
+                <div style="padding:25px !important;">
+                    <table id="metaTable" class="display table-style" style="width:100%;">
+                        <thead>
+                        <tr>
+                            <th>Metadata</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if METADATA.items %}
+                            {% for metakey, metavalues in METADATA.items %}
+                                <tr>
+                                    <td>{{ metakey }}</td>
+                                    <td>{{ metavalues }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="dataTableDiv" style="margin-top: 15px;">
+                <h4>{{ TITLE }} Timeseries </h4>
+                <div>
+                    <table id="resultsTable" class="display table-style" style="width:100%;padding: 0 10px !important;">
+                        <thead>
+                        <tr>
+                            {% for value in COLUMNS %}
+                                <th>{{ value }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if DATA.items %}
+                            {% for key, values in DATA.items %}
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    {% for value in values %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <li>No data returned. Error in processing data.</li>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    <button onclick="saveToJSON('{{ SUBMODEL }}')"
+                            style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export JSON
+                    </button>
+                    <button onclick="saveToCSV('{{ SUBMODEL }}')"
+                            style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export CSV
+                    </button>
+                </div>
+            </div>
+
+

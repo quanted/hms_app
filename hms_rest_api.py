@@ -28,12 +28,10 @@ def delineate_watershed(request):
 
 @csrf_exempt
 def pass_through_proxy(request, module):
-    if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
+    if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:60050/api/" + module
     else:
-        # proxy_url = os.environ.get('HMS_BACKEND_SERVER') + "/HMSWS/api/" + module
-        proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_INTERNAL')) + "/api/" + module
-        # proxy_url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + "/HMSWS/api/" + module
+        proxy_url = str(os.getenv('HMS_BACKEND_SERVER_INTERNAL', 'hms_dotnetcore:80')) + "/api/" + module
     method = str(request.method)
     print("HMS proxy: " + method + " url: " + proxy_url)
     if method == "POST":
@@ -59,13 +57,12 @@ def pass_through_proxy(request, module):
 @csrf_exempt
 @require_http_methods(["GET", "POST", "DELETE"])
 def flask_proxy(request, flask_url):
-    if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
+    if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:7777" + "/" + flask_url
     else:
-        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/" + flask_url
-        # proxy_url = 'http://qed_flask:7777/' + flask_url
+        proxy_url = os.getenv('UBERTOOL_REST_SERVER', "hms_nginx:7777") + "/" + flask_url
     method = str(request.method)
-    print(f"Docker: {os.environ['IN_DOCKER']},Django to Flask proxy method: " + method + " url: " + proxy_url )
+    print(f"Docker: {os.getenv('IN_DOCKER', 'False')},Django to Flask proxy method: " + method + " url: " + proxy_url )
     if method == "POST":
         if len(request.POST) == 0:
             try:
@@ -80,7 +77,6 @@ def flask_proxy(request, flask_url):
         else:
             data = request.POST
         proxy_url = proxy_url + "/"
-        # print(f"TYPE2: {type(data)}")
         flask_request = requests.request("post", proxy_url, json=data, timeout=timeout, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
@@ -103,11 +99,10 @@ def flask_proxy(request, flask_url):
 @csrf_exempt
 @require_http_methods(["POST", "GET"])
 def flask_proxy_v3(request, model):
-    if os.environ["HMS_LOCAL"] == "True" and os.environ["IN_DOCKER"] == "False":
+    if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
     else:
-        # proxy_url = 'http://qed_flask:7777/hms/proxy/' + model
-        proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/proxy/" + model
+        proxy_url = os.getenv('UBERTOOL_REST_SERVER', "hms_nginx:7777") + "/hms/proxy/" + model
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":

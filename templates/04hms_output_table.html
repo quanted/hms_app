@@ -1,0 +1,75 @@
+  <div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+        <div class="panel-pane pane-node-content" style="width: 80%" >
+          <div class="pane-content">
+            <table id="metaTable" class="display" width="100%" role="grid">
+                <thead>
+                    <tr>
+                        <th>Metadata</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if METADATA.items %}
+                        {% for metakey, metavalues in METADATA.items %}
+                        <tr>
+                            <td>{{ metakey }}</td>
+                            <td>{{ metavalues }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+          <br>
+            <table id="resultsTable" class="display" cellspacing="0" width="100%" role="grid">
+            {% if MODEL == 'precip_compare' %}
+                <thead>
+                    <tr>
+                        <th>{{ COLUMN1 }}</th>
+                        <th>{{ COLUMN2 }}</th>
+                        <th>{{ COLUMN3 }}</th>
+                        <th>{{ COLUMN4 }}</th>
+                        <th>{{ COLUMN5 }}</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>{{ COLUMN1 }}</th>
+                        <th>{{ COLUMN2 }}</th>
+                        <th>{{ COLUMN3 }}</th>
+                        <th>{{ COLUMN4 }}</th>
+                        <th>{{ COLUMN5 }}</th>
+                    </tr>
+                </tfoot>
+            {% else %}
+                <thead>
+                    <tr>
+                        <th>{{ COLUMN1 }}</th>
+                        <th>{{ COLUMN2 }}</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>{{ COLUMN1 }}</th>
+                        <th>{{ COLUMN2 }}</th>
+                    </tr>
+                </tfoot>
+            {% endif %}
+                <tbody>
+                {% if DATA.items %}
+                    {% for key, values in DATA.items %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            {% for value in values %}
+                                <td>{{ value }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <li>No data returned. Error in processing data.</li>
+                {% endif %}
+                </tbody>
+            </table>
+          <button onclick="saveToJSON('{{ SUBMODEL }}')" style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export JSON</button>
+          <button onclick="saveToCSV('{{ SUBMODEL }}')" style="margin: 4px;text-align: center;padding: 0.5882em 1.1765em">Export CSV</button>
+

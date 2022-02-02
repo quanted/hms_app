@@ -17,7 +17,8 @@ def hms_landing_page(request):
     imports = render_to_string('hms_default_imports.html')
     imports += render_to_string('hms_landing_imports.html')
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    project_path = os.getenv('PROJECT_PATH', "..")
+    disclaimer_file = open(os.path.join(project_path, 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
 

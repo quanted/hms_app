@@ -14,7 +14,7 @@ class SolarCalculator:
                               ' of time, Solar Declination, Apparent Sunrise and Sunset, Solar Noon, and Azimuth are ' \
                               'calculated along with several other solar data parameters. Daylight Saving Time ' \
                               'is not incorporated in this model. The table below shows respective time zones. </p>' \
-                              '<img src="/static_qed/hms/images/timezone.png " alt="Time Zone Offset" style="">'
+                              '<img src="/hms/static/images/timezone.png " alt="Time Zone Offset" style="">'
 
     # Data source algorithms and brief description
     algorithms = {

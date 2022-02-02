@@ -1,0 +1,435 @@
+<!-- start 01epa_drupal_header.html -->
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)]><!-->
+<html class="no-js not-oldie" lang="en" dir="ltr"> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <link rel="shortcut icon" href="https://www.epa.gov/sites/all/themes/epa/favicon.ico"
+          type="image/vnd.microsoft.icon"/>
+    <meta name="MobileOptimized" content="width"/>
+    <meta http-equiv="cleartype" content="on"/>
+    <meta http-equiv="ImageToolbar" content="false"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="version" content="20161218"/>
+    <!--googleon: all-->
+    <meta name="DC.description" content=""/>
+    <meta name="DC.title" content=""/>
+    <title>{{ title }} | Q.E.D. | US EPA</title>
+    <!--googleoff: snippet-->
+    <meta name="keywords" content=""/>
+    <link rel="shortlink" href=""/>
+    <link rel="canonical" href=""/>
+    <meta name="DC.creator" content=""/>
+    <meta name="DC.language" content="en"/>
+    <meta name="DC.Subject.epachannel" content=""/>
+    <meta name="DC.type" content=""/>
+    <meta name="DC.date.created" content=""/>
+    <meta name="DC.date.modified" content=""/>
+    <!--googleoff: all-->
+    <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all"/>
+    <link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery.dataTables.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/static_qed/hms/css/buttons.dataTables.min.css"/>
+    <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" />
+    <![endif]-->
+    <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases"
+          href="https://www.epa.gov/newsreleases/search/rss"/>
+    <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases"
+          href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters"/>
+    <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog"
+          href="https://blog.epa.gov/blog/feed/"/>
+    <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
+
+    <!-- Load JQuery.UI -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Load DataTabels-->
+    <script src="/static_qed/hms/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/static_qed/hms/js/dataTables.buttons.min.js" type="application/javascript"></script>
+    <script src="/static_qed/hms/js/buttons.flash.min.js" type="application/javascript"></script>
+    <script src="/static_qed/hms/js/buttons.html5.min.js" type="application/javascript"></script>
+
+    <!-- Load D3.v3.js -->
+    <script type="application/javascript" src="/static_qed/hms/js/d3.v3.min.js"></script>
+
+    <!-- Load c3.css -->
+    <link href="/static_qed/hms/css/c3.css" rel="stylesheet">
+
+    <!-- Load c3.js -->
+    <script src="/static_qed/hms/js/c3.min.js"></script>
+
+    <!-- Load D3 save image scripts -->
+    <script type="application/javascript" src="/static_qed/hms/js/canvas-toBlob.js"></script>
+    <script type="application/javascript" src="/static_qed/hms/js/FileSaver.min.js"></script>
+
+    <script type="text/javascript" language="javascript" class="init">
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                dom: 'frtlp',
+                "scrollX": true
+            });
+            $('#metaTable').DataTable({
+                dom: 'frtp',
+                "scrollX": true
+            });
+
+            var table = $('#resultsTable').DataTable();
+            var columnNames = [];
+            table.columns().every(function (index) {
+                columnNames.push('"' + $(table.columns(index).header()).html() + '"');
+            });
+            var data = [];
+
+            var includeHr = (columnNames.length === 2) ? 13 : 10;
+
+            table.columns().data().map(function (c, i) {
+                if (i === 0) {
+                    var date = [];
+                    c.map(function (e) {
+                        date.push(e.substring(0, includeHr));
+                    });
+                    date.unshift(columnNames[i]);
+                    data.push(date);
+                }
+                else {
+                    c.unshift(columnNames[i]);
+                    data.push(c);
+                }
+            });
+            var chart;
+            if (columnNames.length === 2) {
+                $("#chartContainerTop").show();
+                chart = c3.generate({
+                    bindto: '#compareChart',
+                    data: {
+                        x: columnNames[0],
+                        xFormat: '%Y-%m-%d %H',
+                        columns: [
+                            data[0],
+                            data[1]
+                        ]
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                fit: true,
+                                count: 8,
+                                format: '%Y-%m-%d %H'
+                            },
+                            label: {
+                                text: '{{ LABEL }}',
+                                position: 'outer-center'
+                            },
+                            margin: {right: 25}
+                        },
+                        y: {
+                            label: {
+                                text: "(mm)",
+                                position: 'outer-middle'
+                            }
+                        }
+                    },
+                    subchart: {
+                        show: true
+                    },
+                    point: {
+                        show: false
+                    },
+                    legend: {
+                        show: false
+                    },
+                    zoom: {
+                        enabled: true,
+                        rescale: true
+                    }
+                });
+            }
+            else {
+                $("#chartContainerTop").show();
+                chart = c3.generate({
+                    bindto: '#compareChart',
+                    data: {
+                        x: columnNames[0],
+                        columns: [
+                            data[0],
+                            data[1]
+                        ]
+                    },
+                    axis: {
+                        x: {
+                            type: 'timeseries',
+                            tick: {
+                                fit: true,
+                                count: 8,
+                                format: '%Y-%m-%d'
+                            },
+                            label: {
+                                text: '{{ LABEL }}',
+                                position: 'outer-center'
+                            }
+                        },
+                        y: {
+                            label: {
+                                text: "(mm)",
+                                position: 'outer-middle'
+                            }
+                        }
+                    },
+                    subchart: {
+                        show: true
+                    },
+                    point: {
+                        show: false
+                    },
+                    zoom: {
+                        rescale: true
+                    }
+                });
+                setTimeout(data.forEach(function (d) {
+                    chart.load({columns: [d]});
+                }), 1000);
+                {#                setTimeout(function () {#}
+                {#                    chart.load({columns: [data[2], data[3], data[4]]});#}
+                {#                }, 1000);#}
+            }
+
+            $('#pane-content').focus();
+
+            d3.select('#saveChart').on('click', function () {
+                var chart = $('#compareChart');
+                var svg = d3.select('svg');
+                d3.selectAll(".c3-axis path").style({'fill': 'none'});
+                d3.selectAll(".c3-chart path").style({'fill': 'none'});
+                d3.selectAll(".tick line").style({'fill': 'none', 'stroke': '#000'});
+                d3.selectAll(".domain").style({'fill': 'none', 'stroke': '#000'});
+                d3.selectAll(".c3-brush .extent").style({'fill-opacity': 0.1});
+                d3.selectAll(".c3 text").style({'font-size': '8px'});
+                var bBox = chart.children()[0].getBBox();
+                var svgString = getSVGString(svg.node());
+                {#                svgString2Image(svgString, 2 * bBox.width, 2 * bBox.height, 'png', save);#}
+                svgString2Image(svgString, chart[0].clientWidth, chart[0].clientHeight, 'png', save);
+
+                function save(dataBlob, filesize) {
+                    saveAs(dataBlob, 'hms_timeseries_chart')
+                }
+            });
+
+        });
+
+        $(function () {
+            $('#statisticsChartDiv').accordion({
+                collapsible: true,
+                active: 0
+            });
+            $('#statisticsDiv').accordion({
+                collapsible: true,
+                active: 1
+            });
+            $('#metaTableDiv').accordion({
+                collapsible: true,
+                active: 2,
+                heightStyle: "content"
+            });
+            $('#dataTableDiv').accordion({
+                collapsible: true,
+                active: 3,
+                heightStyle: "content"
+            });
+        });
+
+        function saveToJSON(submodel) {
+            var fileName = submodel + "_data";
+            var jsonData = "";
+            $('#resultsTable').DataTable().rows().every(function () {
+                jsonData += this.data().toString().replace(/([^,]*)\,{1}([^*]*)\,{0}/g, '"$1": [$2],');
+            });
+            jsonData = jsonData.substring(0, jsonData.length - 1);
+            var metaData = "";
+            $('#metaTable').DataTable().rows().every(function () {
+                metaData += this.data().toString().replace(/([^,]*)\,{1}([^*]*)\,{0}/g, '"$1": "$2",');
+            });
+            metaData = metaData.substring(0, metaData.length - 1);
+            var outputData = '{"dataset": "' + submodel + '", "metadata": {' + metaData + '}, "data": {' + jsonData + "}}";
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:data:text/plain;charset=utf-8,' + encodeURIComponent(outputData));
+            pom.setAttribute('download', fileName + '.json');
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+        }
+
+        function saveToCSV(submodel) {
+            var fileName = submodel + "_data";
+            var tableData = "";
+            var table = $('#resultsTable').DataTable();
+            table.rows().every(function () {
+                tableData += this.data().toString();
+                tableData += "\n";
+            });
+            var metaData = $('#metaTable').DataTable().rows().data().toArray();
+            var columns = [];
+            table.columns().every(function (index) {
+                columns.push('"' + $(table.columns(index).header()).html() + '"');
+            });
+
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:data:text/csv;charset=utf-8,' + encodeURIComponent(submodel + " metadata\n" + metaData + "\n" + submodel + " data\n" + columns.toString() + "\n" + tableData));
+            pom.setAttribute('download', fileName + '.csv');
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+        }
+
+        function getSVGString(svgNode) {
+            svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
+            var cssStyleText = getCSSStyles(svgNode);
+            appendCSS(cssStyleText, svgNode);
+
+            var serializer = new XMLSerializer();
+            var svgString = serializer.serializeToString(svgNode);
+            svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
+            svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
+
+            return svgString;
+
+            function getCSSStyles(parentElement) {
+                var selectorTextArr = [];
+
+                // Add Parent element Id and Classes to the list
+                selectorTextArr.push('#' + parentElement.id);
+                for (var c = 0; c < parentElement.classList.length; c++)
+                    if (!contains('.' + parentElement.classList[c], selectorTextArr))
+                        selectorTextArr.push('.' + parentElement.classList[c]);
+
+                // Add Children element Ids and Classes to the list
+                var nodes = parentElement.getElementsByTagName("*");
+                for (var i = 0; i < nodes.length; i++) {
+                    var id = nodes[i].id;
+                    if (!contains('#' + id, selectorTextArr))
+                        selectorTextArr.push('#' + id);
+
+                    var classes = nodes[i].classList;
+                    for (var c = 0; c < classes.length; c++)
+                        if (!contains('.' + classes[c], selectorTextArr))
+                            selectorTextArr.push('.' + classes[c]);
+                }
+
+                // Extract CSS Rules
+                var extractedCSSText = "";
+                for (var i = 0; i < document.styleSheets.length; i++) {
+                    var s = document.styleSheets[i];
+
+                    try {
+                        if (!s.cssRules) continue;
+                    } catch (e) {
+                        if (e.name !== 'SecurityError') throw e; // for Firefox
+                        continue;
+                    }
+
+                    var cssRules = s.cssRules;
+                    for (var r = 0; r < cssRules.length; r++) {
+                        if (contains(cssRules[r].selectorText, selectorTextArr))
+                            extractedCSSText += cssRules[r].cssText;
+                    }
+                }
+                return extractedCSSText;
+
+                function contains(str, arr) {
+                    return arr.indexOf(str) === -1 ? false : true;
+                }
+            }
+
+            function appendCSS(cssText, element) {
+                var styleElement = document.createElement("style");
+                styleElement.setAttribute("type", "text/css");
+                styleElement.innerHTML = cssText;
+                var refNode = element.hasChildNodes() ? element.children[0] : null;
+                element.insertBefore(styleElement, refNode);
+            }
+        }
+
+        function svgString2Image(svgString, width, height, format, callback) {
+            var format = format ? format : 'png';
+
+            var imgsrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
+
+            var canvas = document.createElement("canvas");
+            var context = canvas.getContext("2d");
+
+            canvas.width = width;
+            canvas.height = height;
+
+            var image = new Image();
+            image.onload = function () {
+                context.clearRect(0, 0, width, height);
+                context.drawImage(image, 0, 0, width, height);
+
+                canvas.toBlob(function (blob) {
+                    var filesize = Math.round(blob.length / 1024) + ' KB';
+                    if (callback) callback(blob, filesize);
+                });
+
+
+            };
+            image.src = imgsrc;
+        }
+    </script>
+    <style>
+        table.table-style {
+            width: 100% !important;
+            font-size: smaller;
+            line-height: 15px;
+            margin: inherit;
+        }
+
+        table.dataTable {
+            width: 100%
+        }
+
+        div.dataTables_filter {
+            padding-bottom: 2px;
+            padding-right: 1px;
+        }
+
+        div.dataTables_length {
+            padding-top: 2px;
+        }
+
+        div.dataTables_scrollHeadInner {
+            width: 100% !important;
+        }
+
+        .ui-state-hover, .ui-state-active {
+            background: #f6f6f6 !important;
+        }
+
+        .ui-state-active {
+            color: black !important;
+        }
+
+        .ui-accordion .ui-accordion-content {
+        {#            padding: 25px 0 0 0 !important;#}{#            height: 100% !important;#} overflow: hidden !important;
+        }
+
+    </style>
+</head>
+<!-- end 01epa_drupal_header.html -->

@@ -18,7 +18,7 @@ class Streamflow:
                   "Other algorithms such as changing volume and Kinematic wave algorithms will be implemented later." \
                   "The outputs include GMT based daily time-series of precipitation, surface runoff, subsurface flow," \
                   "and streamflow for each COMID in the network." \
-                  "<img id='workflow_stream_img' src='/static_qed/hms/images/stream.jpg' alt='Some random placeholder stream'>"
+                  "<img id='workflow_stream_img' src='/hms/static/images/stream.jpg' alt='Some random placeholder stream'>"
 
     # Data source algorithms and brief description
     algorithms = {
@@ -69,7 +69,7 @@ class Streamflow:
                         "The CN calculation methodology was based on an earlier published study "
                         "(<a href='https://www.sciencedirect.com/science/article/pii/S0301479718315433' target='_blank'>"
                         "Phenology-adjusted dynamic curve number</a>). More details on the HMS CN calculation methodology are available at "
-                        "(<a href='/static_qed/hms/images/hms_cn_muche_poster_AGU_2019.pdf' target='_blank'>"
+                        "(<a href='/hms/static/images/hms_cn_muche_poster_AGU_2019.pdf' target='_blank'>"
                         "Curve Number Development using Normalized Difference Vegetation Index</a>). "
                         "CN algorithm in the streamflow workflow uses average curve number for the catchment being modeled."
     }

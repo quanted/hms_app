@@ -1,0 +1,9 @@
+{% load static %}
+<script src="{% static 'js/d3.js' %}"></script>
+<script src="{% static 'js/precip_compare_testdata.js' %}"></script>
+<script src="{% static 'js/workflow/precip_workflow_page.js' %}"></script>
+<link type="text/css" rel="stylesheet" href="{% static 'css/workflow/precip_compare.css' %}">
+<link type="text/css" rel="stylesheet" href="{% static 'css/workflow/workflow_page.css' %}">
+<script>
+    var submodel = "{{ SUBMODEL }}";
+</script>

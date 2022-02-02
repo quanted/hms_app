@@ -1,0 +1,113 @@
+<!-- start 02hms_header_bluestripe_onesidebar.html -->
+<body class="node-type-(web-area|page|document|webform) (microsite|resource-directory) one-sidebar"
+      style="margin-right: 1px;">
+
+<!-- Google Tag Manager -->
+<noscript>
+    <iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+</noscript>
+<script>(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+    var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+})(window, document, 'script', 'dataLayer', 'GTM-L8ZB');</script>
+<!-- End Google Tag Manager -->
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+{#<script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>#}
+<script src="/static_qed/hms/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/static_qed/hms/js/dataTables.buttons.min.js" type="application/javascript"></script>
+<script src="/static_qed/hms/js/buttons.flash.min.js" type="application/javascript"></script>
+<script src="/static_qed/hms/js/buttons.html5.min.js" type="application/javascript"></script>
+
+<!-- Load JQuery.UI -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+
+    $(function () {
+        var icons = {
+            header: "ui-icon-caret-1-s",
+            activeHeader: "ui-icon-caret-1-n"
+        };
+        $("#accordion_header").accordion({
+            collapsible: true,
+            active: 1,
+            icons: icons
+        });
+    });
+    $(document).ready(function () {
+        $("#top_menu").mouseenter(function () {
+            if ($("#top_menu").hasClass("ui-accordion-header-collapsed")) {
+                $("#top_menu").trigger("click");
+            }
+        });
+        $("#main-column").mouseenter(function () {
+            if ($("#top_menu").hasClass("ui-accordion-header-active")) {
+                $("#top_menu").trigger("click");
+            }
+        });
+    });
+</script>
+
+<style>
+
+    #top_menu {
+        text-align: center;
+        background-color: #0071bc;
+        margin: 0;
+        padding: .3em .3em 0 .3em;
+    }
+
+    #top_menu_div {
+        padding: 0;
+        overflow: hidden;
+    }
+
+    #ui-accordion-header-icon {
+        color: white !important;
+    }
+
+    #epa_hgroup {
+        left: 45%;
+        position: relative;
+    }
+
+</style>
+
+<div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main
+    content</a></div>
+<div id="accordion_header">
+    <h3 id="top_menu" style="text-align: center;"></h3>
+    <div id="top_menu_div">
+        <header class="masthead clearfix" role="banner">
+            <img class="site-logo" src="https://www.epa.gov/sites/all/themes/epa/logo.png" alt=""/>
+            <hgroup id="epa_hgroup" class="site-name-and-slogan">
+                <h1 class="site-name"><a href="https://www.epa.gov/" title="Go to the home page"
+                                         rel="home"><span>US EPA</span></a>
+                </h1>
+                <div class="site-slogan">United States Environmental Protection Agency</div>
+            </hgroup>
+
+            <form class="epa-search" method="get" action="https://search.epa.gov/epasearch/epasearch">
+                <label class="element-hidden" for="search-box">Search</label>
+                <input class="form-text" placeholder="Search EPA.gov" name="querytext" id="search-box" value=""/>
+                <button class="epa-search-button" id="search-button" type="submit" title="Search">Search</button>
+                <input type="hidden" name="areaname" value=""/>
+                <input type="hidden" name="areacontacts" value=""/>
+                <input type="hidden" name="areasearchurl" value=""/>
+                <input type="hidden" name="typeofsearch" value="epa"/>
+                <input type="hidden" name="result_template" value="2col.ftl"/>
+            </form>
+
+        </header>
+    </div>
+</div>
+<!-- end 02hms_header_bluestripe_onesidebar.html -->

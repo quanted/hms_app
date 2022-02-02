@@ -11,7 +11,7 @@ description = "<p>HMS hydrology components include evapotranspiration, soil mois
               "Coordinated Universal Time (UTC), calculating spatially weighted average values time series for " \
               "NHDPlus catchments from gridded datasets, locating weather station closest to a point location or " \
               "NHDPlus catchment centroid, and temporal aggregations such as daily values from hourly data.</p>" \
-                '<img src="/static_qed/hms/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
+                '<img src="/hms/static/images/water_cycle.gif" alt="Hydrological Water Cycle" style="">'
 
 unknown_description = '<p>There is nothing for you here!</p>'
 
@@ -49,7 +49,7 @@ evapotranspiration_algorithm_description = "<p>The table below lists the support
                                            "the data sources that contain the required parameters for each algorithm. " \
                                            "More information regarding the inputs and outputs can be found" \
                                            "<a href='https://github.com/quanted/hms/tree/dev/Evapotranspiration'> here.</a>" \
-                                       '<img src="/static_qed/hms/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
+                                       '<img src="/hms/static/images/evapotable.png" alt="Evapotranspiration Inputs" style="">'
 
 soilmoisture_algorithm_description = "<p>The NLDAS soil moisture algorithm is modeled with the NOAH community land" \
                                      " surface model. "

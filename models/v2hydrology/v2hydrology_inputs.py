@@ -15,7 +15,7 @@ def v2hydrology_input_page(request, model='', submodel='', header='', form_data=
     :param form_data: Set to None
     :return: returns a string formatted as html
     """
-    sub_import = "/static_qed/hms/js/hydrology/hms_" + submodel + ".js"
+    sub_import = "/hms/static/js/hydrology/hms_" + submodel + ".js"
     html = render_to_string('04hms_js_imports.html', {
         'SUBMODEL_IMPORT': sub_import
     })

@@ -1,0 +1,61 @@
+<!--start 04hms_input_start-->
+<script type="text/javascript" src="/static_qed/js/jquery.blockUI.js"></script>
+<script src="/static_qed/hms/js/scripts_input.js"></script>
+<script src="/static_qed/hms/js/jquery-ui.js"></script>
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.structure.css">
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.theme.css">
+
+<style>
+    div.model_inputs {
+        font-size: smaller;
+        line-height: 15px;
+    }
+
+    .ui-datepicker-title {
+        font-size: smaller !important;
+        padding: 4px;
+
+    }
+</style>
+<script>
+
+    $(function () {
+        $('.input_table').tooltip({hide: {effect: "fade", duration: 80}});
+    });
+    $(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            yearRange: "1900:2500"
+        });
+    });
+</script>
+<div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content">
+        <div class="pane-content">
+            {% if ERROR != "" %}
+                <div>
+                    <p>{{ ERROR }}</p>
+                </div>
+            {% endif %}
+            {#        <div class="node node-page clearfix view-mode-full">#}
+            <div class="model_inputs">
+                {% if SUBMODEL == NULL %}
+                    <form method="post" action="/hms/{{ MODEL }}/output/" name="input_table">
+                    {% csrf_token %}
+                {% else %}
+                    <form id="inputOptions" method="post" enctype="multipart/form-data"
+                          action="/hms/{{ MODEL }}/{{ SUBMODEL }}/output/" name="input_table">
+                    {% csrf_token %}
+                {% endif %}
+                <table class="nostripe input_table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Input</th>
+                        <th scope="col">Value</th>
+                    </tr>
+                    </thead>
+                    <!--end 04hms_input_start-->

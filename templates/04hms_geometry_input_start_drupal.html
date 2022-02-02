@@ -1,0 +1,53 @@
+<!--start 04hms_input_start-->
+<script type="text/javascript" src="/static_qed/js/jquery.blockUI.js"></script>
+{#<script src="/static_qed/hms/js/scripts_input.js"></script>#}
+<style>
+    div.model_inputs{
+        font-size: smaller;
+        line-height: 15px;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+
+        //function GeometryCentroid(){
+        $(".submit_geometry").click(function(){
+            var requestData = {
+                "dataset": "geometry",
+                "geojson": document.getElementById("id_geojson").value
+            };
+
+            $.ajax({
+                //url: 'http://localhost:50052/api/WSHMS/',
+                url: {{ BACKEND_URL }},
+                method: 'POST',
+                data: requestData,
+                crossDomain: true,
+                timeout: 30000,
+                success: function(output){
+                   $('#geometry_centroid').html(output["metadata"]["centroid"]);
+                },
+                error: function(output){
+                   $('#geometry_centroid').html("Error getting centroid of area.");
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
+  <div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content" >
+      <div class="pane-content">
+          {% if ERROR != "" %}
+              <div>
+                  <p>{{ ERROR }}</p>
+              </div>
+          {% endif %}
+              <form name="input_table">
+              <table class="nostripe input_table">
+              <thead>
+                <tr><th scope="col">Input</th><th scope="col">Value</th></tr>
+              </thead>
+<!--end 04hms_input_start-->

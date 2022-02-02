@@ -1,0 +1,72 @@
+<!--start 04hms_water_quality_input_form-->
+<script type="text/javascript" src="/static_qed/js/jquery.blockUI.js"></script>
+<script src="/static_qed/hms/js/scripts_input.js"></script>
+<script src="/static_qed/hms/js/jquery-ui.js"></script>
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.structure.css">
+<link type="text/css" rel="stylesheet" href="/static_qed/hms/css/jquery-ui.theme.css">
+
+<style>
+    div.model_inputs {
+        font-size: smaller;
+        line-height: 15px;
+    }
+
+    .ui-datepicker-title {
+        font-size: smaller !important;
+        padding: 4px;
+
+    }
+</style>
+<script>
+
+    $(function () {
+        $('.input_table').tooltip({hide: {effect: "fade", duration: 80}});
+    });
+    $(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: "yy-mm-dd",
+            yearRange: "1900:2500"
+        });
+    });
+</script>
+<div class="main-column clearfix">
+    <h1 class="page-title">{{ TITLE }}</h1>
+    <div class="panel-pane pane-node-content">
+        <div class="pane-content">
+            <div class="input_type">
+                <button class="input_form" id="input_form">Input Form</button>
+                <button class="json_form" id="json_form">Json Input</button>
+            </div>
+            {% if ERROR != "" %}
+                <div id="error_div">
+                    <p id="error_p">{{ ERROR }}</p>
+                </div>
+            {% endif %}
+            {#        <div class="node node-page clearfix view-mode-full">#}
+            <div class="model_inputs">
+                {% if SUBMODEL == NULL %}
+                    <form method="post" action="/hms/{{ MODEL }}/output/" name="input_table">
+                    {% csrf_token %}
+                {% else %}
+                    <form id="inputOptions" method="post" enctype="multipart/form-data"
+                          action="/hms/{{ MODEL }}/{{ SUBMODEL }}/output/" name="input_table">
+                    {% csrf_token %}
+                {% endif %}
+                <table class="nostripe input_table" id="input_table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="form_titles">Input</th>
+                        <th scope="col" class="form_inputs">Value</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>{% for field in FORM %}
+                        <tr>
+                            <td>{{ field.label_tag }}</td>
+                            <td>{{ field }}</td>
+                        </tr>{% endfor %}
+                    </tbody>
+                    <!--end 04hms_water_quality_input_form-->

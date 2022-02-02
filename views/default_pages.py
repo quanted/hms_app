@@ -26,7 +26,7 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
     # notpublic = True if request.path not in public_modules else False
@@ -74,7 +74,7 @@ def build_overview_page(request, model, submodule, title=None, import_block=None
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
 
@@ -124,7 +124,7 @@ def build_input_page(request, model, submodule, title=None, import_block=None, i
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
 
@@ -165,7 +165,7 @@ def build_algorithms_page(request, model, submodule, title=None, import_block=No
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
 
@@ -205,7 +205,7 @@ def build_output_page(request, model, submodule, title=None, import_block=None, 
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     ispublic = bool(os.getenv("HMS_RELEASE", 0))
 
@@ -252,7 +252,7 @@ def build_map_model_page(request, model, submodel, title=None, import_block=None
     if import_block is not None:
         imports += import_block
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     notpublic = True if request.path not in public_modules else False
 
