@@ -103,9 +103,10 @@ function setSourceConfig(){
 
 function getData() {
     var params = getParameters();
+    var requestUrl = window.location.origin + "/" + baseUrl;
     $.ajax({
         type: "POST",
-        url: baseUrl,
+        url: requestUrl,
         accepts: "application/json",
         data: JSON.stringify(params),
         processData: false,
@@ -134,9 +135,10 @@ function getData() {
 
 function getData2() {
     var params = getParameters();
+    var requestUrl = window.location.origin + "/" + baseUrl;
     $.ajax({
         type: "POST",
-        url: baseUrl,
+        url: requestUrl,
         accepts: "application/json",
         data: JSON.stringify(params),
         processData: false,
@@ -168,7 +170,7 @@ function getData2() {
 
 function getDataPolling() {
     counter = counter - 1;
-    var requestUrl = "hms/rest/api/v2/hms/data";
+    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
     if (counter > 0) {
         $.ajax({
             type: "GET",

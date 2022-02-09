@@ -358,8 +358,7 @@ function getData() {
     $('#data-request-success').html("");
     startLoader();
     var dataset = $('#dataset-input').val();
-    // var baseUrl = "http://127.0.0.1:8000/hms/rest/api/hydrology/" + dataset;
-    var baseUrl = "https://qedinternal.epa.gov/hms/rest/api/hydrology/" + dataset;
+    var baseUrl = window.location.origin + "/hms/rest/api/hydrology/" + dataset;
     var startDate = $('#startDate').val();
     var endDate = $('#endDate').val();
     var source = $('#source-input').val();

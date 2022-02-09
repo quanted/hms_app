@@ -26,7 +26,7 @@ def get_swagger_json(request):
     if os.environ['HMS_LOCAL'] == "True" and os.environ["IN_DOCKER"] == "False":
         url = "http://localhost:60050/swagger/v1/swagger.json"
     else:
-        url = str(os.environ.get('HMS_BACKEND_SERVER_DOCKER')) + '/swagger/v1/swagger.json'
+        url = str(os.environ.get('HMS_BACKEND')) + '/swagger/v1/swagger.json'
     print("Swagger json request url: " + url)
     if "HTTP_REFERER" in request.META:
         protocol = "https" if "https" in request.META["HTTP_REFERER"] else "http"

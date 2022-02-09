@@ -15,7 +15,7 @@ def geometry_utils_input_page(request, model='', header='', form_data=None):
     :param form_data: Set to None
     :return: returns a string formatted as html
     """
-    backend_url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/WSHMS/'
+    backend_url = str(os.environ.get('HMS_BACKEND')) + '/HMSWS/api/WSHMS/'
     #html = render_to_string('04hms_input_jquery.html', {})
     html = render_to_string('04hms_geometry_input_start_drupal.html', {
         'MODEL': model,

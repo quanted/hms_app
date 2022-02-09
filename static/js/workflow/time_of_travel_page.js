@@ -297,9 +297,10 @@ function getParameters(){
 function getData() {
     var params = getParameters();
     var jsonParams = JSON.stringify(params);
+    var requestUrl = window.location.origin + "/" + baseUrl;
     $.ajax({
         type: "POST",
-        url: baseUrl,
+        url: requestUrl,
         accepts: "application/json",
         data: jsonParams,
         processData: false,
@@ -326,7 +327,7 @@ function getData() {
 
 function getDataPolling() {
     //counter = counter - 1;
-    var requestUrl = "hms/rest/api/v2/hms/data";
+    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
     jobID = taskID;
     if (counter > 0) {
         $.ajax({

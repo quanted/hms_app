@@ -169,7 +169,7 @@ def get_data(model, submodel, parameters):
             url = 'http://localhost:60049/api/' + model + '/solar/run'                                    # local VS HMS
             # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
         else:
-            url = str(os.environ.get('HMS_BACKEND_SERVER')) + '/HMSWS/api/' + model + '/solar/run'        # HMS backend server variable
+            url = str(os.environ.get('HMS_BACKEND')) + '/HMSWS/api/' + model + '/solar/run'        # HMS backend server variable
     try:
         result = requests.post(str(url), json=json.loads(parameters), timeout=10000)
     except requests.exceptions.RequestException as e:

@@ -191,9 +191,10 @@ function getParameters() {
 
 function getData() {
     var params = getParameters();
+    var requestUrl = window.location.origin + baseUrl;
     $.ajax({
         type: "POST",
-        url: baseUrl,
+        url: requestUrl,
         accepts: "application/json",
         data: JSON.stringify(params),
         processData: false,
@@ -270,7 +271,7 @@ function setOutputMap() {
 }
 
 function getDataPolling() {
-    var requestUrl = "hms/rest/api/v2/hms/data";
+    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
     $.ajax({
         type: "GET",
         url: requestUrl + "?job_id=" + taskID,
@@ -358,7 +359,7 @@ function getDataByCOMID() {
         setTimeout(showContributingCatchments, 300);
     } else {
         var selectedTaskID = comidDataTable.getFormattedValue(comidTable.getSelection()[0].row, 1);
-        var requestUrl = "hms/rest/api/v2/hms/data";
+        var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
         $.ajax({
             type: "GET",
             url: requestUrl + "?job_id=" + selectedTaskID,
@@ -382,7 +383,7 @@ function getDataBySingleCOMID(comid, tID) {
     if (comid in comidData) {
         buildDataTable(comid, comidData[selectedCOMID]);
     } else {
-        var requestUrl = "hms/rest/api/v2/hms/data";
+        var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
         $.ajax({
             type: "GET",
             url: requestUrl + "?job_id=" + tID,
@@ -608,7 +609,7 @@ function loadCookies() {
 }
 
 function requestDataByTaskID(comid, tID) {
-    var requestUrl = "hms/rest/api/v2/hms/data";
+    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
     $.ajax({
         type: "GET",
         url: requestUrl + "?job_id=" + tID,

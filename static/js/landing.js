@@ -1,4 +1,4 @@
-var statusURL = "rest/api/utilities/status/";
+var statusURL = "hms/rest/api/utilities/status/";
 
 var statusData;
 
@@ -7,9 +7,10 @@ $(function(){
 });
 
 function getStatus() {
+    var requestUrl = window.location.origin + statusURL
     $.ajax({
         type: "GET",
-        url: statusURL,
+        url: requestUrl,
         timeout: 0,
         success: function (data, textStatus, jqXHR) {
             statusData = data;

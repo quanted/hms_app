@@ -354,9 +354,10 @@ function getParameters() {
 function getData() {
     var params = getParameters();
     var jsonParams = JSON.stringify(params);
+    var requestUrl = window.location.origin + baseUrl;
     $.ajax({
         type: "POST",
-        url: baseUrl,
+        url: requestUrl,
         accepts: "application/json",
         data: jsonParams,
         processData: false,
