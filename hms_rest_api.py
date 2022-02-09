@@ -31,7 +31,7 @@ def pass_through_proxy(request, module):
     if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:60050/api/" + module
     else:
-        proxy_url = str(os.getenv('HMS_BACKEND', 'hms_dotnetcore:80')) + "/api/" + module
+        proxy_url = str(os.getenv('HMS_BACKEND', 'hms-dotnetcore:80')) + "/api/" + module
     method = str(request.method)
     print("HMS proxy: " + method + " url: " + proxy_url)
     if method == "POST":
@@ -60,7 +60,7 @@ def flask_proxy(request, flask_url):
     if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:7777" + "/" + flask_url
     else:
-        proxy_url = os.getenv('UBERTOOL_REST_SERVER', "hms_nginx:7777") + "/" + flask_url
+        proxy_url = os.getenv('FLASK_SERVER', "hms-nginx:7777") + "/" + flask_url
     method = str(request.method)
     print(f"Docker: {os.getenv('IN_DOCKER', 'False')},Django to Flask proxy method: " + method + " url: " + proxy_url )
     if method == "POST":
@@ -102,7 +102,7 @@ def flask_proxy_v3(request, model):
     if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:7777" + "/hms/proxy/" + model
     else:
-        proxy_url = os.getenv('UBERTOOL_REST_SERVER', "hms_nginx:7777") + "/hms/proxy/" + model
+        proxy_url = os.getenv('FLASK_SERVER', "hms-nginx:7777") + "/proxy/" + model
     method = str(request.method)
     print("Django to Flask proxy method: " + method + " url: " + proxy_url)
     if method == "POST":
