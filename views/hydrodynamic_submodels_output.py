@@ -147,7 +147,7 @@ def get_data(model, submodel, parameters):
     if os.environ["HMS_LOCAL"] == "True":
         url = "http://localhost:7777" + "/hms/hydrodynamic/" + submodel + "/"
     else:
-        url = os.environ.get('UBERTOOL_REST_SERVER') + "/hms/hydrodynamic/" + submodel
+        url = os.environ.get('FLASK_SERVER') + "/hms/hydrodynamic/" + submodel
     try:
         print("request url: " + str(url))
         result = requests.post(str(url), json=parameters, timeout=10000)

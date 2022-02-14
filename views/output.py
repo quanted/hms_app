@@ -315,7 +315,7 @@ def get_data(model, submodel, parameters):
     # url = 'http://localhost:7777/rest/hms/'                                       # local flask
     else:
         url = str(os.environ.get(
-            'HMS_BACKEND')) + '/HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
+            'HMS_BACKEND')) + 'HMSWS/api/' + model + '/' + submodel  # HMS backend server variable
     print("url: " + url)
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
@@ -345,7 +345,7 @@ def get_compare_data(model, parameters):
         # url = 'http://localhost:7777/hms/rest/Precipitation/'                             # local flask
         else:
             url = str(
-                os.environ.get('HMS_BACKEND')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
+                os.environ.get('HMS_BACKEND')) + 'HMSWS/api/workflow/compare'  # HMS backend server variable
     elif model == "runoff_compare":
         if os.environ['HMS_LOCAL'] == "True":
             # url = 'http://134.67.114.8/HMSWS/api/WSLandSurfaceFlow/'                             # server 8 HMS, external
@@ -354,7 +354,7 @@ def get_compare_data(model, parameters):
         # url = 'http://localhost:7777/hms/rest/LandSurfaceFlow/'                                   # local flask
         else:
             url = str(
-                os.environ.get('HMS_BACKEND')) + '/HMSWS/api/workflow/compare'  # HMS backend server variable
+                os.environ.get('HMS_BACKEND')) + 'HMSWS/api/workflow/compare'  # HMS backend server variable
     try:
         result = requests.post(str(url), json=parameters, timeout=10000)
     except requests.exceptions.RequestException as e:

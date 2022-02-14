@@ -31,7 +31,7 @@ def pass_through_proxy(request, module):
     if os.getenv('HMS_LOCAL', "True") == "True" and os.getenv("IN_DOCKER", "False") == "False":
         proxy_url = "http://localhost:60050/api/" + module
     else:
-        proxy_url = str(os.getenv('HMS_BACKEND', 'hms-dotnetcore:80')) + "/api/" + module
+        proxy_url = str(os.getenv('HMS_BACKEND', 'hms-dotnetcore:80/')) + "api/" + module
     method = str(request.method)
     print("HMS proxy: " + method + " url: " + proxy_url)
     if method == "POST":
