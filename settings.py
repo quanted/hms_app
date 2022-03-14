@@ -1,4 +1,5 @@
 import os
+import uuid
 import logging
 import mimetypes
 
@@ -125,6 +126,6 @@ os.environ.update({
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SECRET_KEY = os.getenv('SECRET_KEY', "needtosetthesecretkey")
+SECRET_KEY = str(os.getenv('SECRET_KEY', uuid.uuid1()))
 
 WSGI_APPLICATION = 'wsgi.application'
