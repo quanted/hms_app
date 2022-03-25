@@ -10,6 +10,8 @@ import hms_app.models.precip_workflow.precip_extraction_overview as precip_extra
 import hms_app.models.precip_workflow.precip_compare_parameters as pcp
 import hms_app.models.workflow.workflow_overview as workflow
 import hms_app.models.workflow.streamflow_overview as streamflow
+import hms_app.models.workflow.time_of_travel_overview as tot
+import hms_app.models.workflow.workflow_parameters as wk_parameters
 from . import precip_compare_setup
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -52,6 +54,9 @@ def get_overview(request, model=None, submodule=None):
         if submodule == "streamflow":
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             description = streamflow.Streamflow.description
+        elif submodule == "time_of_travel":
+            import_block = render_to_string("workflow/time_of_travel_imports.html")
+            description = tot.TimeOfTravel.description
         elif submodule == "overview":
             description = workflow.Workflow.description
         else:
@@ -103,6 +108,12 @@ def get_data_request(request, model=None, submodule=None):
         elif submodule == "streamflow":
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             input_block = render_to_string('workflow/hms_workflow_input_body.html')
+        elif submodule == "time_of_travel":
+            import_block = render_to_string("workflow/time_of_travel_imports.html")
+            input_form = wk_parameters.TimeOfTravelFormInput()
+            input = render_to_string('04hms_input_form.html', {'FORM': input_form})
+            # input_block = render_to_string('04hms_precipcompare_input.html', {'INPUT': input})
+            input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
         else:
             return error_404_page(request)
     else:
@@ -147,6 +158,10 @@ def get_algorithms(request, model=None, submodule=None):
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             algorithms = render_to_string('hms_submodel_algorithms.html',
                                           {"ALGORITHMS":  streamflow.Streamflow.algorithms})
+        elif submodule == "time_of_travel":
+            import_block = render_to_string("workflow/time_of_travel_imports.html")
+            algorithms = render_to_string('hms_submodel_algorithms.html',
+                                         {"ALGORITHMS": tot.TimeOfTravel.algorithms})
         else:
             return error_404_page(request)
     else:
@@ -179,6 +194,8 @@ def get_output_request(request, model=None, submodule=None, task_id=None):
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             output_block = render_to_string("workflow/hms_workflow_output_body.html")
             advanced = True
+        elif submodule == "time_of_travel":
+            import_block = render_to_string("workflow/time_of_travel_imports.html")
     else:
         import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
     html = build_output_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, task_id=task_id, output_block=output_block, advanced=advanced)

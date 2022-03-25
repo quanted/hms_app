@@ -32,7 +32,8 @@ def ordered_list(model, submodel, page=None):
                 ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
                 ('Precipitation Comparison', 'workflow/precip_compare/'),
                 ('Streamflow', 'workflow/streamflow/'),
-                ('Water Quality', 'webapp/')
+                ('Water Quality', 'webapp/'),
+                ('Time of Travel', 'workflow/time_of_travel')
             ])),
             ('Meteorology', OrderedDict([
                 ('Meteorology', 'meteorology/overview/'),
