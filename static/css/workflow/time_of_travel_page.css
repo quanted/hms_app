@@ -111,7 +111,7 @@
     border: none;
 }
 #open_table_button {
-    margin: 5px;
+    margin: -10px 0 0 18em ;
     text-align: center;
     font-weight: 300;
     font-size: 16px;
@@ -130,19 +130,19 @@
 }
 
 #backdrop {
-    background: white;
+    /*background: white;*/
     z-index: 100000;
     display: none;
     position: relative;
     height: 54%;
     width: 100%;
-    margin-top: -40px;
+    /*margin-top: -40px;*/
 }
 #backdrop_exit {
     width: 25px;
-    height: 25px;
+    /*height: 25px;*/
     display: block;
-    margin: 10px 0;
+    /*margin: 10px 0;*/
     font-weight: bold;
     position: absolute;
     right: 0;
@@ -158,6 +158,14 @@
     top: 0;
     position: absolute;
     margin: 35px;
+}
+
+#input_datatable_top {
+    height: 30px;
+}
+
+#input_datatable_inner {
+
 }
 
 

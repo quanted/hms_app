@@ -16,7 +16,7 @@ RUN conda install -n $CONDA_ENV_BASE uwsgi
 FROM continuumio/miniconda3:4.10.3p0-alpine as prime
 
 ARG APP_USER=www-data
-ARG CONDA_ENV_BASE
+ARG CONDA_ENV_BASE=/opt/conda/envs/pyenv
 ENV CONDA_ENV=/home/www-data/pyenv
 RUN adduser -S $APP_USER -G $APP_USER
 
@@ -26,17 +26,18 @@ RUN pip install -U pip
 
 WORKDIR /src/hms_app
 COPY . /src/hms_app
-COPY --from=base /opt/conda/envs/pyenv $CONDA_ENV
+COPY --from=base $CONDA_ENV_BASE $CONDA_ENV_BASE
 
 COPY uwsgi.ini /etc/uwsgi/
 
 RUN chown -R ${APP_USER}:${APP_USER} /src/hms_app
-RUN chown ${APP_USER}:${APP_USER} $CONDA_ENV
-ENV DJANGO_SETTINGS_MODULE "settings"
+RUN chown ${APP_USER}:${APP_USER} $CONDA_ENV_BASE
 EXPOSE 8080
 
-ENV PYTHONPATH="/src:/src/hms_app:${PYTHONPATH}"
-ENV PATH="/src:/src/hms_app:${PATH}"
 USER $APP_USER
+ENV DJANGO_SETTINGS_MODULE "settings"
 
-CMD ["conda", "run", "-p", "$CONDA_ENV", "--no-capture-output", "sh", "/src/hms_app/docker-start.sh"]
+ENV PYTHONPATH="/src:/src/hms_app:${PYTHONPATH}"
+ENV PATH="/bin:/src:/src/hms_app:${PATH}"
+
+CMD ["conda", "run", "-n", "pyenv", "--no-capture-output", "sh", "/src/hms_app/docker-start.sh"]

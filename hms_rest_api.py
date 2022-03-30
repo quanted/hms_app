@@ -53,7 +53,6 @@ def pass_through_proxy(request, module):
         print("Django to Flask proxy url invalid.")
         raise HttpResponseNotAllowed
 
-
 @csrf_exempt
 @require_http_methods(["GET", "POST", "DELETE"])
 def flask_proxy(request, flask_url):

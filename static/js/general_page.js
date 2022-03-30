@@ -1,6 +1,6 @@
 // General js for hms model/submodel pages //
 var taskID;
-var counter = 250;
+var counter = 350;
 var componentData;
 var resultMetaTable;
 var resultDataTable;
@@ -368,7 +368,6 @@ function setDataGraph2() {
     var graphEle = document.getElementById('output_data');
     dyGraph = new Dygraph(graphEle, dataCSV, graphOptions);
 }
-
 
 function toggleLoader(hide, msg) {
     if (hide) {

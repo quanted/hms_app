@@ -111,7 +111,7 @@ def get_data_request(request, model=None, submodule=None):
         elif submodule == "time_of_travel":
             import_block = render_to_string("workflow/time_of_travel_imports.html")
             input_form = wk_parameters.TimeOfTravelFormInput()
-            input = render_to_string('04hms_input_form.html', {'FORM': input_form})
+            # input = render_to_string('04hms_input_form.html', {'FORM': input_form})
             # input_block = render_to_string('04hms_precipcompare_input.html', {'INPUT': input})
             input_block = render_to_string('04hms_input_form.html', {'FORM': input_form})
         else:
