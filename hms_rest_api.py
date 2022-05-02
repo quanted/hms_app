@@ -65,7 +65,7 @@ def flask_proxy(request, flask_url):
         proxy_url = os.environ.get('UBERTOOL_REST_SERVER') + "/" + flask_url
         # proxy_url = 'http://qed_flask:7777/' + flask_url
     method = str(request.method)
-    print(f"Docker: {os.environ['IN_DOCKER']},Django to Flask proxy method: " + method + " url: " + proxy_url )
+    print(f"Docker: {os.environ['IN_DOCKER']}, Django to Flask proxy method: " + method + ", url: " + proxy_url)
     if method == "POST":
         if len(request.POST) == 0:
             try:
@@ -81,10 +81,12 @@ def flask_proxy(request, flask_url):
             data = request.POST
         proxy_url = proxy_url + "/"
         # print(f"TYPE2: {type(data)}")
+        print(f"Flask URL (POST) request: {proxy_url}")
         flask_request = requests.request("post", proxy_url, json=data, timeout=timeout, headers=request_header)
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
+        print(f"Flask URL (GET) request: {proxy_url}")
         flask_request = requests.request("get", proxy_url, timeout=timeout)
         headers = flask_request.headers
         del headers["Content-Type"]
