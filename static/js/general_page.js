@@ -5,6 +5,7 @@ var componentData;
 var resultMetaTable;
 var resultDataTable;
 var dyGraph;
+var rqURL;
 
 google.charts.load('current', {'packages': ['table', 'corechart']});
 
@@ -25,13 +26,13 @@ $(function () {
 
     $("#id_source").on("change", setSourceConfig);
 
-    // $('.submit_data_request').on('click', getTestData);
+    //$('.submit_data_request').on('click', getTestData);
     $('.submit_data_request').on('click', getData2);
     setTimeout(pageLoad, 400);
     setTimeout(pageSpecificLoad, 500);
     setTimeout(loadCookies, 400);
     setTimeout(setSourceConfig, 100);
-    setTimeout(pageSpecificLoad, 100);
+    //setTimeout(pageSpecificLoad, 100);
 });
 
 function pageLoad() {
@@ -42,8 +43,28 @@ function pageLoad() {
 
 function pageSpecificLoad(){
     var current = window.location.href;
-    if(current.includes("output_data")){
+    /*if(current.includes("output_data") && current.includes("time_of_travel")){
         taskID = $("#task_id").html();
+        try {
+            
+            console.log("Task ID:", taskID);
+            console.log("Current:", current);
+            setTimeout(getDataPolling, 500);
+            console.log("Updated Data:", componentData);
+            //getComponentData();
+            //setOutputUI();
+            //toggleLoader(true, "");
+            //setTitle();
+            //toggleDownloadButtons(false);
+            //counter = 250;
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }*/
+   if(current.includes("output_data")){
+        taskID = $("#task_id").html();
+
         if(taskID === "None"){
             toggleLoader(false, "Unable to find your data request task ID. Please select a valid task ID or submit a new request.");
             $("#loader_box").hide();
@@ -135,7 +156,14 @@ function getData() {
 
 function getData2() {
     var params = getParameters();
-    var requestUrl = window.location.origin + "/" + baseUrl;
+    var requestUrl = "https://ceamdev.ceeopdev.net" + "/" + baseUrl;
+    //window.location.origin
+    //https://ceamdev.ceeopdev.net/hms/workflow/precip_data_extraction/data_request/
+    console.log("baseUrl: ", baseUrl);
+    //console.log("request url",requestUrl)
+    rqURL = requestUrl;
+    //setTimeout(console.log(requestUrl), 400);
+    //setTimeout(console.log(requestUrl), 40000);
     $.ajax({
         type: "POST",
         url: requestUrl,
@@ -147,14 +175,16 @@ function getData2() {
         success: function (data, textStatus, jqXHR) {
             taskID = data.job_id;
             var model = $("#model_name").html();
+
             var submodule = $("#submodule_name").html();
+
             window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
-            // setDataRequestCookie(taskID);
-            // console.log("Data request success. Task ID: " + taskID);
-            // toggleLoader(false, "Processing data request. Task ID: " + taskID);
-            // setTimeout(getDataPolling, 5000);
-            // $('#component_tabs').tabs("enable", 2);
-            // $('#component_tabs').tabs("option", "active", 2);
+             //setDataRequestCookie(taskID);
+             //console.log("Data request success. Task ID: " + taskID);
+             //toggleLoader(false, "Processing data request. Task ID: " + taskID);
+             //setTimeout(getDataPolling, 5000);
+             //$('#component_tabs').tabs("enable", 2);
+             //$('#component_tabs').tabs("option", "active", 2);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("Data request error...");
@@ -170,7 +200,10 @@ function getData2() {
 
 function getDataPolling() {
     counter = counter - 1;
-    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
+    var requestUrl = "https://ceamdev.ceeopdev.net" + "/hms/rest/api/v2/hms/data";
+    //window.location.origin
+    //"https://ceamdev.ceeopdev.net/"
+    //console.log("Request URL:", requestUrl);
     if (counter > 0) {
         $.ajax({
             type: "GET",
@@ -183,6 +216,7 @@ function getDataPolling() {
                     if (typeof data.data === "string") {
                         componentData = JSON.parse(data.data);
                     }else{
+                        console.log(data);
                         componentData = data.data;
                     }
                     console.log("Task successfully completed and data was retrieved.");
@@ -191,8 +225,10 @@ function getDataPolling() {
                     toggleLoader(true, "");
                     setTitle();
                     toggleDownloadButtons(false);
-                    dyGraph.resize();
-                    counter = 250;
+                    if(window.location.href.includes("time_of_travel") == false){
+                        dyGraph.resize();
+                    }
+                    counter = 0;
                 }
                 else if (data.status === "FAILURE") {
                     toggleLoader(false, "Task " + taskID + " encountered an error.");
@@ -200,7 +236,10 @@ function getDataPolling() {
                     deleteTaskFromCookie(jobID);
                 }
                 else {
+                    console.log(data);
                     setTimeout(getDataPolling, 5000);
+                    console.log(window.location.origin);
+                    console.log("Request URL:", rqURL);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -258,7 +297,7 @@ function setTitle() {
     if (taskID === null && testData) {
         taskID = "TESTTASK1234567890";
     }
-    var title = "Data for Task: " + taskID.toString();
+    var title = "Data for Task: "; //+ taskID.toString();
     var output_title = $("#output_title");
     output_title.html("<h3>" + title + "</h3>");
 }
@@ -597,4 +636,9 @@ function deleteTaskFromCookie(id){
     var expires = "expires=" + date.toUTCString();
     var taskIDs = validIDs.join();
     document.cookie = url+  "=" + taskIDs + ";" + expires + ";path=" + "/hms/" + model + "/" + submodule + "/";
+}
+
+function getComponentData(){
+    console.log(componentData);
+    return componentData;
 }

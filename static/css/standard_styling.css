@@ -318,16 +318,6 @@
     font-size: smaller !important;
 }
 
-/*#output_data_block {*/
-    /*margin: 25px 0;*/
-    /*width: 100%;*/
-/*}*/
-
-/*#output_data_block_table {*/
-    /*width: 100%;*/
-    /*margin-top: 25px;*/
-/*}*/
-
 #output_data {
     margin: 0 auto;
     /*width: 500px;*/
@@ -509,6 +499,12 @@
 
 #overview_block p, h4, ol, li{
     text-align: left;
+}
+
+.output_date_title{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
 
 .overview_subblock table{

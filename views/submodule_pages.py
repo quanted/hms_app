@@ -17,6 +17,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from .default_pages import error_404_page, build_overview_page, build_input_page, build_algorithms_page, build_output_page
 import logging
+#import os
 
 hydrology_submodules = ['overview', "evapotranspiration", "soilmoisture", "surfacerunoff", "subsurfaceflow"]
 hydrodynamic_modules = ['overview', "constant_volume", "changing_volume", "kinematic_wave"]
@@ -35,6 +36,7 @@ def get_overview(request, model=None, submodule=None):
     submodule = str(submodule).lower()
     logging.info("hms page request, model: " + model + "; submodule: " + submodule)
     print("hms page request, model: " + model + "; submodule: " + submodule)
+    #print("OS name: " + os.name)
 
     title = "{} - {}".format(model.capitalize(), submodule.replace("_", " ").capitalize())
     p = request.scheme + "://" + request.get_host()
@@ -55,8 +57,10 @@ def get_overview(request, model=None, submodule=None):
             import_block = render_to_string('workflow/hms_workflow_imports.html')
             description = streamflow.Streamflow.description
         elif submodule == "time_of_travel":
-            import_block = render_to_string("workflow/time_of_travel_imports.html")
-            description = tot.TimeOfTravel.description
+            import_block = render_to_string("workflow/precip_workflow_imports.html", {'SUBMODEL': submodule})
+            description = precip_compare_setup.build_overview_page(p, submodule)
+            # import_block = render_to_string("workflow/time_of_travel_imports.html")
+            # description = tot.TimeOfTravel.description
         elif submodule == "overview":
             description = workflow.Workflow.description
         else:
@@ -197,7 +201,8 @@ def get_output_request(request, model=None, submodule=None, task_id=None):
         elif submodule == "time_of_travel":
             import_block = render_to_string("workflow/time_of_travel_imports.html")
     else:
-        import_block = render_to_string("{}/{}_imports.html".format(model, submodule))
+       # import_block = render_to_string("{}/{}_imports.html".format( "workflow",  "time_of_travel"))
+        import_block = render_to_string("{}/{}_imports.html".format( model,  submodule))
     html = build_output_page(request=request, model=model, submodule=submodule, title=title, import_block=import_block, task_id=task_id, output_block=output_block, advanced=advanced)
     response = HttpResponse()
     response.write(html)

@@ -2,6 +2,7 @@
 HMS Precipitation Comparision page functions
 """
 
+from re import sub
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
@@ -14,6 +15,7 @@ import hms_app.views.links_left as links_left
 from .default_pages import build_model_page
 import hms_app.models.precip_workflow.precip_compare_overview as precip_compare
 import hms_app.models.precip_workflow.precip_extraction_overview as precip_extract
+from ..models.workflow import time_of_travel_overview as tot
 
 
 def precip_compare_page(request):
@@ -70,6 +72,9 @@ def build_overview_page(base_url, submodel):
     elif submodel == "precip_data_extraction":
         details = precip_extract.PrecipExtract
         submodel = "Precipitation Data Extraction"
+    elif submodel == "time_of_travel":
+        details = tot.TimeOfTravel
+        submodel = "Time Of Travel"
     html = render_to_string('hms_submodel_overview.html', {
         'SUBMODEL': submodel,
         'DESCRIPTION': details.description,

@@ -13,7 +13,7 @@ if os.environ.get('HMS_AQUATOX_WEBAPP') == "True":
         path('', landing.hms_landing_page),
 
         path('workflow/water_quality/', workflow_setup.water_quality_page),
-        # path('workflow/time_of_travel/', workflow_setup.time_of_travel_page),
+        # path('workflow/time_of_travel/', submodule_pages.get_overview),
 
         path('docs/', documentation.docs_page),
         path('contact/', contact.contact_page),
@@ -43,7 +43,7 @@ else:
         path('', landing.hms_landing_page),
 
         path('workflow/water_quality/', workflow_setup.water_quality_page),
-        path('workflow/time_of_travel/', workflow_setup.time_of_travel_page),
+        # path('workflow/time_of_travel/', workflow_setup.time_of_travel_page),
 
         path('docs/', documentation.docs_page),
         path('contact/', contact.contact_page),

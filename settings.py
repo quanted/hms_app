@@ -21,6 +21,13 @@ logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
 logger.info(f"TEMPLATE_ROOT: {TEMPLATE_ROOT}")
 logger.info(f"DEPLOY_ENV: {DEPLOY_ENV}")
 
+#LOGIN_REQUIRED = "true" == os.getenv("LOGIN_REQUIRED", "false").lower()
+#LOGIN_URL = "/hms/login"
+#LOGIN_VERBOSE = "true" == os.getenv("LOGIN_VERBOSE", "false").lower()
+#LOGIN_DURATION = int(os.getenv("LOGIN_DURATION", 86400))
+#logger.info(f"LOGIN_REQUIRED: {LOGIN_REQUIRED}, LOGIN_URL: {LOGIN_URL}, LOGIN_DURATION: {LOGIN_DURATION}, "
+#            f"LOGIN_VERBOSE: {LOGIN_VERBOSE}")
+
 if DEPLOY_ENV == "kube-dev":
     DEBUG = True
     CORS_ORIGIN_ALLOW_ALL = True
