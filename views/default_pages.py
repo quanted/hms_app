@@ -1,5 +1,6 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django.conf import settings
 import hms_app.views.links_left as ll
 import os
 
@@ -28,7 +29,7 @@ def build_model_page(request, model, submodel, title=None, import_block=None, de
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
     # notpublic = True if request.path not in public_modules else False
 
     html = render_to_string('01epa18_default_header.html', {
@@ -76,7 +77,7 @@ def build_overview_page(request, model, submodule, title=None, import_block=None
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
@@ -126,7 +127,7 @@ def build_input_page(request, model, submodule, title=None, import_block=None, i
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
@@ -167,7 +168,7 @@ def build_algorithms_page(request, model, submodule, title=None, import_block=No
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
@@ -207,7 +208,7 @@ def build_output_page(request, model, submodule, title=None, import_block=None, 
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",
@@ -254,7 +255,7 @@ def build_map_model_page(request, model, submodel, title=None, import_block=None
 
     disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    notpublic = True if request.path not in public_modules else False
+    notpublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': "HMS: Hydrologic Micro Services",

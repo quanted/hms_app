@@ -20,7 +20,7 @@ def hms_landing_page(request):
     project_path = os.getenv('PROJECT_PATH', "..")
     disclaimer_file = open(os.path.join(project_path, 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
-    ispublic = bool(os.getenv("HMS_RELEASE", 0))
+    ispublic = settings.HMS_PUBLIC
 
     html = render_to_string('01epa18_default_header.html', {
         'TITLE': page_title,

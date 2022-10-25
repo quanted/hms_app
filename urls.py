@@ -2,13 +2,14 @@ import os
 
 #  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.urls import path, re_path, include
+from django.conf import settings
 from hms_app.views import landing, watershed_map, workflow_setup, webapp
 from django.contrib.staticfiles.views import serve
 from hms_app.views import precip_compare_setup, api_doc, documentation, hms_model_router, contact, default_pages, help_page, version_history, submodule_pages
 import hms_rest_api
 
 
-if os.environ.get('HMS_AQUATOX_WEBAPP') == "True":
+if settings.WQ_APP:
     urlpatterns = [
         path('', landing.hms_landing_page),
 
