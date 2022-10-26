@@ -43,25 +43,7 @@ function pageLoad() {
 
 function pageSpecificLoad(){
     var current = window.location.href;
-    /*if(current.includes("output_data") && current.includes("time_of_travel")){
-        taskID = $("#task_id").html();
-        try {
-            
-            console.log("Task ID:", taskID);
-            console.log("Current:", current);
-            setTimeout(getDataPolling, 500);
-            console.log("Updated Data:", componentData);
-            //getComponentData();
-            //setOutputUI();
-            //toggleLoader(true, "");
-            //setTitle();
-            //toggleDownloadButtons(false);
-            //counter = 250;
-        } catch (error) {
-            console.log(error)
-        }
-        
-    }*/
+
    if(current.includes("output_data")){
         taskID = $("#task_id").html();
 
@@ -156,14 +138,10 @@ function getData() {
 
 function getData2() {
     var params = getParameters();
-    var requestUrl = "https://ceamdev.ceeopdev.net" + "/" + baseUrl;
+    var requestUrl = window.location.origin + "/" + baseUrl;
     //window.location.origin
-    //https://ceamdev.ceeopdev.net/hms/workflow/precip_data_extraction/data_request/
     console.log("baseUrl: ", baseUrl);
-    //console.log("request url",requestUrl)
     rqURL = requestUrl;
-    //setTimeout(console.log(requestUrl), 400);
-    //setTimeout(console.log(requestUrl), 40000);
     $.ajax({
         type: "POST",
         url: requestUrl,
@@ -200,10 +178,8 @@ function getData2() {
 
 function getDataPolling() {
     counter = counter - 1;
-    var requestUrl = "https://ceamdev.ceeopdev.net" + "/hms/rest/api/v2/hms/data";
-    //window.location.origin
+    var requestUrl = window.location.origin + "/hms/rest/api/v2/hms/data";
     //"https://ceamdev.ceeopdev.net/"
-    //console.log("Request URL:", requestUrl);
     if (counter > 0) {
         $.ajax({
             type: "GET",
