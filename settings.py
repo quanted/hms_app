@@ -40,6 +40,12 @@ mimetypes.add_type("application/javascript", ".js", True)
 ALLOWED_HOSTS = ['*']
 APPEND_SLASH = True
 
+WQ_APP = bool(os.getenv("HMS_WQ_AP", "false").lower() == "true")
+logger.info(f"WB app active: {WQ_APP}")
+
+HMS_PUBLIC = bool(os.getenv("HMS_RELEASE", "False").lower() == "true")
+logger.info(f"HMS Public configuration: {HMS_PUBLIC}")
+
 ADMINS = (
     ('Deron Smith', 'smith.deron@epa.gov'),
     ('Kurt Wolfe', 'wolfe.kurt@epa.gov'),

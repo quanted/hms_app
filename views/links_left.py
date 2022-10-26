@@ -3,6 +3,7 @@ HMS links left function
 """
 
 from django.template.loader import render_to_string
+from django.conf import settings
 from collections import OrderedDict
 import os
 
@@ -18,7 +19,7 @@ def ordered_list(model, submodel, page=None):
     template_file = 'hms_links_left.html'
     # current_env = os.environ.get("ENV_NAME")
 
-    if os.environ.get('HMS_AQUATOX_WEBAPP') == "True":
+    if settings.WQ_APP:
         link_dict = OrderedDict([
             ('Documentation', OrderedDict([
                 ('Documentation', 'header'),
