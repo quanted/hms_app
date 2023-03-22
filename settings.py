@@ -2,6 +2,8 @@ import os
 import uuid
 import logging
 import mimetypes
+import sys
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
@@ -17,11 +19,19 @@ TEMPLATE_ROOT = os.path.join(PROJECT_ROOT, 'templates/')
 
 DEPLOY_ENV = os.getenv("DEPLOY_ENV", "kube-dev")
 
+#sys.path.insert(0, str(Path(__file__).parent.parent))
+
 logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
 logger.info(f"TEMPLATE_ROOT: {TEMPLATE_ROOT}")
 logger.info(f"DEPLOY_ENV: {DEPLOY_ENV}")
 
-#LOGIN_REQUIRED = "true" == os.getenv("LOGIN_REQUIRED", "false").lower()
+#os.environ["LOGIN_REQUIRED"] = "true"
+#try:
+#    env_var_test = os.environ["LOGIN REQUIRED"]
+#    logger.info('LOGIN REQUIRED exists')
+#except KeyError:
+#    logger.info('LOGIN REQUIRED does not exist')
+#LOGIN_REQUIRED = "false" == os.getenv("LOGIN_REQUIRED", "false").lower()
 #LOGIN_URL = "/hms/login"
 #LOGIN_VERBOSE = "true" == os.getenv("LOGIN_VERBOSE", "false").lower()
 #LOGIN_DURATION = int(os.getenv("LOGIN_DURATION", 86400))
@@ -90,6 +100,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#if LOGIN_REQUIRED:
+ #   MIDDLEWARE += [
+  #      'login_middleware.RequireLoginMiddleware',
+   #     'login_middleware.Http403Middleware',
+    #    'django.contrib.messages.middleware.MessageMiddleware'
+    #]
+
 ROOT_URLCONF = 'urls'
 
 DATABASES = {
@@ -142,3 +159,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SECRET_KEY = str(os.getenv('SECRET_KEY', uuid.uuid1()))
 
 WSGI_APPLICATION = 'wsgi.application'
+
+logger.info("This file has been modified")

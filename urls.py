@@ -7,7 +7,7 @@ from hms_app.views import landing, watershed_map, workflow_setup, webapp
 from django.contrib.staticfiles.views import serve
 from hms_app.views import precip_compare_setup, api_doc, documentation, hms_model_router, contact, default_pages, help_page, version_history, submodule_pages
 import hms_rest_api
-
+import login_middleware
 
 if settings.WQ_APP:
     urlpatterns = [
@@ -66,6 +66,11 @@ else:
         path('<slug:model>/<slug:submodule>/output_data/<slug:task_id>/', submodule_pages.get_output_request),
         path('<slug:model>/<slug:submodule>/algorithms/', submodule_pages.get_algorithms),
     ]
+
+#if settings.LOGIN_REQUIRED:
+#    urlpatterns.append(
+#        path('login/', login_middleware.login)
+#    )
 
 urlpatterns = [path('hms/', include(urlpatterns))]
 

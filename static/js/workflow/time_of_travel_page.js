@@ -359,6 +359,7 @@ function drawTable(){
 
     //Defines table and creates first column
     data = new google.visualization.DataTable();
+    data.addColumn('string', 'Length(km)');
     data.addColumn('string', 'ComID');
 
     //Used to create more columns depending on how many date values there are containing data
@@ -380,7 +381,7 @@ function drawTable(){
             outdate.setAttribute('id', 'output_date_title');
             outdate.setAttribute('class', "output_date_title");
 
-            var datetext = document.createTextNode("T starts at: " + dateString);
+            var datetext = document.createTextNode("T starts at: " + dateString + " GMT");
             outdate.appendChild(datetext);
 
             //Adds first column of T+ counter from starting date with hover capabilities
@@ -521,11 +522,10 @@ function setTotOutputTable(){
         }
 
         //Loop used to sort through the JSON and pull out all of the data
-        let catchmentOnly = false;
-        console.log("TempCatchData:", tableData.data);
+        let velAndLen = [];
+        //console.log("TempCatchData:", tableData.data);
         for(let catchment of Object.keys(tableData.data)) {
             catchmentArray = [];//resetting the global value
-            let contaminantInfo = []; 
             let catchEntries = Object.entries(tableData.data[catchment]);
             //console.log("Test Data", catchEntries);
             
@@ -541,7 +541,6 @@ function setTotOutputTable(){
                 //Makes sure only the first element of a list is the com id
                 if(comIDLogged){
                     catchmentArray.push(entry[0]);
-                    contaminantInfo.push(('<a id="' + entry[0] + '" href="#">' + entry[0] + '</a>'));
                     comIDLogged = false;
                 }
 
@@ -551,61 +550,161 @@ function setTotOutputTable(){
                 
                 catchmentArray.push(tempDataArray);
 
-                //Pushes data to a list of when the catchment first became true
-                if(entry[4] === 'True') {
-                    let tempDate = [entry[0], (dt[1] + " " + dt[2] + ", " + dt[3] + "  " + hr[0] + ":00"),
-                    dateList[dateCounter]];
+                velAndLen.push([entry[0], parseFloat(entry[1]),parseFloat(entry[2])]);
 
-                    timeWhenTrue.push(tempDate);
-                }
-
-                //adds true and false arrays with or without color
-                let doColor = true;
-                if(doColor){
-                    if(entry[4] === 'True'){
-                        contaminantInfo.push({v: 'T', f: null, p: {style: 'background-color: lightpink;'}});
-                    }
-                    else{
-                        contaminantInfo.push({v: 'F', f: null, p: {style: 'background-color: lightgreen;'}});
-                    }
-                }
-                else{
-                    if(entry[4] === 'True'){
-                        contaminantInfo.push('T');
-                    }
-                    else{
-                        contaminantInfo.push('F');
-                    }
-                }
                 dateCounter = dateCounter + 1;
             }
             
             //pushes collected catchment information into arrays
-            contaminateList.push(contaminantInfo);
             totGraphData.push(catchmentArray);
         }
 
-        //this block of code is used to sort data to be in the same order as the catchments listed in the metadata
+        //This block of code is used to sort data to be in the same order as the catchments listed in the metadata
         let catchments = (tableData.metadata.catchments).split(",");
-        let tempContList = [];
         let tempDataList = [];
+        let tempVL = [];
         for(let element of catchments){
-            for(let dataElement of totGraphData) {//sorts totGraphData
+            for(let dataElement of totGraphData) {//sorts totGraphData according to metadata
                 if(element === dataElement[0]){
                     tempDataList.push(dataElement);
                 }
             }
-            for(let contElement of contaminateList){//sorts contaminateList
-                let contId = contElement[0].split('"');
-                if(element === contId[1]){
-                    tempContList.push(contElement);
+            for(let vLement of velAndLen) {//sorts velAndLen according to metadata
+                if(element === vLement[0]){
+                    tempVL.push(vLement);
                 }
             }
         }
 
         //sets the arrays to sorted values
-        contaminateList = tempContList;
+        velAndLen = tempVL;
         totGraphData = tempDataList;
+
+        let whenContam = []; //An array used to store when catchments first become contaminated
+        let ind = 0;    //used to keep track of which catchment is being measured
+        let prevInd = -1; //used to keep track of the previous catchment mesaured so some process are not repeated twice
+        let timeFrac = 0; //the fraction of time remaining in the hour that the contamination spreads to the next catchment
+        let lengt = 0; //used to track the current addidtive length and compare it to the catchment's length
+
+        //This loop calculates the correct hour in which the catchments first become contaminated
+        for(let hour = 0; (hour < 18 && ind < totGraphData.length); hour++){
+            let tempCat = totGraphData[ind]; //grabs the catchment
+            let templev = velAndLen[ind * 18 + hour]; //grabs the velocity and length for the catchment at the specific hour
+            let distTravel = 0;
+        
+            //pushes data of when a catchment first becomes contaminated to an array
+            if(prevInd != ind){ 
+                whenContam.push([tempCat[0],tempCat[hour + 1][0], tempCat[hour + 1][1], tempCat[hour + 1][2], tempCat[hour + 1][3]]);
+                prevInd = ind;
+            }
+
+            //checks to make sure the current hour is not the same as the previous loop
+            if(timeFrac == 0 ){ 
+                distTravel = templev[2] * 3.6; //velocity(m/s) is multiplied by 3.6 to see distance traveled in km
+                lengt += distTravel; //adds length to track current distance traveled in catchment
+
+                /*if the additive length exceeds the catchment length, a fraction will be taken of the 
+                  remaining time in the current hour. index goes to next catchment and length set to 0*/
+                if(lengt >= templev[1]){ 
+                    let extraDist = lengt - templev[1];
+                    //let currentStream = (templev[2]*3.6) - extraDist; 
+                    timeFrac = extraDist / distTravel;
+                    ind++;
+                    lengt = 0;
+                }
+            }
+            else{ //if there is leftover time in the hour, this will utilize it to ensure the full hour is used 
+                distTravel = timeFrac * (templev[2] * 3.6); //similar to before, but instead multiplied by the remaining fraction of hour left
+                lengt += distTravel;
+
+                /*similar to before, but if the catchment exceeds length again while a time fraction 
+                  remains, a new smaller fraction is taken and subtracted from the current one*/ 
+                if(lengt >= templev[1]){ 
+                    let extraDist = lengt - templev[1];
+                    //let currentStream = (templev[2]*3.6) - extraDist; 
+                    timeFrac = timeFrac - extraDist / distTravel;
+                    ind++;
+                    lengt = 0;
+                }
+                else{ //once the full hour is used the fraction is set back to 0
+                    timeFrac = 0;
+                }
+            }
+
+            //console.log("Catchment: " + tempCat[0] + ", Stream Length: " + templev[1] + ", Hour: " + hour + ", Velocity: " + templev[2] + ", Length this hour: " + distTravel + ", Time Fraction: " + timeFrac
+            // + ", Distance traveled so far: " + lengt);
+
+            //if the time fraction is greater than zero, then the current hour is not finished being measured
+            if(timeFrac > 0){ 
+                hour--;
+            }
+        }
+        
+        //console.log("New Math Test:", whenContam);
+
+        let tempGraphArray = [];//new data for totGraphData
+        ind = 0; //used keep track of the index of whenContam
+        let dCounter = 0; //keeps track of the date when compared to dateList
+
+        //this loop is utilizes whenContam to correct the True/False data within all of the needed Arrays
+        for(let cat of totGraphData){ //cycles through catchments
+            let tempNewData = []; //new data for for this catchment
+            let contaminantInfo = []; //new data for contaminateList
+            tempNewData.push(cat[0]);
+            let allTruAfter = false; //used to set the rest of a catchment to contaminated once the conditions are met
+            for(let c of cat){ //cycles through the hourly info in catchments
+                //skips the first element of catchment info since it is the catchment number
+                if(c != cat[0]){
+
+                    /*Used to check: 
+                    the correct catchment is being measured
+                    data does no go past the index of whenContam since it not all catchments may be contaminated
+                    if the catchment is contaminated at this hour*/
+                    if(ind < whenContam.length && whenContam[ind][0] == cat[0] && whenContam[ind][1] == c[0]){
+                        //once the catchment is contaminated all hours after it must be as well
+                        allTruAfter = true;
+                        ind++; //next index of whenContam
+
+                        //pushes corrected data to tempNewData, contaminantInfo, and timeWhenTrue
+                        tempNewData.push([c[0],c[1],c[2],'True']);
+                        contaminantInfo.push({v: 'T', f: null, p: {style: 'background-color: lightpink;'}});
+                        
+                        let tempDate = [cat[0], c[0], dateList[dCounter]];
+                        timeWhenTrue.push(tempDate)
+                    }
+                    else if(allTruAfter){//occurs when the catchment is confirmed to be contaminated before the current hour
+                        tempNewData.push([c[0],c[1],c[2],'True']);
+                        contaminantInfo.push({v: 'T', f: null, p: {style: 'background-color: lightpink;'}});
+                        
+                        let tempDate = [cat[0], c[0], dateList[dCounter]];
+                        timeWhenTrue.push(tempDate);
+                    }
+                    else{
+                        //if the catchment is not contaminated yet, the correct data is pushed to tempNewData and contaminantInfo
+                        tempNewData.push([c[0],c[1],c[2],'False']);
+                        contaminantInfo.push({v: 'F', f: null, p: {style: 'background-color: lightgreen;'}});
+                    }
+                    dCounter++;
+                }
+                else{ //this only occurs once per catchment when c is just the catchment number
+                    //grabs the length of the catchment to insert into the data table
+                    let dat = totGraphData.indexOf(cat);
+                    let lDat = velAndLen[dat*18][1] + "";
+                    contaminantInfo.push(lDat);
+
+                    //inserts a link of the catchment's info
+                    contaminantInfo.push(('<a id="' + cat[0] + '" href="#">' + cat[0] + '</a>'));
+                }
+                
+            }
+
+            //pushes the correct data to contaminateList and tempGraphArray
+            contaminateList.push(contaminantInfo);
+            tempGraphArray.push(tempNewData);
+        }
+        //console.log("Velocity And Length:", velAndLen);
+
+        totGraphData = tempGraphArray; //changes totGraphData to have corrected True/False data
 
         console.log("Contaminated List: ", contaminateList);
         console.log("When Turned True: ", timeWhenTrue);
@@ -657,7 +756,12 @@ function setToTOutputMap() {
         //Used to grab the coordinate data of the catchments and put it into one list
         //https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=FEATUREID%3D
         //&text=&objectIds=&time=&timeRelation=esriTimeRelationOverlaps&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Foot&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&havingClause=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=false&resultOffset=&resultRecordCount=&returnExtentOnly=false&sqlFormat=none&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=geojson
-        //Test Com ID: 6275977
+        /*Test Com IDs:
+            6275977 - 6277141
+            6277245 - 6277403
+            6277159 - 6277401
+            6330834 - 6331692
+            1052709 - 1050215*/
         let catchment_url_base = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=FEATUREID%3D";
         let flowline_url_base = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/NHDSnapshot_NP21/MapServer/0/query?where=COMID%3D";
 
@@ -774,6 +878,9 @@ function setToTOutputMap() {
             }
         }
 
+
+        //Used to create a button that automatically cycles through the dates on the map
+        //Currently only able to cycle through if user has not used slider. Unsure what breaks
         let autoCycleButton = document.createElement("button");
         autoCycleButton.setAttribute('class', 'autoCycleButton');
         autoCycleButton.setAttribute('id', 'autoCycleButton');
@@ -786,6 +893,7 @@ function setToTOutputMap() {
             setTimeout(cycle, 500);
         }
 
+        //cycles through if button is pressed
         function cycle() {
             if(buttonPressed == true){
                 let val = parseInt(dateSlider.getAttribute('value')) + 1;
@@ -802,6 +910,13 @@ function setToTOutputMap() {
                     slideDateDisplay.innerHTML = smallDateStrings[dateSlider.value];
                     makeContaminateLayer(false);
                 }
+                console.log("Small Date String: ", smallDateStrings[dateSlider.value]);
+                console.log("val: ", val);
+                setTimeout(cycle, 500); 
+            }
+            autoCycleButton.onclick = function(){
+                buttonPressed = !buttonPressed;
+                console.log("Button Pressed!, ", buttonPressed);
                 setTimeout(cycle, 500);
             }
         }
@@ -852,7 +967,7 @@ function createMap(lat, lon){
         })
         .addTo(MAP);
     BOUNDARIES_LAYER.setStyle({
-        color: "red",
+        color: "purple",
         fillOpacity: 0,
     });
 
@@ -870,7 +985,27 @@ function createMap(lat, lon){
     LAYER_OPTIONS = L.control.layers(null, OVERLAY_MAPS);
     LAYER_OPTIONS.addTo(MAP);
 
-    /*Click Interactions
+    //creates a legend for the map
+    let LEGEND = L.control({ position: "bottomleft" });
+
+    LEGEND.onAdd = function(MAP) {
+        var div = L.DomUtil.create("div", "legend");
+        div.setAttribute('style', 'background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; float: left; text-align: center; padding: 6px 8px;');
+        div.innerHTML += "<h4>Legend</h4>";
+        div.innerHTML += '<br>';
+        div.innerHTML += '<i style="background: #000000"></i><span>Selected Catchments</span><br>';
+        div.innerHTML += '<i style="background: #0000ff"></i><span>Uncontaminated</span><br>';
+        div.innerHTML += '<i style="background: #ff0000"></i><span>Contaminated</span><br>';
+        div.innerHTML += '<i style="background: #ffa500"></i><span>Catchments</span><br>';
+        div.innerHTML += '<i style="background: #3388ff"></i><span>Flow Lines</span><br>';
+        div.innerHTML += '<i style="background: #800080"></i><span>HUC8</span><br>';
+        
+        return div;
+    };
+
+    LEGEND.addTo(MAP);
+
+    /*Click Interactions, currently unused
              // app interaction
              function handleMapClick(e) {
                 const LAT_LNG = e.latlng;
@@ -923,17 +1058,10 @@ function makeContaminateLayer(firstTime){
         //Creates a new feature using the JSON
         let newFeature = L.geoJSON(element[1]).addTo(CONTAMINANT_LAYER);
 
-        //Loops through times when catchments were first contaminated
-        //for (let catchment of timeWhenTrue) {
-            //Checks Com ID to ensure the correct geometry is changing color
-           // if (catchment[0] === (element[0])) {
-
-                newFeature.setStyle({
-                    color: "black",
-                    fillOpacity: 0.1,
-                });
-            //}
-        //}
+        newFeature.setStyle({
+            color: "black",
+            fillOpacity: 0.1,
+        });
     }
     for (let element of geoJSONFlowList) {
         //Creates a new feature using the JSON
@@ -962,7 +1090,7 @@ function makeContaminateLayer(firstTime){
 
     /*Creates overlay option to add or remove the layer. Also allows user to 
     reenable the layer with the correct data, even if the date has changed*/
-    LAYER_OPTIONS.addOverlay(CONTAMINANT_LAYER, "Contaminated");
+    LAYER_OPTIONS.addOverlay(CONTAMINANT_LAYER, "Selected Catchments");
 }
 
 //Passes function without parameters used for setTimeout functions

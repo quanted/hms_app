@@ -44,7 +44,7 @@ function pageLoad() {
 function pageSpecificLoad(){
     var current = window.location.href;
 
-   if(current.includes("output_data")){
+     if(current.includes("output_data")){
         taskID = $("#task_id").html();
 
         if(taskID === "None"){
@@ -214,8 +214,8 @@ function getDataPolling() {
                 else {
                     console.log(data);
                     setTimeout(getDataPolling, 5000);
-                    console.log(window.location.origin);
-                    console.log("Request URL:", rqURL);
+                    //console.log(window.location.origin);
+                    //console.log("Request URL:", rqURL);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

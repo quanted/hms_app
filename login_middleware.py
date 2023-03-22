@@ -1,7 +1,9 @@
 from cmath import log
 import imp
+from optparse import OptParseError
 from django.conf import settings
 from django.contrib.auth import login as django_login
+from django.db import OperationalError
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
@@ -38,8 +40,8 @@ def login(request):
     if "message" in request.COOKIES.keys():
         message = request.COOKIES["message"]
         delete_message = True
-    html = render_to_string('login_prompt.html', {
-        'TITLE': 'User Login', 'next': next_page, 'TEXT': message
+    html = render_to_string('login_page.html', {
+        'TITLE': 'HMS Login', 'next': next_page, 'TEXT': message
     }, request=request)
     response = HttpResponse()
     response.write(html)
@@ -58,41 +60,42 @@ class RequireLoginMiddleware:
 
         self.get_response = get_response
         self.login_url = re.compile(settings.LOGIN_URL)
-        self.nta_username = "ntauser"
+        self.hms_username = "hmsuser"
         self.open_urls = [
-            '/nta/login'
+            '/hms/login'
         ]
 
-        nta_password = self.load_password()
-        if nta_password is None:
-            logger.warn("NTA login password as not set.")
+        hms_password = self.load_password()
+        if hms_password is None:
+            logger.warn("HMS login password as not set.")
             return
 
         try:
-            if not User.objects.filter(username=self.nta_username).exists():
-                _user = User.objects.create_user(self.nta_username, 'nta@nta.nta', nta_password)
+            if not User.objects.filter(username=self.hms_username).exists():
+                _user = User.objects.create_user(self.hms_username, 'hms@hms.hms', hms_password)
                 _user.save()
         except Exception:
-            logger.warn(f"User: {self.nta_username} already exists")
+            logger.warn(f"User: {self.hms_username} already exists")
 
     def __call__(self, request):
         response = self.get_response(request)
         return response
 
     def load_password(self):
-        nta_password = os.getenv('NTA_PASSWORD')
-        if nta_password is None:
+        hms_password = os.getenv('HMS_PASS')
+        if hms_password is None:
             if self.login_verbose:
-                logger.info(f"Unable to get password as NTA_PASSWORD env was not set.")
+                logger.info(f"Unable to get password as HMS_PASSWORD env was not set.")
             return None
 
         reset_env = ""
         if os.name == 'posix':
-            reset_env = 'export HMS_PASS=PASSWORD123'
+            reset_env = 'export HMS_PASS=hmspass'
         elif os.name == 'nt':
-            reset_env = 'setx HMS_PASS PASSWORD123'
+            reset_env = 'setx HMS_PASS hmspass'
         subprocess.Popen(reset_env, shell=True).wait()
-        return nta_password
+        #hms_password = "hmspass"
+        return hms_password
 
     def login_auth(self, request):
 
@@ -100,14 +103,29 @@ class RequireLoginMiddleware:
         password = request.POST.get('password')
         next_page = request.POST.get('next')
 
+        print(f"Username: {username} , Password: {password}, Next Page: {next_page}")
+        logger.info(f"Username: {username} , Password: {password}, Next Page: {next_page}")
+
         # Redirect back to login page if username is invalid
-        if username != self.nta_username:
+        if username != self.hms_username:
             if self.login_verbose:
                 logger.info(f"Login Auth: Username is invalid. Provided username: {username}")
+                print(f"Login Auth: Username is invalid. Provided username: {username}")
             response = redirect('/hms/login?next={}'.format(next_page))
             response.set_cookie('message', "Username is not correct.")
             return response
-
+       # try:
+       
+#        usertest = username == 'hmsuser'
+ #       passtest = password == 'hmspass'
+  #      print(f"USER TEST: {usertest} , PASS TEST: {passtest}")
+   #     if (username == 'hmsuser') and (password == 'hmspass'):
+    #        logger.info(f"User login successful, redirecting to {next_page}.")
+     #       print(f"User login successful, redirecting to {next_page}.")
+      #      response = redirect('{}'.format(next_page))
+       #     response.set_cookie('message', "Did not redirect")
+        #    return response
+        
         user = authenticate(username=username, password=password)
         session_duration = self.login_duration
         if user is not None:
@@ -129,6 +147,12 @@ class RequireLoginMiddleware:
             response = redirect('/hms/login?next={}'.format(next_page))
             response.set_cookie('message', "Password is not correct.")
             return response
+     #   except OperationalError:
+      #      session_duration = self.login_duration
+       #     if self.login_verbose:
+        #        logger.info(f"User login successful, redirecting to {next_page}, session will expire in {session_duration} secs.")
+         #   return redirect(next_page)
+        
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         assert hasattr(request, 'user')
@@ -146,11 +170,11 @@ class RequireLoginMiddleware:
                     logger.info(f"Process view cleared open url for path: {path}")
                 return
             else:
-                return redirect('/nta/login?next={}'.format(path))
+                return redirect('/hms/login?next={}'.format(path))
         elif user.is_authenticated:
             return
         else:
-            return redirect('/nta/login?next={}'.format(path))
+            return redirect('/hms/login?next={}'.format(path))
 
     def open_url_check(self, path):
         if any(p in path for p in self.open_urls):
