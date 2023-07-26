@@ -106,6 +106,7 @@ function setSourceConfig(){
 
 function getData() {
     var params = getParameters();
+    console.log("Get Data Request Parameters: ", params);
     var requestUrl = window.location.origin + "/" + baseUrl;
     $.ajax({
         type: "POST",
@@ -137,7 +138,23 @@ function getData() {
 }
 
 function getData2() {
+    if(window.location.href.includes("time_of_travel")){
+        var sDate = document.getElementsByName('startDate');
+        var sDateVal = sDate[0].value;
+        localStorage.setItem('startDate', sDateVal);
+/*        var eDate = document.getElementsByName('endDate');
+        var eDateVal = eDate[0].value;
+        localStorage.setItem('endDate', eDateVal);*/
+        var sHour = document.getElementsByName('startHour');
+        var sHourVal = sHour[0].value;
+        localStorage.setItem('startHour', sHourVal);
+/*        var eHour = document.getElementsByName('endHour');
+        var eHourVal = eHour[0].value;
+        localStorage.setItem('endHour', eHourVal);*/
+    }
+
     var params = getParameters();
+    console.log("Get Data2 Request Parameters: ", params)
     var requestUrl = window.location.origin + "/" + baseUrl;
     //window.location.origin
     console.log("baseUrl: ", baseUrl);
@@ -151,6 +168,7 @@ function getData2() {
         timeout: 0,
         contentType: "application/json",
         success: function (data, textStatus, jqXHR) {
+            console.log(data);
             taskID = data.job_id;
             var model = $("#model_name").html();
 

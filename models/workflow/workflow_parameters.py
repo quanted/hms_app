@@ -31,7 +31,7 @@ class TimeOfTravelFormInput(forms.Form):
         label="End COMID",
         initial=6275977
     )
-    """
+    
     startDate = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'datepicker'
@@ -49,6 +49,7 @@ class TimeOfTravelFormInput(forms.Form):
         min_value=0,
         initial=now_date.hour
     )
+    """
     endDate = forms.DateField(
         widget=forms.TextInput(attrs={
             'class': 'datepicker'
@@ -75,4 +76,4 @@ class TimeOfTravelFormInput(forms.Form):
         choices=(("Input Table", "Input Table"), ("National Water Model", "National Water Model")),
         initial="National Water Model"
     )
-    field_order = ['startCOMID', 'endCOMID', """'startDate', 'startHour', 'endDate', 'endHour',""" 'inflowTable']
+    field_order = ['startCOMID', 'endCOMID', 'startDate', 'startHour',""" 'endDate', 'endHour',""" 'inflowTable']

@@ -40,14 +40,14 @@ class TimeOfTravel:
     # Input Parameters are provided as a list of lists, each list contains 4 elements: the parameter name, type,
     # description and any child elements. Parameter names should match parameter labels in meteoroogy_parameters.py
     input_parameters = [
-    #    ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
-    #                        "<div style='text-align:center;'>Data Availability</div><div>"
-    #                        "<br><b>nwm:</b> hourly forecast data (18hr timeseries generated from the present time); Conterminous U.S. @ 1-km resolution."
-    #                        "</div>", "rowspan=4"
-    #                       ],
-    #    ["Start Hour", "Number", "Start hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
-    #    ["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
-    #    ["End Hour", "Number", "End hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
+        ["Start Date", "String", "Start date for the output timeseries. e.g., 01/01/2010",
+                            "<div style='text-align:center;'>Data Availability</div><div>"
+                            "<br><b>nwm:</b> hourly forecast data (18hr timeseries generated from the present time); Conterminous U.S. @ 1-km resolution."
+                            "</div>", "rowspan=4"
+                           ],
+        ["Start Hour", "Number", "Start hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
+        #["End Date", "String", "End date for the output timeseries. e.g., 01/01/2010", "", "style='display:none;'"],
+        #["End Hour", "Number", "End hour for the output timeseries in 24 hour time. e.g., 00-23", "", "style='display:none;'"],
         ["Start COMID", "Number", "COMID for the starting NHD stream catchment.",
                             "Output time-series is returned for each catchment in the connected network between the two selected NHDPlusV2.1 catchments."
                             "</div>", "rowspan=2"

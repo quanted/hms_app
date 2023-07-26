@@ -34,4 +34,4 @@ class TimeOfTravelFormInput(forms.Form):
         choices=(("Input Table", "Input Table"), ("National Water Model", "National Water Model")),
         initial="National Water Model"
     )
-    field_order = ['startCOMID', 'endCOMID', 'inflowTable']
+    field_order = ['startCOMID', 'endCOMID', 'inflowTable', ]

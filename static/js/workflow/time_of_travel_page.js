@@ -74,6 +74,7 @@
 // info.addTo(map);
 
 // ------------ Main JS ------------- //
+
 var baseUrl = 'hms/rest/api/v3/workflow/timeoftravel/';
 var counter = 100;
 var jobID = null;
@@ -107,6 +108,17 @@ let MAP = null;
 let smallDateStrings = [];
 let LAYER_OPTIONS = null;
 
+let sDate = null;
+let eDate = null;
+let sHour = null;
+let eHour = null;
+
+let dateList = [];
+
+let highestLat = 0;
+let lowestLat = 0;
+let highestLon = 0;
+let lowestLon = 0;
 /*var catchmentMap = null;
 var catchmentMapList = {};
 var catchmentData = null;
@@ -209,13 +221,31 @@ function setTableData(initial){
 
 function getParameters(){
     //var timeseries = dataToCSV();
+    let sDate = localStorage.getItem('startDate');
+    //let eDate = localStorage.getItem('endDate');
+    let sHour = localStorage.getItem('startHour');
+    //let eHour = localStorage.getItem('endHour');
+    let eHour = sHour + 18;
+    let eDate = sDate;
+    if(eHour > 23){
+        eHour = eHour - 23;
+
+        let sDateArray = sDate.split('-');
+        eDate = sDateArray[0] + "-" + sDateArray[1] + "-" + (parseInt(sDateArray[2]) + 1);
+    }
+    if(eHour < 10){
+        eHour = "0" + eHour;
+    }
+    //2023-07-07 03
     var requestJson = {
         "csrfmiddlewaretoken": getCookie("csrftoken"),
         "source": null,
-        /*"dateTimeSpan": {
-            "startDate": $("#id_startDate").val() + " " + $('#id_startHour').val(),
-            "endDate": $('#id_endDate').val() + " " + $('#id_endHour').val()
-        },*/
+        "dateTimeSpan": {
+            //"startDate": $("#id_startDate").val() + " " + $('#id_startHour').val(),
+            //"endDate": $('#id_endDate').val() + " " + $('#id_endHour').val()
+            "startDate": sDate + ":" + sHour
+            //"endDate": eDate + ":" + eHour
+        },
         "geometry": {
             "geometryMetadata": {
                 "startCOMID": $("#id_startCOMID").val(),
@@ -468,6 +498,7 @@ function dataToCSV(){
 
 function setOutputUI(){ //Called by pageSpecificLoad and multiple functions in general_page.js
     tableData = getComponentData();
+    
     setMetadata();
     setTotOutputTable();     
     setToTOutputMap();
@@ -482,7 +513,7 @@ function setTotOutputTable(){
         
         //Makes an array dateList to contain all date objects within the JSON. 
         //Also pushes to smallDateList to contain each date only once
-        let dateList = [];
+        dateList = [];
         for(let catchment of Object.keys(tableData.data)) {
             let dates = Object.keys(tableData.data[catchment]);
             for(let date of dates) {
@@ -520,6 +551,10 @@ function setTotOutputTable(){
                 dateList.push(dateObject);
             }
         }
+
+        //console.log(dateList);
+        earlyTimeToT();
+
 
         //Loop used to sort through the JSON and pull out all of the data
         let velAndLen = [];
@@ -815,6 +850,12 @@ function setToTOutputMap() {
         console.log("Geo JSON Flowlines: ", geoJSONFlowList);
         console.log("Geo Coords list: ", geoCoordsList);
 
+        highestLat = 0;
+        lowestLat = 0;
+        highestLon = 0;
+        lowestLon = 0;
+        let frst = true;
+
         //Take the average of the coordinate data and use it to center the map around the catchments
         let avgLAT = 0;
         let avgLNG = 0;
@@ -825,6 +866,28 @@ function setToTOutputMap() {
             if(entry === geoCoordsList[geoCoordsList.length - 1]){
                 avgLAT = avgLAT / geoCoordsList.length;
                 avgLNG = avgLNG / geoCoordsList.length;
+            }
+
+            if(frst){
+                highestLat = entry[1][1];
+                highestLon = entry[1][0];
+                lowestLat = entry[1][1];
+                lowestLon = entry[1][0];
+                frst = false;
+            }
+            else{
+                if(entry[1][1] > highestLat){
+                    highestLat = entry[1][1];
+                }
+                if(entry[1][1] < lowestLat){
+                    lowestLat = entry[1][1];
+                }
+                if(entry[1][0] > highestLon){
+                    highestLat = entry[1][0];
+                }
+                if(entry[1][0] < lowestLon){
+                    lowestLon = entry[1][0];
+                }
             }
         }
 
@@ -875,6 +938,12 @@ function setToTOutputMap() {
 
             if(buttonPressed == true){
                 buttonPressed = false;
+            }
+
+            autoCycleButton.onclick = function(){
+                buttonPressed = !buttonPressed;
+                console.log("Button Pressed!, ", buttonPressed);
+                setTimeout(cycle, 500);
             }
         }
 
@@ -1096,4 +1165,74 @@ function makeContaminateLayer(firstTime){
 //Passes function without parameters used for setTimeout functions
 function passContam(){
     makeContaminateLayer(true);
+}
+
+function earlyTimeToT(){
+    
+    sDateList = localStorage.getItem('startDate').split('-');
+    //eDateList = localStorage.getItem('endDate').split('-');
+    sHour = localStorage.getItem('startHour');
+    //eHour = localStorage.getItem('endHour');
+
+    if(sDateList[1] < 10){
+        sDateList[1] = '0' + sDateList[1]
+    }
+
+    if(sDateList[2] < 10){
+        sDateList[2] = '0' + sDateList[1]
+    }
+
+    sDate = new Date(sDateList[0], sDateList[1] - 1, sDateList[2], sHour + 4, 0, 0);
+    console.log(sDate);
+
+    //eDate = new Date(eDateList[0], eDateList[1] - 1, eDateList[2], eHour + 4, 0, 0);
+    //console.log(eDate);
+
+    /*if(true){
+        let ncUrl = 'https://nomads.ncep.noaa.gov/pub/data/nccf/com/nwm/prod/nwm.' + sDateList[0] + sDateList[1] + sDateList[2] + '/short_range/nwm.t' + '' + 'z.short_range.channel_rt.f0' + '' + '.conus.nc';
+
+        //let currentHour = sHour + 4;
+        let currentHour = today.getHours();
+        console.log(currentHour);
+
+        const fetch = require('node-fetch');
+        const NetCDFReader = require('netcdfjs');
+
+        let array = [];
+
+        let f = 1;
+        let t = 0;
+        while(f < 19){
+            let tempF = f;
+            let tempT = t;
+            if(f < 10){
+                tempf = '0' + f;
+            }
+            if(t < currentHour){
+                if(t > 23){
+                    t = '0';
+                    sDateList[2] = sDateList[2].parseInt() + 1;
+                    if(sDateList[2] < 10){
+                        sDateList[2] = '0' + sDateList[2];
+                    }
+                }
+                if(t < 10){
+                    tempT = '0' + t;
+                }
+            }
+            ncUrl = 'https://nomads.ncep.noaa.gov/pub/data/nccf/com/nwm/prod/nwm.' + sDateList[0] + sDateList[1] + sDateList[2] + '/short_range/nwm.t' + tempT + 'z.short_range.channel_rt.f0' + tempF + '.conus.nc';
+            fetch(ncUrl)
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => {
+                const reader = new NetCDFReader(arrayBuffer);
+                const jsonData = reader.getDataVariable('6275977')
+
+                console.log(jsonData)
+            })
+            
+            f += 1;
+            t += 1;
+        }
+    }*/
+    
 }
