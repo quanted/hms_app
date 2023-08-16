@@ -1,6 +1,6 @@
-dask==2022.1.1
-distributed==2022.1.1
-django==4.0.2
-django-cors-headers==3.11
+dask==2023.8.0
+distributed==2023.8.0
+django==4.1.10
+django-cors-headers==3.11.0
 pymongo==4.0.1
-requests==2.27.1
+requests==2.31.0
