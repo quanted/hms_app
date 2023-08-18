@@ -1,10 +1,10 @@
-FROM continuumio/miniconda3:4.10.3p0-alpine as base
+FROM continuumio/miniconda3:23.5.2-0-alpine as base
 
 ENV CONDA_ENV_BASE=pyenv
 
 COPY requirements.txt /tmp/requirements.txt
 
-RUN conda create -n $CONDA_ENV_BASE python=3.9
+RUN conda create -n $CONDA_ENV_BASE python=3.10
 RUN conda config --add channels conda-forge
 RUN conda run -n $CONDA_ENV_BASE --no-capture-output pip install -r /tmp/requirements.txt && \
     conda run -n $CONDA_ENV_BASE --no-capture-output conda clean -afy && \
@@ -13,7 +13,10 @@ RUN conda run -n $CONDA_ENV_BASE --no-capture-output pip install -r /tmp/require
     find /opt/conda/ -follow -type f -name '*.js.map' -delete
 RUN conda install -n $CONDA_ENV_BASE uwsgi
 
-FROM continuumio/miniconda3:4.10.3p0-alpine as prime
+# (8/18/23) Added for prisma scans:
+RUN conda update cryptography
+
+FROM continuumio/miniconda3:23.5.2-0-alpine as prime
 
 ARG APP_USER=www-data
 ARG CONDA_ENV_BASE=/opt/conda/envs/pyenv
@@ -22,7 +25,21 @@ RUN adduser -S $APP_USER -G $APP_USER
 
 RUN apk update
 RUN apk upgrade
-RUN pip install -U pip
+# RUN pip install -U pip
+
+# Removes all pips from image to "resolve" open Prisma CVE:
+# (NOTE: No very sustainable, will break with higher version of Python.)
+RUN rm -rf \
+    /home/www-data/pyenv/lib/python3.10/site-packages/pip* \
+    /home/www-data/pyenv/bin/pip \
+    /opt/conda/lib/python3.10/site-packages/pip* \
+    /opt/conda/bin/pip \
+    /root/.cache/pip
+
+# Removing some test keys that Prisma thinks are an issue (they're not):
+RUN rm \
+    /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_1_268B62D0.pri.asc \
+    /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_2_7DB43643.pri.asc
 
 WORKDIR /src/hms_app
 COPY . /src/hms_app
