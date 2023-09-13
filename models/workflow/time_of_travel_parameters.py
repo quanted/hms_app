@@ -26,6 +26,43 @@ class TimeOfTravelFormInput(forms.Form):
         label="End COMID",
         initial=6275977
     )
+    
+    startDate = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'datepicker'
+        }),
+        required=True,
+        label='Start Date',
+        input_formats=DATE_INPUT_FORMATS,
+        initial=now_date.strftime("%Y-%m-%d")
+    )
+    startHour = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True,
+        label='Start Hour',
+        max_value=23,
+        min_value=0,
+        initial=now_date.hour
+    )
+    """
+    endDate = forms.DateField(
+        widget=forms.TextInput(attrs={
+            'class': 'datepicker'
+        }),
+        required=True,
+        label='End Date',
+        input_formats=DATE_INPUT_FORMATS,
+        initial=end_date.strftime("%Y-%m-%d")
+    )
+    endHour = forms.IntegerField(
+        widget=forms.TextInput(),
+        required=True,
+        label='End Hour',
+        max_value=23,
+        min_value=0,
+        initial=end_date.hour
+    )
+    """
     inflowSource = forms.ChoiceField(
         widget=forms.Select(attrs={
             'title': 'Choose to input contaminant inflow data manually or download National Water Model forecast data.'
@@ -34,4 +71,4 @@ class TimeOfTravelFormInput(forms.Form):
         choices=(("Input Table", "Input Table"), ("National Water Model", "National Water Model")),
         initial="National Water Model"
     )
-    field_order = ['startCOMID', 'endCOMID', 'inflowTable', ]
+    field_order = ['startCOMID', 'endCOMID', 'startDate', 'startHour',""" 'endDate', 'endHour',""" 'inflowTable']

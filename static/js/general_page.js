@@ -7,7 +7,7 @@ var resultDataTable;
 var dyGraph;
 var rqURL;
 
-google.charts.load('current', {'packages': ['table', 'corechart']});
+google.charts.load("current", { packages: ["table", "corechart"] });
 
 $(function () {
     // $("#component_tabs").tabs({
@@ -18,7 +18,7 @@ $(function () {
         changeMonth: true,
         changeYear: true,
         autosize: true,
-        yearRange: '1900:2100'
+        yearRange: "1900:2100",
     };
     // Page load functions
     $("#id_startDate").datepicker(datepicker_options);
@@ -27,7 +27,7 @@ $(function () {
     $("#id_source").on("change", setSourceConfig);
 
     //$('.submit_data_request').on('click', getTestData);
-    $('.submit_data_request').on('click', getData2);
+    $(".submit_data_request").on("click", getData);
     setTimeout(pageLoad, 400);
     setTimeout(pageSpecificLoad, 500);
     setTimeout(loadCookies, 400);
@@ -36,22 +36,24 @@ $(function () {
 });
 
 function pageLoad() {
-    $('#load_page').fadeToggle(600);
+    $("#load_page").fadeToggle(600);
     browserCheck();
     return false;
 }
 
-function pageSpecificLoad(){
+function pageSpecificLoad() {
     var current = window.location.href;
 
-     if(current.includes("output_data")){
+    if (current.includes("output_data")) {
         taskID = $("#task_id").html();
 
-        if(taskID === "None"){
-            toggleLoader(false, "Unable to find your data request task ID. Please select a valid task ID or submit a new request.");
+        if (taskID === "None") {
+            toggleLoader(
+                false,
+                "Unable to find your data request task ID. Please select a valid task ID or submit a new request."
+            );
             $("#loader_box").hide();
-        }
-        else {
+        } else {
             console.log("Data request success. Task ID: " + taskID);
             toggleLoader(false, "Processing data request. Task ID: " + taskID);
             setTimeout(getDataPolling, 500);
@@ -59,26 +61,25 @@ function pageSpecificLoad(){
     }
 }
 
-function setSourceConfig(){
-    var src = $('#id_source').val();
+function setSourceConfig() {
+    var src = $("#id_source").val();
     var local = null;
     var resolution = null;
     if (sourceConfigs.hasOwnProperty(src)) {
-        local = sourceConfigs[src]['localtime'];
-        resolution = sourceConfigs[src]['temporalResolution'];
+        local = sourceConfigs[src]["localtime"];
+        resolution = sourceConfigs[src]["temporalResolution"];
     }
-    if(local){
-        $("#id_timelocalized option[value='true']").removeAttr('disabled');
-        $("#id_timelocalized option[value='true']").removeAttr('selected');
-        $("#id_timelocalized option[value='true']").attr('selected', 'selected');
-    }
-    else{
-        $("#id_timelocalized option[value='true']").removeAttr('selected');
-        $("#id_timelocalized option[value='true']").attr('disabled', 'disabled');
-        $("#id_timelocalized option[value='false']").attr('selected', 'selected');
+    if (local) {
+        $("#id_timelocalized option[value='true']").removeAttr("disabled");
+        $("#id_timelocalized option[value='true']").removeAttr("selected");
+        $("#id_timelocalized option[value='true']").attr("selected", "selected");
+    } else {
+        $("#id_timelocalized option[value='true']").removeAttr("selected");
+        $("#id_timelocalized option[value='true']").attr("disabled", "disabled");
+        $("#id_timelocalized option[value='false']").attr("selected", "selected");
     }
 
-    if(resolution) {
+    if (resolution) {
         var validRes = false;
         var resolutionOptions = document.getElementById("id_temporalresolution").getElementsByTagName("option");
         for (var i = 0; i < resolutionOptions.length - 1; i++) {
@@ -95,18 +96,16 @@ function setSourceConfig(){
             }
         }
     }
-    if(src === "gldas" || src === "trmm") {
-        $("#id_temporalresolution option[value='hourly']").attr('disabled', 'disabled');
-        $("#id_temporalresolution option[value='3hourly']").removeAttr('disabled');
-    }
-    else {
-        $("#id_temporalresolution option[value='3hourly']").attr('disabled', 'disabled');
+    if (src === "gldas" || src === "trmm") {
+        $("#id_temporalresolution option[value='hourly']").attr("disabled", "disabled");
+        $("#id_temporalresolution option[value='3hourly']").removeAttr("disabled");
+    } else {
+        $("#id_temporalresolution option[value='3hourly']").attr("disabled", "disabled");
     }
 }
 
 function getData() {
     var params = getParameters();
-    console.log("Get Data Request Parameters: ", params);
     var requestUrl = window.location.origin + "/" + baseUrl;
     $.ajax({
         type: "POST",
@@ -120,9 +119,9 @@ function getData() {
             console.log("Data request success");
             componentData = data;
             setOutputUI();
-            $('#component_tabs').tabs("enable", 2);
-            $('#component_tabs').tabs("option", "active", 2);
-            toggleLoader(false,"");
+            $("#component_tabs").tabs("enable", 2);
+            $("#component_tabs").tabs("option", "active", 2);
+            toggleLoader(false, "");
             dyGraph.resize();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -132,66 +131,51 @@ function getData() {
         },
         complete: function (jqXHR, textStatus) {
             console.log("Data request complete");
-        }
+        },
     });
     return false;
 }
 
-function getData2() {
-    if(window.location.href.includes("time_of_travel")){
-        var sDate = document.getElementsByName('startDate');
-        var sDateVal = sDate[0].value;
-        localStorage.setItem('startDate', sDateVal);
-/*        var eDate = document.getElementsByName('endDate');
-        var eDateVal = eDate[0].value;
-        localStorage.setItem('endDate', eDateVal);*/
-        var sHour = document.getElementsByName('startHour');
-        var sHourVal = sHour[0].value;
-        localStorage.setItem('startHour', sHourVal);
-/*        var eHour = document.getElementsByName('endHour');
-        var eHourVal = eHour[0].value;
-        localStorage.setItem('endHour', eHourVal);*/
+function getParameters() {
+    //var timeseries = dataToCSV();
+    let sDate = localStorage.getItem("startDate");
+    //let eDate = localStorage.getItem('endDate');
+    let sHour = localStorage.getItem("startHour");
+    //let eHour = localStorage.getItem('endHour');
+    let eHour = sHour + 18;
+    let eDate = sDate;
+    if (eHour > 23) {
+        eHour = eHour - 23;
+
+        let sDateArray = sDate.split("-");
+        eDate = sDateArray[0] + "-" + sDateArray[1] + "-" + (parseInt(sDateArray[2]) + 1);
     }
-
-    var params = getParameters();
-    console.log("Get Data2 Request Parameters: ", params)
-    var requestUrl = window.location.origin + "/" + baseUrl;
-    //window.location.origin
-    console.log("baseUrl: ", baseUrl);
-    rqURL = requestUrl;
-    $.ajax({
-        type: "POST",
-        url: requestUrl,
-        accepts: "application/json",
-        data: JSON.stringify(params),
-        processData: false,
-        timeout: 0,
-        contentType: "application/json",
-        success: function (data, textStatus, jqXHR) {
-            console.log(data);
-            taskID = data.job_id;
-            var model = $("#model_name").html();
-
-            var submodule = $("#submodule_name").html();
-
-            window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
-             //setDataRequestCookie(taskID);
-             //console.log("Data request success. Task ID: " + taskID);
-             //toggleLoader(false, "Processing data request. Task ID: " + taskID);
-             //setTimeout(getDataPolling, 5000);
-             //$('#component_tabs').tabs("enable", 2);
-             //$('#component_tabs').tabs("option", "active", 2);
+    if (eHour < 10) {
+        eHour = "0" + eHour;
+    }
+    //2023-07-07 03
+    var requestJson = {
+        csrfmiddlewaretoken: getCookie("csrftoken"),
+        source: null,
+        dateTimeSpan: {
+            //"startDate": $("#id_startDate").val() + " " + $('#id_startHour').val(),
+            //"endDate": $('#id_endDate').val() + " " + $('#id_endHour').val()
+            startDate: sDate + ":" + sHour,
+            //"endDate": eDate + ":" + eHour
         },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Data request error...");
-            console.log(errorThrown);
-            // toggleLoader(true, "");
+        geometry: {
+            geometryMetadata: {
+                startCOMID: $("#id_startCOMID").val(),
+                endCOMID: $("#id_endCOMID").val(),
+            },
         },
-        complete: function (jqXHR, textStatus) {
-            console.log("Data request complete");
-        }
-    });
-    return false;
+        inflowSource: $("#id_inflowSource").val(),
+        contaminantInflow: null,
+        units: "default",
+        outputFormat: "json",
+    };
+    console.log("getParam:", requestJson);
+    return requestJson;
 }
 
 function getDataPolling() {
@@ -209,7 +193,7 @@ function getDataPolling() {
                 if (data.status === "SUCCESS") {
                     if (typeof data.data === "string") {
                         componentData = JSON.parse(data.data);
-                    }else{
+                    } else {
                         console.log(data);
                         componentData = data.data;
                     }
@@ -219,17 +203,15 @@ function getDataPolling() {
                     toggleLoader(true, "");
                     setTitle();
                     toggleDownloadButtons(false);
-                    if(window.location.href.includes("time_of_travel") == false){
+                    if (window.location.href.includes("time_of_travel") == false) {
                         dyGraph.resize();
                     }
                     counter = 0;
-                }
-                else if (data.status === "FAILURE") {
+                } else if (data.status === "FAILURE") {
                     toggleLoader(false, "Task " + taskID + " encountered an error.");
                     console.log("Task failed to complete.");
                     deleteTaskFromCookie(jobID);
-                }
-                else {
+                } else {
                     console.log(data);
                     setTimeout(getDataPolling, 5000);
                     //console.log(window.location.origin);
@@ -243,24 +225,23 @@ function getDataPolling() {
             },
             complete: function (jqXHR, textStatus) {
                 console.log("Data request complete");
-            }
+            },
         });
-    }
-    else {
-        console.log("Failed to get data, reached polling cap.")
+    } else {
+        console.log("Failed to get data, reached polling cap.");
     }
     return false;
 }
 
 function getPreviousData() {
-    taskID = $('#previous_task_id').val();
+    taskID = $("#previous_task_id").val();
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
     window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
     return false;
 }
 
-function getPreviousDataFromID(id){
+function getPreviousDataFromID(id) {
     taskID = id;
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
@@ -271,17 +252,17 @@ function getPreviousDataFromID(id){
 function setMetadata() {
     var metaDataTile = componentData.dataset;
     var sourceTitle = componentData.dataSource.toUpperCase();
-    $('#output_metadata_title').html(metaDataTile + ": " + sourceTitle + " Metadata");
+    $("#output_metadata_title").html(metaDataTile + ": " + sourceTitle + " Metadata");
     resultMetaTable = new google.visualization.DataTable();
-    resultMetaTable.addColumn('string', 'Metadata');
-    resultMetaTable.addColumn('string', 'Value');
+    resultMetaTable.addColumn("string", "Metadata");
+    resultMetaTable.addColumn("string", "Value");
     $.map(componentData.metadata, function (key, value) {
         resultMetaTable.addRow([value, key]);
     });
-    var metaTable = new google.visualization.Table(document.getElementById('output_metadata'));
+    var metaTable = new google.visualization.Table(document.getElementById("output_metadata"));
     var tableOptions = {
         pageSize: 10,
-        width: '100%'
+        width: "100%",
     };
     metaTable.draw(resultMetaTable, tableOptions);
     return false;
@@ -299,37 +280,37 @@ function setTitle() {
 function setDataGraph() {
     var dataTile = componentData.dataset;
     var sourceTitle = componentData.dataSource;
-    $('#output_data_title').html(dataTile + ": " + sourceTitle + " Data");
+    $("#output_data_title").html(dataTile + ": " + sourceTitle + " Data");
     var chartOption = {
         title: componentData.dataset,
-        curveType: 'none',
-        legend: {position: 'right'},
+        curveType: "none",
+        legend: { position: "right" },
         width: 800,
-        height: 600
+        height: 600,
     };
 
     resultDataTable = new google.visualization.DataTable();
-    resultDataTable.addColumn({type: 'datetime', label: 'Date', pattern: 'MM-DD-YYYY HH'});
+    resultDataTable.addColumn({ type: "datetime", label: "Date", pattern: "MM-DD-YYYY HH" });
     var j = 2;
     $.each(componentData.metadata, function (k, v) {
         var testKey = "column_" + j.toString();
         if (k === testKey) {
-            resultDataTable.addColumn({type: 'number', label: v});
+            resultDataTable.addColumn({ type: "number", label: v });
             j++;
         }
     });
     var colNum = componentData.data[Object.keys(componentData.data)[0]].length;
-    if ((j - 1) < colNum) {
+    if (j - 1 < colNum) {
         var i;
         for (i = colNum; i < j - 1; i++) {
-            resultDataTable.addColumn({type: 'number', label: 'Data Column ' + i.toString()});
+            resultDataTable.addColumn({ type: "number", label: "Data Column " + i.toString() });
         }
     }
 
-    $.each(componentData['data'], function (index, row) {
+    $.each(componentData["data"], function (index, row) {
         var r = [];
-        var dt = index.split(' ');
-        var d = dt[0].split('-');
+        var dt = index.split(" ");
+        var d = dt[0].split("-");
         r.push(new Date(d[0], d[1] - 1, d[2], dt[1], 0, 0, 0));
 
         $.each(row, function (key, value) {
@@ -365,32 +346,30 @@ function setDataGraph2() {
     var graphOptions = {
         labels: labels,
         title: dataTitle + ": " + sourceTitle + " Data",
-        legend: 'always',
+        legend: "always",
         showRangeSelector: true,
-        width: 600
+        width: 600,
     };
-    $.each(componentData['data'], function (index, row) {
+    $.each(componentData["data"], function (index, row) {
         if (row.length + 1 === labels.length) {
             var rowD = [];
-            var dt = index.split(' ');
-            var d = dt[0].split('-');
+            var dt = index.split(" ");
+            var d = dt[0].split("-");
             var date;
             if (dt.length === 2) {
-                var hr = dt[1].split(':');
+                var hr = dt[1].split(":");
                 if (hr.length === 2) {
                     date = new Date(d[0], d[1] - 1, d[2], hr[0], hr[1], 0, 0);
-                }
-                else {
+                } else {
                     date = new Date(d[0], d[1] - 1, d[2], dt[1], 0, 0, 0);
                 }
-            }
-            else {
+            } else {
                 date = new Date(d[0], d[1] - 1, d[2], 0, 0, 0);
             }
             rowD.push(date);
             $.each(row, function (key, value) {
                 var datapoint = parseFloat(value);
-                if(datapoint === -9999 || datapoint === -9998){
+                if (datapoint === -9999 || datapoint === -9998) {
                     datapoint = -1;
                 }
                 rowD.push(datapoint);
@@ -398,7 +377,7 @@ function setDataGraph2() {
             dataCSV.push(rowD);
         }
     });
-    var graphEle = document.getElementById('output_data');
+    var graphEle = document.getElementById("output_data");
     dyGraph = new Dygraph(graphEle, dataCSV, graphOptions);
 }
 
@@ -406,34 +385,31 @@ function toggleLoader(hide, msg) {
     if (hide) {
         $("#output_loading").fadeOut(100);
         $("#loading_msg").html();
-    }
-    else {
+    } else {
         $("#output_loading").fadeIn(100);
         $("#loading_msg").html("<span>" + msg + "</span>");
     }
     return false;
 }
 
-function toggleDownloadButtons(hide){
-    if(hide){
+function toggleDownloadButtons(hide) {
+    if (hide) {
         $("#output_data_save_block").hide();
-    }
-    else{
+    } else {
         $("#output_data_save_block").show();
     }
 }
 
 function exportDataToJSON() {
     var fileName = componentData.dataset + "_" + componentData.dataSource + ".json";
-    var pom = document.createElement('a');
-    pom.setAttribute('href', 'data:data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(componentData)));
-    pom.setAttribute('download', fileName);
+    var pom = document.createElement("a");
+    pom.setAttribute("href", "data:data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(componentData)));
+    pom.setAttribute("download", fileName);
     if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("click", true, true);
         pom.dispatchEvent(event);
-    }
-    else {
+    } else {
         pom.click();
     }
 }
@@ -447,14 +423,23 @@ function exportDataToCSV() {
     var columns = "Date";
     var c_index = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     $.each(c_index, function (v) {
-        if (componentData.metadata["column_" + v] && componentData.metadata["column_" + v].toLowerCase().includes("date")){
+        if (
+            componentData.metadata["column_" + v] &&
+            componentData.metadata["column_" + v].toLowerCase().includes("date")
+        ) {
             columns = componentData.metadata["column_" + v];
-        }
-        else if (componentData.metadata["column_" + v] && !componentData.metadata["column_" + v].toLowerCase().includes("date")) {
-            if(componentData.metadata["column_" + v + "_units"]){
-                columns += "," + componentData.metadata["column_" + v] + "(" + componentData.metadata["column_" + v + "_units"] + ")";
-            }
-            else {
+        } else if (
+            componentData.metadata["column_" + v] &&
+            !componentData.metadata["column_" + v].toLowerCase().includes("date")
+        ) {
+            if (componentData.metadata["column_" + v + "_units"]) {
+                columns +=
+                    "," +
+                    componentData.metadata["column_" + v] +
+                    "(" +
+                    componentData.metadata["column_" + v + "_units"] +
+                    ")";
+            } else {
                 columns += "," + componentData.metadata["column_" + v];
             }
         }
@@ -472,49 +457,47 @@ function exportDataToCSV() {
     exportDataAsJSON(metadata_name, componentData.metadata);
 
     var csvFinal = columns + "\n" + data;
-    var dataStr = 'data:data:text/csv;charset=utf-8,' + encodeURIComponent(csvFinal);
-    var pom = document.createElement('a');
-    pom.setAttribute('href', dataStr);
-    pom.setAttribute('download', fileName + '.csv');
+    var dataStr = "data:data:text/csv;charset=utf-8," + encodeURIComponent(csvFinal);
+    var pom = document.createElement("a");
+    pom.setAttribute("href", dataStr);
+    pom.setAttribute("download", fileName + ".csv");
     if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("click", true, true);
         pom.dispatchEvent(event);
-    }
-    else {
+    } else {
         pom.click();
     }
 }
 
-function exportDataAsJSON(name, output){
-    var pom = document.createElement('a');
+function exportDataAsJSON(name, output) {
+    var pom = document.createElement("a");
     var data = encodeURIComponent(JSON.stringify(output));
-    pom.setAttribute('href', 'data:data:text/plain;charset=utf-8,' + data);
-    pom.setAttribute('download', name);
+    pom.setAttribute("href", "data:data:text/plain;charset=utf-8," + data);
+    pom.setAttribute("download", name);
     if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
+        var event = document.createEvent("MouseEvents");
+        event.initEvent("click", true, true);
         pom.dispatchEvent(event);
-    }
-    else {
+    } else {
         pom.click();
     }
 }
 
-function loadCookies(){
-    var url = window.location.href.split('/');
+function loadCookies() {
+    var url = window.location.href.split("/");
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
     url = url[2] + "/hms/" + model + "/" + submodule;
     var cookie = getCookie(url);
     cookie = pruneCookieTasks(cookie);
     var ids = cookie.split(",");
-    if( ids.length > 1){
+    if (ids.length > 1) {
         $("#previous_tasks").show();
-        var list = $('#previous_tasks_list')[0];
-        ids.forEach(function(id){
-            if(id !== "") {
-                var id_time = id.split(':');
+        var list = $("#previous_tasks_list")[0];
+        ids.forEach(function (id) {
+            if (id !== "") {
+                var id_time = id.split(":");
 
                 var eleID = document.createElement("span");
                 eleID.innerText = id_time[0];
@@ -540,41 +523,40 @@ function loadCookies(){
     }
 }
 
-function setDataRequestCookie(taskID){
+function setDataRequestCookie(taskID) {
     var daysToExpire = 1;
     var date = new Date();
-    date.setTime(date.getTime() + daysToExpire * 24*60*60*1000);
+    date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
     var expires = "expires=" + date.toUTCString();
     var timestamp = new Date();
     var taskIDs = taskID + ":" + timestamp.getTime();
-    var url = window.location.href.split('/');
+    var url = window.location.href.split("/");
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
     url = url[2] + "/hms/" + model + "/" + submodule;
     var current = getCookie(url);
     current = pruneCookieTasks(current);
     var ids = "";
-    $.each(current.split(','), function(index, value){
-        var id = value.split(':')[0];
-        if(id !== taskID && id !== ""){
+    $.each(current.split(","), function (index, value) {
+        var id = value.split(":")[0];
+        if (id !== taskID && id !== "") {
             ids += "," + value;
-        }
-        else if(id === taskID){
+        } else if (id === taskID) {
             taskIDs = value;
         }
     });
 
     taskIDs = taskIDs + ids;
-    document.cookie = url+  "=" + taskIDs + ";" + expires + ";path=" + "/hms/" + model + "/" + submodule + "/";
+    document.cookie = url + "=" + taskIDs + ";" + expires + ";path=" + "/hms/" + model + "/" + submodule + "/";
 }
 
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) == " ") {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
@@ -584,17 +566,17 @@ function getCookie(cname) {
     return "";
 }
 
-function pruneCookieTasks(currentTasks){
-    var IDs = currentTasks.split(',');
+function pruneCookieTasks(currentTasks) {
+    var IDs = currentTasks.split(",");
     var taskIDs = "";
     var now = new Date();
     now.setDate(now.getDate() - 1);
     now = now.getTime();
-    $.each(IDs, function(k, v){
-        if(v !== "") {
+    $.each(IDs, function (k, v) {
+        if (v !== "") {
             var timestamp = new Date();
             if (v.includes(":")) {
-                var id_t = v.split(':');
+                var id_t = v.split(":");
                 timestamp.setTime(parseInt(id_t[1]));
                 if (timestamp.getTime() > now) {
                     taskIDs = taskIDs + "," + v;
@@ -607,32 +589,32 @@ function pruneCookieTasks(currentTasks){
     return taskIDs;
 }
 
-function deleteTaskFromCookie(id){
-    var url = window.location.href.split('/');
+function deleteTaskFromCookie(id) {
+    var url = window.location.href.split("/");
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
     url = url[2] + "/hms/" + model + "/" + submodule;
     var current = getCookie(url);
     current = pruneCookieTasks(current);
-    var IDs = current.split(',');
+    var IDs = current.split(",");
     var validIDs = [];
-    $.each(IDs, function(k, v){
-        if(v.includes(":")){
-            var i = v.split(':');
-            if(i[0] !== id){
+    $.each(IDs, function (k, v) {
+        if (v.includes(":")) {
+            var i = v.split(":");
+            if (i[0] !== id) {
                 validIDs.push(v);
             }
         }
     });
     var daysToExpire = 1;
     var date = new Date();
-    date.setTime(date.getTime() + daysToExpire * 24*60*60*1000);
+    date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
     var expires = "expires=" + date.toUTCString();
     var taskIDs = validIDs.join();
-    document.cookie = url+  "=" + taskIDs + ";" + expires + ";path=" + "/hms/" + model + "/" + submodule + "/";
+    document.cookie = url + "=" + taskIDs + ";" + expires + ";path=" + "/hms/" + model + "/" + submodule + "/";
 }
 
-function getComponentData(){
+function getComponentData() {
     console.log(componentData);
     return componentData;
 }
