@@ -34,8 +34,7 @@ RUN conda update cryptography
 
 # Removes all pips from image to "resolve" open Prisma CVE:
 # (NOTE: No very sustainable, will break with higher version of Python.)
-RUN rm -rf \
-    /home/www-data/pyenv/lib/python3.10/site-packages/pip* \
+RUN rm -rf /home/www-data/pyenv/lib/python3.10/site-packages/pip* \
     /home/www-data/pyenv/bin/pip \
     /opt/conda/lib/python3.10/site-packages/pip* \
     /opt/conda/envs/pyenv/lib/python3.10/site-packages/pip-* \
@@ -43,10 +42,9 @@ RUN rm -rf \
     /root/.cache/pip
 
 # Removing some test keys that Prisma thinks are an issue (they're not):
-RUN rm \
-    /opt/conda/envs/pyenv/lib/python3.10/site-packages/tornado/test/test.key \
-    /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_1_268B62D0.pri.asc \
-    /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_2_7DB43643.pri.asc
+RUN rm /opt/conda/envs/pyenv/lib/python3.10/site-packages/tornado/test/test.key || true
+RUN rm /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_1_268B62D0.pri.asc || true
+RUN rm /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_2_7DB43643.pri.asc || true
 
 
 COPY uwsgi.ini /etc/uwsgi/
