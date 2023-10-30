@@ -106,7 +106,7 @@ function setSourceConfig(){
 
 function getData() {
     var params = getParameters();
-    var requestUrl = window.location.origin + "/" + baseUrl;
+    var requestUrl = window.location.origin + baseUrl;
     $.ajax({
         type: "POST",
         url: requestUrl,
@@ -138,7 +138,7 @@ function getData() {
 
 function getData2() {
     var params = getParameters();
-    var requestUrl = window.location.origin + "/" + baseUrl;
+    var requestUrl = window.location.origin + baseUrl;
     //window.location.origin
     console.log("baseUrl: ", baseUrl);
     rqURL = requestUrl;
