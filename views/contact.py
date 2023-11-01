@@ -90,7 +90,7 @@ def contacts_submission_view(request):
     keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
     imports = render_to_string('hms_default_imports.html')
 
-    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/disclaimer.txt'), 'r')
+    disclaimer_file = open(os.path.join(os.environ['PROJECT_PATH'], 'views/disclaimer.txt'), 'r')
     disclaimer_text = disclaimer_file.read()
     notpublic = True
 
