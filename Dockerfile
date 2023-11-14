@@ -4,14 +4,14 @@ ENV CONDA_ENV_BASE=pyenv
 
 COPY requirements.txt /tmp/requirements.txt
 
-RUN conda create -n $CONDA_ENV_BASE python=3.10
 RUN conda config --add channels conda-forge
+RUN conda create -n $CONDA_ENV_BASE python=3.10
 RUN conda run -n $CONDA_ENV_BASE --no-capture-output pip install -r /tmp/requirements.txt && \
     conda run -n $CONDA_ENV_BASE --no-capture-output conda clean -afy && \
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.pyc' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete
-RUN conda install -n $CONDA_ENV_BASE uwsgi
+RUN conda install -n $CONDA_ENV_BASE uwsgi=2.0.22
 
 FROM continuumio/miniconda3:23.5.2-0-alpine as prime
 

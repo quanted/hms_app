@@ -1,6 +1,6 @@
 dask==2022.1.1
 distributed==2022.1.1
-django==4.1.10
-django-cors-headers==3.11.0
+django==4.2.7
+django-cors-headers==4.3.0
 pymongo==4.0.1
 requests==2.31.0
