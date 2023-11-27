@@ -59,4 +59,5 @@ ENV DJANGO_SETTINGS_MODULE "settings"
 ENV PYTHONPATH="/src:/src/hms_app:${PYTHONPATH}"
 ENV PATH="/bin:/src:/src/hms_app:${PATH}"
 
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
 CMD ["conda", "run", "-n", "pyenv", "--no-capture-output", "sh", "/src/hms_app/docker-start.sh"]
