@@ -1,2 +1,3 @@
-# hms_app
-django app for hydrological microservices
+# hms_app 
+
+Django app for the HMS tech-stack.
