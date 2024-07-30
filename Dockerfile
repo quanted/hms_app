@@ -11,7 +11,7 @@ RUN conda run -n $CONDA_ENV_BASE --no-capture-output pip install -r /tmp/require
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.pyc' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete
-RUN conda install -n $CONDA_ENV_BASE uwsgi=2.0.22
+RUN #conda install -n $CONDA_ENV_BASE uwsgi=2.0.22
 
 FROM continuumio/miniconda3:23.5.2-0-alpine as prime
 
@@ -22,6 +22,7 @@ RUN adduser -S $APP_USER -G $APP_USER
 
 RUN apk update
 RUN apk upgrade
+RUN apk upgrade busybox --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 
 
 WORKDIR /src/hms_app
@@ -54,10 +55,10 @@ RUN chown ${APP_USER}:${APP_USER} $CONDA_ENV_BASE
 EXPOSE 8080
 
 USER $APP_USER
-ENV DJANGO_SETTINGS_MODULE "settings"
+ENV DJANGO_SETTINGS_MODULE="settings"
 
-ENV PYTHONPATH="/src:/src/hms_app:${PYTHONPATH}"
-ENV PATH="/bin:/src:/src/hms_app:${PATH}"
+ENV PYTHONPATH="/src:/src/hms_app:$PYTHONPATH"
+ENV PATH="/bin:/src:/src/hms_app:$PATH"
 
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
-CMD ["conda", "run", "-n", "pyenv", "--no-capture-output", "sh", "/src/hms_app/docker-start.sh"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+#CMD ["conda", "run", "-n", "pyenv", "--no-capture-output", "sh", "/src/hms_app/docker-start.sh"]
