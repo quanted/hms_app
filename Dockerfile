@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3:23.5.2-0-alpine as base
+FROM continuumio/miniconda3:23.5.2-0-alpine AS base
 
 ENV CONDA_ENV_BASE=pyenv
 
@@ -11,9 +11,9 @@ RUN conda run -n $CONDA_ENV_BASE --no-capture-output pip install -r /tmp/require
     find /opt/conda/ -follow -type f -name '*.a' -delete && \
     find /opt/conda/ -follow -type f -name '*.pyc' -delete && \
     find /opt/conda/ -follow -type f -name '*.js.map' -delete
-RUN #conda install -n $CONDA_ENV_BASE uwsgi=2.0.22
+RUN conda install -n $CONDA_ENV_BASE uwsgi=2.0.22
 
-FROM continuumio/miniconda3:23.5.2-0-alpine as prime
+FROM continuumio/miniconda3:23.5.2-0-alpine AS prime
 
 ARG APP_USER=www-data
 ARG CONDA_ENV_BASE=/opt/conda/envs/pyenv
