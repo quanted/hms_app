@@ -83,6 +83,7 @@ def flask_proxy(request, flask_url):
         return HttpResponse(flask_request, content_type="application/json")
     elif method == "GET":
         proxy_url += "?" + request.GET.urlencode()
+        logger.info(f"Flask Url: {proxy_url}")
         flask_request = requests.request("get", proxy_url, timeout=timeout)
         headers = flask_request.headers
         del headers["Content-Type"]
