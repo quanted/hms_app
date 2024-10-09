@@ -3,8 +3,11 @@ from django.http import HttpResponse, Http404, JsonResponse, HttpResponseBadRequ
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
 import json
+import logging
 import os
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 """ 
@@ -61,7 +64,7 @@ def flask_proxy(request, flask_url):
     else:
         proxy_url = os.getenv('FLASK_SERVER', "hms-nginx:7777") + "/" + flask_url
     method = str(request.method)
-    print(f"Docker: {os.getenv('IN_DOCKER', 'False')},Django to Flask proxy method: " + method + " url: " + proxy_url )
+    logger.info(f"Docker: {os.getenv('IN_DOCKER', 'False')},Django to Flask proxy method: " + method + " url: " + proxy_url )
     if method == "POST":
         if len(request.POST) == 0:
             try:
@@ -86,6 +89,9 @@ def flask_proxy(request, flask_url):
         response_type = flask_request.headers.get('content-type')
         if not response_type:
             response_type = "application/json"
+        logger.info(f"Flask Response: {flask_request.content}")
+        logger.info(f"Headers Response: {headers}")
+        logger.info(f"Response Type: {response_type}")
         return HttpResponse(flask_request, content_type=response_type, headers=headers)
     elif method == "DELETE":
         proxy_url += "/?" + request.GET.urlencode()
