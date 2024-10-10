@@ -1,4 +1,5 @@
 {
+  "1.1.0": ["infrastructure update", "10/10/2024", "Infrastucture update to HMS web stack, includes bug fixes and performance improvements."],
   "1.0.0": ["public", "10/01/2020", "Public release of version 1.0.0 of the HMS web application and REST API."],
   "0.1.0": ["beta", "07/16/2020", "Initial beta release of HMS web application and components."]
 }
