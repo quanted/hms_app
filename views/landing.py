@@ -89,7 +89,7 @@ def hms_landing_page_old(request):
     return response
 
 
-def file_not_found(request, exception=None):
+def file_not_found(reques):
     """
     Constructs html for page not found.
     :param request: current request object
@@ -107,4 +107,40 @@ def file_not_found(request, exception=None):
     response = HttpResponse()
     response.write(html)
     print("page not found")
+    return response
+
+def file_not_found(request,  exception=None):
+    page_title = "HMS: Hydrologic Micro Services"
+    keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
+    imports = render_to_string('hms_default_imports.html')
+    imports += render_to_string('hms_landing_imports.html')
+
+    project_path = os.getenv('PROJECT_PATH', "..")
+    disclaimer_file = open(os.path.join(project_path, 'views/disclaimer.txt'), 'r')
+    disclaimer_text = disclaimer_file.read()
+    ispublic = settings.HMS_PUBLIC
+
+    html = render_to_string('01epa18_default_header.html', {
+        'TITLE': page_title,
+        'URL': str(request.get_host) + request.path,
+        'KEYWORDS': keywords,
+        'IMPORTS': imports,
+        'NOTPUBLIC': not ispublic,
+        'DISCLAIMER': disclaimer_text
+    })                                                                     # Default EPA header
+    html += links_left.ordered_list(model='hms', submodel=None)
+    # page_text_file = open(os.path.join(os.environ['PROJECT_PATH'], 'hms_app/views/landing_text.txt'), 'r')
+    page_text = render_to_string("hms_page_missing.html", {
+        'SOURCE_LIST': external_sources
+    })
+
+    html += render_to_string('05hms_body_start.html', {
+        'TITLE': "HMS Page Not Found",
+        'DESCRIPTION': page_text
+    })                                                                      # HMS Workflow main body start
+    html += render_to_string('06hms_body_end.html')                         # HMS Workflow main body end
+    html += render_to_string('07hms_splashscripts.html')                    # EPA splashscripts import
+    html += render_to_string('10epa_drupal_footer.html')                    # Default EPA footer
+    response = HttpResponse()
+    response.write(html)
     return response
