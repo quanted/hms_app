@@ -25,20 +25,7 @@ logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
 logger.info(f"TEMPLATE_ROOT: {TEMPLATE_ROOT}")
 logger.info(f"DEPLOY_ENV: {DEPLOY_ENV}")
 
-#os.environ["LOGIN_REQUIRED"] = "true"
-#try:
-#    env_var_test = os.environ["LOGIN REQUIRED"]
-#    logger.info('LOGIN REQUIRED exists')
-#except KeyError:
-#    logger.info('LOGIN REQUIRED does not exist')
-#LOGIN_REQUIRED = "false" == os.getenv("LOGIN_REQUIRED", "false").lower()
-#LOGIN_URL = "/hms/login"
-#LOGIN_VERBOSE = "true" == os.getenv("LOGIN_VERBOSE", "false").lower()
-#LOGIN_DURATION = int(os.getenv("LOGIN_DURATION", 86400))
-#logger.info(f"LOGIN_REQUIRED: {LOGIN_REQUIRED}, LOGIN_URL: {LOGIN_URL}, LOGIN_DURATION: {LOGIN_DURATION}, "
-#            f"LOGIN_VERBOSE: {LOGIN_VERBOSE}")
-
-if DEPLOY_ENV == "kube-dev":
+if "kube" in DEPLOY_ENV.lower():
     DEBUG = True
     CORS_ORIGIN_ALLOW_ALL = True
 else:
@@ -99,13 +86,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-#if LOGIN_REQUIRED:
- #   MIDDLEWARE += [
-  #      'login_middleware.RequireLoginMiddleware',
-   #     'login_middleware.Http403Middleware',
-    #    'django.contrib.messages.middleware.MessageMiddleware'
-    #]
 
 ROOT_URLCONF = 'urls'
 
