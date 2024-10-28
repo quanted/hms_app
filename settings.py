@@ -25,7 +25,7 @@ logger.info(f"PROJECT_ROOT: {PROJECT_ROOT}")
 logger.info(f"TEMPLATE_ROOT: {TEMPLATE_ROOT}")
 logger.info(f"DEPLOY_ENV: {DEPLOY_ENV}")
 
-if "kube" in DEPLOY_ENV.lower():
+if "kube" not in DEPLOY_ENV.lower():
     DEBUG = True
     CORS_ORIGIN_ALLOW_ALL = True
 else:
