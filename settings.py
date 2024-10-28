@@ -31,6 +31,7 @@ if "kube" in DEPLOY_ENV.lower():
 else:
     DEBUG = False
     CORS_ORIGIN_ALLOW_ALL = False
+logger.info(f"DEBUG: {DEBUG}, CORS_ORIGIN_ALLOW_ALL: {CORS_ORIGIN_ALLOW_ALL}")
 
 mimetypes.add_type("application/javascript", ".js", True)
 
