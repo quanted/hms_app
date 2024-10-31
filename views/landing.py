@@ -88,27 +88,6 @@ def hms_landing_page_old(request):
     response.write(html)
     return response
 
-
-def file_not_found(reques):
-    """
-    Constructs html for page not found.
-    :param request: current request object
-    :return: HttpResponse object
-    """
-    html = render_to_string('01epa_drupal_header.html', {})
-    html += render_to_string('02epa_drupal_header_bluestripe.html', {})
-    html += render_to_string('03epa_drupal_section_title.html', {})
-    if settings.IS_PUBLIC:
-        html += render_to_string('04qed_splash_landing_public.html', {'title': 'qed'})
-    else:
-        html += render_to_string('04qed_splash_landing_intranet.html', {'title': 'qed'})
-    html += render_to_string('09epa_drupal_splashscripts.html', {})
-    html += render_to_string('10epa_drupal_footer.html', {})
-    response = HttpResponse()
-    response.write(html)
-    print("page not found")
-    return response
-
 def file_not_found(request,  exception=None):
     page_title = "HMS: Hydrologic Micro Services"
     keywords = "HMS, Hydrology, Hydrologic Micro Services, EPA"
