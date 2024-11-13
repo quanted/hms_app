@@ -24,7 +24,7 @@ class SanitizeMiddleware:
     def __call__(self, request):
         request.url = unquote(request.get_full_path())
         if request.method == 'POST':
-            if request.content_type == 'application/json':
+            if request.content_type in ['application/json', 'application/json-patch+json']:
                 if len(request.POST) == 0:
                     try:
                         request_body = (request.body.decode("utf-8")).replace('\t', '').replace('\r\n', '')
