@@ -1,6 +1,5 @@
 import os
 
-#  https://docs.djangoproject.com/en/1.6/intro/tutorial03/
 from django.urls import path, re_path, include
 from django.conf import settings
 from hms_app.views import landing, watershed_map, workflow_setup, webapp
@@ -75,7 +74,7 @@ else:
 urlpatterns = [path('hms/', include(urlpatterns))]
 
 # 404 Error view (file not found)
-handler404 = landing.file_not_found
+# handler404 = landing.file_not_found
 # 500 Error view (server error)
 handler500 = landing.file_not_found
 # 403 Error view (forbidden)
