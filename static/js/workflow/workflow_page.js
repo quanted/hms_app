@@ -1,6 +1,15 @@
 var baseUrl = "/hms/rest/api/v3/workflow/watershed/";
 var inputJSON = {};
-var requiredInputs = ["spatialType", "spatialInput", "startDate", "endDate", "timestep", "runoffSource", "precipSource", "streamAlgorithm"];
+var requiredInputs = [
+    "spatialType",
+    "spatialInput",
+    "startDate",
+    "endDate",
+    "timestep",
+    "runoffSource",
+    "precipSource",
+    "streamAlgorithm",
+];
 var hucMap = null;
 var counter = 100;
 var testData = false;
@@ -13,7 +22,7 @@ $(function () {
         changeMonth: true,
         changeYear: true,
         autosize: true,
-        yearRange: '1900:2100'
+        yearRange: "1900:2100",
     };
     // Page load functions
     $("#start_datepicker").datepicker(datepicker_options);
@@ -30,7 +39,7 @@ $(function () {
 
     // Input Validation actions
     $("#huc_id").change(spatialInputValidation);
-    $('#comid').change(spatialInputValidation);
+    $("#comid").change(spatialInputValidation);
     $("#spatial_type").change(spatialInputValidation);
 });
 
@@ -57,7 +66,7 @@ function setErrorMessage(errorMsg, remove) {
 
 function toggleOffAllInputs() {
     $(".workflow_input").removeClass("selected");
-    $('.input_fields').fadeOut("faster");
+    $(".input_fields").fadeOut("faster");
     setErrorMessage("", true);
     return false;
 }
@@ -80,34 +89,28 @@ function spatialInputValidation() {
     if (selectedType === "hucid") {
         var hucid = $("#huc_id").val();
         if (Number.isInteger(Number(hucid)) && hucid.length === 12) {
-            $('#add_spatial_input').removeClass("blocked");
-        }
-        else {
-            if ($('#add_spatial_input').hasClass("blocked")) {
-            }
-            else {
-                $('#add_spatial_input').addClass("blocked");
+            $("#add_spatial_input").removeClass("blocked");
+        } else {
+            if ($("#add_spatial_input").hasClass("blocked")) {
+            } else {
+                $("#add_spatial_input").addClass("blocked");
             }
         }
         $("#huc_id").focus();
-    }
-    else if (selectedType === "comid") {
-        var comid = $('#comid').val();
+    } else if (selectedType === "comid") {
+        var comid = $("#comid").val();
         if (Number.isInteger(Number(comid)) && comid.length >= 6) {
-            $('#add_spatial_input').removeClass("blocked");
-        }
-        else {
-            if ($('#add_spatial_input').hasClass("blocked")) {
-            }
-            else {
-                $('#add_spatial_input').addClass("blocked");
+            $("#add_spatial_input").removeClass("blocked");
+        } else {
+            if ($("#add_spatial_input").hasClass("blocked")) {
+            } else {
+                $("#add_spatial_input").addClass("blocked");
             }
         }
         $("#comid").focus();
-    }
-    else {
-        if (!$('#add_spatial_input').hasClass("blocked")) {
-            $('#add_spatial_input').addClass("blocked");
+    } else {
+        if (!$("#add_spatial_input").hasClass("blocked")) {
+            $("#add_spatial_input").addClass("blocked");
         }
     }
     return false;
@@ -117,24 +120,25 @@ function dateValidation(startDate, endDate) {
     startDate = startDate.getTime();
     endDate = endDate.getTime();
     if (startDate > endDate) {
-        setErrorMessage("Opps! The start date must be a date before or the same as the end date.", false);
+        setErrorMessage(
+            "Opps! The start date must be a date before or the same as the end date.",
+            false
+        );
         return false;
     }
     return true;
 }
 
 function spatialTypeSelect() {
-    $('#spatial_type_huc').hide();
-    $('#spatial_type_comid').hide();
+    $("#spatial_type_huc").hide();
+    $("#spatial_type_comid").hide();
     var selection = $("#spatial_type").val();
     if (selection === "hucid") {
-        $('#spatial_type_huc').show();
-    }
-    else if (selection === "comid") {
-        $('#spatial_type_comid').show();
-    }
-    else {
-        $('#spatial_type_huc').show();
+        $("#spatial_type_huc").show();
+    } else if (selection === "comid") {
+        $("#spatial_type_comid").show();
+    } else {
+        $("#spatial_type_huc").show();
     }
     return false;
 }
@@ -157,22 +161,22 @@ function toggleSpatialInputs() {
 }
 
 function toggleTemporalInputs() {
-    var temporalButton = $('#temporal_input_button');
-    var temporalBlock = $('#temporal_input');
+    var temporalButton = $("#temporal_input_button");
+    var temporalBlock = $("#temporal_input");
     toggleInputField(temporalButton, temporalBlock);
     return false;
 }
 
 function toggleRunoffInputs() {
-    var runoffButton = $('#runoff_algorithm_input_button');
-    var runoffBlock = $('#runoff_input');
+    var runoffButton = $("#runoff_algorithm_input_button");
+    var runoffBlock = $("#runoff_input");
     toggleInputField(runoffButton, runoffBlock);
     return false;
 }
 
 function togglePrecipInputs() {
-    var precipButton = $('#precip_source_input_button');
-    var precipBlock = $('#precip_input');
+    var precipButton = $("#precip_source_input_button");
+    var precipBlock = $("#precip_input");
     if (precipButton.hasClass("blocked")) {
         return false;
     }
@@ -181,8 +185,8 @@ function togglePrecipInputs() {
 }
 
 function toggleStreamInputs() {
-    var streamButton = $('#stream_algorithm_input_button');
-    var streamBlock = $('#stream_input');
+    var streamButton = $("#stream_algorithm_input_button");
+    var streamBlock = $("#stream_input");
     toggleInputField(streamButton, streamBlock);
     return false;
 }
@@ -198,36 +202,34 @@ function addToInputTable(row, key, value) {
     row.appendChild(inputKey);
     row.appendChild(inputValue);
     if (validateInput()) {
-        $('#submit_workflow').removeClass("blocked");
-    }
-    else {
-        if (!$('#submit_workflow').hasClass("blocked")) {
-            $('#submit_workflow').addClass("blocked");
+        $("#submit_workflow").removeClass("blocked");
+    } else {
+        if (!$("#submit_workflow").hasClass("blocked")) {
+            $("#submit_workflow").addClass("blocked");
         }
     }
     return false;
 }
 
 function addSpatialInput() {
-    if ($('#add_spatial_input').hasClass("blocked")) {
+    if ($("#add_spatial_input").hasClass("blocked")) {
         return false;
     }
     var selectedType = $("#spatial_type").val();
     var id = "";
     if (selectedType === "hucid") {
         id = $("#huc_id").val();
-    }
-    else {
+    } else {
         id = $("#comid").val();
     }
     inputJSON.spatialType = selectedType;
     inputJSON.spatialInput = id;
     var row = document.getElementById("selected_spatial_input");
     addToInputTable(row, selectedType, id);
-    console.log(inputJSON);
+    //console.log(inputJSON);
     setErrorMessage("", true);
-    $('#add_spatial_input').text("Update");
-    $('#add_spatial_input').attr("title", "Update selected spatial input.");
+    $("#add_spatial_input").text("Update");
+    $("#add_spatial_input").attr("title", "Update selected spatial input.");
     return false;
 }
 
@@ -249,8 +251,8 @@ function addTemporalInput() {
     addToInputTable(row2, "endDate", endDate);
     addToInputTable(row3, "timestep", timestep);
     console.log(inputJSON);
-    $('#add_temporal_input').text("Update");
-    $('#add_temporal_input').attr("title", "Update selected date/time inputs.");
+    $("#add_temporal_input").text("Update");
+    $("#add_temporal_input").attr("title", "Update selected date/time inputs.");
     return false;
 }
 
@@ -262,15 +264,14 @@ function addRunoffInput() {
     addToInputTable(row, "runoffSource", runoffSelected);
     if (runoffSelected === "curvenumber") {
         $("#precip_source_input_button").removeClass("blocked");
-    }
-    else {
+    } else {
         inputJSON.precipSource = "NULL";
         $("#precip_source_input_button").addClass("blocked");
-        addToInputTable($('#selected_precip_input'), "", "");
+        addToInputTable($("#selected_precip_input"), "", "");
     }
     console.log(inputJSON);
     $("#add_runoff_input").text("Update");
-    $('#add_runoff_input').attr("title", "Update selected runoff input.");
+    $("#add_runoff_input").attr("title", "Update selected runoff input.");
     return false;
 }
 
@@ -281,8 +282,11 @@ function addPrecipInput() {
     var row = document.getElementById("selected_precip_input");
     addToInputTable(row, "precipSource", precipSelected);
     console.log(inputJSON);
-    $('#add_precip_input').text("Update");
-    $('#add_precip_input').attr("title", "Update selected precipitation input.");
+    $("#add_precip_input").text("Update");
+    $("#add_precip_input").attr(
+        "title",
+        "Update selected precipitation input."
+    );
     return false;
 }
 
@@ -294,22 +298,24 @@ function addStreamInput() {
     addToInputTable(row, "streamAlgorithm", streamSelected);
     console.log(inputJSON);
     $("#add_stream_input").text("Update");
-    $('#add_stream_input').attr("title", "Update selected stream algorithm input.");
+    $("#add_stream_input").attr(
+        "title",
+        "Update selected stream algorithm input."
+    );
     return false;
 }
 
 function submitWorkflowJob() {
-    if ($('#submit_workflow').hasClass("blocked")) {
+    if ($("#submit_workflow").hasClass("blocked")) {
         return false;
     }
     if (testData) {
         jobData = test_data;
         setOutputPage();
-        $('#workflow_tabs').tabs("enable", 2);
-        $('#workflow_tabs').tabs("option", "active", 2);
+        $("#workflow_tabs").tabs("enable", 2);
+        $("#workflow_tabs").tabs("option", "active", 2);
         return false;
-    }
-    else {
+    } else {
         getData();
     }
 }
@@ -319,34 +325,31 @@ function getParameters() {
     let precip = "";
     if (inputJSON.precipSource === "NULL") {
         precip = "daymet";
-    }
-    else {
+    } else {
         precip = inputJSON.precipSource;
     }
     var requestJson = {
-        "source": "streamflow",
-        "aggregation": false,
-        "runoffsource": inputJSON.runoffSource,
-        "streamhydrology": inputJSON.streamAlgorithm,
-        "datetimespan": {
-            "startdate": inputJSON.startDate,
-            "enddate": inputJSON.endDate,
+        source: "streamflow",
+        aggregation: false,
+        runoffsource: inputJSON.runoffSource,
+        streamhydrology: inputJSON.streamAlgorithm,
+        datetimespan: {
+            startdate: inputJSON.startDate,
+            enddate: inputJSON.endDate,
         },
-        "geometry": {
-        },
-        "temporalresolution": inputJSON.timestep,
-        "outputformat": "json"
+        geometry: {},
+        temporalresolution: inputJSON.timestep,
+        outputformat: "json",
     };
     if (inputJSON.spatialType === "hucid") {
         requestJson.geometry["hucID"] = inputJSON.spatialInput;
-    }
-    else {
+    } else {
         requestJson.geometry["comID"] = inputJSON.spatialInput;
     }
-    if (requestJson.runoffsource === "curvenumber"){
+    if (requestJson.runoffsource === "curvenumber") {
         requestJson.geometry["geometryMetadata"] = {
-            "precipSource": precip
-        }
+            precipSource: precip,
+        };
     }
     return requestJson;
 }
@@ -369,7 +372,14 @@ function getData() {
             var model = $("#model_name").html();
             var submodule = $("#submodule_name").html();
             setDataRequestCookie(taskID);
-            window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
+            window.location.href =
+                "/hms/" +
+                model +
+                "/" +
+                submodule +
+                "/output_data/" +
+                taskID +
+                "/";
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("Data request error...");
@@ -377,7 +387,7 @@ function getData() {
         },
         complete: function (jqXHR, textStatus) {
             console.log("Data request complete");
-        }
+        },
     });
     return false;
 }
@@ -397,92 +407,116 @@ function getDataPolling() {
                 if (data.status === "SUCCESS") {
                     if (typeof data.data === "string") {
                         jobData = JSON.parse(data.data);
-                    }else{
+                    } else {
                         jobData = data.data;
                     }
                     setOutputPage();
-                    console.log("Task successfully completed and data was retrieved.");
+                    console.log(
+                        "Task successfully completed and data was retrieved."
+                    );
                     setOutputUI();
                     toggleLoader(true, "");
                     setTitle();
-                }
-                else if (data.status === "FAILURE") {
-                    toggleLoader(false, "Task " + taskID + " encountered an error.");
+                } else if (data.status === "FAILURE") {
+                    toggleLoader(
+                        false,
+                        "Task " + taskID + " encountered an error."
+                    );
                     console.log("Task failed to complete.");
                     deleteTaskFromCookie(taskID);
-                }
-                else {
+                } else {
                     setTimeout(getDataPolling, 10000);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("Data request error...");
                 console.log(errorThrown);
-                toggleLoader(false, "Error retrieving data for task ID: " + taskID);
+                toggleLoader(
+                    false,
+                    "Error retrieving data for task ID: " + taskID
+                );
             },
             complete: function (jqXHR, textStatus) {
                 console.log("Data request complete");
-            }
+            },
         });
-    }
-    else {
-        console.log("Failed to get data, reached polling cap.")
+    } else {
+        console.log("Failed to get data, reached polling cap.");
     }
     return false;
 }
 
 function getPreviousData() {
-    taskID = $('#previous_task_id').val();
+    taskID = $("#previous_task_id").val();
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
-    window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
+    window.location.href =
+        "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
     return false;
 }
 
-function getPreviousDataFromID(id){
+function getPreviousDataFromID(id) {
     taskID = id;
     var model = $("#model_name").html();
     var submodule = $("#submodule_name").html();
-    window.location.href = "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
+    window.location.href =
+        "/hms/" + model + "/" + submodule + "/output_data/" + taskID + "/";
     return false;
 }
 
 // Leaflet map variables //
-var layerESRI = L.esri.basemapLayer('Imagery');
+var layerESRI = L.esri.basemapLayer("Imagery");
 var layerLabels;
 var currentSelectedGeometry = null;
 var mapSelectionInfo = L.control();
 var addPopup = null;
 
-
-function get_nhd_layer_queries(bbox){
+function get_nhd_layer_queries(bbox) {
     let base_url = nhd_plus_layers["url"];
     let huc_layers = nhd_plus_layers["layers"];
     let layer_queries = {};
-    for(let [key, value] of Object.entries(huc_layers)){
-        let q = "dynamicLayers=" + encodeURIComponent(JSON.stringify(value["dynamicLayers"])) +
-            "&dpi=" + value["dpi"] +
-            "&transparent=" + value["transparent"] +
-            "&format=" + value["format"] +
-            "&layers=" + value["layers"] +
-            "&bbox=" + bbox["_southWest"]["lng"] + + "," + bbox["_southWest"]["lat"] + "," + bbox["_northEast"]["lng"] + "," + bbox["_northEast"]["lat"]  +
+    for (let [key, value] of Object.entries(huc_layers)) {
+        let q =
+            "dynamicLayers=" +
+            encodeURIComponent(JSON.stringify(value["dynamicLayers"])) +
+            "&dpi=" +
+            value["dpi"] +
+            "&transparent=" +
+            value["transparent"] +
+            "&format=" +
+            value["format"] +
+            "&layers=" +
+            value["layers"] +
+            "&bbox=" +
+            bbox["_southWest"]["lng"] +
+            +"," +
+            bbox["_southWest"]["lat"] +
+            "," +
+            bbox["_northEast"]["lng"] +
+            "," +
+            bbox["_northEast"]["lat"] +
             "&bboxSR=900913" +
-            "&imageSR=" + value["imageSR"] +          //900913
-            "&size=" + value["size"] +
-            "&_ts=" + value["_ts"] +
-            "&f=" + value["f"];
+            "&imageSR=" +
+            value["imageSR"] + //900913
+            "&size=" +
+            value["size"] +
+            "&_ts=" +
+            value["_ts"] +
+            "&f=" +
+            value["f"];
         layer_queries[key] = base_url + q;
     }
     return layer_queries;
 }
 
-
 // Leaflet map functions //
 function openHucMap() {
-    $('#huc_map_block').fadeIn("faster");
+    $("#huc_map_block").fadeIn("faster");
     if (hucMap === null) {
-        hucMap = L.map('huc_map_div', {renderer: L.svg({padding: 100})}).setView([40.265306, -98.623725], 4);
-        L.esri.basemapLayer('Topographic').addTo(hucMap);
+        hucMap = L.map("huc_map_div", {
+            renderer: L.svg({ padding: 100 }),
+        }).setView([40.265306, -98.623725], 4);
+        L.esri.basemapLayer("Topographic").addTo(hucMap);
         for (var huc in huc_basemaps) {
             if (huc_basemaps.hasOwnProperty(huc)) {
                 huc_basemaps[huc].setOpacity(0.4);
@@ -495,100 +529,111 @@ function openHucMap() {
         // for(let [key, value] of Object.entries(images_urls)){
         //     L.imageOverlay(value, bbox).addTo(hucMap);
         // }
-        hucMap.on("click", function (e) {
-            // Check if click originated from mapSelectionInfo window
-            if (window.navigator.userAgent.indexOf("Chrome") > -1) {
-                if (e.originalEvent.path[0].id === "huc_map_div" || e.originalEvent.path[0].localName === "path") {
-                    clickGetStreamComid(e);
-                }
-            }
-            else if (window.navigator.userAgent.indexOf("Firefox") > -1) {
-                if (e.originalEvent.originalTarget.attributes[0].nodeValue === "huc_map_div") {
-                    clickGetStreamComid(e);
-                }
-            }
-            else if (window.navigator.userAgent.indexOf("Edge") > -1) {
-                clickGetStreamComid(e);
-            }
-            else {
-                clickGetStreamComid(e);
-            }
-        });
+        hucMap.on("click", clickGetStreamComid);
+        /*
+         *    this function relied on a event property that no longer exists.
+         *    ALSO because this event listener is bound to the map, it wil always be a valid leaflet click event
+         */
+        //     hucMap.on("click", function (e) {
+        //     // Check if click originated from mapSelectionInfo window
+        //     if (window.navigator.userAgent.indexOf("Chrome") > -1) {
+        //         if (e.originalEvent.path[0].id === "huc_map_div" || e.originalEvent.path[0].localName === "path") {
+        //             clickGetStreamComid(e);
+        //         }
+        //     }
+        //     else if (window.navigator.userAgent.indexOf("Firefox") > -1) {
+        //         if (e.originalEvent.originalTarget.attributes[0].nodeValue === "huc_map_div") {
+        //             clickGetStreamComid(e);
+        //         }
+        //     }
+        //     else if (window.navigator.userAgent.indexOf("Edge") > -1) {
+        //         clickGetStreamComid(e);
+        //     }
+        //     else {
+        //         clickGetStreamComid(e);
+        //     }
+        // });
         hucMap.on("zoomend", function () {
             var currentLevel = getHucFromZoom();
             var hucNum = currentLevel.slice(4, currentLevel.length);
-            $('#current_huc_level').html(" - Currently viewing HUC " + hucNum + " boundaries")
+            $("#current_huc_level").html(
+                " - Currently viewing HUC " + hucNum + " boundaries"
+            );
         });
         mapSelectionInfo.onAdd = function () {
-            this._div = L.DomUtil.create('div', 'selection_info');
+            this._div = L.DomUtil.create("div", "selection_info");
+            // stop info panel event propagation
+            this._div.addEventListener("click", (event) =>
+                event.stopPropagation()
+            );
             this.update();
             return this._div;
         };
         mapSelectionInfo.update = function () {
             var selectionInfo;
-            if ($('#spatial_type').val() === "hucid") {
-                selectionInfo = '<h4>HUC Selection Options</h4>' +
+            if ($("#spatial_type").val() === "hucid") {
+                selectionInfo =
+                    "<h4>HUC Selection Options</h4>" +
                     '<div id="selection_huc_options">' +
                     '<label class="selection_huc_button">HUC 8<input disabled type="radio" checked value="HUC_8" name="selected_huc_type"></label>' +
                     '<label class="selection_huc_button">HUC 12<input checked type="radio" value="HUC_12" name="selected_huc_type"></label>' +
-                    '</div>' +
-                    '<h4>HUC Selection Info</h4>' +
+                    "</div>" +
+                    "<h4>HUC Selection Info</h4>" +
                     '<div id="selection_info_div">' +
                     '<div id="selection_id_div">ID: <span id="selection_id"></span></div>' +
                     '<div id="selection_name_div">Name: <span id="selection_name"></span></div>' +
                     '<div id="selection_area_div">Area: <span id="selection_area"></span>km<sup>2</sup></div>' +
                     '<div id="selection_state_div">State(s): <span id="selection_state"></span></div>' +
-                    '</div>'
-            }
-            else {
-                selectionInfo = '<h4>Catchment Selection Info</h4>' +
+                    "</div>";
+            } else {
+                selectionInfo =
+                    "<h4>Catchment Selection Info</h4>" +
                     '<div id="selection_info_div">' +
                     '<div id="selection_id_div">ID: <span id="selection_id"></span></div>' +
                     '<div id="selection_huc12_div">HUC 12: <span id="selection_huc12"></span></div>' +
                     '<div id="selection_area_div">Area: <span id="selection_area"></span>km<sup>2</sup></div>' +
                     '<div id="selection_region_div">Region: <span id="selection_region"></span></div>' +
-                    '</div>'
+                    "</div>";
             }
             this._div.innerHTML = selectionInfo;
         };
         mapSelectionInfo.addTo(hucMap);
-    }
-    else{
+    } else {
         mapSelectionInfo.update = function () {
             var selectionInfo;
-            if ($('#spatial_type').val() === "hucid") {
-                selectionInfo = '<h4>HUC Selection Options</h4>' +
+            if ($("#spatial_type").val() === "hucid") {
+                selectionInfo =
+                    "<h4>HUC Selection Options</h4>" +
                     '<div id="selection_huc_options">' +
                     '<label class="selection_huc_button">HUC 8<input disabled type="radio" checked value="HUC_8" name="selected_huc_type"></label>' +
                     '<label class="selection_huc_button">HUC 12<input checked type="radio" value="HUC_12" name="selected_huc_type"></label>' +
-                    '</div>' +
-                    '<h4>HUC Selection Info</h4>' +
+                    "</div>" +
+                    "<h4>HUC Selection Info</h4>" +
                     '<div id="selection_info_div">' +
                     '<div id="selection_id_div">ID: <span id="selection_id"></span></div>' +
                     '<div id="selection_name_div">Name: <span id="selection_name"></span></div>' +
                     '<div id="selection_area_div">Area: <span id="selection_area"></span>km<sup>2</sup></div>' +
                     '<div id="selection_state_div">State(s): <span id="selection_state"></span></div>' +
-                    '</div>'
-            }
-            else {
-                selectionInfo = '<h4>Catchment Selection Info</h4>' +
+                    "</div>";
+            } else {
+                selectionInfo =
+                    "<h4>Catchment Selection Info</h4>" +
                     '<div id="selection_info_div">' +
                     '<div id="selection_id_div">ID: <span id="selection_id"></span></div>' +
                     '<div id="selection_huc12_div">HUC 12: <span id="selection_huc12"></span></div>' +
                     '<div id="selection_area_div">Area: <span id="selection_area"></span>km<sup>2</sup></div>' +
                     '<div id="selection_region_div">Region: <span id="selection_region"></span></div>' +
-                    '</div>'
+                    "</div>";
             }
             this._div.innerHTML = selectionInfo;
         };
         mapSelectionInfo.addTo(hucMap);
     }
-    let currentHucInput = $('#huc_id').val();
-    let currentComIDInput = $('#comid').val();
-    if (currentHucInput !== undefined && currentHucInput.length === 12) {
+    let currentHucInput = $("#huc_id").val();
+    let currentComIDInput = $("#comid").val();
+    if (currentHucInput.length === 12) {
         getHucDataById(currentHucInput);
-    }
-    else if (currentComIDInput !== undefined) {
+    } else if (currentComIDInput >= 6) {
         getStreamDataByComID(currentComIDInput);
     }
 
@@ -596,7 +641,7 @@ function openHucMap() {
 }
 
 function toggleHucMap() {
-    $('#huc_map_block').fadeOut("faster");
+    $("#huc_map_block").fadeOut("faster");
     hucMap.closePopup();
     return false;
 }
@@ -610,8 +655,12 @@ function setBasemap(basemap) {
     if (layerLabels) {
         hucMap.removeLayer(layerLabels);
     }
-    if (basemap === 'ShadedRelief' || basemap === 'Imagery' || basemap === 'Terrain') {
-        layerLabels = L.esri.basemapLayer(basemap + 'Labels');
+    if (
+        basemap === "ShadedRelief" ||
+        basemap === "Imagery" ||
+        basemap === "Terrain"
+    ) {
+        layerLabels = L.esri.basemapLayer(basemap + "Labels");
         hucMap.addLayer(layerLabels);
     }
 }
@@ -621,16 +670,15 @@ function changeBasemap(basemaps) {
     setBasemap(basemap);
 }
 
-function clickGetStreamComid(e) {
-    var coord = e.latlng;
+function clickGetStreamComid(leafletEvent) {
+    var coord = leafletEvent.latlng;
     var lat = coord.lat;
     var lng = coord.lng;
 
-    if ($('#spatial_type').val() === "hucid") {
-        var hucType = $('#selection_huc_options input:checked').val();
+    if ($("#spatial_type").val() === "hucid") {
+        var hucType = $("#selection_huc_options input:checked").val();
         getHucData(hucType, lat, lng);
-    }
-    else {
+    } else {
         getStreamData(lat, lng);
     }
 }
@@ -638,8 +686,12 @@ function clickGetStreamComid(e) {
 function getStreamData(lat, lng) {
     // COMID Request
 
-    var url = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=&text=&objectIds=&time=&geometry=%7B%22x%22+%3A+"
-        + lng + "%2C+%22y%22+%3A+" + lat + "%2C+%22spatialReference%22+%3A+%7B%22wkid%22+%3A+4326%7D%7D&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelWithin&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=%7B%22wkt%22+%3A+%22GEOGCS%5B%5C%22GCS_WGS_1984%5C%22%2CDATUM%5B%5C%22D_WGS_1984%5C%22%2C+SPHEROID%5B%5C%22WGS_1984%5C%22%2C6378137%2C298.257223563%5D%5D%2CPRIMEM%5B%5C%22Greenwich%5C%22%2C0%5D%2C+UNIT%5B%5C%22Degree%5C%22%2C0.017453292519943295%5D%5D%22%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
+    var url =
+        "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=&text=&objectIds=&time=&geometry=%7B%22x%22+%3A+" +
+        lng +
+        "%2C+%22y%22+%3A+" +
+        lat +
+        "%2C+%22spatialReference%22+%3A+%7B%22wkid%22+%3A+4326%7D%7D&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelWithin&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=%7B%22wkt%22+%3A+%22GEOGCS%5B%5C%22GCS_WGS_1984%5C%22%2CDATUM%5B%5C%22D_WGS_1984%5C%22%2C+SPHEROID%5B%5C%22WGS_1984%5C%22%2C6378137%2C298.257223563%5D%5D%2CPRIMEM%5B%5C%22Greenwich%5C%22%2C0%5D%2C+UNIT%5B%5C%22Degree%5C%22%2C0.017453292519943295%5D%5D%22%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
     $.ajax({
         type: "GET",
         url: url,
@@ -650,15 +702,18 @@ function getStreamData(lat, lng) {
         },
         error: function (jqXHR, status) {
             console.log("Error retrieving stream catchment data.");
-        }
+        },
     });
     return false;
 }
 
 function getStreamDataByComID(comid) {
     // COMID Request
-    var catchment_base_url = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=FEATUREID=" + comid;
-    var catchment_url_options = "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=%7B%22wkt%22+%3A+%22GEOGCS%5B%5C%22GCS_WGS_1984%5C%22%2CDATUM%5B%5C%22D_WGS_1984%5C%22%2C+SPHEROID%5B%5C%22WGS_1984%5C%22%2C6378137%2C298.257223563%5D%5D%2CPRIMEM%5B%5C%22Greenwich%5C%22%2C0%5D%2C+UNIT%5B%5C%22Degree%5C%22%2C0.017453292519943295%5D%5D%22%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
+    var catchment_base_url =
+        "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/Catchments_NP21_Simplified/MapServer/0/query?where=FEATUREID=" +
+        comid;
+    var catchment_url_options =
+        "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=%7B%22wkt%22+%3A+%22GEOGCS%5B%5C%22GCS_WGS_1984%5C%22%2CDATUM%5B%5C%22D_WGS_1984%5C%22%2C+SPHEROID%5B%5C%22WGS_1984%5C%22%2C6378137%2C298.257223563%5D%5D%2CPRIMEM%5B%5C%22Greenwich%5C%22%2C0%5D%2C+UNIT%5B%5C%22Degree%5C%22%2C0.017453292519943295%5D%5D%22%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
     var url = catchment_base_url + catchment_url_options;
     $.ajax({
         type: "GET",
@@ -670,7 +725,7 @@ function getStreamDataByComID(comid) {
         },
         error: function (jqXHR, status) {
             console.log("Error retrieving stream catchment data.");
-        }
+        },
     });
     return false;
 }
@@ -679,67 +734,75 @@ function getHucFromZoom() {
     let zoomLevel = hucMap.getZoom();
     if (zoomLevel < 5) {
         return "HUC_2";
-    }
-    else if (zoomLevel === 5) {
+    } else if (zoomLevel === 5) {
         return "HUC_4";
-    }
-    else if (zoomLevel === 6) {
+    } else if (zoomLevel === 6) {
         return "HUC_6";
-    }
-    else if (zoomLevel === 7 || zoomLevel === 8) {
+    } else if (zoomLevel === 7 || zoomLevel === 8) {
         return "HUC_8";
-    }
-    else if (zoomLevel === 9) {
+    } else if (zoomLevel === 9) {
         return "HUC_10";
-    }
-    else if (zoomLevel > 9) {
+    } else if (zoomLevel > 9) {
         return "HUC_12";
-    }
-    else {
+    } else {
         return "HUC_12";
     }
 }
 
 function getHucData(hucType, lat, lng) {
     var baseUrl = "";
-    var point = "&geometry={\"x\":" + lng + ",\"y\":" + lat + ",\"spatialReference\":{\"wkid\":4326}}";
+    var point =
+        '&geometry={"x":' +
+        lng +
+        ',"y":' +
+        lat +
+        ',"spatialReference":{"wkid":4326}}';
     var outFields = "";
-    var params = "&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&returnGeometry=true&returnTrueCurves=false&geometryPrecision=&outSR=%7B%22wkid%22+%3A+4326%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
+    var params =
+        "&geometryType=esriGeometryPoint&inSR=&spatialRel=esriSpatialRelIntersects&returnGeometry=true&returnTrueCurves=false&geometryPrecision=&outSR=%7B%22wkid%22+%3A+4326%7D&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
 
     if (hucType === "HUC_12") {
-        baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/0/query?where=&text=&time=";
-        outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+HUC_12%2C+HU_12_NAME%2C+HU_12_TYPE%2C+HU_12_MOD%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
+        baseUrl =
+            "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/0/query?where=&text=&time=";
+        outFields =
+            "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+HUC_12%2C+HU_12_NAME%2C+HU_12_TYPE%2C+HU_12_MOD%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
     }
-        // else if (hucType === "HUC_10"){
-        //     baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/1/query?where=&text=&time=";
-        //     outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
+    // else if (hucType === "HUC_10"){
+    //     baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/1/query?where=&text=&time=";
+    //     outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
     // }
     else {
         hucType = "HUC_8";
-        baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/2/query?where=&text=&time=";
-        outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+Shape_Length%2C+Shape_Area";
+        baseUrl =
+            "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/2/query?where=&text=&time=";
+        outFields =
+            "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+Shape_Length%2C+Shape_Area";
     }
     var queryString = point + outFields + params;
-    getEPAWatersData(baseUrl, queryString, hucType)
+    getEPAWatersData(baseUrl, queryString, hucType);
 }
 
 function getHucDataById(hucID) {
     var baseUrl = "";
     var whereCondition = "";
     var outFields = "";
-    var params = "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
+    var params =
+        "&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&returnGeometry=true&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentsOnly=false&datumTransformation=&parameterValues=&rangeValues=&f=geojson";
     var queryString = "";
     if (hucID.length === 8) {
-        baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/2/query?";
+        baseUrl =
+            "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/2/query?";
         whereCondition = "where=HUC_8+LIKE+%28%27" + hucID + "%27%29";
-        outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+Shape_Length%2C+Shape_Area";
+        outFields =
+            "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+Shape_Length%2C+Shape_Area";
         queryString = whereCondition + outFields + params;
         getEPAWatersData(baseUrl, queryString, "HUC_8");
-    }
-    else if (hucID.length === 12) {
-        baseUrl = "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/0/query?";
+    } else if (hucID.length === 12) {
+        baseUrl =
+            "https://watersgeo.epa.gov/arcgis/rest/services/NHDPlus_NP21/WBD_NP21_Simplified/MapServer/0/query?";
         whereCondition = "where=HUC_12+LIKE+%28%27" + hucID + "%27%29";
-        outFields = "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+HUC_12%2C+HU_12_NAME%2C+HU_12_TYPE%2C+HU_12_MOD%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
+        outFields =
+            "&outFields=OBJECTID%2C+Shape%2C+GAZ_ID%2C+AREA_ACRES%2C+AREA_SQKM%2C+STATES%2C+LOADDATE%2C+HUC_2%2C+HU_2_NAME%2C+HUC_4%2C+HU_4_NAME%2C+HUC_6%2C+HU_6_NAME%2C+HUC_8%2C+HU_8_NAME%2C+HUC_10%2C+HU_10_NAME%2C+HUC_12%2C+HU_12_NAME%2C+HU_12_TYPE%2C+HU_12_MOD%2C+NCONTRB_ACRES%2C+NCONTRB_SQKM%2C+HU_10_TYPE%2C+HU_10_MOD%2C+Shape_Length%2C+Shape_Area";
         queryString = whereCondition + outFields + params;
         getEPAWatersData(baseUrl, queryString, "HUC_12");
     }
@@ -757,20 +820,27 @@ function addCatchmentToMap(data) {
     currentSelectedGeometry.addTo(hucMap);
     hucMap.fitBounds(currentSelectedGeometry.getBounds());
     var comid = hucData.features[0].properties.FEATUREID;
-    $('#comid').val(comid);
-    $('#selection_id').html(comid);
-    $('#selection_huc12').html(hucData.features[0].properties.WBD_HUC12);
-    $('#selection_area').html(Number(hucData.features[0].properties.AREASQKM).toFixed(4));
-    $('#selection_region').html(hucData.features[0].properties.NHDPLUS_REGION);
-    $('#add_spatial_input').removeClass("blocked");
+    $("#comid").val(comid);
+    $("#selection_id").html(comid);
+    $("#selection_huc12").html(hucData.features[0].properties.WBD_HUC12);
+    $("#selection_area").html(
+        Number(hucData.features[0].properties.AREASQKM).toFixed(4)
+    );
+    $("#selection_region").html(hucData.features[0].properties.NHDPLUS_REGION);
+    $("#add_spatial_input").removeClass("blocked");
     setTimeout(function () {
         if (addPopup !== null) {
             hucMap.removeLayer(addPopup);
         }
         addPopup = L.popup({
             keepInView: true,
-        }).setLatLng(hucMap.getCenter())
-            .setContent('<button id="huc_map_button_add" type="button" onclick="addSpatialInput(); toggleHucMap(); return false;">Add Catchment: ' + comid + '</button>')
+        })
+            .setLatLng(hucMap.getCenter())
+            .setContent(
+                '<button id="huc_map_button_add" type="button" onclick="addSpatialInput(); toggleHucMap(); return false;">Add Catchment: ' +
+                    comid +
+                    "</button>"
+            )
             .openOn(hucMap);
     }, 600);
 }
@@ -787,21 +857,30 @@ function addHucToMap(data, hucType) {
     var hucID = hucData.features[0].properties[hucType];
     currentSelectedGeometry = L.geoJSON(hucData);
     currentSelectedGeometry.addTo(hucMap);
-    $('#selection_id').html(hucID);
-    $('#selection_name').html(hucData.features[0].properties["HU_" + hucNum + "_NAME"]);
-    $('#selection_area').html(Number(hucData.features[0].properties.AREA_SQKM).toFixed(4));
-    $('#selection_state').html(hucData.features[0].properties.STATES);
+    $("#selection_id").html(hucID);
+    $("#selection_name").html(
+        hucData.features[0].properties["HU_" + hucNum + "_NAME"]
+    );
+    $("#selection_area").html(
+        Number(hucData.features[0].properties.AREA_SQKM).toFixed(4)
+    );
+    $("#selection_state").html(hucData.features[0].properties.STATES);
     hucMap.fitBounds(currentSelectedGeometry.getBounds());
-    $('#huc_id').val(hucID);
-    $('#add_spatial_input').removeClass("blocked");
+    $("#huc_id").val(hucID);
+    $("#add_spatial_input").removeClass("blocked");
     setTimeout(function () {
         if (addPopup !== null) {
             hucMap.removeLayer(addPopup);
         }
         addPopup = L.popup({
             keepInView: true,
-        }).setLatLng(hucMap.getCenter())
-            .setContent('<button id="huc_map_button_add" type="button" onclick="addSpatialInput(); toggleHucMap(); return false;">Add HUC: ' + hucID + '</button>')
+        })
+            .setLatLng(hucMap.getCenter())
+            .setContent(
+                '<button id="huc_map_button_add" type="button" onclick="addSpatialInput(); toggleHucMap(); return false;">Add HUC: ' +
+                    hucID +
+                    "</button>"
+            )
             .openOn(hucMap);
     }, 600);
 }
@@ -817,7 +896,7 @@ function getEPAWatersData(url, params, hucType) {
         },
         error: function (jqXHR, status) {
             console.log("Error retrieving stream segment data.");
-        }
+        },
     });
 }
 //
