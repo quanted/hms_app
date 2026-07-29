@@ -48,6 +48,8 @@ RUN rm /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/te
 RUN rm /opt/conda/pkgs/conda-content-trust-0.1.1-pyhd3eb1b0_0/info/test/tests/testdata/test_key_2_7DB43643.pri.asc || true
 
 
+RUN mkdir -p /src/hms_app/collected_static/hms
+
 COPY uwsgi.ini /etc/uwsgi/
 
 RUN chown -R ${APP_USER}:${APP_USER} /src/hms_app
