@@ -52,11 +52,11 @@ RUN mkdir -p /src/hms_app/collected_static/hms
 
 COPY uwsgi.ini /etc/uwsgi/
 
-RUN chown -R ${APP_USER}:${APP_USER} /src/hms_app
-RUN chown ${APP_USER}:${APP_USER} $CONDA_ENV_BASE
+# RUN chown -R ${APP_USER}:${APP_USER} /src/hms_app
+# RUN chown ${APP_USER}:${APP_USER} $CONDA_ENV_BASE
 EXPOSE 8080
 
-USER $APP_USER
+# USER $APP_USER
 ENV DJANGO_SETTINGS_MODULE="settings"
 
 ENV PYTHONPATH="/src:/src/hms_app:$PYTHONPATH"
