@@ -28,14 +28,6 @@ def ordered_list(model, submodel, page=None):
                 ('Help', 'help/'),
                 ('OpenAPI', 'api_doc/')
             ])),
-            ('Work Flows', OrderedDict([
-                ('Work Flows', 'workflow/overview/'),
-                ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
-                ('Precipitation Comparison', 'workflow/precip_compare/'),
-                ('Streamflow', 'workflow/streamflow/'),
-                ('Water Quality', 'webapp/'),
-                ('Time of Travel', 'workflow/time_of_travel')
-            ])),
             ('Meteorology', OrderedDict([
                 ('Meteorology', 'meteorology/overview/'),
                 ('Humidity', 'meteorology/humidity/'),
@@ -50,6 +42,14 @@ def ordered_list(model, submodel, page=None):
                 ('Surface Runoff', 'hydrology/surfacerunoff/'),
                 ('Soil Moisture', 'hydrology/soilmoisture/'),
                 ('Subsurface Flow', 'hydrology/subsurfaceflow/')
+            ])),
+            ('Work Flows', OrderedDict([
+                ('Work Flows', 'workflow/overview/'),
+                ('Precipitation Data Extraction', 'workflow/precip_data_extraction/'),
+                ('Precipitation Comparison', 'workflow/precip_compare/'),
+                ('Streamflow', 'workflow/streamflow/'),
+                ('Water Quality', 'webapp/'),
+                ('Time of Travel', 'workflow/time_of_travel')
             ]))
         ])
     else:
